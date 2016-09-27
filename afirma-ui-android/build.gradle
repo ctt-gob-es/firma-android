@@ -1,0 +1,92 @@
+apply plugin: 'maven'
+
+group = 'es.gob.afirma'
+version = '3.3.2-SNAPSHOT'
+
+description = """"""
+
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.google.gms:google-services:2.1.2'
+    }
+}
+allprojects {
+    repositories {
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 15
+    buildToolsVersion "24.0.2"
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    defaultConfig {
+        applicationId "es.gob.afirma"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 13
+        versionName "1.4"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            lintOptions {
+                disable 'MissingTranslation'
+            }
+        }
+    }
+    sourceSets {
+        main.java.srcDirs += 'src'
+        main.res.srcDirs += 'res'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
+    }
+    packagingOptions {
+        pickFirst 'META-INF/BCKEY.DSA'
+        pickFirst 'META-INF/BCKEY.SF'
+        pickFirst 'ACRAIZ-SHA2.crt'
+
+    }
+}
+
+dependencies {
+    compile('es.gob.afirma:afirma-crypto-pdf:3.3.2-SNAPSHOT') {
+        exclude(module: 'afirma-lib-itext')
+    }
+    testCompile 'junit:junit:4.8.2'
+    compile('es.gob:jmulticard-android:1.4') { exclude module: 'support-v4' }
+    compile 'es.gob.afirma:afirma-lib-itext-android:3.3.2-SNAPSHOT'
+    //compile 'com.google.android:android:4.1.1.4'
+    compile 'es.gob.afirma:afirma-core:3.3.2-SNAPSHOT'
+    compile 'es.gob.afirma:afirma-core-keystores:3.3.2-SNAPSHOT'
+    compile 'es.gob.afirma:afirma-crypto-cades:3.3.2-SNAPSHOT'
+    compile 'es.gob.afirma:afirma-crypto-cadestri-client:3.3.2-SNAPSHOT'
+    compile 'es.gob.afirma:afirma-crypto-xadestri-client:3.3.2-SNAPSHOT'
+    compile 'es.gob.afirma:afirma-crypto-padestri-client:3.3.2-SNAPSHOT'
+    compile 'es.gob.afirma:afirma-crypto-cades-multi:3.3.2-SNAPSHOT'
+    compile 'es.gob.afirma:afirma-crypto-core-pkcs7:3.3.2-SNAPSHOT'
+    compile 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:3.3.2-SNAPSHOT'
+    compile 'es.gob:jmulticard-jse:1.4'
+    compile 'com.google.android.gms:play-services-analytics:8.4.0'
+}
+
+apply plugin: 'com.google.gms.google-services'

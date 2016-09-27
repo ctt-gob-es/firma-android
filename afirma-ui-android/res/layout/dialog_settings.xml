@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dialog_dimen"
+    style="@style/WhiteBackground"
+    >
+    <CheckBox
+        android:id="@+id/ckbUseNfc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Permitir el uso de DNIe 3.0 por NFC"
+        />
+</LinearLayout>

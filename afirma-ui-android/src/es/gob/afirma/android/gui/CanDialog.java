@@ -1,0 +1,138 @@
+/* Copyright (C) 2011 [Gobierno de Espana]
+ * This file is part of "Cliente @Firma".
+ * "Cliente @Firma" is free software; you can redistribute it and/or modify it under the terms of:
+ *   - the GNU General Public License as published by the Free Software Foundation;
+ *     either version 2 of the License, or (at your option) any later version.
+ *   - or The European Software License; either version 1.1 or (at your option) any later version.
+ * Date: 11/01/11
+ * You may contact the copyright holder at: soporte.afirma5@mpt.es
+ */
+
+package es.gob.afirma.android.gui;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import es.gob.afirma.R;
+import es.gob.afirma.android.crypto.LoadKeyStoreManagerTask;
+import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
+
+/** Di&acute;logo para introducir el PIN.
+ * Se usa en almacenes distintos al del propio sistema operativo Android.
+ * @author Astrid Idoate */
+
+public class CanDialog extends DialogFragment {
+
+	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
+
+	//public static CachePasswordCallback passwordCallback;
+	private CanResult canResult;
+
+	private LoadKeyStoreManagerTask ksmTask = null;
+	LoadKeyStoreManagerTask getKsmTask() {
+		return this.ksmTask;
+	}
+
+	/** Construye un di&acute;logo para introducir el CAN. */
+	public CanDialog() {
+	}
+
+	private static CanDialog instance = null;
+
+	/** Obtiene una nueva instancia de un di&acute;logo para introducir el CAN.
+	 * @param canResult Objeto en el que almacenar el valor establecido en el di&oacute;logo.
+	 * @return pinDialog el di&acute;logo creado. */
+	public static CanDialog newInstance(final CanResult canResult) {
+		if (instance == null) {
+			instance = new CanDialog();
+		}
+		instance.setCanResult(canResult);
+		instance.setArguments(new Bundle());
+		return instance;
+	}
+
+	private void setCanResult(CanResult canResult) {
+		this.canResult = canResult;
+	}
+
+	@Override
+	public Dialog onCreateDialog(final Bundle savedInstanceState){
+
+		final LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+		final View view = layoutInflater.inflate(R.layout.dialog_can, null);
+
+		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+				.setView(view)
+				.setTitle(R.string.can_intro)
+				.setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
+				.setNegativeButton(
+						R.string.cancel_nfc,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(final DialogInterface dialog, final int id) {
+								CanDialog.this.canResult.setCanObtained(false);
+								dialog.dismiss();
+								getActivity().setResult(Activity.RESULT_CANCELED);
+								getActivity().finish();
+							}
+						}
+				)
+				.create();
+
+		final EditText editTextPin = (EditText) view.findViewById(R.id.etPin);
+
+		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+			@Override
+			public void onShow(final DialogInterface dialog) {
+				Button b = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+				b.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+
+						if(editTextPin.getText() == null || "".equals(editTextPin.getText().toString())) { //$NON-NLS-1$
+							Log.e(ES_GOB_AFIRMA, "El CAN no puede ser vacio o nulo"); //$NON-NLS-1$
+							new Runnable() {
+								@Override
+								public void run() {
+									Toast.makeText(getActivity(), R.string.can_not_can_be_null, Toast.LENGTH_LONG).show();
+								}
+							};
+						}
+						else {
+							dialog.dismiss();
+							CanDialog.this.canResult.setCanObtained(true);
+							CanDialog.this.canResult.setPasswordCallback(new CachePasswordCallback(editTextPin.getText().toString().toCharArray()));
+						}
+					}
+				});
+			}
+		});
+		alertDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+			@Override
+			public boolean onKey(final DialogInterface dialog, final int keyCode, final KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_BACK) {
+					CanDialog.this.canResult.setCanObtained(false);
+					dialog.dismiss();
+					getActivity().setResult(Activity.RESULT_CANCELED);
+					getActivity().finish();
+					return true;
+				}
+				return false;
+			}
+		});
+
+		return alertDialog;
+	}
+}
