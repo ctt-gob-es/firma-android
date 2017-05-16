@@ -26,17 +26,12 @@ public class AppConfig {
         }
     }
 
-    /**
-     *
-     * @param context
-     * @return
-     */
     public static boolean isUseNfcConnection(Context context) {
         return getPreference(context, PREFERENCE_KEY_USE_NFC, false);
     }
 
     public static void setUseNfcConnection(Context context, boolean useNfcConnection) {
-        setPreference(context, PREFERENCE_KEY_FIRST_EXECUTION, useNfcConnection);
+        setPreference(context, PREFERENCE_KEY_USE_NFC, useNfcConnection);
     }
 
     public static boolean isFirstExecution(Context context) {

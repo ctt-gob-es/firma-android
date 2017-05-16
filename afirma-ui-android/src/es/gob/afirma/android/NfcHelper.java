@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
+import android.util.Log;
 
 import java.util.prefs.Preferences;
 
@@ -22,7 +23,7 @@ public class NfcHelper {
      */
     public static boolean isNfcServiceAvailable(final Context context) {
         final NfcManager manager = (NfcManager) context.getSystemService(Context.NFC_SERVICE);
-        return manager != null;
+        return manager != null && manager.getDefaultAdapter() != null;
     }
 
     /**

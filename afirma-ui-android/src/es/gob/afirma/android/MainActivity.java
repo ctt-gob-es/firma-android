@@ -119,12 +119,8 @@ public final class MainActivity extends FragmentActivity implements CaAppsVerifi
 		}
 
 		if (nfcAvailable && AppConfig.isFirstExecution(this)) {
-			if (!NfcHelper.isNfcPreferredConnection(this)) {
-				new ConfigNfcDialog().show(getSupportFragmentManager(), "enableNfcDialog");
-			}
-			else {
-				AppConfig.setFirstExecution(this, false);
-			}
+			new ConfigNfcDialog().show(getSupportFragmentManager(), "enableNfcDialog");
+			AppConfig.setFirstExecution(this, false);
 		}
 
         writePerm = (
@@ -324,11 +320,6 @@ public final class MainActivity extends FragmentActivity implements CaAppsVerifi
 		// Handle item selection
 		switch (item.getItemId()) {
 			case R.id.settings:
-//				Dialog d = new AlertDialog.Builder(this)
-//						.setTitle("Prueba")
-//						.setMessage("Hola Mundo!!")
-//						.create();
-//				d.show();
 				new SettingDialog().show(getSupportFragmentManager(), "SettingDialog"); //$NON-NLS-1$
 				return true;
 			default:
