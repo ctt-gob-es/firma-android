@@ -86,6 +86,12 @@
             android:name=".android.FileChooserActivity"
             android:label="@string/title_activity_cert_chooser" >
         </activity>
+
+        <activity
+            android:name=".android.LocalSignResultActivity"
+            android:label="@string/title_activity_save_data" >
+        </activity>
+
         <activity
             android:name=".android.WebSignActivity"
             android:label="@string/title_activity_sign_data"
@@ -126,10 +132,7 @@
                     android:scheme="afirma" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".android.LocalSignResultActivity"
-            android:label="@string/title_activity_save_data" >
-        </activity>
+
     </application>
 
 </manifest>

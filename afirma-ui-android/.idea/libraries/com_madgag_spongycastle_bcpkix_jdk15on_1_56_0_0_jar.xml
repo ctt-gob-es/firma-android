@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="com.madgag.spongycastle:bcpkix-jdk15on:1.56.0.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.m2/repository/com/madgag/spongycastle/bcpkix-jdk15on/1.56.0.0/bcpkix-jdk15on-1.56.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

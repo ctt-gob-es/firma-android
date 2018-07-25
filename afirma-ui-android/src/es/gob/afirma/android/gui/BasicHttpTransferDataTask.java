@@ -32,6 +32,7 @@ import java.security.NoSuchProviderException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
@@ -177,6 +178,85 @@ public abstract class BasicHttpTransferDataTask extends AsyncTask<Void, Void, by
 		return data;
 
 	}
+
+	public byte[] readUrl(final String url,
+				   final int timeout,
+				   final UrlHttpMethod method,
+				   final Properties requestProperties) throws IOException {
+
+        if (url == null) {
+            throw new IllegalArgumentException("La URL a leer no puede ser nula"); //$NON-NLS-1$
+        }
+
+        String urlParameters = null;
+        String request = null;
+        if (UrlHttpMethod.POST.equals(method)) {
+            final StringTokenizer st = new StringTokenizer(url, "?"); //$NON-NLS-1$
+            request = st.nextToken();
+            urlParameters = st.nextToken();
+        }
+
+        final URL uri = new URL(request != null ? request : url);
+
+        final boolean enableSSLChecks = Boolean.getBoolean(JAVA_PARAM_ENABLE_SSL_CHECKS);
+
+        if (!enableSSLChecks && uri.getProtocol().equals(HTTPS)) {
+            try {
+                disableSslChecks();
+            }
+            catch(final Exception e) {
+                Logger.getLogger("es.gob.afirma").warning( //$NON-NLS-1$
+                        "No se ha podido ajustar la confianza SSL, es posible que no se pueda completar la conexion: " + e //$NON-NLS-1$
+                );
+            }
+        }
+
+        final HttpURLConnection conn = (HttpURLConnection) uri.openConnection(Proxy.NO_PROXY);
+
+        conn.setRequestMethod(method.toString());
+
+        if (requestProperties != null) {
+            for (String key : requestProperties.keySet().toArray(new String[requestProperties.size()])) {
+                conn.addRequestProperty(key, requestProperties.getProperty(key)); //$NON-NLS-1$ //$NON-NLS-2$
+            }
+        }
+
+        if (timeout != DEFAULT_TIMEOUT) {
+            conn.setConnectTimeout(timeout);
+            conn.setReadTimeout(timeout);
+        }
+
+        if (urlParameters != null) {
+            conn.setDoOutput(true);
+            final OutputStreamWriter writer = new OutputStreamWriter(
+                    conn.getOutputStream()
+            );
+            writer.write(urlParameters);
+            writer.flush();
+            writer.close();
+        }
+
+        conn.connect();
+        final int resCode = conn.getResponseCode();
+        final String statusCode = Integer.toString(resCode);
+        if (statusCode.startsWith("4") || statusCode.startsWith("5")) { //$NON-NLS-1$ //$NON-NLS-2$
+            if (uri.getProtocol().equals(HTTPS)) {
+                enableSslChecks();
+            }
+            throw new HttpError(resCode, conn.getResponseMessage(), url);
+        }
+
+        final InputStream is = conn.getInputStream();
+        final byte[] data = readDataFromInputStream(is);
+        is.close();
+
+        if (!enableSSLChecks && uri.getProtocol().equals(HTTPS)) {
+            enableSslChecks();
+        }
+
+        return data;
+	}
+
 
 	/** Habilita las comprobaciones de certificados en conexiones SSL dej&aacute;ndolas con su
 	 * comportamiento por defecto. */

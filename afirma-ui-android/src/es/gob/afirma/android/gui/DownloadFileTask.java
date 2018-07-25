@@ -14,6 +14,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.misc.http.UrlHttpMethod;
