@@ -20,6 +20,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.security.KeyChainException;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -111,6 +112,12 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 
 		Log.d(ES_GOB_AFIRMA, "URI de invocacion: " + getIntent().getDataString()); //$NON-NLS-1$
 
+		if (getIntent().getDataString() == null) {
+			Log.w(ES_GOB_AFIRMA, "Se ha invocado sin URL a la actividad de firma por protocolo. Se cierra la actividad"); //$NON-NLS-1$
+			closeActivity();
+			return;
+		}
+
 		try {
 			this.parameters = ProtocolInvocationUriParser.getParametersToSign(getIntent().getDataString());
 		}
@@ -151,7 +158,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	}
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case REQUEST_WRITE_STORAGE: {
@@ -260,7 +267,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		Log.i(ES_GOB_AFIRMA, " -- WebSignActivity launchError");
 
 		try {
-			if (getIntent().getAction().equals(INTENT_ENTRY_ACTION)){
+			if (INTENT_ENTRY_ACTION.equals(getIntent().getAction())){
 				Log.i(ES_GOB_AFIRMA, "Devolvemos el error a la app solicitante"); //$NON-NLS-1$
 				sendDataIntent(Activity.RESULT_CANCELED, ErrorManager.genError(errorId, null));
 			}
@@ -328,11 +335,11 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	}
 
 	@Override
-	protected void onSigningError(SigningSubOperation op, String msg, Throwable t) {
-		if (op == SigningSubOperation.LOAD_KEYSTORE) {
+	protected void onSigningError(KeyStoreOperation op, String msg, Throwable t) {
+		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
 			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, true);
 		}
-		else if (op == SigningSubOperation.SELECT_CERTIFICATE) {
+		else if (op == KeyStoreOperation.SELECT_CERTIFICATE) {
 
 			if (t instanceof SelectKeyAndroid41BugException) {
 				launchError(ErrorManager.ERROR_PKE_ANDROID_4_1, true);
@@ -350,7 +357,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 				launchError(ErrorManager.ERROR_PKE, true);
 			}
 		}
-		else if (op == SigningSubOperation.SIGN) {
+		else if (op == KeyStoreOperation.SIGN) {
 			if (t instanceof MSCBadPinException) {
 				Log.e(ES_GOB_AFIRMA, "PIN erroneo: " + t); //$NON-NLS-1$
 				showErrorMessage(getString(R.string.error_msc_pin));
@@ -482,7 +489,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		}
 
 		//Si la aplicacion se ha llamado desde intent de firma devolvemos datos a la aplicacion llamante
-		if (getIntent().getAction().equals(INTENT_ENTRY_ACTION)){
+		if (getIntent().getAction() != null && getIntent().getAction().equals(INTENT_ENTRY_ACTION)){
 			Log.i(ES_GOB_AFIRMA, "Devolvemos datos a la app solicitante"); //$NON-NLS-1$
 			sendDataIntent(Activity.RESULT_OK, data);
 		}

@@ -44,6 +44,7 @@ final class ErrorManager {
 	static final String ERROR_BAD_PARAMETERS			 = "ERR-22"; //$NON-NLS-1$
 	static final String ERROR_ESTABLISHING_KEYSTORE		 = "ERR-23"; //$NON-NLS-1$
 	static final String ERROR_MSC_PIN					 = "ERR-24"; //$NON-NLS-1$
+	static final String ERROR_SELECTING_CERTIFICATE		 = "ERR-25"; //$NON-NLS-1$
 
 
 	private static final Dictionary<String, String> ERRORS = new Hashtable<String, String>();
@@ -70,6 +71,7 @@ final class ErrorManager {
 		ERRORS.put(ERROR_BAD_PARAMETERS, "No se ha realizado correctamente la invocacion de la aplicacion"); //$NON-NLS-1$
 		ERRORS.put(ERROR_ESTABLISHING_KEYSTORE, "No se ha podido establecer un almacen de certificados para su uso"); //$NON-NLS-1$
 		ERRORS.put(ERROR_MSC_PIN, "Error en la firma. Compruebe que el PIN de su dispositivo criptografico es correcto. Varios intentos incorrectos pueden bloquearlo."); //$NON-NLS-1$
+		ERRORS.put(ERROR_SELECTING_CERTIFICATE, "Ocurrio un error en la seleccion del certificado"); //$NON-NLS-1$
 	}
 
 	private ErrorManager() {

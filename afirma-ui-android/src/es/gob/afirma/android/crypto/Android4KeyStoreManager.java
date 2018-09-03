@@ -33,7 +33,7 @@ public final class Android4KeyStoreManager implements MobileKeyStoreManager {
 
     /** Construye un gestor simple de claves y certificados para dispositivos Android 4.
      * @param act Actividad padre de la aplicaci&oacute;n padre */
-    public Android4KeyStoreManager(final Activity act) {
+    Android4KeyStoreManager(final Activity act) {
         if (act == null) {
             throw new IllegalArgumentException(
         		"Es necesaria una actividad padre para mostrar los dialogos de seleccion de certificado" //$NON-NLS-1$
@@ -57,7 +57,7 @@ public final class Android4KeyStoreManager implements MobileKeyStoreManager {
 		        	if (alias != null) {
 			            try {
 			                pksl.keySelected(
-		                		new KeySelectedEvent(
+		                		new SelectCertificateEvent(
 	                				new PrivateKeyEntry(
 	            						KeyChain.getPrivateKey(
 	        								Android4KeyStoreManager.this.getActivity(),
@@ -73,11 +73,11 @@ public final class Android4KeyStoreManager implements MobileKeyStoreManager {
 			            }
 			            catch (final Throwable e) {
 			            	Log.e(ES_GOB_AFIRMA, "Error en la obtencion de claves: " + e); //$NON-NLS-1$
-			                pksl.keySelected(new KeySelectedEvent(e));
+			                pksl.keySelected(new SelectCertificateEvent(e));
 			            }
 		        	}
 		        	else {
-		        		pksl.keySelected(new KeySelectedEvent(new AOCancelledOperationException("El usuario no selecciono un certificado"))); //$NON-NLS-1$
+		        		pksl.keySelected(new SelectCertificateEvent(new AOCancelledOperationException("El usuario no selecciono un certificado"))); //$NON-NLS-1$
 		        	}
 		        }
     		},
@@ -88,5 +88,46 @@ public final class Android4KeyStoreManager implements MobileKeyStoreManager {
             null // Alias
         );
     }
+
+	/** {@inheritDoc} */
+	@Override
+	public void getCertificateChainAsynchronously(final CertificateSelectionListener listener) {
+		if (listener == null) {
+			throw new IllegalArgumentException("La clase a notificar la seleccion de certificado no puede ser nula"); //$NON-NLS-1$
+		}
+		KeyChain.choosePrivateKeyAlias(
+				this.activity,
+				new KeyChainAliasCallback() {
+					/** {@inheritDoc} */
+					@Override
+					public void alias(final String alias) {
+						if (alias != null) {
+							try {
+								listener.certificateSelected(
+										new SelectCertificateEvent(
+														KeyChain.getCertificateChain(
+																Android4KeyStoreManager.this.getActivity(),
+																alias
+														)
+										)
+								);
+							}
+							catch (final Throwable e) {
+								Log.e(ES_GOB_AFIRMA, "Error en la obtencion de claves: " + e); //$NON-NLS-1$
+								listener.certificateSelected(new SelectCertificateEvent(e));
+							}
+						}
+						else {
+							listener.certificateSelected(new SelectCertificateEvent(new AOCancelledOperationException("El usuario no selecciono un certificado"))); //$NON-NLS-1$
+						}
+					}
+				},
+				new String[] { "RSA" }, // KeyTypes (El paquete "android.security.keystore" no esta disponible hasta el API 23) //$NON-NLS-1$
+				null, // Issuers
+				null, // Host
+				-1, // Port
+				null // Alias
+		);
+	}
 
 }

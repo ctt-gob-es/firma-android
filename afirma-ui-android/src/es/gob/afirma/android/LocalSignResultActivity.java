@@ -328,14 +328,14 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	}
 
 	@Override
-	protected void onSigningError(SigningSubOperation op, String msg, Throwable t) {
+	protected void onSigningError(KeyStoreOperation op, String msg, Throwable t) {
 
-		if (SigningSubOperation.SELECT_CERTIFICATE == op && t instanceof PendingIntent.CanceledException) {
+		if (KeyStoreOperation.SELECT_CERTIFICATE == op && t instanceof PendingIntent.CanceledException) {
 			Log.w(ES_GOB_AFIRMA, "Operacion de seleccion de certificados cancelada por el usuario");
 			finish();
 		}
 		else {
-			if (SigningSubOperation.SIGN == op) {
+			if (KeyStoreOperation.SIGN == op) {
 				if (t instanceof MSCBadPinException) {
 					showErrorMessage(getString(R.string.error_msc_pin));
 				} else {

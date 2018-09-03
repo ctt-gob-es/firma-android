@@ -11,6 +11,7 @@
 package es.gob.afirma.android.crypto;
 
 import java.security.KeyStore.PrivateKeyEntry;
+import java.security.cert.Certificate;
 
 
 /** Gestor simple de claves y certificados para dispositivos m&oacute;viles.
@@ -21,42 +22,76 @@ public interface MobileKeyStoreManager {
      * @param e Clase a la que hay que notificar cuando se complete la selecci&oacute;n */
     void getPrivateKeyEntryAsynchronously(final PrivateKeySelectionListener e);
 
+    /** Inicia un proceso as&iacute;ncrono de selecci&oacute;n de certificado.
+     * @param e Clase a la que hay que notificar cuando se complete la selecci&oacute;n */
+    void getCertificateChainAsynchronously(final CertificateSelectionListener e);
+
     /** Interfaz para clases que esperen una selecci&oacute;n as&iacute;ncrona de una clave privada. */
-    public interface PrivateKeySelectionListener {
+    interface PrivateKeySelectionListener {
 
         /** Notifica que se ha seleccionado una entrada que apunta a una clave privada.
          * @param kse Evento de selecci&oacute;n de una entrada que apunta a una clave privada */
-        void keySelected(KeySelectedEvent kse);
+        void keySelected(SelectCertificateEvent kse);
+    }
+
+    /** Interfaz para clases que esperen una selecci&oacute;n as&iacute;ncrona de un certificado. */
+    interface CertificateSelectionListener {
+
+        /** Notifica que se ha seleccionado un certificado.
+         * @param kse Evento de selecci&oacute;n de un certificado. */
+        void certificateSelected(SelectCertificateEvent kse);
     }
 
     /** Evento de selecci&oacute;n de una entrada que apunta a una clave privada. */
-    public static class KeySelectedEvent {
+    class SelectCertificateEvent {
 
         private final PrivateKeyEntry pke;
+        private final Certificate[] certChain;
         private final Throwable e;
 
-        /** Construye un evento de selecci&oacute;n de una entrada que apunta a una clave privada.
-         * @param p Entrada que apunta a una clave privada seleccionada */
-        public KeySelectedEvent(final PrivateKeyEntry p) {
+        /** Construye un evento de selecci&oacute;n de certificado.
+         * @param p Entrada que apunta al par una clave privada y la cadena de certificaci&oacute;n
+         *          del certificado seleccionada */
+        public SelectCertificateEvent(final PrivateKeyEntry p) {
             this.pke = p;
+            this.certChain = p.getCertificateChain();
             this.e = null;
         }
 
-        /** Construye un evento de selecci&oacute;n fallida de una entrada que apunta a una clave privada.
-         * @param t Causa del fallo en la selecci&oacute;n */
-        public KeySelectedEvent(final Throwable t) {
+        /** Construye un evento de selecci&oacute;n de certificado.
+         * @param certChain Cadena de certificaci&oacute;n del certificado seleccionado. */
+        public SelectCertificateEvent(final Certificate[] certChain) {
             this.pke = null;
+            this.certChain = certChain;
+            this.e = null;
+        }
+
+        /** Construye un evento de selecci&oacute;n fallida de un certificado.
+         * @param t Causa del fallo en la selecci&oacute;n */
+        SelectCertificateEvent(final Throwable t) {
+            this.pke = null;
+            this.certChain = null;
             this.e = t;
         }
 
-        /** Obtiene la entrada que apunta a una clave privada asociada al evento.
-         * @return Entrada que apunta a una clave privada asiciada al evento
+        /** Obtiene la entrada que apunta a la entrada de certificado seleccionada.
+         * @return Entrada del certificado y clave seleccionados.
          * @throws Throwable Si la obtenci&oacute;n de la clave privada produjo algun error */
         public PrivateKeyEntry getPrivateKeyEntry() throws Throwable {
             if (this.e != null) {
                 throw this.e;
             }
             return this.pke;
+        }
+
+        /** Obtiene la cadena de certificaci&oacute;n del certificado seleccionado.
+         * @return Cadena de certificaci&oacute;n del certificado seleccionados.
+         * @throws Throwable Si la obtenci&oacute;n de la clave privada produjo algun error */
+        public Certificate[] getCertChain() throws Throwable {
+            if (this.e != null) {
+                throw this.e;
+            }
+            return this.certChain;
         }
     }
 }

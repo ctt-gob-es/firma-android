@@ -1,1 +1,2 @@
 rootProject.name = 'afirma-ui-android'
+include 'es.gob.afirma.jmulticard:jmulticard-android:1.5-SNAPSHOT'

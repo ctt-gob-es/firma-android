@@ -81,7 +81,9 @@ public class CanDialog extends DialogFragment {
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(final DialogInterface dialog, final int id) {
-								CanDialog.this.canResult.setCanObtained(false);
+								if (CanDialog.this.canResult != null) {
+									CanDialog.this.canResult.setCanObtained(false);
+								}
 								dialog.dismiss();
 								getActivity().setResult(Activity.RESULT_CANCELED);
 								getActivity().finish();
@@ -112,8 +114,10 @@ public class CanDialog extends DialogFragment {
 						}
 						else {
 							dialog.dismiss();
-							CanDialog.this.canResult.setCanObtained(true);
-							CanDialog.this.canResult.setPasswordCallback(new CachePasswordCallback(editTextPin.getText().toString().toCharArray()));
+							if (CanDialog.this.canResult != null) {
+								CanDialog.this.canResult.setCanObtained(true);
+								CanDialog.this.canResult.setPasswordCallback(new CachePasswordCallback(editTextPin.getText().toString().toCharArray()));
+							}
 						}
 					}
 				});
@@ -123,7 +127,9 @@ public class CanDialog extends DialogFragment {
 			@Override
 			public boolean onKey(final DialogInterface dialog, final int keyCode, final KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_BACK) {
-					CanDialog.this.canResult.setCanObtained(false);
+					if (CanDialog.this.canResult != null) {
+						CanDialog.this.canResult.setCanObtained(false);
+					}
 					dialog.dismiss();
 					getActivity().setResult(Activity.RESULT_CANCELED);
 					getActivity().finish();

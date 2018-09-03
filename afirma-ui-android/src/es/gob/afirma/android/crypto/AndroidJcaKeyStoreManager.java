@@ -25,7 +25,7 @@ public final class AndroidJcaKeyStoreManager implements MobileKeyStoreManager {
 	/** Construye un gestor simple de claves y certificados a partir de un almac&eacute;n JCE/JCA.
 	 * @param alias Alias preseleccionado
 	 * @param ks KeyStore origen, debe estar previamente inicializado y cargado
-	 * @param pin Contrase&ntilde;a del almac&eacute;n */
+	 * @param pin Contrase&ntilde;a del almac&eacute;n o {@code null} si no aplica. */
 	public AndroidJcaKeyStoreManager(final String alias, final KeyStore ks, final char[] pin) {
 
 		if (ks == null) {
@@ -50,16 +50,28 @@ public final class AndroidJcaKeyStoreManager implements MobileKeyStoreManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void getPrivateKeyEntryAsynchronously(final PrivateKeySelectionListener pksl) {
-		if (pksl == null) {
+	public void getPrivateKeyEntryAsynchronously(final PrivateKeySelectionListener listener) {
+		if (listener == null) {
 			throw new IllegalArgumentException("La clase a notificar la seleccion de clave no puede ser nula"); //$NON-NLS-1$
 		}
 		if (this.pkeException != null) {
-			pksl.keySelected(new KeySelectedEvent(this.pkeException));
+			listener.keySelected(new SelectCertificateEvent(this.pkeException));
 		}
 		else {
-			pksl.keySelected(new KeySelectedEvent(this.pke));
+			listener.keySelected(new SelectCertificateEvent(this.pke));
 		}
 	}
 
+	@Override
+	public void getCertificateChainAsynchronously(CertificateSelectionListener listener) {
+		if (listener == null) {
+			throw new IllegalArgumentException("La clase a notificar la seleccion de certificado no puede ser nula"); //$NON-NLS-1$
+		}
+		if (this.pkeException != null) {
+			listener.certificateSelected(new SelectCertificateEvent(this.pkeException));
+		}
+		else {
+			listener.certificateSelected(new SelectCertificateEvent(this.pke.getCertificateChain()));
+		}
+	}
 }

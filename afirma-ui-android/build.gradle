@@ -11,25 +11,28 @@ buildscript {
         mavenLocal()
         jcenter()
         mavenCentral()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath 'com.google.gms:google-services:2.1.2'
+        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.google.gms:google-services:3.2.0'
     }
 }
 allprojects {
     repositories {
+
         mavenLocal()
         jcenter()
         mavenCentral()
+        google()
     }
 }
 
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     dexOptions {
         javaMaxHeapSize "4g"
@@ -38,7 +41,7 @@ android {
     defaultConfig {
         applicationId "es.gob.afirma"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 13
         versionName "1.4"
         multiDexEnabled true
@@ -69,24 +72,27 @@ android {
 }
 
 dependencies {
-    compile('es.gob.afirma:afirma-crypto-pdf:1.6') {
+
+    implementation ('es.gob.afirma.jmulticard:jmulticard-android:1.5-SNAPSHOT') {
+        exclude(module: 'support-v4')
+    }
+
+    implementation('es.gob.afirma:afirma-crypto-pdf:1.6') {
         exclude(module: 'afirma-lib-itext')
     }
-    testCompile 'junit:junit:4.8.2'
-    compile('es.gob.afirma.jmulticard:jmulticard-android:1.5-SNAPSHOT') { exclude module: 'support-v4' }
-    compile 'es.gob.afirma.lib:afirma-lib-itext-android:1.0'
-    //compile 'com.google.android:android:4.1.1.4'
-    compile 'es.gob.afirma:afirma-core:1.6'
-    compile 'es.gob.afirma:afirma-core-keystores:1.6'
-    compile 'es.gob.afirma:afirma-crypto-cades:1.6'
-    compile 'es.gob.afirma:afirma-crypto-cadestri-client:1.6'
-    compile 'es.gob.afirma:afirma-crypto-xadestri-client:1.6'
-    compile 'es.gob.afirma:afirma-crypto-padestri-client:1.6'
-    compile 'es.gob.afirma:afirma-crypto-cades-multi:1.6'
-    compile 'es.gob.afirma:afirma-crypto-core-pkcs7:1.6'
-    compile 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.6'
-    compile 'es.gob.afirma.jmulticard:jmulticard-jse:1.5-SNAPSHOT'
-    compile 'com.google.android.gms:play-services-analytics:8.4.0'
+    implementation 'es.gob.afirma.lib:afirma-lib-itext-android:1.0'
+    implementation 'es.gob.afirma:afirma-core:1.6'
+    implementation 'es.gob.afirma:afirma-core-keystores:1.6'
+    implementation 'es.gob.afirma:afirma-crypto-cades:1.6'
+    implementation 'es.gob.afirma:afirma-crypto-cadestri-client:1.6'
+    implementation 'es.gob.afirma:afirma-crypto-xadestri-client:1.6'
+    implementation 'es.gob.afirma:afirma-crypto-padestri-client:1.6'
+    implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.6'
+    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.6'
+    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.6'
+    implementation 'es.gob.afirma.jmulticard:jmulticard-jse:1.5-SNAPSHOT'
+    implementation 'com.android.support:support-v4:27.1.0'
+    implementation 'com.google.android.gms:play-services-analytics:9.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
