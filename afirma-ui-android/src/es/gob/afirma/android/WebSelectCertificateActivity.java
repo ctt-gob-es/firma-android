@@ -34,6 +34,7 @@ import es.gob.afirma.R;
 import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
+import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.MessageDialog;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
@@ -46,7 +47,8 @@ import es.gob.afirma.core.misc.protocol.UrlParametersToSelectCert;
 /** Actividad dedicada a la firma de los datos recibidos en la entrada mediante un certificado
  * del almac&eacute;n central seleccionado por el usuario. */
 public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActivity
-                                                implements  SendDataListener,
+                                                implements DownloadFileTask.DownloadDataListener,
+                                                            SendDataListener,
                                                             MobileKeyStoreManager.CertificateSelectionListener {
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
@@ -59,6 +61,8 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	private Tracker mTracker;
 
 	private UrlParametersToSelectCert parameters;
+
+    private DownloadFileTask downloadFileTask = null;
 
 	private MessageDialog messageDialog;
 	MessageDialog getMessageDialog() {
@@ -116,9 +120,25 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	/** Inicia el proceso de selecci&oacute;n de certificado con los parametros previamente configurados. */
 	private void processSelectionRequest() {
 
-		Log.i(ES_GOB_AFIRMA, "Se inicia la seleccion de certificado"); //$NON-NLS-1$
-		showProgressDialog(getString(R.string.dialog_msg_loading_keystore));
-		loadKeyStore(this);
+	    // Si se nos pasa un identificador de fichero, entonces no se nos ha podido pasar toda la
+        // configuracion a traves de la URL y habra que descargarla
+        if (this.parameters.getFileId() != null) {
+            Log.i(ES_GOB_AFIRMA, "Se van a descargar la configuracion desde el servidor con el identificador: " + this.parameters.getFileId()); //$NON-NLS-1$
+            this.downloadFileTask = new DownloadFileTask(
+                    this.parameters.getFileId(),
+                    this.parameters.getRetrieveServletUrl(),
+                    this
+            );
+            this.downloadFileTask.execute();
+        }
+
+        // Si tenemos la configuracion completa, cargamos un certificado
+        else {
+
+            Log.i(ES_GOB_AFIRMA, "Se inicia la seleccion de certificado"); //$NON-NLS-1$
+            showProgressDialog(getString(R.string.dialog_msg_loading_keystore));
+            loadKeyStore(this);
+        }
 	}
 
     @Override
@@ -310,6 +330,60 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 		);
 	}
 
+    @Override
+    public synchronized void onDownloadingDataSuccess(final byte[] data) {
+
+        Log.i(ES_GOB_AFIRMA, " -- WebSelectCertificateActivity onDownloadingDataSuccess");
+
+        Log.i(ES_GOB_AFIRMA, "Se ha descargado correctamente la configuracion para la seleccion de un certificado"); //$NON-NLS-1$
+
+        // Si hemos tenido que descargar los datos desde el servidor, los desciframos y llamamos
+        // al dialogo de seleccion de certificados para la firma
+        byte[] decipheredData;
+        try {
+            decipheredData = CipherDataManager.decipherData(data, this.parameters.getDesKey());
+        } catch (final IOException e) {
+            Log.e(ES_GOB_AFIRMA, "Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
+            showErrorMessage(getString(R.string.error_bad_params));
+            return;
+        } catch (final GeneralSecurityException e) {
+            Log.e(ES_GOB_AFIRMA, "Error al descifrar los datos recuperados del servidor para la seleccion de certificado", e); //$NON-NLS-1$
+            showErrorMessage(getString(R.string.error_bad_params));
+            return;
+        } catch (final IllegalArgumentException e) {
+            Log.e(ES_GOB_AFIRMA, "Los datos recuperados no son un base64 valido", e); //$NON-NLS-1$
+            showErrorMessage(getString(R.string.error_bad_params));
+            return;
+        } catch (final Throwable e) {
+            Log.e(ES_GOB_AFIRMA, "Error desconocido durante el descifrado de los datos", e); //$NON-NLS-1$
+            showErrorMessage(getString(R.string.error_bad_params));
+            return;
+        }
+
+        Log.i(ES_GOB_AFIRMA, "Se han descifrado los datos y se inicia su analisis:\n" + new String(decipheredData)); //$NON-NLS-1$
+
+        try {
+            this.parameters = ProtocolInvocationUriParser.getParametersToSelectCert(decipheredData);
+        } catch (final ParameterException e) {
+            Log.e(ES_GOB_AFIRMA, "Error en los parametros XML de configuracion de seleccion de certificado: " + e.toString(), e); //$NON-NLS-1$
+            showErrorMessage(getString(R.string.error_bad_params));
+            return;
+        } catch (final Throwable e) {
+            Log.e(ES_GOB_AFIRMA, "Error desconocido al analizar los datos descargados desde el servidor", e); //$NON-NLS-1$
+            showErrorMessage(getString(R.string.error_bad_params));
+            return;
+        }
+
+        // Iniciamos la seleccion de certificado
+        processSelectionRequest();
+    }
+
+    @Override
+    public synchronized void onDownloadingDataError(final String msg, final Throwable t) {
+        Log.e(ES_GOB_AFIRMA, "Error durante la descarga de la configuracion para la seleccion de certificado:" + msg + (t != null ? ": " + t.toString() : ""), t); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        showErrorMessage(getString(R.string.error_server_connect));
+    }
+
 	public void onSelectCertificateChainSuccess(final byte[] certificate) {
 
 		Log.i(ES_GOB_AFIRMA, " -- WebSelectCertificateActivity onSigningSuccess");
@@ -427,4 +501,18 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 		dismissMessageDialog();
 		super.onStop();
 	}
+
+    @Override
+    protected void onDestroy() {
+        if (this.downloadFileTask != null) {
+            Log.d(ES_GOB_AFIRMA, "WebSelectCertificateActivity onDestroy: Cancelamos la descarga"); //$NON-NLS-1$
+            try {
+                this.downloadFileTask.cancel(true);
+            }
+            catch(final Exception e) {
+                Log.e(ES_GOB_AFIRMA, "No se ha podido cancelar el procedimiento de descarga de la configuracion", e); //$NON-NLS-1$
+            }
+        }
+        super.onDestroy();
+    }
 }

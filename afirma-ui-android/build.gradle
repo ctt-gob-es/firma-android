@@ -42,8 +42,8 @@ android {
         applicationId "es.gob.afirma"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 13
-        versionName "1.4"
+        versionCode 15
+        versionName "1.6"
         multiDexEnabled true
     }
     buildTypes {
@@ -80,7 +80,7 @@ dependencies {
     implementation('es.gob.afirma:afirma-crypto-pdf:1.6') {
         exclude(module: 'afirma-lib-itext')
     }
-    implementation 'es.gob.afirma.lib:afirma-lib-itext-android:1.0'
+    implementation 'es.gob.afirma.lib:afirma-lib-itext-android:1.1'
     implementation 'es.gob.afirma:afirma-core:1.6'
     implementation 'es.gob.afirma:afirma-core-keystores:1.6'
     implementation 'es.gob.afirma:afirma-crypto-cades:1.6'

@@ -101,6 +101,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-resources" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaPrecompile" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifest-checker" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
@@ -115,6 +116,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 27 Platform" jdkType="Android SDK" />
@@ -162,6 +164,7 @@
     <orderEntry type="library" name="Gradle: com.android.support:support-core-utils-27.1.0" level="project" />
     <orderEntry type="library" name="Gradle: es.gob.afirma:afirma-crypto-cades:1.6@jar" level="project" />
     <orderEntry type="library" name="Gradle: es.gob.afirma.jmulticard:jmulticard-jse:1.5-SNAPSHOT@jar" level="project" />
+    <orderEntry type="library" name="Gradle: es.gob.afirma.lib:afirma-lib-itext-android:1.1@jar" level="project" />
     <orderEntry type="library" name="Gradle: es.gob.afirma:afirma-crypto-cades-multi:1.6@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-analytics-9.0.0" level="project" />
     <orderEntry type="library" name="Gradle: es.gob.afirma:afirma-crypto-padestri-client:1.6@jar" level="project" />
@@ -174,7 +177,6 @@
     <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.3@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.madgag.spongycastle:core:1.56.0.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.core:common:1.1.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: es.gob.afirma.lib:afirma-lib-itext-android:1.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: android-android-27" level="project" />
   </component>
 </module>

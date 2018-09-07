@@ -396,62 +396,77 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	@Override
 	public synchronized void onDownloadingDataSuccess(final byte[] data) {
 
-		Log.i(ES_GOB_AFIRMA, " -- WebSignActivity onDownloadingDataSuccess");
+        Log.i(ES_GOB_AFIRMA, " -- WebSignActivity onDownloadingDataSuccess");
 
-		Log.i(ES_GOB_AFIRMA, "Se ha descargado correctamente la configuracion de firma almacenada en servidor"); //$NON-NLS-1$
-		Log.i(ES_GOB_AFIRMA, "Cantidad de datos descargada: " + (data == null ? -1 : data.length)); //$NON-NLS-1$
+        Log.i(ES_GOB_AFIRMA, "Se ha descargado correctamente la configuracion de firma almacenada en servidor"); //$NON-NLS-1$
+        Log.i(ES_GOB_AFIRMA, "Cantidad de datos descargada: " + (data == null ? -1 : data.length)); //$NON-NLS-1$
 
-		// Si hemos tenido que descargar los datos desde el servidor, los desciframos y llamamos
-		// al dialogo de seleccion de certificados para la firma
-		byte[] decipheredData;
-		try {
-			decipheredData = CipherDataManager.decipherData(data, this.parameters.getDesKey());
-		}
-		catch (final IOException e) {
-			Log.e(ES_GOB_AFIRMA, "Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
-			showErrorMessage(getString(R.string.error_bad_params));
-			return;
-		}
-		catch (final GeneralSecurityException e) {
-			Log.e(ES_GOB_AFIRMA, "Error al descifrar los datos recuperados del servidor para la firma", e); //$NON-NLS-1$
-			showErrorMessage(getString(R.string.error_bad_params));
-			return;
-		}
-		catch (final IllegalArgumentException e) {
-			Log.e(ES_GOB_AFIRMA, "Los datos recuperados no son un base64 valido", e); //$NON-NLS-1$
-			showErrorMessage(getString(R.string.error_bad_params));
-			return;
-		}
-		catch (final Throwable e) {
-			Log.e(ES_GOB_AFIRMA, "Error desconocido durante el descifrado de los datos", e); //$NON-NLS-1$
-			showErrorMessage(getString(R.string.error_bad_params));
-			return;
-		}
+        // Si hemos tenido que descargar los datos desde el servidor, los desciframos y llamamos
+        // al dialogo de seleccion de certificados para la firma
+        byte[] decipheredData;
+        try {
+            decipheredData = CipherDataManager.decipherData(data, this.parameters.getDesKey());
+        } catch (final IOException e) {
+            Log.e(ES_GOB_AFIRMA, "Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
+            showErrorMessage(getString(R.string.error_bad_params));
+            return;
+        } catch (final GeneralSecurityException e) {
+            Log.e(ES_GOB_AFIRMA, "Error al descifrar los datos recuperados del servidor para la firma", e); //$NON-NLS-1$
+            showErrorMessage(getString(R.string.error_bad_params));
+            return;
+        } catch (final IllegalArgumentException e) {
+            Log.e(ES_GOB_AFIRMA, "Los datos recuperados no son un base64 valido", e); //$NON-NLS-1$
+            showErrorMessage(getString(R.string.error_bad_params));
+            return;
+        } catch (final Throwable e) {
+            Log.e(ES_GOB_AFIRMA, "Error desconocido durante el descifrado de los datos", e); //$NON-NLS-1$
+            showErrorMessage(getString(R.string.error_bad_params));
+            return;
+        }
 
-		Log.i(ES_GOB_AFIRMA, "Se han descifrado los datos y se inicia su analisis"); //$NON-NLS-1$
+        Log.i(ES_GOB_AFIRMA, "Se han descifrado los datos y se inicia su analisis:\n" + new String(decipheredData)); //$NON-NLS-1$
 
-		try {
-			this.parameters = ProtocolInvocationUriParser.getParametersToSign(decipheredData);
-		}
-		catch (final ParameterException e) {
-			Log.e(ES_GOB_AFIRMA, "Error en los parametros XML de configuracion de firma: " + e.toString(), e); //$NON-NLS-1$
-			showErrorMessage(getString(R.string.error_bad_params));
-			return;
-		}
-		catch (final Throwable e) {
-			Log.e(ES_GOB_AFIRMA, "Error desconocido al analizar los datos descargados desde el servidor", e); //$NON-NLS-1$
-			showErrorMessage(getString(R.string.error_bad_params));
-			return;
-		}
+        try {
+            this.parameters = ProtocolInvocationUriParser.getParametersToSign(decipheredData);
+        } catch (final ParameterException e) {
+            Log.e(ES_GOB_AFIRMA, "Error en los parametros XML de configuracion de firma: " + e.toString(), e); //$NON-NLS-1$
+            showErrorMessage(getString(R.string.error_bad_params));
+            return;
+        } catch (final Throwable e) {
+            Log.e(ES_GOB_AFIRMA, "Error desconocido al analizar los datos descargados desde el servidor", e); //$NON-NLS-1$
+            showErrorMessage(getString(R.string.error_bad_params));
+            return;
+        }
 
-		Log.i(ES_GOB_AFIRMA, "Se inicia la firma de los datos descargados desde el servidor"); //$NON-NLS-1$
-		showProgressDialog(getString(R.string.dialog_msg_signning));
-		sign(
-				this.parameters.getOperation().name(),
-				this.parameters.getData(),
-				this.parameters.getSignatureFormat(),
-				this.parameters.getSignatureAlgorithm(),
-				this.parameters.getExtraParams());
+        // Comprobamos que en los datos descargados de servidor esten los datos a firmar y,
+        // en caso contrario, se permite al usuario cargarlos de fichero. Si ya tenemos los
+        // datos, los firmamos directamente
+        if (this.parameters.getData() == null) {
+            Log.i(ES_GOB_AFIRMA, "Se va a cargar un fichero local para la firma"); //$NON-NLS-1$
+            // Comprobamos que no este ya abierta la pantalla de seleccion, ya que puede ser un caso
+            // de cancelacion de la seleccion de fichero, en cuyo caso no deseamos que se vuelva a abrir
+            if (!this.fileChooserOpenned) {
+                openSelectFileActivity();
+            } else {
+                this.fileChooserOpenned = false;
+            }
+        }
+        else {
+            Log.i(ES_GOB_AFIRMA, "Se inicia la firma de los datos descargados desde el servidor"); //$NON-NLS-1$
+            showProgressDialog(getString(R.string.dialog_msg_signning));
+            try {
+                sign(
+                        this.parameters.getOperation().name(),
+                        this.parameters.getData(),
+                        this.parameters.getSignatureFormat(),
+                        this.parameters.getSignatureAlgorithm(),
+                        this.parameters.getExtraParams());
+            } catch (final Exception e) {
+                Log.e(ES_GOB_AFIRMA, "Error durante la firma", e); //$NON-NLS-1$
+                showErrorMessage(getString(R.string.error_signing_config));
+                return;
+            }
+        }
 	}
 
 	@Override
