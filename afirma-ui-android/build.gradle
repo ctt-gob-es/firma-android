@@ -1,7 +1,7 @@
 apply plugin: 'maven'
 
 group = 'es.gob.afirma'
-version = '1.6'
+version = '1.6.1'
 
 description = """"""
 
@@ -38,12 +38,16 @@ android {
         javaMaxHeapSize "4g"
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     defaultConfig {
         applicationId "es.gob.afirma"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 15
-        versionName "1.6"
+        versionCode 16
+        versionName "1.6.1"
         multiDexEnabled true
     }
     buildTypes {

@@ -53,15 +53,6 @@
         android:text="Usar SSCD hardware si se encuentran en el sistema"
         android:textSize="10dp" />
 -->
-	<Button
-            android:id="@+id/buttonSign"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="15dp"
-            android:text="@string/sign_file"
-            style="@style/ButtonRedLarge" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -70,21 +61,25 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/buttonSign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/sign_file"
+            style="@style/ButtonRedLarge" />
+
+        <Button
             android:id="@+id/importCertButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_horizontal"
             android:text="@string/import_cert"
             style="@style/ButtonRedLarge" />
 
-        <Button
-            android:id="@+id/requestCertButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
-            android:onClick="onClick"
-            android:text="@string/request_cert"
-            style="@style/ButtonRedLarge" />
     </LinearLayout>
 
     <TextView
@@ -98,4 +93,17 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textSize="12sp" />
 
+    <TextView
+        android:id="@+id/privacyPolicyTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginBottom="3dp"
+        android:clickable="true"
+        android:onClick="privacyPolicyLinkClick"
+        android:text="@string/privacy_policy"
+        android:textSize="12sp"
+        style="@style/TextLink"
+        />
 </LinearLayout>

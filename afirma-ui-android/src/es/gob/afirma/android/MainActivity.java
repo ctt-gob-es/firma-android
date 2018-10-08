@@ -12,30 +12,25 @@ package es.gob.afirma.android;
 
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.security.KeyChain;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,21 +42,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
-import es.gob.afirma.android.gui.AppProperties;
 import es.gob.afirma.android.gui.ConfigNfcDialog;
 import es.gob.afirma.android.gui.MessageDialog;
 import es.gob.afirma.android.gui.SettingDialog;
-import es.gob.afirma.android.gui.VerifyCaAppsTask;
-import es.gob.afirma.android.gui.VerifyCaAppsTask.CaAppsVerifiedListener;
 
 /** Actividad que se muestra cuando se arranca la aplicaci&oacute;n pulsando su icono.
  * @author Alberto Mart&iacute;nez */
-public final class MainActivity extends FragmentActivity implements CaAppsVerifiedListener, DialogInterface.OnClickListener {
+public final class MainActivity extends FragmentActivity implements DialogInterface.OnClickListener {
 
     /** Operaci&oacute;n que se estaba realizando antes de solicitar permisos,
      * para continuarla una vez se han concedido. */
@@ -80,8 +70,6 @@ public final class MainActivity extends FragmentActivity implements CaAppsVerifi
 	private final static String CERTIFICATE_EXTS = ".p12,.pfx"; //$NON-NLS-1$
 
 	private final static int SELECT_CERT_REQUEST_CODE = 1;
-
-	private List<AppProperties> apps;
 
 	private Tracker mTracker;
 
@@ -106,13 +94,6 @@ public final class MainActivity extends FragmentActivity implements CaAppsVerifi
 		GoogleAnalyticsApplication application = (GoogleAnalyticsApplication) getApplication();
 		mTracker = application.getDefaultTracker();
 
-		// Por defecto no se muestra el boton de solicitud de certificados
-		this.apps = null;
-
-		// Comprobamos si esta instalada la aplicacion de algun proveedor de servicios de certificacion
-		// para mostrar el boton de peticion de certificados en caso afirmativo
-		verifyCaApps();
-
 		if (!nfcAvailableChecked) {
 			nfcAvailable = NfcHelper.isNfcServiceAvailable(this);
 			nfcAvailableChecked = true;
@@ -129,41 +110,23 @@ public final class MainActivity extends FragmentActivity implements CaAppsVerifi
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED
         );
+
+        TextView privacyPolicy = findViewById(R.id.privacyPolicyTextView);
+        privacyPolicy.setPaintFlags(privacyPolicy.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
 	}
+
+    public void privacyPolicyLinkClick(final View v) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.privacy_policy_url)));
+        startActivity(browserIntent);
+    }
 
 	/** @param v Vista sobre la que se hace clic. */
 	public void onClick(final View v) {
 
         Log.d("es.gob.afirma", "Identificador de elemento pulsado: " + v.getId());
 
-		// Dialogo de solicitud de certificados/
-		if (v.getId() == R.id.requestCertButton) {
-
-			if (this.apps == null || this.apps.size() < 1) {
-				final AlertDialog ad = new AlertDialog.Builder(MainActivity.this).create();
-				ad.setTitle(getString(R.string.appsDialogTitle));
-				ad.setMessage(getString(R.string.ca_not_found));
-				ad.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.close), this);
-				ad.show();
-			}
-			else {
-				final AlertDialog ad = new AlertDialog.Builder(MainActivity.this).create();
-				ad.setTitle(getString(R.string.appsDialogTitle));
-				ad.setMessage(getString(R.string.appsDialogMessage));
-
-				final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				final View view = inflater.inflate(R.layout.dialog_list, null);
-				final ListView listView = (ListView) view.findViewById(R.id.listViewListadoApp);
-
-				final AppAdapter listaAppAdapter = new AppAdapter(MainActivity.this, ad, R.layout.array_adapter_apps, this.apps);
-				listView.setAdapter(listaAppAdapter);
-				ad.setView(view);
-				ad.show();
-			}
-		}
-
 		//Boton firmar fichero local
-		else if(v.getId() == R.id.buttonSign){
+		if(v.getId() == R.id.buttonSign){
 			if (!writePerm) {
                 Log.i("es.gob.afirma", "No se tiene permiso de escritura en memoria");
                 currentOperation = OP_BEFORE_PERM_REQUEST.LOCALSIGN;
@@ -210,7 +173,8 @@ public final class MainActivity extends FragmentActivity implements CaAppsVerifi
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+										   @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case REQUEST_WRITE_STORAGE: {
@@ -283,15 +247,6 @@ public final class MainActivity extends FragmentActivity implements CaAppsVerifi
 		md.show(getSupportFragmentManager(), "ErrorDialog"); //$NON-NLS-1$;
 	}
 
-	private void verifyCaApps() {
-		new VerifyCaAppsTask(this, this).execute();
-	}
-
-	@Override
-	public void caAppsVerified(final List<AppProperties> ap) {
-		this.apps = ap;
-	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -324,73 +279,6 @@ public final class MainActivity extends FragmentActivity implements CaAppsVerifi
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
-		}
-	}
-
-
-	/**Clase para crear cada fila de la tabla.
-	 * Cada fila consta de: logo, nombre de la aplicaci&oacute;n, nombre del paquete
-	 * @author Astrid Idoate Gil*/
-	final class AppAdapter extends ArrayAdapter<AppProperties> {
-
-		private final List<AppProperties> items;
-		private final AlertDialog ad;
-		private TextView mTextViewAppName;
-		private TextView mTextViewAppDescription;
-		private ImageView mImageViewIconApp;
-
-		AppAdapter(final Context context, final AlertDialog ad, final int textViewResourceId,  final List<AppProperties> items) {
-			super(context, textViewResourceId, items != null ? items : new ArrayList<AppProperties>());
-			this.ad = ad;
-			this.items = items == null ? new ArrayList<AppProperties>(0) : items;
-		}
-
-		@Override
-		public View getView(final int position, final View convertView, final ViewGroup parent) {
-
-			final LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			final View v = vi.inflate(R.layout.array_adapter_apps, null);
-
-			final AppProperties appProperties = this.items.get(position);
-
-			this.mTextViewAppName = (TextView) v.findViewById(R.id.tvName);
-			this.mTextViewAppDescription = (TextView) v.findViewById(R.id.tvDescription);
-			this.mImageViewIconApp = (ImageView) v.findViewById(R.id.icon);
-
-			this.mTextViewAppName.setText(appProperties.getNameApp());
-			this.mTextViewAppDescription.setText(appProperties.getDescription());
-			this.mImageViewIconApp.setImageDrawable(appProperties.getIcon());
-
-			final LinearLayout linearLayoutList  = (LinearLayout) v.findViewById(R.id.listaItem);
-			linearLayoutList.setOnClickListener(new DialogItemClientListener(this.ad, appProperties));
-			return v;
-		}
-
-		private class DialogItemClientListener implements OnClickListener {
-
-			private final AlertDialog alertDialog;
-			private final AppProperties appProperties;
-
-			DialogItemClientListener(final AlertDialog ad, final AppProperties appProperties) {
-				this.alertDialog = ad;
-				this.appProperties = appProperties;
-			}
-
-			@Override
-			public void onClick(final View view) {
-				if (this.appProperties.isInstalled()) {
-					final ComponentName cn = new ComponentName(this.appProperties.getPackageName(), this.appProperties.getMainActivity());
-					final Intent intent = new Intent();
-					intent.setComponent(cn);
-					startActivity(intent);
-				}
-				else {
-					final Intent intent = new Intent();
-					intent.setData(Uri.parse(this.appProperties.getMarketUrl()));
-					startActivity(intent);
-				}
-				this.alertDialog.dismiss();
-			}
 		}
 	}
 }
