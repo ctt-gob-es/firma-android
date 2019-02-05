@@ -8,9 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/es.gob.afirma.jmulticard" />
-            <option value="$PROJECT_DIR$/es.gob.afirma.jmulticard/jmulticard-android" />
-            <option value="$PROJECT_DIR$/es.gob.afirma.jmulticard/jmulticard-android/1.5-SNAPSHOT" />
+            <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

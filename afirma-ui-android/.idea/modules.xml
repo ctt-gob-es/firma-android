@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/es.gob.afirma.jmulticard/jmulticard-android/1.5-SNAPSHOT/1.5-SNAPSHOT.iml" filepath="$PROJECT_DIR$/es.gob.afirma.jmulticard/jmulticard-android/1.5-SNAPSHOT/1.5-SNAPSHOT.iml" />
       <module fileurl="file://$PROJECT_DIR$/afirma-ui-android.iml" filepath="$PROJECT_DIR$/afirma-ui-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/es.gob.afirma.jmulticard/es.gob.afirma.jmulticard.iml" filepath="$PROJECT_DIR$/es.gob.afirma.jmulticard/es.gob.afirma.jmulticard.iml" />
-      <module fileurl="file://$PROJECT_DIR$/es.gob.afirma.jmulticard/jmulticard-android/jmulticard-android.iml" filepath="$PROJECT_DIR$/es.gob.afirma.jmulticard/jmulticard-android/jmulticard-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>

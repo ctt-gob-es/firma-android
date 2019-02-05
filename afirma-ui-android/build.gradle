@@ -1,102 +1,31 @@
-apply plugin: 'maven'
-
-group = 'es.gob.afirma'
-version = '1.6.1'
-
-description = """"""
-
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    
     repositories {
         mavenLocal()
-        jcenter()
         mavenCentral()
         google()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
-        classpath 'com.google.gms:google-services:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.google.gms:google-services:4.2.0'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
+
 allprojects {
     repositories {
-
         mavenLocal()
-        jcenter()
-        mavenCentral()
         google()
+        mavenCentral()
+        jcenter()
     }
 }
 
-apply plugin: 'com.android.application'
-
-android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
-
-    dexOptions {
-        javaMaxHeapSize "4g"
-    }
-
-    lintOptions {
-        abortOnError false
-    }
-
-    defaultConfig {
-        applicationId "es.gob.afirma"
-        minSdkVersion 15
-        targetSdkVersion 27
-        versionCode 16
-        versionName "1.6.1"
-        multiDexEnabled true
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt')
-            lintOptions {
-                disable 'MissingTranslation'
-            }
-        }
-    }
-    sourceSets {
-        main.java.srcDirs += 'src'
-        main.res.srcDirs += 'res'
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_6
-        targetCompatibility JavaVersion.VERSION_1_6
-    }
-    packagingOptions {
-        pickFirst 'META-INF/BCKEY.DSA'
-        pickFirst 'META-INF/BCKEY.SF'
-        pickFirst 'ACRAIZ-SHA2.crt'
-
-    }
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
-
-dependencies {
-
-    implementation ('es.gob.afirma.jmulticard:jmulticard-android:1.5-SNAPSHOT') {
-        exclude(module: 'support-v4')
-    }
-
-    implementation('es.gob.afirma:afirma-crypto-pdf:1.6') {
-        exclude(module: 'afirma-lib-itext')
-    }
-    implementation 'es.gob.afirma.lib:afirma-lib-itext-android:1.1'
-    implementation 'es.gob.afirma:afirma-core:1.6'
-    implementation 'es.gob.afirma:afirma-core-keystores:1.6'
-    implementation 'es.gob.afirma:afirma-crypto-cades:1.6'
-    implementation 'es.gob.afirma:afirma-crypto-cadestri-client:1.6'
-    implementation 'es.gob.afirma:afirma-crypto-xadestri-client:1.6'
-    implementation 'es.gob.afirma:afirma-crypto-padestri-client:1.6'
-    implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.6'
-    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.6'
-    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.6'
-    implementation 'es.gob.afirma.jmulticard:jmulticard-jse:1.5-SNAPSHOT'
-    implementation 'com.android.support:support-v4:27.1.0'
-    implementation 'com.google.android.gms:play-services-analytics:9.0.0'
-}
-
-apply plugin: 'com.google.gms.google-services'
