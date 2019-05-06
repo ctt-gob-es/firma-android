@@ -22,6 +22,7 @@ import es.gob.afirma.R;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager.SelectCertificateEvent;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
+import es.gob.afirma.android.crypto.SignResult;
 import es.gob.afirma.android.crypto.SignTask;
 import es.gob.afirma.android.crypto.SignTask.SignListener;
 import es.gob.afirma.core.AOCancelledOperationException;
@@ -179,7 +180,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	}
 
 	@Override
-	public void onSignSuccess(final byte[] signature) {
+	public void onSignSuccess(final SignResult signature) {
 		onSigningSuccess(signature);
 	}
 
@@ -189,7 +190,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	}
 
 
-	protected abstract void onSigningSuccess(final byte[] signature);
+	protected abstract void onSigningSuccess(final SignResult signature);
 
 	protected abstract void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t);
 }

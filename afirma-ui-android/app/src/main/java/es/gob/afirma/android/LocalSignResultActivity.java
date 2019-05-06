@@ -11,7 +11,6 @@
 package es.gob.afirma.android;
 
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
@@ -28,6 +27,7 @@ import java.util.Locale;
 import es.gob.afirma.R;
 import es.gob.afirma.android.ReadLocalFileTask.ReadLocalFileListener;
 import es.gob.afirma.android.crypto.MSCBadPinException;
+import es.gob.afirma.android.crypto.SignResult;
 import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.core.signers.AOSignerFactory;
 
@@ -57,18 +57,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 	String fileName; //Nombre del fichero seleccionado
 
-	private byte[] dataToSign;
-
 	private String format = null;
-
-	private ProgressDialog progressDialog;
-
-	void setProgressDialog(final ProgressDialog pd) {
-		this.progressDialog = pd;
-	}
-	ProgressDialog getProgressDialog() {
-		return this.progressDialog;
-	}
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -102,7 +91,6 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	@Override
 	  public void onStop() {
 	    super.onStop();
-	    dismissProgressDialog();
 	}
 
 	@Override
@@ -146,24 +134,8 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	private void showProgressDialog(final String message) {
-		runOnUiThread(
-			new Runnable() {
-				@Override
-				public void run() {
-					try {
-						setProgressDialog(ProgressDialog.show(LocalSignResultActivity.this, "", message, true)); //$NON-NLS-1$
-					}
-					catch (final Exception e) {
-						Log.e(ES_GOB_AFIRMA, "No se ha podido mostrar el dialogo de progreso: " + e); //$NON-NLS-1$
-					}
-				}
-			}
-		);
-	}
-
 	//Guarda los datos en un directorio del dispositivo y muestra por pantalla al usuario la informacion indicando donse se ha almacenado el fichero
-	private void saveData(final byte[] signature){
+	private void saveData(final SignResult signature){
 
 		// Comprobamos que tenemos permisos de lectura sobre el directorio en el que se encuentra el fichero origen
 		boolean originalDirectory;
@@ -198,7 +170,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 		try {
 			final FileOutputStream fos = new FileOutputStream(new File(outDirectory, finalSignatureFilename));
-			fos.write(signature);
+			fos.write(signature.getSignature());
 			fos.flush();
 			fos.close();
 		}
@@ -208,7 +180,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 			return;
 		}
 
-		showSuccessMessage(finalSignatureFilename, outDirectory, originalDirectory);
+		showSuccessMessage(finalSignatureFilename, originalDirectory);
 
 		// Refrescamos el directorio para permitir acceder al fichero
 		try {
@@ -230,43 +202,27 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	 * @param message Mensaje que describe el error producido. */
 	private void showErrorMessage(final String message) {
 
-		dismissProgressDialog();
-
 		// Ya cerrados los dialogos modales, mostramos el titulo de la pantalla
-		final TextView tvTitle = (TextView) findViewById(R.id.signedfile_title);
+		final TextView tvTitle = findViewById(R.id.signedfile_title);
 		tvTitle.setVisibility(View.VISIBLE);
 
-		//activo los elementos de la interfaz que corresponden a la firma erronea
-		final TextView tv_sf= (TextView) findViewById(R.id.filestorage_path);
-
-		final RelativeLayout rl = (RelativeLayout) findViewById(R.id.signedfile_error);
+		final RelativeLayout rl = findViewById(R.id.signedfile_error);
 		rl.setVisibility(View.VISIBLE);
 
-//		runOnUiThread(
-//				new Runnable() {
-//					@Override
-//					public void run() {
-//						Toast.makeText(LocalSignResultActivity.this, message, Toast.LENGTH_LONG).show();
-//					}
-//				}
-//		);
 	}
 
 	/** Muestra los elementos de pantalla informando de que la firma se ha generado correctamente y
 	 * donde se ha almacenado.
 	 * @param filename Nombre del fichero almacenado.
-	 * @param directory Directorio en el que se ha almacenado la firma.
 	 * @param originalDirectory Directorio donde estaba originalmente el fichero que se firm&oacute;. */
-	private void showSuccessMessage(final String filename, final String directory, final boolean originalDirectory) {
-
-		dismissProgressDialog();
+	private void showSuccessMessage(final String filename, final boolean originalDirectory) {
 
 		// Ya cerrados los dialogos modales, mostramos el titulo de la pantalla
-		final TextView tvTitle = (TextView) findViewById(R.id.signedfile_title);
+		final TextView tvTitle = findViewById(R.id.signedfile_title);
 		tvTitle.setVisibility(View.VISIBLE);
 
 		//activo los elementos de la interfaz que corresponden a la firma correcta de un fichero
-		final TextView tv_sf= (TextView) findViewById(R.id.filestorage_path);
+		final TextView tv_sf= findViewById(R.id.filestorage_path);
 		tv_sf.setText(getString(originalDirectory ?
 				R.string.signedfile_original_location :
 					R.string.signedfile_downloads_location, filename));
@@ -276,16 +232,8 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	}
 
 	@Override
-	public void onSigningSuccess(final byte[] signature) {
+	public void onSigningSuccess(final SignResult signature) {
 		saveData(signature);
-	}
-
-	/** Comprueba si esta abierto el di&aacute;logo de espera y lo cierra en dicho caso. */
-	private void dismissProgressDialog() {
-
-		if (this.progressDialog != null) {
-			this.progressDialog.dismiss();
-		}
 	}
 
 	/** Construye un nombre apropiado para un fichero de firma en base a un nombre base
@@ -338,7 +286,8 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 			if (KeyStoreOperation.SIGN == op) {
 				if (t instanceof MSCBadPinException) {
 					showErrorMessage(getString(R.string.error_msc_pin));
-				} else {
+				}
+				else {
 					showErrorMessage(getString(R.string.error_signing));
 				}
 			}
@@ -346,16 +295,11 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 				showErrorMessage(msg);
 			}
 
-			dismissProgressDialog();
-
 			// Ya cerrados los dialogos modales, mostramos el titulo de la pantalla
-			final TextView tvTitle = (TextView) findViewById(R.id.signedfile_title);
+			final TextView tvTitle = findViewById(R.id.signedfile_title);
 			tvTitle.setVisibility(View.VISIBLE);
 
-			//activo los elementos de la interfaz que corresponden a la firma erronea
-			final TextView tv_sf = (TextView) findViewById(R.id.filestorage_path);
-
-			final RelativeLayout rl = (RelativeLayout) findViewById(R.id.signedfile_error);
+			final RelativeLayout rl = findViewById(R.id.signedfile_error);
 			rl.setVisibility(View.VISIBLE);
 			Log.e(ES_GOB_AFIRMA, "Error durante la firma: " + t);
 		}

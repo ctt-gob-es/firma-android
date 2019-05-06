@@ -68,7 +68,7 @@
     <string name="signedfile_title">Firma de fichero local</string>
     <string name="signedfile_error">Lo sentimos la firma no se ha podido realizar. Por favor, reint\u00E9ntelo de nuevo.</string>
     <string name="signedfile_correct">La firma se ha realizado correctamente.</string>
-    <string name="signedfile_original_location">La firma "%1$s" se ha almacenado en el mismo directorio que el fichero firmado.</string>
+    <string name="signedfile_original_location">La firma "%1$s" se ha almacenado en el mismo directorio que el fichero original.</string>
     <string name="signedfile_downloads_location">La firma "%1$s" se ha almacenado en su directorio de descargas.</string>
     <string name="error_msc_pin">El PIN del dispositivo criptogr\u00E1fico es incorrecto. Tenga en cuenta que varios intentos fallidos consecutivos podr\u00EDan bloquearlo.</string>
     <string name="error_format_not_supported">Formato de firma no soportado.</string>

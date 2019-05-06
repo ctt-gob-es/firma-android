@@ -66,7 +66,7 @@
 	<string name="signedfile_title">Local file signature</string>
 	<string name="signedfile_error">The signature could not be completed, please, try again later.</string>
 	<string name="signedfile_correct">The signature was finished successfully.</string>
-	<string name="signedfile_original_location">The signature "%1$s" was saved on the same folder as the signed file.</string>
+	<string name="signedfile_original_location">The signature "%1$s" was saved on the same folder as the original file.</string>
 	<string name="signedfile_downloads_location">The signature "%1$s" was saved on the donwloads folder.</string>
 	<string name="error_msc_pin">Wrong PIN. Please, beware that invalid PIN entering can lock your smart card.</string>
 	<string name="error_format_not_supported">Unsupported signature format.</string>

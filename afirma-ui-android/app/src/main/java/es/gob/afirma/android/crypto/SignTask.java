@@ -35,7 +35,7 @@ import es.gob.afirma.core.signers.CounterSignTarget;
  * plano ya que las firmas trif&aacute;sicas hacen conexiones de red.
  * @author Carlos Gamuci
  */
-public class SignTask extends AsyncTask<Void, Void, byte[]>{
+public class SignTask extends AsyncTask<Void, Void, SignResult>{
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
@@ -82,22 +82,13 @@ public class SignTask extends AsyncTask<Void, Void, byte[]>{
 		this.t = null;
 	}
 
-	/**
-	 * Muestra un di&acute;logo de carga mientras ejecuta la tarea en segundo plano.
-	 */
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-//		setProgressDialog(
-//				ProgressDialog.show(
-//						this.context,
-//						"",
-//						this.context.getString(R.string.dialog_msg_signning),
-//						true)); //$NON-NLS-1$
 	}
 
 	@Override
-	protected byte[] doInBackground(final Void... params) {
+	protected SignResult doInBackground(final Void... params) {
 
 		Log.i(ES_GOB_AFIRMA, " -- SignTask doInBackgroung"); //$NON-NLS-1$
 
@@ -174,7 +165,7 @@ public class SignTask extends AsyncTask<Void, Void, byte[]>{
 			this.t = e;
 		}
 
-		return sign;
+		return new SignResult(sign, this.pke.getCertificate());
 	}
 
 	private static AOSigner getSupportedCompatibleSigner(final String format, final Operation operation, final byte[] signature) {
@@ -202,7 +193,7 @@ public class SignTask extends AsyncTask<Void, Void, byte[]>{
 	}
 
 	@Override
-	protected void onPostExecute(final byte[] result) {
+	protected void onPostExecute(final SignResult result) {
 		super.onPostExecute(result);
 
 		if (result == null) {
@@ -218,7 +209,7 @@ public class SignTask extends AsyncTask<Void, Void, byte[]>{
 
 		/** Gestiona el resultado de la operaci&oacute;n de firma cuando termina correctamente.
 		 * @param signature Firma/cofirma/contrafirma generada. */
-		void onSignSuccess(byte[] signature);
+		void onSignSuccess(SignResult signature);
 
 		/** Gestiona un error en la operaci&oacute;n de firma.
 		 * @param t Excepcion o error lanzada en la operaci&oacute;n de firma. */

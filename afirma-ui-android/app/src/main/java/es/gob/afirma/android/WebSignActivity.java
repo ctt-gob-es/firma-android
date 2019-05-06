@@ -39,6 +39,7 @@ import es.gob.afirma.R;
 import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
+import es.gob.afirma.android.crypto.SignResult;
 import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.DownloadFileTask.DownloadDataListener;
 import es.gob.afirma.android.gui.MessageDialog;
@@ -54,6 +55,7 @@ import es.gob.afirma.core.signers.AOSignConstants;
  * del almac&eacute;n central seleccionado por el usuario. */
 public final class WebSignActivity extends SignFragmentActivity implements DownloadDataListener,
                                                                            SendDataListener {
+	private static final char CERT_SIGNATURE_SEPARATOR = '|';
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
@@ -68,7 +70,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 
 	private final static String INTENT_ENTRY_ACTION = "es.gob.afirma.android.SIGN_SERVICE"; //$NON-NLS-1$
 	
-	/** Codigo de petici\u00F3n usado para invocar a la actividad que selecciona el fichero para firmar. */
+	/** C&oacute;digo de petici\u00F3n usado para invocar a la actividad que selecciona el fichero para firmar. */
 	private static final int SELECT_FILE_REQUEST_CODE = 102;
 
 	private boolean fileChooserOpenned;
@@ -149,7 +151,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	}
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_WRITE_STORAGE) {
 			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -318,7 +320,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	}
 
 	@Override
-	protected void onSigningError(KeyStoreOperation op, String msg, Throwable t) {
+	protected void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t) {
 		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
 			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, true);
 		}
@@ -386,22 +388,26 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 
         // Si hemos tenido que descargar los datos desde el servidor, los desciframos y llamamos
         // al dialogo de seleccion de certificados para la firma
-        byte[] decipheredData;
+        final byte[] decipheredData;
         try {
             decipheredData = CipherDataManager.decipherData(data, this.parameters.getDesKey());
-        } catch (final IOException e) {
+        }
+        catch (final IOException e) {
             Log.e(ES_GOB_AFIRMA, "Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
             showErrorMessage(getString(R.string.error_bad_params));
             return;
-        } catch (final GeneralSecurityException e) {
+        }
+        catch (final GeneralSecurityException e) {
             Log.e(ES_GOB_AFIRMA, "Error al descifrar los datos recuperados del servidor para la firma", e); //$NON-NLS-1$
             showErrorMessage(getString(R.string.error_bad_params));
             return;
-        } catch (final IllegalArgumentException e) {
+        }
+        catch (final IllegalArgumentException e) {
             Log.e(ES_GOB_AFIRMA, "Los datos recuperados no son un base64 valido", e); //$NON-NLS-1$
             showErrorMessage(getString(R.string.error_bad_params));
             return;
-        } catch (final Throwable e) {
+        }
+        catch (final Throwable e) {
             Log.e(ES_GOB_AFIRMA, "Error desconocido durante el descifrado de los datos", e); //$NON-NLS-1$
             showErrorMessage(getString(R.string.error_bad_params));
             return;
@@ -411,11 +417,13 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 
         try {
             this.parameters = ProtocolInvocationUriParser.getParametersToSign(decipheredData);
-        } catch (final ParameterException e) {
+        }
+        catch (final ParameterException e) {
             Log.e(ES_GOB_AFIRMA, "Error en los parametros XML de configuracion de firma: " + e.toString(), e); //$NON-NLS-1$
             showErrorMessage(getString(R.string.error_bad_params));
             return;
-        } catch (final Throwable e) {
+        }
+        catch (final Throwable e) {
             Log.e(ES_GOB_AFIRMA, "Error desconocido al analizar los datos descargados desde el servidor", e); //$NON-NLS-1$
             showErrorMessage(getString(R.string.error_bad_params));
             return;
@@ -430,7 +438,8 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
             // de cancelacion de la seleccion de fichero, en cuyo caso no deseamos que se vuelva a abrir
             if (!this.fileChooserOpenned) {
                 openSelectFileActivity();
-            } else {
+            }
+            else {
                 this.fileChooserOpenned = false;
             }
         }
@@ -439,11 +448,12 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
             showProgressDialog(getString(R.string.dialog_msg_signning));
             try {
                 sign(
-                        this.parameters.getOperation().name(),
-                        this.parameters.getData(),
-                        this.parameters.getSignatureFormat(),
-                        this.parameters.getSignatureAlgorithm(),
-                        this.parameters.getExtraParams());
+					this.parameters.getOperation().name(),
+					this.parameters.getData(),
+					this.parameters.getSignatureFormat(),
+					this.parameters.getSignatureAlgorithm(),
+					this.parameters.getExtraParams()
+				);
             }
             catch (final Exception e) {
                 Log.e(ES_GOB_AFIRMA, "Error durante la firma", e); //$NON-NLS-1$
@@ -459,7 +469,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	}
 
 	@Override
-	public void onSigningSuccess(final byte[] signature) {
+	public void onSigningSuccess(final SignResult signature) {
 
 		Log.i(ES_GOB_AFIRMA, " -- WebSignActivity onSigningSuccess");
 
@@ -468,7 +478,10 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		// Ciframos si nos dieron clave privada, si no subimos los datos sin cifrar
 		final String data;
 		try {
-			data = CipherDataManager.cipherData(signature, this.parameters.getDesKey());
+			data = CipherDataManager.cipherData(
+				signature.getSignature(),
+				this.parameters.getDesKey()
+			);
 		}
 		catch (final GeneralSecurityException e) {
 			Log.e(ES_GOB_AFIRMA, "Error en el cifrado de la firma", e); //$NON-NLS-1$
@@ -481,14 +494,32 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			return;
 		}
 
+		String signingCert;
+		try {
+			signingCert = CipherDataManager.cipherData(
+				signature.getSignature(),
+				this.parameters.getDesKey()
+			);
+		}
+		catch (final GeneralSecurityException e) {
+			Log.e(ES_GOB_AFIRMA, "Error en el cifrado del certificado de firma: " + e, e); //$NON-NLS-1$
+			signingCert = null;
+		}
+
 		//Si la aplicacion se ha llamado desde intent de firma devolvemos datos a la aplicacion llamante
 		if (getIntent().getAction() != null && getIntent().getAction().equals(INTENT_ENTRY_ACTION)){
 			Log.i(ES_GOB_AFIRMA, "Devolvemos datos a la app solicitante"); //$NON-NLS-1$
-			sendDataIntent(Activity.RESULT_OK, data);
+			sendDataIntent(
+				Activity.RESULT_OK,
+				signingCert != null ? data + CERT_SIGNATURE_SEPARATOR + signingCert : data
+			);
 		}
 		else {
 			Log.i(ES_GOB_AFIRMA, "Firma cifrada. Se envia al servidor."); //$NON-NLS-1$
-			sendData(data, true);
+			sendData(
+				signingCert != null ? data + CERT_SIGNATURE_SEPARATOR + signingCert : data,
+				true
+			);
 			Log.i(ES_GOB_AFIRMA, "Firma enviada."); //$NON-NLS-1$
 		}
 	}
@@ -498,7 +529,8 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		result.setData(Uri.parse(data));
 		if (getParent() == null) {
 			setResult(isOk, result);
-		} else {
+		}
+		else {
 			getParent().setResult(isOk, result);
 		}
 		finish();
@@ -515,7 +547,8 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 				showErrorMessage(getString(R.string.error_sending_data));
 				return;
 			}
-		} else {
+		}
+		else {
 			Log.i(ES_GOB_AFIRMA, "Resultado entregado satisfactoriamente."); //$NON-NLS-1$
 		}
 		closeActivity();
@@ -582,11 +615,11 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 					return;
 				}
 				catch (final Throwable e) {
-						Log.e(ES_GOB_AFIRMA, "Error desconocido al cargar el fichero", e); //$NON-NLS-1$
-						showErrorMessageOnToast(getString(R.string.error_loading_selected_file, filename));
-						e.printStackTrace();
-						return;
-					}
+					Log.e(ES_GOB_AFIRMA, "Error desconocido al cargar el fichero", e); //$NON-NLS-1$
+					showErrorMessageOnToast(getString(R.string.error_loading_selected_file, filename));
+					e.printStackTrace();
+					return;
+				}
 
 				this.parameters.setData(baos.toByteArray());
 
@@ -612,7 +645,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	}
 
 	/** Accion para el cierre de la actividad. */
-	private class CloseActivityDialogAction implements DialogInterface.OnClickListener {
+	private final class CloseActivityDialogAction implements DialogInterface.OnClickListener {
 
 		CloseActivityDialogAction() {
 			// Constructor vacio para evitar el sintetico
@@ -625,7 +658,6 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	}
 
 	static void closeActivity() {
-		//finish();
 		// Cerramos a la fuerza para, en siguientes ejecuciones, no se vuelvan a cargar los mismos datos
 		System.exit(0);
 	}
@@ -648,7 +680,6 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	protected void onStop() {
 		dismissProgressDialog();
 		dismissMessageDialog();
-		//EasyTracker.getInstance().activityStop(this);
 		super.onStop();
 	}
 
