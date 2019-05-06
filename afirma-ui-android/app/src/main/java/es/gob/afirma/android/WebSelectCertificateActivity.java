@@ -20,10 +20,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -58,8 +54,6 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	/** Juego de carateres UTF-8. */
 	private static final String DEFAULT_URL_ENCODING = "UTF-8"; //$NON-NLS-1$
 
-	private Tracker mTracker;
-
 	private UrlParametersToSelectCert parameters;
 
     private DownloadFileTask downloadFileTask = null;
@@ -79,9 +73,6 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 		super.onCreate(savedInstanceState);
 
 		Log.i(ES_GOB_AFIRMA, " -- WebSelectCertificateActivity onCreate");
-
-		GoogleAnalyticsApplication application = (GoogleAnalyticsApplication) getApplication();
-		mTracker = application.getDefaultTracker();
 
 		if (getIntent() == null || getIntent().getData() == null) {
 			Log.w(ES_GOB_AFIRMA, "No se han indicado parametros de entrada para la actividad");  //$NON-NLS-1$
@@ -240,9 +231,6 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 
 		Log.i(ES_GOB_AFIRMA, " -- WebSelectCertificateActivity onStart");
 
-		GoogleAnalytics.getInstance(this).reportActivityStart(this);
-		mTracker.setScreenName("WebSelectCertificateActivity");
-		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 	}
 
 	/** Env&iacute;a los datos indicado a un servlet. En caso de error, cierra la aplicaci&oacute;n.
@@ -395,15 +383,13 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 		if (this.parameters.getDesKey() != null) {
 			try {
 				data = CipherDataManager.cipherData(certificate, this.parameters.getDesKey());
-			} catch (final IOException e) {
-				Log.e(ES_GOB_AFIRMA, "Error al codificar los datos cifrados", e); //$NON-NLS-1$
-				launchError(ErrorManager.ERROR_CODING_BASE64, true);
-				return;
-			} catch (final GeneralSecurityException e) {
+			}
+			catch (final GeneralSecurityException e) {
 				Log.e(ES_GOB_AFIRMA, "Error en el cifrado del certificado", e); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_CIPHERING, true);
 				return;
-			} catch (final Throwable e) {
+			}
+			catch (final Throwable e) {
 				Log.e(ES_GOB_AFIRMA, "Error desconocido al cifrar el certificado", e); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_CIPHERING, true);
 				return;

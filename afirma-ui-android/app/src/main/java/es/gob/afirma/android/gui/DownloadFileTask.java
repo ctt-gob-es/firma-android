@@ -14,7 +14,6 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Properties;
 
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.misc.http.UrlHttpMethod;
@@ -63,9 +62,9 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 
 		Log.i(ES_GOB_AFIRMA, "Descargando datos de servidor remoto"); //$NON-NLS-1$
 
-		byte[] data;
+		final byte[] data;
 		try {
-			final StringBuffer url = new StringBuffer(this.retrieveServletUrl.toExternalForm());
+			final StringBuilder url = new StringBuilder(this.retrieveServletUrl.toExternalForm());
 			url.append("?op=").append(METHOD_OP_GET); //$NON-NLS-1$
 			url.append("&v=").append(SYNTAX_VERSION); //$NON-NLS-1$
 			url.append("&id=").append(this.fileId); //$NON-NLS-1$
@@ -147,11 +146,11 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 
 		/** Procesa los datos obtenidos de la descarga del fichero.
 		 * @param data Datos obtenidos de la descarga del fichero */
-		public void onDownloadingDataSuccess(byte[] data);
+		void onDownloadingDataSuccess(byte[] data);
 
 		/** Se ejecuta al producirse un error durante la descarga de datos.
 		 * @param msg Mensaje del error
 		 * @param t Error producido */
-		public void onDownloadingDataError(String msg, Throwable t);
+		void onDownloadingDataError(String msg, Throwable t);
 	}
 }

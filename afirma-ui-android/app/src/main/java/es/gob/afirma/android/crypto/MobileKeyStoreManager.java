@@ -43,7 +43,7 @@ public interface MobileKeyStoreManager {
     }
 
     /** Evento de selecci&oacute;n de una entrada que apunta a una clave privada. */
-    class SelectCertificateEvent {
+    final class SelectCertificateEvent {
 
         private final PrivateKeyEntry pke;
         private final Certificate[] certChain;
@@ -52,7 +52,7 @@ public interface MobileKeyStoreManager {
         /** Construye un evento de selecci&oacute;n de certificado.
          * @param p Entrada que apunta al par una clave privada y la cadena de certificaci&oacute;n
          *          del certificado seleccionada */
-        public SelectCertificateEvent(final PrivateKeyEntry p) {
+        SelectCertificateEvent(final PrivateKeyEntry p) {
             this.pke = p;
             this.certChain = p.getCertificateChain();
             this.e = null;
@@ -60,7 +60,7 @@ public interface MobileKeyStoreManager {
 
         /** Construye un evento de selecci&oacute;n de certificado.
          * @param certChain Cadena de certificaci&oacute;n del certificado seleccionado. */
-        public SelectCertificateEvent(final Certificate[] certChain) {
+        SelectCertificateEvent(final Certificate[] certChain) {
             this.pke = null;
             this.certChain = certChain;
             this.e = null;

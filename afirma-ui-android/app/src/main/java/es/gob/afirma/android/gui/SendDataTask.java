@@ -29,25 +29,12 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
-	final String id;
-	final String servletUrl;
-	final String dataB64;
-	final SendDataListener listener;
-	final boolean critical;
-	Throwable error = null;
-
-	/** Crea la tarea con los datos necesarios para el intercambio.
-	 * @param id Identificador del intercambio.
-	 * @param servletUrl URL del servlet para la subida de datos.
-	 * @param dataB64 Datos en base 64 que se desean enviar.
-	 * @param listener Clase a la que se notifica el resultado del env&iacute;o de datos */
-	public SendDataTask(final String id, final String servletUrl, final String dataB64, final SendDataListener listener) {
-		this.id = id;
-		this.servletUrl = servletUrl;
-		this.dataB64 = dataB64;
-		this.listener = listener;
-		this.critical = false;
-	}
+	private final String id;
+	private final String servletUrl;
+	private final String dataB64;
+	private final SendDataListener listener;
+	private final boolean critical;
+	private Throwable error = null;
 
 	/** Crea la tarea con los datos necesarios para el intercambio, permitiendo que se indique si la
 	 * entrega de estos datos es un proceso cr&iacute;tico para la ejecuci&oacute;n del procedimiento.
@@ -70,7 +57,7 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 
 		final byte[] result;
 		try {
-			final StringBuffer url = new StringBuffer(this.servletUrl);
+			final StringBuilder url = new StringBuilder(this.servletUrl);
 			url.append("?op=").append(METHOD_OP_PUT); //$NON-NLS-1$
 			url.append("&v=").append(SYNTAX_VERSION); //$NON-NLS-1$
 			url.append("&id=").append(this.id); //$NON-NLS-1$

@@ -24,10 +24,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -73,7 +69,6 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 
 	private String initialDirectoryName = null;
 
-	private Tracker mTracker;
 	private UrlParametersToSave parameters = null;
 	UrlParametersToSave getParameters() {
 		return this.parameters;
@@ -90,9 +85,6 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		GoogleAnalyticsApplication application = (GoogleAnalyticsApplication) getApplication();
-		mTracker = application.getDefaultTracker();
 
 		if (getIntent() == null || getIntent().getData() == null) {
 			Log.w(ES_GOB_AFIRMA, "No se han indicado parametros de entrada para la actividad"); //$NON-NLS-1$
@@ -197,11 +189,6 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		GoogleAnalytics.getInstance(this).reportActivityStart(this);
-		mTracker.setScreenName("SaveDataActivity");
-		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-		//EasyTracker.getInstance().activityStart(this);
 
 		findViewById(R.id.saveButton).setOnClickListener(new SaveDataAction(this));
 

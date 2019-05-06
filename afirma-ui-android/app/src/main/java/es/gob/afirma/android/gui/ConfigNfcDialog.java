@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
 import es.gob.afirma.R;
@@ -29,6 +30,7 @@ public class ConfigNfcDialog extends DialogFragment {
 		setArguments(new Bundle());
 	}
 
+	@NonNull
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState){
 
@@ -43,7 +45,7 @@ public class ConfigNfcDialog extends DialogFragment {
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(final DialogInterface dialog, final int which) {
-						NfcHelper.configureNfcAsPreferredConnection(getContext(), true);
+						NfcHelper.configureNfcAsPreferredConnection(true);
 						dialog.dismiss();
 					}
 				})
@@ -54,7 +56,7 @@ public class ConfigNfcDialog extends DialogFragment {
 	public void onDismiss(DialogInterface dialog) {
 
 		// Cuando se cierre el dialogo dejara de estar configurado que era la primera ejecucion
-		AppConfig.setFirstExecution(getActivity(), false);
+		AppConfig.setFirstExecution(false);
 
 		super.onDismiss(dialog);
 	}

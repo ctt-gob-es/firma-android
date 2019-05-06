@@ -27,10 +27,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -75,8 +71,6 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	/** Codigo de petici\u00F3n usado para invocar a la actividad que selecciona el fichero para firmar. */
 	private static final int SELECT_FILE_REQUEST_CODE = 102;
 
-	private Tracker mTracker;
-
 	private boolean fileChooserOpenned;
 
 	private UrlParametersToSign parameters;
@@ -100,9 +94,6 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		super.onCreate(savedInstanceState);
 
 		Log.i(ES_GOB_AFIRMA, " -- WebSignActivity onCreate");
-
-		GoogleAnalyticsApplication application = (GoogleAnalyticsApplication) getApplication();
-		mTracker = application.getDefaultTracker();
 
 		if (getIntent() == null || getIntent().getData() == null) {
 			Log.w(ES_GOB_AFIRMA, "No se han indicado parametros de entrada para la actividad");  //$NON-NLS-1$
@@ -160,18 +151,16 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_WRITE_STORAGE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.i("es.gob.afirma", "Concedido permiso de escritura en memoria");
-                    processSignRequest();
-                }
-                else {
-                    // Si no nos dan los permisos, directamente cerramos la aplicacion
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(1);
-                }
-            }
+        if (requestCode == REQUEST_WRITE_STORAGE) {
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				Log.i("es.gob.afirma", "Concedido permiso de escritura en memoria");
+				processSignRequest();
+			}
+			else {
+				// Si no nos dan los permisos, directamente cerramos la aplicacion
+				android.os.Process.killProcess(android.os.Process.myPid());
+				System.exit(1);
+			}
         }
     }
 
@@ -218,13 +207,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	@Override
 	public void onStart() {
 		super.onStart();
-
 		Log.i(ES_GOB_AFIRMA, " -- WebSignActivity onStart");
-
-		GoogleAnalytics.getInstance(this).reportActivityStart(this);
-		mTracker.setScreenName("SignDataActivity");
-		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-		//EasyTracker.getInstance().activityStart(this);
 	}
 
 	/** Identifica las extensiones de los ficheros que se pueden firmar con un formato de firma.
@@ -461,10 +444,10 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
                         this.parameters.getSignatureFormat(),
                         this.parameters.getSignatureAlgorithm(),
                         this.parameters.getExtraParams());
-            } catch (final Exception e) {
+            }
+            catch (final Exception e) {
                 Log.e(ES_GOB_AFIRMA, "Error durante la firma", e); //$NON-NLS-1$
                 showErrorMessage(getString(R.string.error_signing_config));
-                return;
             }
         }
 	}
@@ -486,11 +469,6 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		final String data;
 		try {
 			data = CipherDataManager.cipherData(signature, this.parameters.getDesKey());
-		}
-		catch (final IOException e) {
-			Log.e(ES_GOB_AFIRMA, "Error al codificar los datos cifrados", e); //$NON-NLS-1$
-			launchError(ErrorManager.ERROR_CODING_BASE64, true);
-			return;
 		}
 		catch (final GeneralSecurityException e) {
 			Log.e(ES_GOB_AFIRMA, "Error en el cifrado de la firma", e); //$NON-NLS-1$

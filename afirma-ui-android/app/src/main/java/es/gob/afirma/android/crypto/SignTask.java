@@ -10,9 +10,7 @@
 
 package es.gob.afirma.android.crypto;
 
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -21,7 +19,6 @@ import java.security.KeyStore.PrivateKeyEntry;
 import java.util.Locale;
 import java.util.Properties;
 
-import es.gob.afirma.R;
 import es.gob.afirma.core.AOException;
 import es.gob.afirma.core.AOUnsupportedSignFormatException;
 import es.gob.afirma.core.misc.protocol.UrlParametersToSign.Operation;
@@ -48,8 +45,6 @@ public class SignTask extends AsyncTask<Void, Void, byte[]>{
 
 	private static final String SIGN_FORMAT_AUTO = "AUTO"; //$NON-NLS-1$
 
-	private final Context context;
-
 	private final Operation op;
 	private final byte[] data;
 	private final String format;
@@ -69,16 +64,13 @@ public class SignTask extends AsyncTask<Void, Void, byte[]>{
 	 * @param pke Clave privada para la firma.
 	 * @param extraParams Par&aacute;metros adicionales para la configuraci&oacute;n de la firma.
 	 * @param signListener Manejador para el tratamiento del resultado de la firma. */
-	public SignTask(final Context context,
-					final Operation op,
+	public SignTask(final Operation op,
 					final byte[] data,
 					final String format,
 					final String algorithm,
 					final PrivateKeyEntry pke,
 					final Properties extraParams,
 					final SignListener signListener) {
-
-		this.context = context;
 
 		this.op = op;
 		this.data = data;

@@ -11,6 +11,7 @@
 package es.gob.afirma.android.gui;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,8 +50,9 @@ public final class FileArrayAdapter extends ArrayAdapter<FileOption> {
 		return this.items.get(i);
 	}
 
+	@NonNull
 	@Override
-	public View getView(final int position, final View convertView, final ViewGroup parent) {
+	public View getView(final int position, final View convertView, @NonNull final ViewGroup parent) {
 		View v = convertView;
 		if (v == null) {
 			final LayoutInflater vi = (LayoutInflater) this.c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -58,7 +60,7 @@ public final class FileArrayAdapter extends ArrayAdapter<FileOption> {
 		}
 		final FileOption o = this.items.get(position);
 		if (o != null) {
-			final ImageView icon = (ImageView) v.findViewById(R.id.fileIcon);
+			final ImageView icon = v.findViewById(R.id.fileIcon);
 			final TextView t1 = (TextView) v.findViewById(R.id.TextView01);
 			final TextView t2 = (TextView) v.findViewById(R.id.TextView02);
 
@@ -107,7 +109,7 @@ public final class FileArrayAdapter extends ArrayAdapter<FileOption> {
 	private static String addDotMiles(final long number) {
 
 		final String nString = Long.toString(number);
-		final StringBuffer buffer = new StringBuffer();
+		final StringBuilder buffer = new StringBuilder();
 		if (nString.length() > 3) {
 			int dotPos = nString.length() % 3;
 			if (dotPos > 0) {

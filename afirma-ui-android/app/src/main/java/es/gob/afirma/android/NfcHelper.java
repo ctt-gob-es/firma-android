@@ -1,12 +1,8 @@
 package es.gob.afirma.android;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
-import android.util.Log;
-
-import java.util.prefs.Preferences;
 
 import es.gob.afirma.android.gui.AppConfig;
 
@@ -21,7 +17,7 @@ public class NfcHelper {
      * @param context Contexto de la aplicaci&oacute;n.
      * @return {@code true} si el dispositivo tiene NFC, {@code false} en caso contrario.
      */
-    public static boolean isNfcServiceAvailable(final Context context) {
+    static boolean isNfcServiceAvailable(final Context context) {
         final NfcManager manager = (NfcManager) context.getSystemService(Context.NFC_SERVICE);
         return manager != null && manager.getDefaultAdapter() != null;
     }
@@ -31,7 +27,7 @@ public class NfcHelper {
      * @param context Contexto de la aplicaci&oacute;n.
      * @return {@code true} si el dispositivo tiene habilitado NFC, {@code false} en caso contrario.
      */
-    public static boolean isNfcServiceEnabled(final Context context) {
+    static boolean isNfcServiceEnabled(final Context context) {
         final NfcManager manager = (NfcManager) context.getSystemService(Context.NFC_SERVICE);
         if (manager == null) {
             return false;
@@ -50,12 +46,9 @@ public class NfcHelper {
         return AppConfig.isUseNfcConnection(context);
     }
 
-    /**
-     * Configura si debe intentarse utilizar el DNIe 3.0 mediante NFC.
-     * @param context Contexto sobre el que se ejecuta la operaci&oacute;n.
-     * @param preferred Indica si se debe usar NFC o no.
-     */
-    public static void configureNfcAsPreferredConnection(Context context, boolean preferred) {
-        AppConfig.setUseNfcConnection(context, preferred);
+    /** Configura si debe intentarse utilizar el DNIe 3.0 mediante NFC.
+     * @param preferred Indica si se debe usar NFC o no. */
+    public static void configureNfcAsPreferredConnection(boolean preferred) {
+        AppConfig.setUseNfcConnection(preferred);
     }
 }

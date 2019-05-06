@@ -20,7 +20,6 @@ import android.util.Log;
 import java.security.KeyStore;
 
 import es.gob.afirma.R;
-import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 
 /** Tarea de carga e inicializaci&oacute;n del gestor de claves y certificados en Android. */
 public final class LoadKeyStoreManagerTask extends AsyncTask<Void, Void, KeyStore> {
@@ -92,7 +91,7 @@ public final class LoadKeyStoreManagerTask extends AsyncTask<Void, Void, KeyStor
 		super.onPostExecute(o);
 		// Se cargan los certificados del keystore
 		if (o != null) {
-			new LoadCertificatesTask((KeyStore) o, this.kmListener, this.activity).execute();
+			new LoadCertificatesTask(o, this.kmListener, this.activity).execute();
 		}
 		if (getProgressDialog().isShowing()) {
 			getProgressDialog().dismiss();
@@ -113,10 +112,10 @@ public final class LoadKeyStoreManagerTask extends AsyncTask<Void, Void, KeyStor
 		this.kmListener.onLoadingKeyStoreError(msg, t);
 	}
 
-	ProgressDialog getProgressDialog() {
+	private ProgressDialog getProgressDialog() {
 		return this.progressDialog;
 	}
-	void setProgressDialog(final ProgressDialog pd) {
+	private void setProgressDialog(final ProgressDialog pd) {
 		this.progressDialog = pd;
 	}
 }

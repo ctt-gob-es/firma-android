@@ -22,24 +22,24 @@ final class ErrorManager {
 
 	private static final String GENERIC_ERROR = "Error generico"; //$NON-NLS-1$
 
-	static final String ERROR_MISSING_OPERATION_NAME     = "ERR-00"; //$NON-NLS-1$
-	static final String ERROR_UNSUPPORTED_OPERATION_NAME = "ERR-01"; //$NON-NLS-1$
-	static final String ERROR_MISSING_DATA               = "ERR-02"; //$NON-NLS-1$
-	static final String ERROR_BAD_XML                    = "ERR-03"; //$NON-NLS-1$
-	static final String ERROR_BAD_CERTIFICATE            = "ERR-04"; //$NON-NLS-1$
-	static final String ERROR_MISSING_DATA_ID            = "ERR-05"; //$NON-NLS-1$
-	static final String ERROR_INVALID_DATA_ID            = "ERR-06"; //$NON-NLS-1$
-	static final String ERROR_INVALID_DATA               = "ERR-07"; //$NON-NLS-1$
-	static final String ERROR_MISSING_SERVLET      		 = "ERR-08"; //$NON-NLS-1$
-	static final String ERROR_INVALID_SERVLET        	 = "ERR-09"; //$NON-NLS-1$
+	private static final String ERROR_MISSING_OPERATION_NAME     = "ERR-00"; //$NON-NLS-1$
+	private static final String ERROR_UNSUPPORTED_OPERATION_NAME = "ERR-01"; //$NON-NLS-1$
+	private static final String ERROR_MISSING_DATA               = "ERR-02"; //$NON-NLS-1$
+	private static final String ERROR_BAD_XML                    = "ERR-03"; //$NON-NLS-1$
+	private static final String ERROR_BAD_CERTIFICATE            = "ERR-04"; //$NON-NLS-1$
+	private static final String ERROR_MISSING_DATA_ID            = "ERR-05"; //$NON-NLS-1$
+	private static final String ERROR_INVALID_DATA_ID            = "ERR-06"; //$NON-NLS-1$
+	private static final String ERROR_INVALID_DATA               = "ERR-07"; //$NON-NLS-1$
+	private static final String ERROR_MISSING_SERVLET      		 = "ERR-08"; //$NON-NLS-1$
+	private static final String ERROR_INVALID_SERVLET        	 = "ERR-09"; //$NON-NLS-1$
 	static final String ERROR_NOT_SUPPORTED_FORMAT       = "ERR-10"; //$NON-NLS-1$
 	static final String ERROR_CANCELLED_OPERATION        = "ERR-11"; //$NON-NLS-1$
 	static final String ERROR_CODING_BASE64				 = "ERR-12"; //$NON-NLS-1$
 	static final String ERROR_PKE       				 = "ERR-13"; //$NON-NLS-1$
 	static final String ERROR_SIGNING       			 = "ERR-14"; //$NON-NLS-1$
-	static final String ERROR_INVALID_CIPHER_KEY         = "ERR-15"; //$NON-NLS-1$
+	private static final String ERROR_INVALID_CIPHER_KEY         = "ERR-15"; //$NON-NLS-1$
 	static final String ERROR_CIPHERING			         = "ERR-16"; //$NON-NLS-1$
-	static final String ERROR_NO_CERT_SELECTED			 = "ERR-17"; //$NON-NLS-1$
+	private static final String ERROR_NO_CERT_SELECTED			 = "ERR-17"; //$NON-NLS-1$
 	static final String ERROR_PKE_ANDROID_4_1			 = "ERR-21"; //$NON-NLS-1$
 	static final String ERROR_BAD_PARAMETERS			 = "ERR-22"; //$NON-NLS-1$
 	static final String ERROR_ESTABLISHING_KEYSTORE		 = "ERR-23"; //$NON-NLS-1$
@@ -47,7 +47,7 @@ final class ErrorManager {
 	static final String ERROR_SELECTING_CERTIFICATE		 = "ERR-25"; //$NON-NLS-1$
 
 
-	private static final Dictionary<String, String> ERRORS = new Hashtable<String, String>();
+	private static final Dictionary<String, String> ERRORS = new Hashtable<>();
 	static {
 		ERRORS.put(ERROR_MISSING_OPERATION_NAME, "No se ha indicado codigo de operacion"); //$NON-NLS-1$
 		ERRORS.put(ERROR_UNSUPPORTED_OPERATION_NAME, "Codigo de operacion no soportado"); //$NON-NLS-1$
@@ -86,10 +86,4 @@ final class ErrorManager {
 						);
 	}
 
-	/** Recupera el mensaje asociado a un c&oacute;digo de error.
-	 * @param code C&oacute;digo de error.
-	 * @return Mensaje. */
-	static String getErrorMessage(final String code) {
-		return ERRORS.get(code);
-	}
 }

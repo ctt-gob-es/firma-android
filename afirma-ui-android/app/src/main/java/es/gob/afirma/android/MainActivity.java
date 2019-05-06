@@ -23,9 +23,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,10 +30,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -71,8 +64,6 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 
 	private final static int SELECT_CERT_REQUEST_CODE = 1;
 
-	private Tracker mTracker;
-
     /** Indica si tenemos o no permiso de escritura en almacenamiento. */
     private boolean writePerm = false;
 
@@ -91,9 +82,6 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		GoogleAnalyticsApplication application = (GoogleAnalyticsApplication) getApplication();
-		mTracker = application.getDefaultTracker();
-
 		if (!nfcAvailableChecked) {
 			nfcAvailable = NfcHelper.isNfcServiceAvailable(this);
 			nfcAvailableChecked = true;
@@ -101,7 +89,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 
 		if (nfcAvailable && AppConfig.isFirstExecution(this)) {
 			new ConfigNfcDialog().show(getSupportFragmentManager(), "enableNfcDialog");
-			AppConfig.setFirstExecution(this, false);
+			AppConfig.setFirstExecution(false);
 		}
 
         writePerm = (
@@ -250,9 +238,6 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 	@Override
 	protected void onResume() {
 		super.onResume();
-		GoogleAnalytics.getInstance(this).reportActivityStart(this);
-		mTracker.setScreenName("MainActivity");
-		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 	}
 
 	@Override

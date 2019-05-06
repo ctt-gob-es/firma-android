@@ -150,7 +150,6 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			return;
 		}
 		new SignTask(
-			this,
 			this.signOperation,
 			this.dataToSign,
 			this.format,

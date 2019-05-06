@@ -167,7 +167,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 		// Comprobamos que tenemos permisos de lectura sobre el directorio en el que se encuentra el fichero origen
 		boolean originalDirectory;
-		String outDirectory = null;
+		final String outDirectory;
 		if (new File(this.fileName).getParentFile().canWrite()) {
 			Log.d(ES_GOB_AFIRMA, "La firma se guardara en el directorio del fichero de entrada"); //$NON-NLS-1$
 			outDirectory = new File(this.fileName).getParent();
@@ -271,7 +271,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 				R.string.signedfile_original_location :
 					R.string.signedfile_downloads_location, filename));
 
-		final RelativeLayout rl = (RelativeLayout) findViewById(R.id.signedfile_correct);
+		final RelativeLayout rl = findViewById(R.id.signedfile_correct);
 		rl.setVisibility(View.VISIBLE);
 	}
 

@@ -20,19 +20,17 @@ import java.util.Locale;
  * @author Astrid Idoate
  *
  */
-public class CertificateInfoForAliasSelect implements Serializable {
-
+public final class CertificateInfoForAliasSelect implements Serializable {
 
 	/** Serial ID. */
 	private static final long serialVersionUID = 1L;
 
-	String commonName;
-	Date notAfterDate;
-	Date notBeforeDate;
-	String alias;
-	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", new Locale("ES")); //$NON-NLS-1$ //$NON-NLS-2$
-	String issuer;
-
+	private String commonName;
+	private Date notAfterDate;
+	private Date notBeforeDate;
+	private String alias;
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", new Locale("ES")); //$NON-NLS-1$ //$NON-NLS-2$
+	private String issuer;
 
 	/**
 	 * @param commonName Nombre com&uacute;n del certificado.
@@ -49,76 +47,39 @@ public class CertificateInfoForAliasSelect implements Serializable {
 		this.issuer = issuer;
 	}
 
-
 	/** Devuelve la fecha de expiraci&oacute;n del certificado.
 	 * @return notAfterDate fecha de expiraci&oacute;n del certificado.
 	 */
-	public String getNotAfterDate(){
+	String getNotAfterDate(){
 		return this.sdf.format(this.notAfterDate);
 	}
-
 
 	/** Devuelve la fecha de comienzo de validez del certificado.
 	 * @return notBeforeDate fecha en la que comienza la validez del certificado.
 	 */
-	public String getNotBeforeDate(){
+	String getNotBeforeDate(){
 		return this.sdf.format(this.notBeforeDate);
 	}
 
 	/** Devuelve el nombre com&uacute;n del certificado
 	 * @return commonName nombre com&uacute;n del certificado.
 	 */
-	public String getCommonName(){
+	String getCommonName(){
 		return this.commonName;
 	}
 
 	/** Devuelve el alias del certificado.
 	 * @return alias Alias del certificado.
 	 */
-	public String getAlias(){
+	String getAlias(){
 		return this.alias;
 	}
 
 	/** Devuelve el nombre del emisor del certificado.
 	 * @return issuer Emisor del certificado.
 	 */
-	public String getIssuer(){
+	String getIssuer(){
 		return this.issuer;
-	}
-
-	/**
-	 * @param date fecha de expiraci&oacute;n del certificado.
-	 */
-	public void setNotAfterDate(final Date date){
-		this.notAfterDate = date;
-	}
-
-	/**
-	 * @param date fecha comienzo de validez del certificado.
-	 */
-	public void setNotBeforeDate(final Date date){
-		this.notBeforeDate = date;
-	}
-
-	/**
-	 * @param name nombre com&uacute;n del certificado.
-	 */
-	public void setCommonName(final String name){
-		this.commonName=name;
-	}
-
-	/**
-	 * @param alias Alias del certificado.
-	 */
-	public void setAlias(final String alias){
-		this.alias = alias;
-	}
-
-	/**
-	 * @param issuer Emisor del certificado.
-	 */
-	public void setIssuer(final String issuer){
-		this.issuer = issuer;
 	}
 
 }

@@ -81,7 +81,7 @@ public final class FileOption implements Comparable<FileOption> {
 	/** Devuelve el tama&ntilde;o del fichero.
 	 * @return Tama&ntilde;o del fichero. Si es un directorio, devuelve 0.
 	 */
-	public long getSize() {
+	long getSize() {
 		return this.size;
 	}
 

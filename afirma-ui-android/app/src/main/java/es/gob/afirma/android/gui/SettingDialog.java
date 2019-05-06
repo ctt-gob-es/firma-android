@@ -14,8 +14,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,13 +28,12 @@ import es.gob.afirma.android.NfcHelper;
 
 public class SettingDialog extends DialogFragment {
 
-	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
-
 	/** Construye un di&acute;logo para la configuraci&oacute;n de la aplicaci&oacute;n. */
 	public SettingDialog() {
 		setArguments(new Bundle());
 	}
 
+	@NonNull
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState){
 
@@ -58,8 +57,8 @@ public class SettingDialog extends DialogFragment {
 					@Override
 					public void onClick(final DialogInterface dialog, final int which) {
 
-						final CheckBox ckbUseNfc = (CheckBox) view.findViewById(R.id.ckbUseNfc);
-						NfcHelper.configureNfcAsPreferredConnection(getContext(), ckbUseNfc.isChecked());
+						final CheckBox ckbUseNfc = view.findViewById(R.id.ckbUseNfc);
+						NfcHelper.configureNfcAsPreferredConnection(ckbUseNfc.isChecked());
 						dialog.dismiss();
 					}
 				})

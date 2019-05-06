@@ -15,6 +15,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -25,24 +26,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.crypto.LoadKeyStoreManagerTask;
 import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 
 /** Di&acute;logo para introducir el PIN.
  * Se usa en almacenes distintos al del propio sistema operativo Android.
  * @author Astrid Idoate */
 
-public class CanDialog extends DialogFragment {
+public final class CanDialog extends DialogFragment {
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
 	//public static CachePasswordCallback passwordCallback;
 	private CanResult canResult;
-
-	private LoadKeyStoreManagerTask ksmTask = null;
-	LoadKeyStoreManagerTask getKsmTask() {
-		return this.ksmTask;
-	}
 
 	/** Construye un di&acute;logo para introducir el CAN. */
 	public CanDialog() {
@@ -66,6 +61,7 @@ public class CanDialog extends DialogFragment {
 		this.canResult = canResult;
 	}
 
+	@NonNull
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState){
 
@@ -92,7 +88,7 @@ public class CanDialog extends DialogFragment {
 				)
 				.create();
 
-		final EditText editTextPin = (EditText) view.findViewById(R.id.etPin);
+		final EditText editTextPin = view.findViewById(R.id.etPin);
 
 		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 

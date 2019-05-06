@@ -104,9 +104,8 @@ public final class CipherDataManager {
 	 * @return Cadena con el numero de caracteres agregados manualmente para cumplir la longitud requerida,
 	 * el caracter separador y los datos cifrados y en base 64.
 	 * @throws InvalidKeyException Cuando la clave no es v&aacute;lida.
-	 * @throws GeneralSecurityException Cuando falla el proceso de cifrado.
-	 * @throws IOException Si hay errores en el propio proceso de cifrado o en el tratamiento general de los datos. */
-	public static String cipherData(final byte[] data, final byte[] cipherKey) throws InvalidKeyException, GeneralSecurityException, IOException {
+	 * @throws GeneralSecurityException Cuando falla el proceso de cifrado. */
+	public static String cipherData(final byte[] data, final byte[] cipherKey) throws InvalidKeyException, GeneralSecurityException {
 		return getNeededPaddingAsString(data) + PADDING_CHAR_SEPARATOR + Base64.encode(cipher(data, cipherKey), true);
 	}
 

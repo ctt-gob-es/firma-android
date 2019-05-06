@@ -24,9 +24,8 @@ public final class AndroidJcaKeyStoreManager implements MobileKeyStoreManager {
 
 	/** Construye un gestor simple de claves y certificados a partir de un almac&eacute;n JCE/JCA.
 	 * @param alias Alias preseleccionado
-	 * @param ks KeyStore origen, debe estar previamente inicializado y cargado
-	 * @param pin Contrase&ntilde;a del almac&eacute;n o {@code null} si no aplica. */
-	public AndroidJcaKeyStoreManager(final String alias, final KeyStore ks, final char[] pin) {
+	 * @param ks KeyStore origen, debe estar previamente inicializado y cargado. */
+	public AndroidJcaKeyStoreManager(final String alias, final KeyStore ks) {
 
 		if (ks == null) {
 			throw new IllegalArgumentException("El almacen de claves es nulo"); //$NON-NLS-1$

@@ -14,6 +14,7 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -24,7 +25,6 @@ import android.widget.EditText;
 import es.gob.afirma.R;
 import es.gob.afirma.android.crypto.KeyStoreManagerListener;
 import es.gob.afirma.android.crypto.LoadDeviceKeystoreAsyncTask;
-import es.gob.afirma.android.crypto.LoadKeyStoreManagerTask;
 
 /** Di&acute;logo para introducir el PIN.
  * Se usa en almacenes distintos al del propio sistema operativo Android.
@@ -82,6 +82,7 @@ public class PinDialog extends DialogFragment {
 	}
 
 
+	@NonNull
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState){
 
@@ -97,7 +98,7 @@ public class PinDialog extends DialogFragment {
 		final LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 		final View view = layoutInflater.inflate(R.layout.dialog_pin, null);
 
-		final EditText editTextPin = (EditText) view.findViewById(R.id.etPin);
+		final EditText editTextPin = view.findViewById(R.id.etPin);
 		alertDialogBuilder.setView(view);
 		alertDialogBuilder.setNegativeButton(
 			getActivity().getString(R.string.cancel_nfc),
@@ -140,7 +141,6 @@ public class PinDialog extends DialogFragment {
 							getActivity().getString(R.string.error_pin_nulo), null
 						);
 					}
-					return;
 				}
 			}
 		});

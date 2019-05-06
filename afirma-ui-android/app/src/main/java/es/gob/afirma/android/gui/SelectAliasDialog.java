@@ -15,6 +15,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -71,8 +72,7 @@ public final class SelectAliasDialog extends DialogFragment {
 			SelectAliasDialog.this.getKsmListener().onLoadingKeyStoreSuccess(
 					new AndroidJcaKeyStoreManager(
 							getAlias(),
-							SelectAliasDialog.this.getKs(),
-							getPin()
+							SelectAliasDialog.this.getKs()
 					)
 			);
 		}
@@ -114,7 +114,7 @@ public final class SelectAliasDialog extends DialogFragment {
 		return this.ksmListener;
 	}
 
-	@SuppressWarnings("unchecked")
+	@NonNull
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState) {
 
@@ -160,8 +160,7 @@ public final class SelectAliasDialog extends DialogFragment {
 					SelectAliasDialog.this.getKsmListener().onLoadingKeyStoreSuccess(
 						new AndroidJcaKeyStoreManager(
 							getAlias(),
-							SelectAliasDialog.this.getKs(),
-							getPin()
+							SelectAliasDialog.this.getKs()
 						)
 					);
 					dlg.dismiss();

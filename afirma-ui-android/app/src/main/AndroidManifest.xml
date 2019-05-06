@@ -32,31 +32,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.google.android.gms.analytics.globalConfigResource"
-            android:resource="@xml/analytics_global_tracker" />
-
-        <service
-            android:name="com.google.android.gms.analytics.AnalyticsService"
-            android:enabled="true"
-            android:exported="false" />
-
-        <receiver
-            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
         <activity
             android:name=".android.MainActivity"
@@ -80,10 +55,10 @@
         </activity>
         <activity
             android:name=".android.FileChooserActivity"
-            android:label="@string/title_activity_cert_chooser"></activity>
+            android:label="@string/title_activity_cert_chooser" />
         <activity
             android:name=".android.LocalSignResultActivity"
-            android:label="@string/title_activity_save_data"></activity>
+            android:label="@string/title_activity_save_data" />
         <activity
             android:name=".android.WebSignActivity"
             android:label="@string/title_activity_sign_data"

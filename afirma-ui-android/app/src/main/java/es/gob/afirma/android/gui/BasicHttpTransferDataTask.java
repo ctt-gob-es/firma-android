@@ -59,7 +59,7 @@ public abstract class BasicHttpTransferDataTask extends AsyncTask<Void, Void, by
 	private static final String JAVA_PARAM_ENABLE_SSL_CHECKS = "enableSslChecks"; //$NON-NLS-1$
 
 	/** Tiempo de espera por defecto para descartar una conexi&oacute;n HTTP. */
-	public static final int DEFAULT_TIMEOUT = -1;
+	private static final int DEFAULT_TIMEOUT = -1;
 
 	private static final String HTTPS = "https"; //$NON-NLS-1$
 
@@ -216,7 +216,7 @@ public abstract class BasicHttpTransferDataTask extends AsyncTask<Void, Void, by
         conn.setRequestMethod(method.toString());
 
         if (requestProperties != null) {
-            for (String key : requestProperties.keySet().toArray(new String[requestProperties.size()])) {
+            for (final String key : requestProperties.keySet().toArray(new String[requestProperties.size()])) {
                 conn.addRequestProperty(key, requestProperties.getProperty(key)); //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
@@ -260,7 +260,7 @@ public abstract class BasicHttpTransferDataTask extends AsyncTask<Void, Void, by
 
 	/** Habilita las comprobaciones de certificados en conexiones SSL dej&aacute;ndolas con su
 	 * comportamiento por defecto. */
-	public static void enableSslChecks() {
+	private static void enableSslChecks() {
 		HttpsURLConnection.setDefaultSSLSocketFactory(DEFAULT_SSL_SOCKET_FACTORY);
 		HttpsURLConnection.setDefaultHostnameVerifier(DEFAULT_HOSTNAME_VERIFIER);
 	}
@@ -272,15 +272,13 @@ public abstract class BasicHttpTransferDataTask extends AsyncTask<Void, Void, by
 	 * @throws KeyStoreException Si no se puede cargar el KeyStore SSL.
 	 * @throws IOException Si hay errores en la carga del fichero KeyStore SSL.
 	 * @throws CertificateException Si los certificados del KeyStore SSL son inv&aacute;lidos.
-	 * @throws UnrecoverableKeyException Si una clave del KeyStore SSL es inv&aacute;lida.
-	 * @throws NoSuchProviderException Si ocurre un error al recuperar la instancia del Keystore.*/
-	public static void disableSslChecks() throws KeyManagementException,
+	 * @throws UnrecoverableKeyException Si una clave del KeyStore SSL es inv&aacute;lida. */
+	private static void disableSslChecks() throws KeyManagementException,
 			NoSuchAlgorithmException,
 			KeyStoreException,
 			UnrecoverableKeyException,
 			CertificateException,
-			IOException,
-			NoSuchProviderException {
+			IOException {
 		final SSLContext sc = SSLContext.getInstance(SSL_CONTEXT);
 		sc.init(getKeyManager(), DUMMY_TRUST_MANAGER, new java.security.SecureRandom());
 		HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
@@ -302,14 +300,12 @@ public abstract class BasicHttpTransferDataTask extends AsyncTask<Void, Void, by
 	 * @throws CertificateException Si los certificados del KeyStore SSL son inv&aacute;lidos.
 	 * @throws IOException Si hay errores en la carga del fichero KeyStore SSL.
 	 * @throws UnrecoverableKeyException Si una clave del KeyStore SSL es inv&aacute;lida.
-	 * @throws NoSuchProviderException Si ocurre un error al recuperar la instancia del Keystore.
 	 */
 	private static KeyManager[] getKeyManager() throws KeyStoreException,
 			NoSuchAlgorithmException,
 			CertificateException,
 			IOException,
-			UnrecoverableKeyException,
-			NoSuchProviderException {
+			UnrecoverableKeyException {
 		final String keyStore = System.getProperty(KEYSTORE);
 		final String keyStorePassword = System.getProperty(KEYSTORE_PASS);
 		final String keyStoreType = System.getProperty(KEYSTORE_TYPE);
@@ -348,7 +344,7 @@ public abstract class BasicHttpTransferDataTask extends AsyncTask<Void, Void, by
 	 * @throws AOCancelledOperationException Cuando se cancela la tarea. */
 	private byte[] readDataFromInputStream(final InputStream is) throws IOException {
 
-		int n = 0;
+		int n;
 		final byte[] buffer = new byte[1024];
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		while ((n = is.read(buffer)) > 0) {
