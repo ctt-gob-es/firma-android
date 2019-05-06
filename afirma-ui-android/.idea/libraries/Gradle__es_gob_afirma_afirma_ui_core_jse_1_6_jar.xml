@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: es.gob.afirma:afirma-ui-core-jse:1.6@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/es.gob.afirma/afirma-ui-core-jse/1.6/9c4055f9a974270ad58c0de03ac2f99c161e0780/afirma-ui-core-jse-1.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/es.gob.afirma/afirma-ui-core-jse/1.6/3bee28e1dff855275547badbd60f21d287879d4c/afirma-ui-core-jse-1.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

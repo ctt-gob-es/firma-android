@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.6@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/es.gob.afirma/afirma-crypto-core-pkcs7-tsp/1.6/b0407c3e9bb0a9cd2f6280a9cde4ad6e63ced23c/afirma-crypto-core-pkcs7-tsp-1.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/es.gob.afirma/afirma-crypto-core-pkcs7-tsp/1.6/f00dc1e5728f1f70b4fd2b6d72fcf40874d9ec77/afirma-crypto-core-pkcs7-tsp-1.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: es.gob.afirma.jmulticard:jmulticard:1.4@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/es.gob.afirma.jmulticard/jmulticard/1.4/19cd059f9c95119eeb82a43a113b9c5d1e5d7ef0/jmulticard-1.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/es.gob.afirma.jmulticard/jmulticard/1.4/14423de0bb26c44536453d86bac8534190fd95fa/jmulticard-1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
