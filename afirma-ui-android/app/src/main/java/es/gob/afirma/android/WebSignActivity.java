@@ -497,7 +497,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		String signingCert;
 		try {
 			signingCert = CipherDataManager.cipherData(
-				signature.getSignature(),
+				signature.getSigningCertificate().getEncoded(),
 				this.parameters.getDesKey()
 			);
 		}
@@ -511,13 +511,13 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			Log.i(ES_GOB_AFIRMA, "Devolvemos datos a la app solicitante"); //$NON-NLS-1$
 			sendDataIntent(
 				Activity.RESULT_OK,
-				signingCert != null ? data + CERT_SIGNATURE_SEPARATOR + signingCert : data
+				signingCert != null ? signingCert + CERT_SIGNATURE_SEPARATOR + data : data
 			);
 		}
 		else {
 			Log.i(ES_GOB_AFIRMA, "Firma cifrada. Se envia al servidor."); //$NON-NLS-1$
 			sendData(
-				signingCert != null ? data + CERT_SIGNATURE_SEPARATOR + signingCert : data,
+				signingCert != null ? signingCert + CERT_SIGNATURE_SEPARATOR + data : data,
 				true
 			);
 			Log.i(ES_GOB_AFIRMA, "Firma enviada."); //$NON-NLS-1$
