@@ -12,7 +12,7 @@
     <string name="request_cert">Solicitar certificado</string>
     <string name="appsDialogTitle">Listado de autoridades soportadas</string>
     <string name="appsDialogMessage">Seleccione la autoridad de certificaci\u00F3n a la que desee solicitar su certificado.</string>
-    <string name="disclaimer">2018 Gobierno de Espa\u00F1a</string>
+    <string name="disclaimer">2019 Gobierno de Espa\u00F1a</string>
     <string name="privacy_policy">Pol\u00EDtica de privacidad</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="content_desc">Logotipo @firma m\u00F3vil</string>
@@ -24,7 +24,7 @@
     <string name="error_bad_params">No se ha realizado correctamente la invocaci\u00F3n de la aplicaci\u00F3n. Consulte a su proveedor de servicios.</string>
     <string name="error_server_connect">Ocurri\u00F3 un error en la conexi\u00F3n entre la aplicaci\u00F3n y la p\u00E1gina web.</string>
     <string name="error_server_error">No se ha podido devolver el resultado de firma a la p\u00E1gina web</string>
-    <string name="file_chooser_directorio_actual">Directorio actual:</string>
+    <string name="file_chooser_directorio_actual">Directorio actual: %s</string>
     <string name="file_chooser_directorio">Directorio</string>
     <string name="file_chooser_directorio_padre">Directorio padre</string>
     <string name="file_chooser_tamano_del_fichero">Tama\u00F1o:</string>

@@ -12,7 +12,7 @@
     <string name="request_cert">Request new certificate</string>
     <string name="appsDialogTitle">Supported certification authorities</string>
     <string name="appsDialogMessage">Please select the certification authority for requesting your new certificate.</string>
-    <string name="disclaimer">2018 Gobierno de Espa\u00F1a</string>
+    <string name="disclaimer">2019 Gobierno de Espa\u00F1a</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="content_desc">Ciente @firma logo</string>
@@ -23,7 +23,7 @@
     <string name="error_bad_params">Illegal App invocation, please ask your service provider for a Web page upgrade.</string>
     <string name="error_server_connect">Network connection error.</string>
     <string name="error_server_error">Error trying to send back the signature to the Web page.</string>
-    <string name="file_chooser_directorio_actual">Current folder:</string>
+    <string name="file_chooser_directorio_actual">Current folder: %s</string>
     <string name="file_chooser_directorio">Folder</string>
     <string name="file_chooser_directorio_padre">Parent folder</string>
     <string name="file_chooser_tamano_del_fichero">Size:</string>

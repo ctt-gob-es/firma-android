@@ -54,7 +54,6 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 
 	private static final String DEFAULT_FILENAME = "firma"; //$NON-NLS-1$
 
-	private FileArrayAdapter adapter;
 	private File currentDir;
 	File getCurrentDir() {
 		return this.currentDir;
@@ -153,8 +152,11 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 			dir.add(0, new FileOption(f, true));
 		}
 
-		this.adapter = new FileArrayAdapter(SaveDataActivity.this, R.layout.array_adapter_file_chooser, dir);
-		setListAdapter(this.adapter);
+		final FileArrayAdapter adapter = new FileArrayAdapter(
+				SaveDataActivity.this,
+				R.layout.array_adapter_file_chooser,
+				dir);
+		setListAdapter(adapter);
 	}
 
 	/**
@@ -253,7 +255,15 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 	 * @return Extensi&oacute;n (por ejemplo, "jpg") o {@code null} si no se identific&oacute; una.
 	 */
 	private static String getExtension(final byte[] data) {
-		return new MimeHelper(data).getExtension();
+		String ext;
+		try {
+			ext = new MimeHelper(data).getExtension();
+		}
+		catch( Exception e) {
+			Log.w(ES_GOB_AFIRMA, "No se pudo identificar la extension del fichero", e);
+			ext = null;
+		}
+		return ext;
 	}
 
 	void saveData(final byte[] data, final File dir, final String configuredFilename) {

@@ -42,7 +42,6 @@ public final class FileChooserActivity extends ListActivity {
 
 	private String[] excludedDirs = new String[0];
 
-	private FileArrayAdapter adapter;
 	private File currentDir;
 
 	private String initialDirectoryName = null;
@@ -90,7 +89,7 @@ public final class FileChooserActivity extends ListActivity {
 	private void fill(final File f) {
 
 		//Descomentar
-		((TextView) findViewById(R.id.current_directory)).setText(getString(R.string.file_chooser_directorio_actual) + " " + f.getName());  //$NON-NLS-1$
+		((TextView) findViewById(R.id.current_directory)).setText(getString(R.string.file_chooser_directorio_actual, f.getName()));  //$NON-NLS-1$
 
 		final List<FileOption> dir = new ArrayList<FileOption>();
 		final List<FileOption> fls = new ArrayList<FileOption>();
@@ -125,8 +124,11 @@ public final class FileChooserActivity extends ListActivity {
 			dir.add(0, new FileOption(f, true));
 		}
 
-		this.adapter = new FileArrayAdapter(FileChooserActivity.this, R.layout.array_adapter_file_chooser, dir);
-		setListAdapter(this.adapter);
+		final FileArrayAdapter adapter = new FileArrayAdapter(
+				FileChooserActivity.this,
+				R.layout.array_adapter_file_chooser,
+				dir);
+		setListAdapter(adapter);
 	}
 
 	private static boolean arrayContains(final String key, final String[] array) {
