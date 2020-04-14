@@ -161,7 +161,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			else {
 				// Si no nos dan los permisos, directamente cerramos la aplicacion
 				android.os.Process.killProcess(android.os.Process.myPid());
-				System.exit(1);
+				finishAffinity();
 			}
         }
     }
@@ -657,9 +657,9 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		}
 	}
 
-	static void closeActivity() {
+	void closeActivity() {
 		// Cerramos a la fuerza para, en siguientes ejecuciones, no se vuelvan a cargar los mismos datos
-		System.exit(0);
+		finishAffinity();
 	}
 
 	@Override

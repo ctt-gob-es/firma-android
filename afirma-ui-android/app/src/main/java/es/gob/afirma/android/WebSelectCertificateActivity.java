@@ -461,10 +461,9 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 		}
 	}
 
-	static void closeActivity() {
-		//finish();
+	void closeActivity() {
 		// Cerramos a la fuerza para, en siguientes ejecuciones, no se vuelvan a cargar los mismos datos
-		System.exit(0);
+		finishAffinity();
 	}
 
 	@Override
