@@ -103,6 +103,21 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			return;
 		}
 
+		if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY)
+			== Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) {
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setClass(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			return;
+		}
+
+		// Si no estamos creando ahora la pantalla (por se una rotacion)
+		if (savedInstanceState != null){
+			Log.i(ES_GOB_AFIRMA, "Se esta relanzando la actividad. Se omite volver a iniciar el proceso de firma");
+			return;
+		}
+
 		Log.d(ES_GOB_AFIRMA, "URI de invocacion: " + getIntent().getDataString()); //$NON-NLS-1$
 
 		if (getIntent().getDataString() == null) {
@@ -161,7 +176,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			else {
 				// Si no nos dan los permisos, directamente cerramos la aplicacion
 				android.os.Process.killProcess(android.os.Process.myPid());
-				finishAffinity();
+				closeActivity();
 			}
         }
     }
@@ -658,7 +673,6 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	}
 
 	void closeActivity() {
-		// Cerramos a la fuerza para, en siguientes ejecuciones, no se vuelvan a cargar los mismos datos
 		finishAffinity();
 	}
 
