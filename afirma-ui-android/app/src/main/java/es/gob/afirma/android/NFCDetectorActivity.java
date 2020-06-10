@@ -12,7 +12,6 @@ import android.nfc.tech.NfcV;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.CanDialog;
@@ -41,8 +40,6 @@ public class NFCDetectorActivity extends FragmentActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detect_nfc);
-
-        Log.i(ES_GOB_AFIRMA, " -- NFCDetectorActivity onCreate");
 
         this.canResult = new CanResult();
 
@@ -74,9 +71,6 @@ public class NFCDetectorActivity extends FragmentActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-
-        Log.i(ES_GOB_AFIRMA, " -- NFCDetectorActivity onNewIntent - CAN: " + this.canResult.getPasswordCallback());
-
         if (this.canResult.getPasswordCallback() != null) {
             discoveredTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             Intent dataIntent = new Intent();
@@ -90,8 +84,6 @@ public class NFCDetectorActivity extends FragmentActivity {
     public void onResume() {
         super.onResume();
         mNfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, mTechLists);
-
-        Log.i(ES_GOB_AFIRMA, " -- NFCDetectorActivity onResume - Se reinicia el detector NFC");
     }
 
     @Override

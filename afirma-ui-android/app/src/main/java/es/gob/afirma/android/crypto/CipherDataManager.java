@@ -10,8 +10,6 @@
 
 package es.gob.afirma.android.crypto;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
@@ -20,6 +18,7 @@ import java.util.Arrays;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.misc.Base64;
 
 /** Gestor para el cifrado sim&eacute;trico de datos (para el servidor intermedio). */
@@ -54,16 +53,16 @@ public final class CipherDataManager {
 			                                                         GeneralSecurityException,
 			                                                         IOException {
 
-		Log.i(ES_GOB_AFIRMA, "Componemos la cadena para descifrar"); //$NON-NLS-1$
+		Logger.i(ES_GOB_AFIRMA, "Componemos la cadena para descifrar"); //$NON-NLS-1$
 		final String recoveredData = new String(cipheredDataB64, DEFAULT_URL_ENCODING).replace("_", "/").replace("-", "+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		byte[] decipheredData;
 		if (cipherKey != null) {
-			Log.i(ES_GOB_AFIRMA, "Vamos a descifrar"); //$NON-NLS-1$
+			Logger.i(ES_GOB_AFIRMA, "Vamos a descifrar"); //$NON-NLS-1$
 			decipheredData = decipherData(recoveredData, cipherKey);
-			Log.i(ES_GOB_AFIRMA, "Descifrado"); //$NON-NLS-1$
+			Logger.i(ES_GOB_AFIRMA, "Descifrado"); //$NON-NLS-1$
 		}
 		else {
-			Log.i(ES_GOB_AFIRMA, "No tenemos clave para descifrar. Consideramos los datos como descifrados"); //$NON-NLS-1$
+			Logger.i(ES_GOB_AFIRMA, "No tenemos clave para descifrar. Consideramos los datos como descifrados"); //$NON-NLS-1$
 			decipheredData = Base64.decode(recoveredData, true);
 		}
 		return decipheredData;
@@ -152,7 +151,7 @@ public final class CipherDataManager {
         }
         catch (final Exception e) {
             // Este caso no deberia ocurrir nunca
-        	Log.e(ES_GOB_AFIRMA, "Algoritmo o formato no soportado por la maquina virtual", e); //$NON-NLS-1$
+        	Logger.e(ES_GOB_AFIRMA, "Algoritmo o formato no soportado por la maquina virtual", e); //$NON-NLS-1$
             throw new GeneralSecurityException("Algoritmo o formato no soportado por la maquina virtual: " + e, e); //$NON-NLS-1$
         }
         desCipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(sk, "DES")); //$NON-NLS-1$

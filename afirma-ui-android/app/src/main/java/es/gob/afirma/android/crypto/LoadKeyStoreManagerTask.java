@@ -15,11 +15,11 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import java.security.KeyStore;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.Logger;
 
 /** Tarea de carga e inicializaci&oacute;n del gestor de claves y certificados en Android. */
 public final class LoadKeyStoreManagerTask extends AsyncTask<Void, Void, KeyStore> {
@@ -75,10 +75,7 @@ public final class LoadKeyStoreManagerTask extends AsyncTask<Void, Void, KeyStor
 
 	@Override
 	protected KeyStore doInBackground(Void[] params) {
-
-		Log.i(ES_GOB_AFIRMA, " -- LoadKeyStoreManagerTask doInBackgroung"); //$NON-NLS-1$
-
-		Log.i(ES_GOB_AFIRMA, "Inicializamos el almacen"); //$NON-NLS-1$
+		Logger.i(ES_GOB_AFIRMA, "Inicializamos el almacen"); //$NON-NLS-1$
 		// Se obtiene el KeyStore
 		return KeyStoreManagerFactory.initKeyStoreManager(this.activity, this.kmListener, this.usbDevice, this.usbManager);
 	}
@@ -101,7 +98,7 @@ public final class LoadKeyStoreManagerTask extends AsyncTask<Void, Void, KeyStor
 	/** <i>Callback</i> para el establecimiento de almac&eacute;n.
 	 * @param ks Almac&eacute;n de claves y certificados */
 	public void setKeyStore(final MobileKeyStoreManager ks) {
-		Log.i(ES_GOB_AFIRMA, "Notificamos que se ha seleccionado un certificado"); //$NON-NLS-1$
+		Logger.i(ES_GOB_AFIRMA, "Notificamos que se ha seleccionado un certificado"); //$NON-NLS-1$
 		this.kmListener.onLoadingKeyStoreSuccess(ks);
 	}
 

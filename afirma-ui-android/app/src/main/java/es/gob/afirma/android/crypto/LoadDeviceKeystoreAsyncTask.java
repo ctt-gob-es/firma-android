@@ -15,7 +15,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -24,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.gui.CertificateInfoForAliasSelect;
 import es.gob.afirma.android.gui.SelectAliasDialog;
 import es.gob.afirma.core.misc.AOUtil;
@@ -98,8 +98,6 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 
-        Log.i(ES_GOB_AFIRMA, " -- LoadDeviceKeystoreTask doInBackgroung"); //$NON-NLS-1$
-
         // Aqui tenemos el PIN, empezamos con la inicializacion del almacen
         final KeyStore ks;
         try {
@@ -107,7 +105,7 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
             ks.load(null, getPin().toCharArray());
         }
         catch(final Exception e) {
-            Log.e(ES_GOB_AFIRMA, "Error al cargar el almacen de claves del dispositivo: " + e); //$NON-NLS-1$
+            Logger.e(ES_GOB_AFIRMA, "Error al cargar el almacen de claves del dispositivo: " + e); //$NON-NLS-1$
             if (getKsmListener() != null) {
                 getKsmListener().onLoadingKeyStoreError(
                         "Error al cargar el almacen de claves del dispositivo", e); //$NON-NLS-1$
@@ -121,7 +119,7 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
             aliases = ks.aliases();
         }
         catch(final Exception e) {
-            Log.e(ES_GOB_AFIRMA, "Error extrayendo los alias de los certificados del almacen: " + e); //$NON-NLS-1$
+            Logger.e(ES_GOB_AFIRMA, "Error extrayendo los alias de los certificados del almacen: " + e); //$NON-NLS-1$
             if (getKsmListener() != null) {
                 getKsmListener().onLoadingKeyStoreError(
                         "Error extrayendo los alias de los certificados del almacen: ", e); //$NON-NLS-1$
@@ -138,7 +136,7 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
                 cert = (X509Certificate) ks.getCertificate(alias);
             }
             catch (final KeyStoreException e) {
-                Log.w(ES_GOB_AFIRMA, "No se ha podido extraer el certificado '" + alias + "': " + e);  //$NON-NLS-1$//$NON-NLS-2$
+                Logger.w(ES_GOB_AFIRMA, "No se ha podido extraer el certificado '" + alias + "': " + e);  //$NON-NLS-1$//$NON-NLS-2$
                 continue;
             }
             catch(final Exception e) {
@@ -147,7 +145,7 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
                     manageLockedDnie(e);
                     return null;
                 }
-                Log.e(ES_GOB_AFIRMA,"Error obteniendo el certificado con alias '" + alias + "': " + e); //$NON-NLS-1$ //$NON-NLS-2$
+                Logger.e(ES_GOB_AFIRMA,"Error obteniendo el certificado con alias '" + alias + "': " + e); //$NON-NLS-1$ //$NON-NLS-2$
                 continue;
             }
 
@@ -159,7 +157,7 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
                 );
             }
             catch(final Exception e) {
-                Log.w(ES_GOB_AFIRMA, "Se omite el certificado '" + AOUtil.getCN(cert) + "' por no tener clave privada: " + e); //$NON-NLS-1$ //$NON-NLS-2$
+                Logger.w(ES_GOB_AFIRMA, "Se omite el certificado '" + AOUtil.getCN(cert) + "' por no tener clave privada: " + e); //$NON-NLS-1$ //$NON-NLS-2$
                 continue;
             }
             arrayListCertificate.add(
@@ -174,7 +172,7 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
         }
 
 //        if(getKsmTask() == null){
-//            Log.e(ES_GOB_AFIRMA, "No se ha establecido la tarea para la obtencion del almacen de certificados con setLoadKeyStoreManagerTask()");  //$NON-NLS-1$
+//            Logger.e(ES_GOB_AFIRMA, "No se ha establecido la tarea para la obtencion del almacen de certificados con setLoadKeyStoreManagerTask()");  //$NON-NLS-1$
 //            if (getKsmListener() != null) {
 //                getKsmListener().onLoadingKeyStoreError(
 //                        "No se ha establecido la tarea para la obtencion del almacen de certificados con setLoadKeyStoreManagerTask()", null
@@ -209,7 +207,7 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
     private void manageLockedDnie(final Throwable e) {
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                Log.e(ES_GOB_AFIRMA, "El DNIe esta bloqueado: " + e); //$NON-NLS-1$
+                Logger.e(ES_GOB_AFIRMA, "El DNIe esta bloqueado: " + e); //$NON-NLS-1$
 
                 final AlertDialog.Builder dniBloqueado = new AlertDialog.Builder(getActivity());
 

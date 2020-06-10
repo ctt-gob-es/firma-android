@@ -8,8 +8,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode 18
-        versionName "1.6.2"
+        versionCode 19
+        versionName "1.6.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -46,19 +46,19 @@ dependencies {
     implementation ('es.gob.afirma.jmulticard:jmulticard-android:1.5') {
         exclude(module: 'support-v4')
     }
-    implementation('es.gob.afirma:afirma-crypto-pdf:1.7-SNAPSHOT') {
+    implementation('es.gob.afirma:afirma-crypto-pdf:1.6.5') {
         exclude(module: 'afirma-lib-itext')
     }
-    implementation 'es.gob.afirma.lib:afirma-lib-itext-android:1.3-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-core:1.7-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-core-keystores:1.7-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-cades:1.7-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-cadestri-client:1.7-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-xadestri-client:1.7-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-padestri-client:1.7-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.7-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.7-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.7-SNAPSHOT'
+    implementation 'es.gob.afirma.lib:afirma-lib-itext-android:1.2'
+    implementation 'es.gob.afirma:afirma-core:1.6.5'
+    implementation 'es.gob.afirma:afirma-core-keystores:1.6.5'
+    implementation 'es.gob.afirma:afirma-crypto-cades:1.6.5'
+    implementation 'es.gob.afirma:afirma-crypto-cadestri-client:1.6.5'
+    implementation 'es.gob.afirma:afirma-crypto-xadestri-client:1.6.5'
+    implementation 'es.gob.afirma:afirma-crypto-padestri-client:1.6.5'
+    implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.6.5'
+    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.6.5'
+    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.6.5'
     implementation 'es.gob.afirma.jmulticard:jmulticard-jse:1.5'
 
     //implementation 'com.android.support:multidex:1.0.3'

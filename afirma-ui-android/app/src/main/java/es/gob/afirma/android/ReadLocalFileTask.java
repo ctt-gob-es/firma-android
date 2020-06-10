@@ -11,7 +11,6 @@
 package es.gob.afirma.android;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.FileInputStream;
 
@@ -41,11 +40,11 @@ final class ReadLocalFileTask extends AsyncTask<String, Void, Object> {
 			fis.close();
 		}
 		catch(final OutOfMemoryError e) {
-			Log.e("es.gob.afirma", "El fichero a firmar es demasiado grande: " + e); //$NON-NLS-1$ //$NON-NLS-2$
+			Logger.e("es.gob.afirma", "El fichero a firmar es demasiado grande: " + e); //$NON-NLS-1$ //$NON-NLS-2$
 			return e;
 		}
 		catch (final Exception e) {
-			Log.e("es.gob.afirma", "Error leyendo el fichero a firmar: " + e); //$NON-NLS-1$ //$NON-NLS-2$
+			Logger.e("es.gob.afirma", "Error leyendo el fichero a firmar: " + e); //$NON-NLS-1$ //$NON-NLS-2$
 			return e;
 		}
 		return dataToSign;

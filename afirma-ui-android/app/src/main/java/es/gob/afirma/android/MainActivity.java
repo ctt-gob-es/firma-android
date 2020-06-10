@@ -23,7 +23,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -111,12 +110,12 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 	/** @param v Vista sobre la que se hace clic. */
 	public void onClick(final View v) {
 
-        Log.d("es.gob.afirma", "Identificador de elemento pulsado: " + v.getId());
+        Logger.d("es.gob.afirma", "Identificador de elemento pulsado: " + v.getId());
 
 		//Boton firmar fichero local
 		if(v.getId() == R.id.buttonSign){
 			if (!writePerm) {
-                Log.i("es.gob.afirma", "No se tiene permiso de escritura en memoria");
+                Logger.i("es.gob.afirma", "No se tiene permiso de escritura en memoria");
                 currentOperation = OP_BEFORE_PERM_REQUEST.LOCALSIGN;
 				requestStoragePerm();
 			}
@@ -128,7 +127,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 		// Instalacion de certificados
 		else if(v.getId() == R.id.importCertButton) {
             if (!writePerm) {
-                Log.i("es.gob.afirma", "No se tiene permiso de escritura en memoria");
+                Logger.i("es.gob.afirma", "No se tiene permiso de escritura en memoria");
                 currentOperation = OP_BEFORE_PERM_REQUEST.CERTIMPORT;
                 requestStoragePerm();
             }
@@ -167,7 +166,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
         switch (requestCode) {
             case REQUEST_WRITE_STORAGE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.i("es.gob.afirma", "Concedido permiso de escritura en memoria");
+                    Logger.i("es.gob.afirma", "Concedido permiso de escritura en memoria");
                     switch (currentOperation) {
                         case LOCALSIGN:
                             startLocalSign();
@@ -176,7 +175,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
                             startCertImport();
                             break;
                         default:
-                            Log.w("es.gob.afirma", "Operacion desconocida ha provocado la solicitud de permisos");
+                            Logger.w("es.gob.afirma", "Operacion desconocida ha provocado la solicitud de permisos");
                     }
 
                 }
@@ -211,7 +210,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 			}
 			catch (final IOException e) {
 				showErrorMessage(getString(R.string.error_loading_selected_file, filename));
-				Log.e(ES_GOB_AFIRMA, "Error al cargar el fichero: " + e.toString()); //$NON-NLS-1$
+				Logger.e(ES_GOB_AFIRMA, "Error al cargar el fichero: " + e.toString()); //$NON-NLS-1$
 				e.printStackTrace();
 				return;
 			}

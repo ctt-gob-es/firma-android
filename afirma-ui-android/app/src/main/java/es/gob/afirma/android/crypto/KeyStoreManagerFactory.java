@@ -14,7 +14,6 @@ import android.content.Context;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -24,6 +23,7 @@ import java.security.Provider;
 import java.security.Security;
 import java.util.Properties;
 
+import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.NFCDetectorActivity;
 import es.gob.afirma.android.gui.PinDialog;
 import es.gob.jmulticard.apdu.connection.ApduConnection;
@@ -76,16 +76,16 @@ public final class KeyStoreManagerFactory {
 				return ks;
 			}
 			catch (final ClassNotFoundException e) {
-				Log.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso a la tarjeta CERES: " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso a la tarjeta CERES: " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			catch (final NoSuchMethodException e) {
-				Log.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso a la tarjeta CERES: " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso a la tarjeta CERES: " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			catch (final KeyStoreException e) {
-				Log.w(ES_GOB_AFIRMA, "Se ha encontrado un CCID USB, pero no una tarjeta CERES en el: " + e); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.w(ES_GOB_AFIRMA, "Se ha encontrado un CCID USB, pero no una tarjeta CERES en el: " + e); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			catch (final Exception e) {
-				Log.w(ES_GOB_AFIRMA, "No se ha podido instanciar el controlador de la tarjeta CERES: " + e); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.w(ES_GOB_AFIRMA, "No se ha podido instanciar el controlador de la tarjeta CERES: " + e); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 
@@ -111,16 +111,16 @@ public final class KeyStoreManagerFactory {
 				return ks;
 			}
 			catch (final ClassNotFoundException e) {
-				Log.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso al DNIe: " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso al DNIe: " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			catch (final NoSuchMethodException e) {
-				Log.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso al DNIe: " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso al DNIe: " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			catch (final KeyStoreException e) {
-				Log.w(ES_GOB_AFIRMA, "Se ha encontrado un CCID USB, pero no un DNIe en el: " + e); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.w(ES_GOB_AFIRMA, "Se ha encontrado un CCID USB, pero no un DNIe en el: " + e); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			catch (final Exception e) {
-				Log.w(ES_GOB_AFIRMA, "No se ha podido instanciar el controlador del DNIe por chip: " + e); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.w(ES_GOB_AFIRMA, "No se ha podido instanciar el controlador del DNIe por chip: " + e); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 
@@ -164,12 +164,12 @@ public final class KeyStoreManagerFactory {
 			);
 
 			Security.addProvider(provider);
-			Log.i(ES_GOB_AFIRMA, "Anadido el proveedor AET: " + provider.getName());  //$NON-NLS-1$
+			Logger.i(ES_GOB_AFIRMA, "Anadido el proveedor AET: " + provider.getName());  //$NON-NLS-1$
 
 			// Obtenemos el almacen unicamente para ver si falla
 			KeyStore.getInstance(AET_PKCS11_STORE, provider);
 
-			Log.i(ES_GOB_AFIRMA, "Se ha instanciado correctamente el proveedor AET");  //$NON-NLS-1$
+			Logger.i(ES_GOB_AFIRMA, "Se ha instanciado correctamente el proveedor AET");  //$NON-NLS-1$
 
 			// A partir de este punto, si falla, terminamos con error y no devolvemos el almacen de Android, mostrando
 			// un dialogo de error al usuario
@@ -182,11 +182,11 @@ public final class KeyStoreManagerFactory {
 			return KeyStore.getInstance(AET_PKCS11_STORE, provider);
 		}
 		catch (final Exception e) {
-			Log.w(ES_GOB_AFIRMA, "No se ha detectado una MSC: " + e); //$NON-NLS-1$
+			Logger.w(ES_GOB_AFIRMA, "No se ha detectado una MSC: " + e); //$NON-NLS-1$
 		}
 
 		// Si no encontramos el almacen anterior, accedemos al almacen del sistema
-		Log.i(ES_GOB_AFIRMA, "Estableciendo almacen del sistema"); //$NON-NLS-1$
+		Logger.i(ES_GOB_AFIRMA, "Estableciendo almacen del sistema"); //$NON-NLS-1$
 		ksml.onLoadingKeyStoreSuccess(new Android4KeyStoreManager(activity));
 		return null;
 	}
@@ -216,10 +216,10 @@ public final class KeyStoreManagerFactory {
 				// Obtenemos el almacen unicamente para ver si falla
 				ks = KeyStore.getInstance("DNI", p); //$NON-NLS-1$
 			} catch (final KeyStoreException e) {
-				Log.e(ES_GOB_AFIRMA, "Se ha encontrado una tarjeta por NFC, pero no es un DNIe: " + e); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.e(ES_GOB_AFIRMA, "Se ha encontrado una tarjeta por NFC, pero no es un DNIe: " + e); //$NON-NLS-1$ //$NON-NLS-2$
 				throw new UnsupportedNfcCardException("Se ha encontrado una tarjeta por NFC distinta al DNIe", e);
 			} catch (final Exception e) {
-				Log.e(ES_GOB_AFIRMA, "No se ha podido instanciar el controlador del DNIe por NFC: " + e, e); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.e(ES_GOB_AFIRMA, "No se ha podido instanciar el controlador del DNIe por NFC: " + e, e); //$NON-NLS-1$ //$NON-NLS-2$
 				throw new InitializingNfcCardException("Error inicializando la tarjeta", e);
 			}
 		}

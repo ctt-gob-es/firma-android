@@ -17,7 +17,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +25,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.Logger;
 import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 
 /** Di&acute;logo para introducir el PIN.
@@ -100,7 +100,7 @@ public final class CanDialog extends DialogFragment {
 					public void onClick(View view) {
 
 						if(editTextPin.getText() == null || "".equals(editTextPin.getText().toString())) { //$NON-NLS-1$
-							Log.e(ES_GOB_AFIRMA, "El CAN no puede ser vacio o nulo"); //$NON-NLS-1$
+							Logger.e(ES_GOB_AFIRMA, "El CAN no puede ser vacio o nulo"); //$NON-NLS-1$
 							new Runnable() {
 								@Override
 								public void run() {

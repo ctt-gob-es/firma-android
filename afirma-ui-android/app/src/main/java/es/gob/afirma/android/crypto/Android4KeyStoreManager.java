@@ -13,10 +13,10 @@ package es.gob.afirma.android.crypto;
 import android.app.Activity;
 import android.security.KeyChain;
 import android.security.KeyChainAliasCallback;
-import android.util.Log;
 
 import java.security.KeyStore.PrivateKeyEntry;
 
+import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOCancelledOperationException;
 
 /** Gestor simple de claves y certificados para dispositivos Android 4.
@@ -72,7 +72,7 @@ public final class Android4KeyStoreManager implements MobileKeyStoreManager {
 	                		);
 			            }
 			            catch (final Throwable e) {
-			            	Log.e(ES_GOB_AFIRMA, "Error en la obtencion de claves: " + e); //$NON-NLS-1$
+			            	Logger.e(ES_GOB_AFIRMA, "Error en la obtencion de claves: " + e); //$NON-NLS-1$
 			                pksl.keySelected(new SelectCertificateEvent(e));
 			            }
 		        	}
@@ -113,7 +113,7 @@ public final class Android4KeyStoreManager implements MobileKeyStoreManager {
 								);
 							}
 							catch (final Throwable e) {
-								Log.e(ES_GOB_AFIRMA, "Error en la obtencion de claves: " + e); //$NON-NLS-1$
+								Logger.e(ES_GOB_AFIRMA, "Error en la obtencion de claves: " + e); //$NON-NLS-1$
 								listener.certificateSelected(new SelectCertificateEvent(e));
 							}
 						}

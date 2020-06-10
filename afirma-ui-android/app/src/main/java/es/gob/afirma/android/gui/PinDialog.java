@@ -16,13 +16,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.crypto.KeyStoreManagerListener;
 import es.gob.afirma.android.crypto.LoadDeviceKeystoreAsyncTask;
 
@@ -90,7 +90,7 @@ public class PinDialog extends DialogFragment {
 			this.provider = getArguments().getString("provider"); //$NON-NLS-1$
 			this.keyStoreName = getArguments().getString("keyStoreName"); //$NON-NLS-1$
 
-			Log.i(ES_GOB_AFIRMA, "PinDialog recibe los argumentos provider: " + this.provider + " y keyStoreName: " + this.keyStoreName);   //$NON-NLS-1$//$NON-NLS-2$
+			Logger.i(ES_GOB_AFIRMA, "PinDialog recibe los argumentos provider: " + this.provider + " y keyStoreName: " + this.keyStoreName);   //$NON-NLS-1$//$NON-NLS-2$
 		}
 		final Builder alertDialogBuilder = new Builder(getActivity());
 		alertDialogBuilder.setTitle(getString(R.string.security_code) + " " + this.keyStoreName); //$NON-NLS-1$
@@ -130,12 +130,12 @@ public class PinDialog extends DialogFragment {
 									PinDialog.this.getKsmListener()).execute();
 						}
 					} catch (Exception e) {
-						Log.w(ES_GOB_AFIRMA, "Error cargando el almacen almacen de claves del dispositivo: " + e); //$NON-NLS-1$
+						Logger.w(ES_GOB_AFIRMA, "Error cargando el almacen almacen de claves del dispositivo: " + e); //$NON-NLS-1$
 					}
 				}
 				else {
 					//TODO: Gestionar este caso
-					Log.e(ES_GOB_AFIRMA, "El pin no puede ser vacio o nulo"); //$NON-NLS-1$
+					Logger.e(ES_GOB_AFIRMA, "El pin no puede ser vacio o nulo"); //$NON-NLS-1$
 					if (PinDialog.this.getKsmListener() != null) {
 						PinDialog.this.getKsmListener().onLoadingKeyStoreError(
 							getActivity().getString(R.string.error_pin_nulo), null

@@ -19,7 +19,6 @@ import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -62,13 +61,13 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 			if (ACTION_USB_PERMISSION.equals(action)) {
 				synchronized (this) {
 
-					Log.d(ES_GOB_AFIRMA, "Comprobamos el permiso de acceso al lector USB"); //$NON-NLS-1$
+					Logger.d(ES_GOB_AFIRMA, "Comprobamos el permiso de acceso al lector USB"); //$NON-NLS-1$
 
 					// Si no se concedio el permiso
 					if (!intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
 						LoadKeyStoreFragmentActivity.this.setUsbManager(null);
 						LoadKeyStoreFragmentActivity.this.setUsbDevice(null);
-						Log.d(ES_GOB_AFIRMA, "Permiso denegado para el acceso a USB"); //$NON-NLS-1$
+						Logger.d(ES_GOB_AFIRMA, "Permiso denegado para el acceso a USB"); //$NON-NLS-1$
 					}
 
 					// Ya sea con dispositivo o sin el, se continua la ejecucion cargando el almacen
@@ -118,13 +117,8 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	@Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 
-		Log.i(ES_GOB_AFIRMA, " -- LoadKeyStoreFragmentActivity onActivityResult");
-
 		// Si volvemos de la pantalla de insercion de CAN y deteccion de tarjeta NFC
 		if (requestCode == REQUEST_CODE_DETECT_NFC_CARD) {
-
-			Log.i(ES_GOB_AFIRMA, "-- LoadKeyStoreFragmentActivity onActivityResult  - Respuesta de actividad NFC");
-
 			// Si el usuario inserto el CAN, lo guardamos y cargamos un almacen via NFC (que tendra
 			// una gestion de errores distinta).
 			// Si no se inserto el CAN o no se detecto un almacen nfc, nos aseguramos de que no
@@ -180,8 +174,6 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	 */
 	public void searchNewNfcCard() {
 
-		Log.i(ES_GOB_AFIRMA, " -- LoadKeyStoreFragmentActivity searchNewNfcCard");
-
 		final Intent intentNFC = new Intent(this, NFCDetectorActivity.class);
 		if (this.passwordCallback != null) {
 			intentNFC.putExtra(NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE, this.passwordCallback.getPassword());
@@ -230,8 +222,6 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	 */
 	private void loadKeyStore() {
 
-		Log.i(ES_GOB_AFIRMA, " -- LoadKeyStoreFragmentActivity loadKeyStore");
-
 		// Buscamos si hay dispositivos CCID USB conectados
 		final UsbManager usbMgr = (UsbManager) getSystemService(Context.USB_SERVICE);
 		final HashMap<String, UsbDevice> devices = usbMgr != null ?
@@ -247,14 +237,14 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 
 		// Si es igual a null es que no hay un CCID conectado
 		if (this.usbManager == null) {
-			Log.i(ES_GOB_AFIRMA, "No hay dispositivos CCID USB conectados"); //$NON-NLS-1$
+			Logger.i(ES_GOB_AFIRMA, "No hay dispositivos CCID USB conectados"); //$NON-NLS-1$
 			// Cargamos el almacen de certificados normalmente
 			new LoadKeyStoreManagerTask(this, this).execute();
 		}
 
 		//Si no, pedimos acceso al dispositivo
 		else {
-			Log.i(ES_GOB_AFIRMA, "Se han detectado dispositivos CCID USB conectados"); //$NON-NLS-1$
+			Logger.i(ES_GOB_AFIRMA, "Se han detectado dispositivos CCID USB conectados"); //$NON-NLS-1$
 			askForUsbPermission();
 		}
 	}
@@ -264,9 +254,6 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	 * por conexion NFC.
 	 */
 	public void loadNfcKeyStore() {
-
-		Log.i(ES_GOB_AFIRMA, " -- LoadKeyStoreFragmentActivity loadNfcKeyStore");
-
 		new LoadNfcKeyStoreManagerTask(this, this, this.passwordCallback).execute();
 	}
 

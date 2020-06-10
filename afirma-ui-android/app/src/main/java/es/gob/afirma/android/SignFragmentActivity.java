@@ -13,7 +13,6 @@ package es.gob.afirma.android;
 import android.app.PendingIntent;
 import android.os.Build;
 import android.security.KeyChainException;
-import android.util.Log;
 
 import java.security.KeyStore.PrivateKeyEntry;
 import java.util.Properties;
@@ -55,8 +54,6 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	public void sign(String signOperation, final byte[] data, final String format,
 						final String algorithm, final Properties extraParams) {
 
-		Log.i(ES_GOB_AFIRMA, " -- SignFragmentActivity sign");
-
 		if (signOperation == null) {
 			throw new IllegalArgumentException("No se han indicado la operacion de firma");
 		}
@@ -91,42 +88,37 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	@Override
 	public synchronized void keySelected(final SelectCertificateEvent kse) {
 
-		Log.i(ES_GOB_AFIRMA, " -- SignFragmentActivity keySelected");
-
 		PrivateKeyEntry pke;
 		try {
 			pke = kse.getPrivateKeyEntry();
 		}
 		catch (final KeyChainException e) {
 			if ("4.1.1".equals(Build.VERSION.RELEASE) || "4.1.0".equals(Build.VERSION.RELEASE) || "4.1".equals(Build.VERSION.RELEASE)) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				Log.e(ES_GOB_AFIRMA, "Error al extraer la clave en Android " + Build.VERSION.RELEASE + ": " + e); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.e(ES_GOB_AFIRMA, "Error al extraer la clave en Android " + Build.VERSION.RELEASE + ": " + e); //$NON-NLS-1$ //$NON-NLS-2$
 				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, getString(R.string.error_android_4_1), new SelectKeyAndroid41BugException(e));
 			}
 			else {
-				Log.e(ES_GOB_AFIRMA, "No se pudo extraer la clave privada del certificado: " + e); //$NON-NLS-1$
+				Logger.e(ES_GOB_AFIRMA, "No se pudo extraer la clave privada del certificado: " + e); //$NON-NLS-1$
 				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "No se pudo extraer la clave privada del certificado", e);
 			}
 			return;
 		}
 		catch (final AOCancelledOperationException e) {
-			Log.e(ES_GOB_AFIRMA, "El usuario no selecciono un certificado: " + e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "El usuario no selecciono un certificado: " + e); //$NON-NLS-1$
 			onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "El usuario no selecciono un certificado", new PendingIntent.CanceledException(e));
 			return;
 		}
 		// Cuando se instala el certificado desde el dialogo de seleccion, Android da a elegir certificado
 		// en 2 ocasiones y en la segunda se produce un "java.lang.AssertionError". Se ignorara este error.
 		catch (final AssertionError e) {
-			Log.e(ES_GOB_AFIRMA, "Posible error al insertar un nuevo certificado en el almacen. No se hara nada", e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "Posible error al insertar un nuevo certificado en el almacen. No se hara nada", e); //$NON-NLS-1$
 			return;
 		}
 		catch (final Throwable e) {
-			Log.e(ES_GOB_AFIRMA, "Error al recuperar la clave del certificado de firma", e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "Error al recuperar la clave del certificado de firma", e); //$NON-NLS-1$
 			onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "Error al recuperar la clave del certificado de firma", e); //$NON-NLS-1$
 			return;
 		}
-
-
-		Log.i(ES_GOB_AFIRMA, "================ Borramos el CAN");
 
 		// Ya cargado el certificado, eliminamos el CAN de memoria y el objeto para que se vuelva a pedir
 		if (getPasswordCallback() != null) {
@@ -143,8 +135,6 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	}
 
 	private void doSign(final PrivateKeyEntry keyEntry) {
-
-		Log.i(ES_GOB_AFIRMA, " -- SignFragmentActivity doSign");
 
 		if (keyEntry == null) {
 			onSigningError(KeyStoreOperation.SIGN, "No se pudo extraer la clave privada del certificado", new Exception());
@@ -163,8 +153,6 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 
 	@Override
 	public synchronized void onLoadingKeyStoreSuccess(final MobileKeyStoreManager msm) {
-
-		Log.i(ES_GOB_AFIRMA, " -- SignFragmentActivity onLoadingKeystoreSuccess");
 
 		// Si el usuario cancelo la insercion de PIN o cualquier otro dialogo del almacen
 		if(msm == null){

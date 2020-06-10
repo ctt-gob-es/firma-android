@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -141,17 +140,17 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		boolean originalDirectory;
 		final String outDirectory;
 		if (new File(this.fileName).getParentFile().canWrite()) {
-			Log.d(ES_GOB_AFIRMA, "La firma se guardara en el directorio del fichero de entrada"); //$NON-NLS-1$
+			Logger.d(ES_GOB_AFIRMA, "La firma se guardara en el directorio del fichero de entrada"); //$NON-NLS-1$
 			outDirectory = new File(this.fileName).getParent();
 			originalDirectory = true;
 		}
 		else if (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).exists() && Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).canWrite()) {
-			Log.d(ES_GOB_AFIRMA, "La firma se guardara en el directorio de descargas"); //$NON-NLS-1$
+			Logger.d(ES_GOB_AFIRMA, "La firma se guardara en el directorio de descargas"); //$NON-NLS-1$
 			outDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
 			originalDirectory = false;
 		}
 		else {
-			Log.w(ES_GOB_AFIRMA, "No se ha encontrado donde guardar la firma generada"); //$NON-NLS-1$
+			Logger.w(ES_GOB_AFIRMA, "No se ha encontrado donde guardar la firma generada"); //$NON-NLS-1$
 			showErrorMessage(getString(R.string.error_no_device_to_store));
 			return;
 		}
@@ -176,7 +175,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		}
 		catch (final Exception e) {
 			showErrorMessage(getString(R.string.error_saving_signature));
-			Log.e(ES_GOB_AFIRMA, "Error guardando la firma: " + e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "Error guardando la firma: " + e); //$NON-NLS-1$
 			return;
 		}
 
@@ -193,7 +192,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 			);
 		}
 		catch(final Exception e) {
-			Log.w(ES_GOB_AFIRMA, "Error refrescando el MediaScanner: " + e); //$NON-NLS-1$
+			Logger.w(ES_GOB_AFIRMA, "Error refrescando el MediaScanner: " + e); //$NON-NLS-1$
 		}
 	}
 
@@ -279,7 +278,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	protected void onSigningError(KeyStoreOperation op, String msg, Throwable t) {
 
 		if (KeyStoreOperation.SELECT_CERTIFICATE == op && t instanceof PendingIntent.CanceledException) {
-			Log.w(ES_GOB_AFIRMA, "Operacion de seleccion de certificados cancelada por el usuario");
+			Logger.w(ES_GOB_AFIRMA, "Operacion de seleccion de certificados cancelada por el usuario");
 			finish();
 		}
 		else {
@@ -301,7 +300,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 			final RelativeLayout rl = findViewById(R.id.signedfile_error);
 			rl.setVisibility(View.VISIBLE);
-			Log.e(ES_GOB_AFIRMA, "Error durante la firma: " + t);
+			Logger.e(ES_GOB_AFIRMA, "Error durante la firma: " + t);
 		}
 	}
 }

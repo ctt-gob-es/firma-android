@@ -12,13 +12,13 @@ package es.gob.afirma.android.crypto;
 
 import android.content.ActivityNotFoundException;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.IOException;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.util.Locale;
 import java.util.Properties;
 
+import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOException;
 import es.gob.afirma.core.AOUnsupportedSignFormatException;
 import es.gob.afirma.core.misc.protocol.UrlParametersToSign.Operation;
@@ -90,8 +90,6 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 	@Override
 	protected SignResult doInBackground(final Void... params) {
 
-		Log.i(ES_GOB_AFIRMA, " -- SignTask doInBackgroung"); //$NON-NLS-1$
-
 		// Obtenemos el manejador de firma apropiado
 		final AOSigner signer = getSupportedCompatibleSigner(this.format, this.op, this.data);
 		if (signer == null) {
@@ -152,16 +150,16 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 			if (e.getCause() instanceof AOException && e.getCause().getCause() instanceof ActivityNotFoundException) {
 				// Solo se dara este error (hasta la fecha) cuando se intente cargar el dialogo de PIN de
 				// una tarjeta criptografica
-				Log.e(ES_GOB_AFIRMA, "Se ha intentado cargar el dialogo de PIN de una tarjeta criptografica: " + e); //$NON-NLS-1$
+				Logger.e(ES_GOB_AFIRMA, "Se ha intentado cargar el dialogo de PIN de una tarjeta criptografica: " + e); //$NON-NLS-1$
 				this.t = new MSCBadPinException("Se inserto un PIN incorrecto para la tarjeta critografica", e); //$NON-NLS-1$
 			}
 			else {
-				Log.e(ES_GOB_AFIRMA, "Error durante la operacion de firma: " + e, e); //$NON-NLS-1$
+				Logger.e(ES_GOB_AFIRMA, "Error durante la operacion de firma: " + e, e); //$NON-NLS-1$
 				this.t = e;
 			}
 		}
 		catch (final Exception e) {
-			Log.e(ES_GOB_AFIRMA, "Error en la firma: " + e, e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "Error en la firma: " + e, e); //$NON-NLS-1$
 			this.t = e;
 		}
 
@@ -184,7 +182,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 				return AOSignerFactory.getSigner(signature);
 			}
 			catch (final IOException e) {
-				Log.e(ES_GOB_AFIRMA, "No se ha podido identificar el formato de la firma, se devolvera un manejador nulo: " + e, e); //$NON-NLS-1$
+				Logger.e(ES_GOB_AFIRMA, "No se ha podido identificar el formato de la firma, se devolvera un manejador nulo: " + e, e); //$NON-NLS-1$
 				return null;
 			}
 		}

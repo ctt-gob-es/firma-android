@@ -10,10 +10,9 @@
 
 package es.gob.afirma.android.gui;
 
-import android.util.Log;
-
 import java.io.IOException;
 
+import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.misc.http.UrlHttpMethod;
 
@@ -67,12 +66,12 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 			result = readUrl(url.toString(), UrlHttpMethod.POST);
 		}
 		catch (final IOException e) {
-			Log.e(ES_GOB_AFIRMA, "No se pudo conectar con el servidor intermedio para el envio de datos: " + e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "No se pudo conectar con el servidor intermedio para el envio de datos: " + e); //$NON-NLS-1$
 			this.error = e;
 			return null;
 		}
 		catch (final AOCancelledOperationException e) {
-			Log.e(ES_GOB_AFIRMA, "Se cancelo el envio de datos: " + e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "Se cancelo el envio de datos: " + e); //$NON-NLS-1$
 			this.error = e;
 			return null;
 		}

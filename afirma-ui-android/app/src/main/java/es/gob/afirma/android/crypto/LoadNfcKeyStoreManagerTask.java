@@ -13,11 +13,11 @@ package es.gob.afirma.android.crypto;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import java.security.KeyStore;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.Logger;
 import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 
 /** Tarea de carga e inicializaci&oacute;n de los almacenes de claves por conexion NFC. */
@@ -70,9 +70,7 @@ public final class LoadNfcKeyStoreManagerTask extends AsyncTask {
 	@Override
 	protected Object doInBackground(Object[] params) {
 
-		Log.i(ES_GOB_AFIRMA, " -- LoadNfcKeyStoreManagerTask doInBackgroung"); //$NON-NLS-1$
-
-		Log.i(ES_GOB_AFIRMA, "Inicializamos el almacen"); //$NON-NLS-1$
+		Logger.i(ES_GOB_AFIRMA, "Inicializamos el almacen"); //$NON-NLS-1$
 		//Se obtiene el KeyStore
 
 		KeyStore ks;

@@ -10,11 +10,10 @@
 
 package es.gob.afirma.android.gui;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.net.URL;
 
+import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.misc.http.UrlHttpMethod;
 
@@ -57,10 +56,7 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 
 	@Override
 	protected byte[] doInBackground(final Void... arg0) {
-
-		Log.i(ES_GOB_AFIRMA, " -- DownloadFileTask doInBackgroung"); //$NON-NLS-1$
-
-		Log.i(ES_GOB_AFIRMA, "Descargando datos de servidor remoto"); //$NON-NLS-1$
+		Logger.i(ES_GOB_AFIRMA, "Descargando datos de servidor remoto"); //$NON-NLS-1$
 
 		final byte[] data;
 		try {
@@ -69,7 +65,7 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 			url.append("&v=").append(SYNTAX_VERSION); //$NON-NLS-1$
 			url.append("&id=").append(this.fileId); //$NON-NLS-1$
 
-			Log.i(ES_GOB_AFIRMA, "URL: " + url); //$NON-NLS-1$
+			Logger.i(ES_GOB_AFIRMA, "URL: " + url); //$NON-NLS-1$
 
 			// Llamamos al servicio para guardar los datos
 			data = this.readUrl(url.toString(), UrlHttpMethod.POST);
@@ -79,7 +75,7 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 				// Si el problema es que no hay datos, lo reeintentamos hasta un maximo de veces
 				if (new String(data).startsWith(ERROR_NO_DATA)) {
 
-					Log.i(ES_GOB_AFIRMA, "Los datos no estaban disponibles en servidor"); //$NON-NLS-1$
+					Logger.i(ES_GOB_AFIRMA, "Los datos no estaban disponibles en servidor"); //$NON-NLS-1$
 
 					if (this.downloadTries < MAX_DOWNLOAD_TRIES) {
 						this.downloadTries++;
@@ -87,7 +83,7 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 							Thread.sleep(2000);
 						}
 						catch (final Exception e) {
-							Log.i(ES_GOB_AFIRMA, "No se pudo realizar la espera entre tiempos de descarga"); //$NON-NLS-1$
+							Logger.i(ES_GOB_AFIRMA, "No se pudo realizar la espera entre tiempos de descarga"); //$NON-NLS-1$
 						}
 						return doInBackground(arg0);
 					}
@@ -121,7 +117,7 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 			return null;
 		}
 
-		Log.i(ES_GOB_AFIRMA, "Descarga de datos finalizada"); //$NON-NLS-1$
+		Logger.i(ES_GOB_AFIRMA, "Descarga de datos finalizada"); //$NON-NLS-1$
 
 		return data;
 	}
@@ -136,7 +132,7 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 			this.ddListener.onDownloadingDataError(this.errorMessage, this.errorThowable);
 		}
 		else {
-			Log.e(ES_GOB_AFIRMA, "La actividad de descarga ha finalizado sin obtener resultados"); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "La actividad de descarga ha finalizado sin obtener resultados"); //$NON-NLS-1$
 		}
 	}
 

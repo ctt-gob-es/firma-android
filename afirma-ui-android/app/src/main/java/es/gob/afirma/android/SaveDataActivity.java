@@ -17,7 +17,6 @@ import android.media.MediaScannerConnection;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
@@ -86,7 +85,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 		super.onCreate(savedInstanceState);
 
 		if (getIntent() == null || getIntent().getData() == null) {
-			Log.w(ES_GOB_AFIRMA, "No se han indicado parametros de entrada para la actividad"); //$NON-NLS-1$
+			Logger.w(ES_GOB_AFIRMA, "No se han indicado parametros de entrada para la actividad"); //$NON-NLS-1$
 			closeActivity();
 			return;
 		}
@@ -111,7 +110,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 			this.selectedDir = null;
 		}
 
-		Log.d(ES_GOB_AFIRMA, "Se abre el directorio: " + this.currentDir.getAbsolutePath());  //$NON-NLS-1$
+		Logger.d(ES_GOB_AFIRMA, "Se abre el directorio: " + this.currentDir.getAbsolutePath());  //$NON-NLS-1$
 
 		// Establecemos el layout con la interfaz
 		setContentView(R.layout.activity_save_data);
@@ -125,7 +124,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 			}
 			catch (final ParameterException e) {
 				showMessage(getString(R.string.error_bad_params));
-				Log.e(ES_GOB_AFIRMA, "Error en los parametros de entrada: " + e.toString()); //$NON-NLS-1$
+				Logger.e(ES_GOB_AFIRMA, "Error en los parametros de entrada: " + e.toString()); //$NON-NLS-1$
 				closeActivity();
 				return;
 			}
@@ -197,7 +196,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 		findViewById(R.id.cancelButton).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				Log.i(ES_GOB_AFIRMA, "Se cancela el guardado de los datos");  //$NON-NLS-1$
+				Logger.i(ES_GOB_AFIRMA, "Se cancela el guardado de los datos");  //$NON-NLS-1$
 				closeActivity();
 			}
 		});
@@ -260,7 +259,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 			ext = new MimeHelper(data).getExtension();
 		}
 		catch( Exception e) {
-			Log.w(ES_GOB_AFIRMA, "No se pudo identificar la extension del fichero", e);
+			Logger.w(ES_GOB_AFIRMA, "No se pudo identificar la extension del fichero", e);
 			ext = null;
 		}
 		return ext;
@@ -289,14 +288,14 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 			fos.close();
 		}
 		catch (final IOException e) {
-			Log.e(ES_GOB_AFIRMA, "No se han podido guardar los datos: " + e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "No se han podido guardar los datos: " + e); //$NON-NLS-1$
 			showMessage(getString(R.string.error_saving_data));
 			return;
 		}
 		// Mostramos el mensaje de confirmacion del guardado
 		showMessage(getString(R.string.data_saved, outFile.getName()));
 
-		Log.d(ES_GOB_AFIRMA, "Los datos se han guardado correctamente"); //$NON-NLS-1$
+		Logger.d(ES_GOB_AFIRMA, "Los datos se han guardado correctamente"); //$NON-NLS-1$
 
 		// Refrescamos el directorio para permitir acceder al fichero
 		try {
@@ -310,7 +309,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 			);
 		}
 		catch(final Exception e) {
-			Log.w(ES_GOB_AFIRMA, "Error refrescando el MediaScanner: " + e); //$NON-NLS-1$
+			Logger.w(ES_GOB_AFIRMA, "Error refrescando el MediaScanner: " + e); //$NON-NLS-1$
 		}
 
 		closeActivity();
@@ -319,7 +318,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 	@Override
 	public void onDownloadingDataSuccess(final byte[] data) {
 
-		Log.i(ES_GOB_AFIRMA, "Datos descargados correctamente"); //$NON-NLS-1$
+		Logger.i(ES_GOB_AFIRMA, "Datos descargados correctamente"); //$NON-NLS-1$
 
 		// Si hemos tenido que descargar los datos desde el servidor, los desciframos y llamamos
 		// al dialogo de seleccion de certificados para la firma
@@ -328,19 +327,19 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 			decipheredData = CipherDataManager.decipherData(data, this.parameters.getDesKey());
 		}
 		catch (final IOException e) {
-			Log.e(ES_GOB_AFIRMA, "Los datos proporcionados no estan correctamente codificados en Base64: " + e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "Los datos proporcionados no estan correctamente codificados en Base64: " + e); //$NON-NLS-1$
 			showMessage(getString(R.string.error_bad_params));
 			closeActivity();
 			return;
 		}
 		catch (final GeneralSecurityException e) {
-			Log.e(ES_GOB_AFIRMA, "Error al descifrar los datos recuperados del servidor para la firma: " + e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "Error al descifrar los datos recuperados del servidor para la firma: " + e); //$NON-NLS-1$
 			showMessage(getString(R.string.error_bad_params));
 			closeActivity();
 			return;
 		}
 		catch (final IllegalArgumentException e) {
-			Log.e(ES_GOB_AFIRMA, "Los datos recuperados no son un base64 valido: " + e.toString()); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "Los datos recuperados no son un base64 valido: " + e.toString()); //$NON-NLS-1$
 			showMessage(getString(R.string.error_bad_params));
 			closeActivity();
 			return;
@@ -351,7 +350,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 		}
 		catch (final ParameterException e) {
 			showMessage(getString(R.string.error_bad_params));
-			Log.e(ES_GOB_AFIRMA, "Error en los parametros XML de configuracion de guardado: " + e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "Error en los parametros XML de configuracion de guardado: " + e); //$NON-NLS-1$
 			closeActivity();
 			return;
 		}
@@ -369,7 +368,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 
 	@Override
 	public void onDownloadingDataError(final String msg, final Throwable t) {
-		Log.e(ES_GOB_AFIRMA, "Ocurrio un error descargando los datos del servidor intermedio: " + msg); //$NON-NLS-1$
+		Logger.e(ES_GOB_AFIRMA, "Ocurrio un error descargando los datos del servidor intermedio: " + msg); //$NON-NLS-1$
 		if (t != null) {
 			t.printStackTrace();
 		}

@@ -15,7 +15,6 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -81,7 +80,7 @@ public final class FileChooserActivity extends ListActivity {
 			this.initialDirectoryName = this.currentDir.getName();
 		}
 
-		Log.d(ES_GOB_AFIRMA, "Se abre el directorio: " + this.currentDir.getAbsolutePath());  //$NON-NLS-1$
+		Logger.d(ES_GOB_AFIRMA, "Se abre el directorio: " + this.currentDir.getAbsolutePath());  //$NON-NLS-1$
 
 		fill(this.currentDir);
 	}
