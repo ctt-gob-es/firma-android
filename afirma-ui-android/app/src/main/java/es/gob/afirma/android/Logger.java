@@ -15,7 +15,7 @@ public class Logger {
     public static final boolean isProduction;
 
     static {
-        isProduction = true;
+        isProduction = !BuildConfig.DEBUG;
     }
 
     /**
