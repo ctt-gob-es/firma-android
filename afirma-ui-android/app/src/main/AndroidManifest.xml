@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="es.gob.afirma">
-
     <!-- Permisos normales -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.NFC" />
@@ -60,6 +59,22 @@
         <activity
             android:name=".android.LocalSignResultActivity"
             android:label="@string/title_activity_save_data" />
+        <activity
+            android:name=".android.WebBatchSignActivity"
+            android:label="@string/title_activity_sign_data"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="es.gob.afirma.android.SIGN_SERVICE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="batchsign"
+                    android:scheme="afirma" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".android.WebSignActivity"
             android:label="@string/title_activity_sign_data"

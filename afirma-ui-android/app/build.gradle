@@ -59,6 +59,7 @@ dependencies {
     implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.6.5'
     implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.6.5'
     implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.6.5'
+    implementation 'es.gob.afirma:afirma-crypto-batch-client:1.6.5'
     implementation 'es.gob.afirma.jmulticard:jmulticard-jse:1.5'
 
     //implementation 'com.android.support:multidex:1.0.3'

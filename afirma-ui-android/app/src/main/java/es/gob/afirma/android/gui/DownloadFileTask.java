@@ -12,9 +12,11 @@ package es.gob.afirma.android.gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOCancelledOperationException;
+import es.gob.afirma.core.misc.http.UrlHttpManagerImpl;
 import es.gob.afirma.core.misc.http.UrlHttpMethod;
 
 /** Tarea para la descarga de un fichero del servidor intermedio. */
@@ -37,6 +39,7 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 
 	private final String fileId;
 	private final URL retrieveServletUrl;
+	private final Properties properties;
 	private final DownloadDataListener ddListener;
 
 	private String errorMessage = null;
@@ -48,9 +51,26 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 	 * @param fileId Identificadod del fichero en el servidor intermedio
 	 * @param retrieveServletUrl URL del servidor intermedio
 	 * @param ddListener Clase a la que hay que notificar el resultado de la descraga */
-	public DownloadFileTask(final String fileId, final URL retrieveServletUrl, final DownloadDataListener ddListener) {
+	public DownloadFileTask(final String fileId,
+							final URL retrieveServletUrl,
+							final DownloadDataListener ddListener) {
+		this(fileId, retrieveServletUrl, null, ddListener);
+	}
+
+	/** Crea una tarea para la descarga de un fichero del servidor intermedio.
+	 * @param fileId Identificadod del fichero en el servidor intermedio
+	 * @param retrieveServletUrl URL del servidor intermedio
+	 * @param properties Propiedades adicionales
+	 * @param ddListener Clase a la que hay que notificar el resultado de la descraga */
+	public DownloadFileTask(final String fileId,
+							final URL retrieveServletUrl,
+							final Properties properties,
+							final DownloadDataListener ddListener) {
 		this.fileId = fileId;
 		this.retrieveServletUrl = retrieveServletUrl;
+		this.properties = new Properties();
+		if (properties != null)
+			this.properties.putAll(properties);
 		this.ddListener = ddListener;
 	}
 
@@ -68,7 +88,7 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 			Logger.i(ES_GOB_AFIRMA, "URL: " + url); //$NON-NLS-1$
 
 			// Llamamos al servicio para guardar los datos
-			data = this.readUrl(url.toString(), UrlHttpMethod.POST);
+			data = this.readUrl(url.toString(), UrlHttpManagerImpl.DEFAULT_TIMEOUT, UrlHttpMethod.POST, properties);
 
 			if (ERROR_PREFIX.equalsIgnoreCase(new String(data, 0, 4, DEFAULT_URL_ENCODING))) {
 

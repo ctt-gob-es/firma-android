@@ -75,4 +75,6 @@
 	<string name="accesibility_icon_sign_ko">Error while signing</string>
 	<string name="accesibility_icon_sign_ok">Success signature</string>
     <string name="file_read_out_of_memory">The selected file is too large and there is no enough memory to load it</string>
+    <string name="error_batch_process_error">Error occurred during signature processing</string>
+    <string name="error_batch_process_continue_on_error">The process has been continued with %d errors</string>
 </resources>
