@@ -214,16 +214,21 @@ public class WebBatchSignActivity extends SignFragmentActivity implements Downlo
     private void signNext() {
         actualSign = batchReader.getSigns().remove(0);
 		try {
-			Logger.i(ES_GOB_AFIRMA, "Se van a descargar los datos desde servidor con el identificador: " + this.actualSign.getId()); //$NON-NLS-1$
-
-			this.downloadFileTask = new DownloadFileTask(
-					this.actualSign.getId(),
-					new URL(this.actualSign.getDataSource()),
-					this.authMethod,
-					this
-			);
-			this.downloadFileTask.execute();
-		} catch (MalformedURLException e) {
+			actualSign.checkDatasource();
+			if (actualSign.datasourceType.equals(SingleSign.DatasourceTypes.BASE64)) {
+				Logger.i(ES_GOB_AFIRMA, "Datasource en Base64 se omite la descarga");
+				initSign(Base64.decode(actualSign.getDataSource().getBytes(), Base64.DEFAULT));
+			} else {
+				Logger.i(ES_GOB_AFIRMA, "Se van a descargar los datos desde servidor con el identificador: " + this.actualSign.getId()); //$NON-NLS-1$
+				this.downloadFileTask = new DownloadFileTask(
+						this.actualSign.getId(),
+						new URL(this.actualSign.getDataSource()),
+						this.authMethod,
+						this
+				);
+				this.downloadFileTask.execute();
+			}
+		} catch (MalformedURLException | IllegalArgumentException | SecurityException e) {
 			Logger.e(ES_GOB_AFIRMA, "Error en la url de descarga: " + this.actualSign.getDataSource() + " id fichero: " + this.actualSign.getId());
 		}
 	}
@@ -233,7 +238,7 @@ public class WebBatchSignActivity extends SignFragmentActivity implements Downlo
     	try {
     		String auth = params.get("auth");
     		if (auth != null && !auth.isEmpty()) {
-				JSONObject authJson = new JSONObject();
+				JSONObject authJson = new JSONObject(auth);
 				this.authMethod.put(authJson.get("k"), authJson.get("v"));
 			}
 		}
@@ -523,7 +528,8 @@ public class WebBatchSignActivity extends SignFragmentActivity implements Downlo
 		try {
 			data = cipherKey != null ? 
 					CipherDataManager.cipherData(signature.getSignature(),
-					cipherKey) : Base64.encodeToString(signature.getSignature(), Base64.DEFAULT);
+					cipherKey) : Base64.encodeToString(signature.getSignature(), Base64.DEFAULT)
+								 .replace("/","_").replace("+", "-");
 
 		}
 		catch (final GeneralSecurityException e) {
@@ -541,7 +547,8 @@ public class WebBatchSignActivity extends SignFragmentActivity implements Downlo
 		try {
 			signingCert = cipherKey != null ? CipherDataManager.cipherData(
 				signature.getSigningCertificate().getEncoded(),
-				this.parametersBatch.getDesKey()) : Base64.encodeToString(signature.getSigningCertificate().getEncoded(), Base64.DEFAULT);
+				this.parametersBatch.getDesKey()) : Base64.encodeToString(signature.getSigningCertificate().getEncoded(), Base64.DEFAULT)
+													.replace("/","_").replace("+", "-");
 		}
 		catch (final GeneralSecurityException e) {
 			Logger.e(ES_GOB_AFIRMA, "Error en el cifrado del certificado de firma: " + e, e); //$NON-NLS-1$

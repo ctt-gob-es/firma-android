@@ -15,6 +15,8 @@
  */
 package es.gob.afirma.android.signers.batch.signer;
 
+import android.provider.ContactsContract;
+
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -54,6 +56,11 @@ public final class SingleSign {
 
     private Properties extraParams;
 
+    private static String allowedSources = "base64;http://*;https://*;ftp://*";
+    public enum DatasourceTypes {
+        BASE64, HTTP, HTTPS, FTP
+    };
+    public DatasourceTypes datasourceType;
     private String dataSource;
 
     private SignFormat format;
@@ -185,29 +192,33 @@ public final class SingleSign {
         this.signSaver = signSaver;
     }
 
-//    private static void checkDataSource(final String dataSource) {
-//        if (dataSource == null) {
-//            throw new IllegalArgumentException(
-//                    "El origen de los datos no puede ser nulo" //$NON-NLS-1$
-//            );
-//        }
-//        for (final String allowed : BatchConfigManager.getAllowedSources()) {
-//            if ("base64".equalsIgnoreCase(allowed) && Base64.isBase64(dataSource)) { //$NON-NLS-1$
-//                return;
-//            }
-//            if (allowed.endsWith("*")) { //$NON-NLS-1$
-//                if (dataSource.startsWith(allowed.replace("*", ""))) { //$NON-NLS-1$ //$NON-NLS-2$
-//                    return;
-//                }
-//            }
-//            else {
-//                if (dataSource.equals(allowed)) {
-//                    return;
-//                }
-//            }
-//        }
-//        throw new SecurityException("Origen de datos no valido"); //$NON-NLS-1$
-//    }
+    public void checkDatasource() {
+        if (dataSource == null) {
+            throw new IllegalArgumentException(
+                    "el origen de los datos no puede ser nulo" //$non-nls-1$
+            );
+        }
+        for (final String allowed : SingleSign.allowedSources.split(";")) {
+            if ("base64".equals(allowed) && Base64.isBase64(dataSource)) { //$non-nls-1$
+                datasourceType = DatasourceTypes.BASE64;
+                return;
+            }
+            if (allowed.endsWith("*")) { //$non-nls-1$
+                if (dataSource.startsWith(allowed.replace("*", ""))) { //$non-nls-1$ //$non-nls-2$
+                    for (DatasourceTypes t : DatasourceTypes.values())
+                        if (dataSource.startsWith(t.name().toLowerCase())) {
+                            datasourceType = t;
+                            return;
+                        }
+                }
+            } else {
+                if (dataSource.equals(allowed)) {
+                    return;
+                }
+            }
+        }
+        throw new SecurityException("origen de datos no valido"); //$non-nls-1$
+    }
 
     @Override
     public String toString() {
