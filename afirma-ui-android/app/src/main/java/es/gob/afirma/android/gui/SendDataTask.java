@@ -11,9 +11,11 @@
 package es.gob.afirma.android.gui;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOCancelledOperationException;
+import es.gob.afirma.core.misc.http.UrlHttpManagerImpl;
 import es.gob.afirma.core.misc.http.UrlHttpMethod;
 
 /** Tarea para el env&iacute;o de datos al servidor de intercambio. Si la entrega de estos datos es
@@ -30,6 +32,7 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 
 	private final String id;
 	private final String servletUrl;
+	private final Properties properties;
 	private final String dataB64;
 	private final SendDataListener listener;
 	private final boolean critical;
@@ -43,10 +46,28 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 	 * @param listener Clase a la que se notifica el resultado del env&iacute;o de datos
 	 * @param critical {@code true} si el procedimiento es cr&iacute;tico, {@code false} en caso contrario.
 	 */
-	public SendDataTask(final String id, final String servletUrl, final String dataB64, final SendDataListener listener, final boolean critical) {
+	public SendDataTask(final String id, final String servletUrl, final String dataB64,
+						final SendDataListener listener, final boolean critical) {
+		this(id, servletUrl, dataB64, null, listener, critical);
+	}
+
+	/** Crea la tarea con los datos necesarios para el intercambio, permitiendo que se indique si la
+	 * entrega de estos datos es un proceso cr&iacute;tico para la ejecuci&oacute;n del procedimiento.
+	 * @param id Identificador del intercambio.
+	 * @param servletUrl URL del servlet para la subida de datos.
+	 * @param dataB64 Datos en base 64 que se desean enviar.
+	 * @param properties Propiedades adicionales.
+	 * @param listener Clase a la que se notifica el resultado del env&iacute;o de datos
+	 * @param critical {@code true} si el procedimiento es cr&iacute;tico, {@code false} en caso contrario.
+	 */
+	public SendDataTask(final String id, final String servletUrl, final String dataB64,
+						final Properties properties, final SendDataListener listener, final boolean critical) {
 		this.id = id;
 		this.servletUrl = servletUrl;
 		this.dataB64 = dataB64;
+		this.properties = new Properties();
+		if (properties != null)
+			this.properties.putAll(properties);
 		this.listener = listener;
 		this.critical = critical;
 	}
@@ -63,7 +84,7 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 			url.append("&dat=").append(this.dataB64); //$NON-NLS-1$
 
 			// Llamamos al servicio para guardar los datos
-			result = readUrl(url.toString(), UrlHttpMethod.POST);
+			result = readUrl(url.toString(), UrlHttpManagerImpl.DEFAULT_TIMEOUT, UrlHttpMethod.POST, properties);
 		}
 		catch (final IOException e) {
 			Logger.e(ES_GOB_AFIRMA, "No se pudo conectar con el servidor intermedio para el envio de datos: " + e); //$NON-NLS-1$

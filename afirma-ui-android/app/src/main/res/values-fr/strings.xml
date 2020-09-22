@@ -22,5 +22,6 @@
     <string name="file_chooser_read_error">Erreur: Il n\'est pas possible la lecture du fichier</string>
     <string name="bytes">bytes</string>
     <string name="file_read_out_of_memory">Le fichier est trop grande et il n\'y a pas de mémoire suffisant pour lui lire</string>
+    <string name="error_batch_process_error">Une erreur s\'est produite lors du traitement des signatures</string>
 </resources>
 

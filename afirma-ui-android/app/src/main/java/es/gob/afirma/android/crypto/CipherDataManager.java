@@ -55,6 +55,7 @@ public final class CipherDataManager {
 
 		Logger.i(ES_GOB_AFIRMA, "Componemos la cadena para descifrar"); //$NON-NLS-1$
 		final String recoveredData = new String(cipheredDataB64, DEFAULT_URL_ENCODING).replace("_", "/").replace("-", "+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		Logger.d(ES_GOB_AFIRMA,"Datos recuperados:" + recoveredData);
 		byte[] decipheredData;
 		if (cipherKey != null) {
 			Logger.i(ES_GOB_AFIRMA, "Vamos a descifrar"); //$NON-NLS-1$
@@ -63,7 +64,7 @@ public final class CipherDataManager {
 		}
 		else {
 			Logger.i(ES_GOB_AFIRMA, "No tenemos clave para descifrar. Consideramos los datos como descifrados"); //$NON-NLS-1$
-			decipheredData = Base64.decode(recoveredData, true);
+			decipheredData = Base64.decode(recoveredData, false);
 		}
 		return decipheredData;
 	}

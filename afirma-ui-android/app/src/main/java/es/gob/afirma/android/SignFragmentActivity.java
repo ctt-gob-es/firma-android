@@ -42,6 +42,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	private String format = null;
 	private String algorithm = null;
 	private Properties extraParams = null;
+	protected PrivateKeyEntry pke;
 
 	/**
 	 * Inicia el proceso de firma.
@@ -58,7 +59,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			throw new IllegalArgumentException("No se han indicado la operacion de firma");
 		}
 		try {
-			this.signOperation = Operation.valueOf(signOperation);
+			this.signOperation = Operation.valueOf(signOperation.toUpperCase());
 		}
 		catch (Exception e) {
 			throw new IllegalArgumentException(String.format(
@@ -82,13 +83,17 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 		this.extraParams = extraParams;
 
 		// Iniciamos la carga del almacen
-		loadKeyStore(this);
+		if (pke != null)
+			doSign(pke);
+		else
+			loadKeyStore(this);
 	}
 
 	@Override
 	public synchronized void keySelected(final SelectCertificateEvent kse) {
 
-		PrivateKeyEntry pke;
+		Logger.i(ES_GOB_AFIRMA, " -- SignFragmentActivity keySelected");
+
 		try {
 			pke = kse.getPrivateKeyEntry();
 		}
