@@ -133,7 +133,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 
 	private void fill(final File f) {
 
-		((TextView) findViewById(R.id.current_directory)).setText(getString(R.string.file_chooser_directorio_actual) + " " + f.getName());  //$NON-NLS-1$
+		((TextView) findViewById(R.id.current_directory)).setText(getString(R.string.file_chooser_directorio_actual, f.getName()));  //$NON-NLS-1$
 
 		final List<FileOption> dir = new ArrayList<FileOption>();
 		for (final File ff : f.listFiles()) {
