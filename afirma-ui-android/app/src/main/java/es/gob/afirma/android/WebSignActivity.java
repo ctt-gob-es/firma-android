@@ -35,6 +35,7 @@ import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.crypto.AndroidHttpManager;
 import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
@@ -45,6 +46,7 @@ import es.gob.afirma.android.gui.MessageDialog;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
 import es.gob.afirma.core.AOUnsupportedSignFormatException;
+import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
 import es.gob.afirma.core.misc.protocol.ParameterException;
 import es.gob.afirma.core.misc.protocol.ProtocolInvocationUriParser;
 import es.gob.afirma.core.misc.protocol.UrlParametersToSign;
@@ -89,6 +91,12 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	}
 
     private static final int REQUEST_WRITE_STORAGE = 112;
+
+	static {
+		// Instalamos el gestor de descargas que deseamos utilizar en las invocaciones por
+		// protocolo a la aplicacion
+		UrlHttpManagerFactory.install(new AndroidHttpManager());
+	}
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {

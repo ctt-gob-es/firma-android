@@ -14,6 +14,8 @@ import java.io.IOException;
 
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOCancelledOperationException;
+import es.gob.afirma.core.misc.http.UrlHttpManager;
+import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
 import es.gob.afirma.core.misc.http.UrlHttpMethod;
 
 /** Tarea para el env&iacute;o de datos al servidor de intercambio. Si la entrega de estos datos es
@@ -63,7 +65,8 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 			url.append("&dat=").append(this.dataB64); //$NON-NLS-1$
 
 			// Llamamos al servicio para guardar los datos
-			result = readUrl(url.toString(), UrlHttpMethod.POST);
+			final UrlHttpManager urlManager = UrlHttpManagerFactory.getInstalledManager();
+			result = urlManager.readUrl(url.toString(), UrlHttpMethod.POST);
 		}
 		catch (final IOException e) {
 			Logger.e(ES_GOB_AFIRMA, "No se pudo conectar con el servidor intermedio para el envio de datos: " + e); //$NON-NLS-1$

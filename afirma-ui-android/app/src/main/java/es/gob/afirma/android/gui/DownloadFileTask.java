@@ -15,6 +15,8 @@ import java.net.URL;
 
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOCancelledOperationException;
+import es.gob.afirma.core.misc.http.UrlHttpManager;
+import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
 import es.gob.afirma.core.misc.http.UrlHttpMethod;
 
 /** Tarea para la descarga de un fichero del servidor intermedio. */
@@ -34,6 +36,8 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 	private static final String ERROR_NO_DATA = ERROR_PREFIX + "06"; //$NON-NLS-1$
 
 	private static final int MAX_DOWNLOAD_TRIES = 10;
+
+	private static final int DOWNLOAD_TRIES_TIME_LEAP = 2000;
 
 	private final String fileId;
 	private final URL retrieveServletUrl;
@@ -67,8 +71,10 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 
 			Logger.i(ES_GOB_AFIRMA, "URL: " + url); //$NON-NLS-1$
 
+			UrlHttpManager urlManager = UrlHttpManagerFactory.getInstalledManager();
+
 			// Llamamos al servicio para guardar los datos
-			data = this.readUrl(url.toString(), UrlHttpMethod.POST);
+			data = urlManager.readUrl(url.toString(), UrlHttpMethod.POST);
 
 			if (ERROR_PREFIX.equalsIgnoreCase(new String(data, 0, 4, DEFAULT_URL_ENCODING))) {
 
@@ -80,7 +86,7 @@ public final class DownloadFileTask extends BasicHttpTransferDataTask {
 					if (this.downloadTries < MAX_DOWNLOAD_TRIES) {
 						this.downloadTries++;
 						try {
-							Thread.sleep(2000);
+							Thread.sleep(DOWNLOAD_TRIES_TIME_LEAP);
 						}
 						catch (final Exception e) {
 							Logger.i(ES_GOB_AFIRMA, "No se pudo realizar la espera entre tiempos de descarga"); //$NON-NLS-1$
