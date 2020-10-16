@@ -37,19 +37,22 @@ import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.DownloadFileTask.DownloadDataListener;
 import es.gob.afirma.android.gui.FileArrayAdapter;
 import es.gob.afirma.android.gui.FileOption;
+import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.core.misc.MimeHelper;
 import es.gob.afirma.core.misc.protocol.ParameterException;
 import es.gob.afirma.core.misc.protocol.ProtocolInvocationUriParser;
 import es.gob.afirma.core.misc.protocol.UrlParametersToSave;
 
 /** Actividad Android para la elecci&oacute;n de un fichero en el almacenamiento del dispositivo. */
-public final class SaveDataActivity extends ListActivity implements DownloadDataListener {
+public final class SaveDataActivity extends ListActivity implements DownloadDataListener, SendDataTask.SendDataListener {
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
 	private static final String SAVE_INSTANCE_KEY_CURRENT_DIR = "currentDir"; //$NON-NLS-1$
 	private static final String SAVE_INSTANCE_KEY_INITIAL_DIR = "initialDir"; //$NON-NLS-1$
 	private static final String SAVE_INSTANCE_KEY_SELECTED_DIR = "selectedDir"; //$NON-NLS-1$
+
+	private static final String RESULT_OK = "OK"; //$NON-NLS-1$
 
 	private static final String DEFAULT_FILENAME = "firma"; //$NON-NLS-1$
 
@@ -124,7 +127,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 			}
 			catch (final ParameterException e) {
 				showMessage(getString(R.string.error_bad_params));
-				Logger.e(ES_GOB_AFIRMA, "Error en los parametros de entrada: " + e.toString()); //$NON-NLS-1$
+				Logger.e(ES_GOB_AFIRMA, "Error en los parametros de entrada: " + e); //$NON-NLS-1$
 				closeActivity();
 				return;
 			}
@@ -196,8 +199,9 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 		findViewById(R.id.cancelButton).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
+				// Devolvemos a la aplicacion cliente una respuesta de cancelacion
 				Logger.i(ES_GOB_AFIRMA, "Se cancela el guardado de los datos");  //$NON-NLS-1$
-				closeActivity();
+				sendData(ErrorManager.genError(ErrorManager.ERROR_CANCELLED_OPERATION), true);
 			}
 		});
 
@@ -290,6 +294,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 		catch (final IOException e) {
 			Logger.e(ES_GOB_AFIRMA, "No se han podido guardar los datos: " + e); //$NON-NLS-1$
 			showMessage(getString(R.string.error_saving_data));
+			sendData(ErrorManager.genError(ErrorManager.ERROR_SAVING_DATA), false);
 			return;
 		}
 		// Mostramos el mensaje de confirmacion del guardado
@@ -312,7 +317,8 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 			Logger.w(ES_GOB_AFIRMA, "Error refrescando el MediaScanner: " + e); //$NON-NLS-1$
 		}
 
-		closeActivity();
+		// Notificamos el resultado a la aplicacion que llamo a la actividad
+		sendData(RESULT_OK, true);
 	}
 
 	@Override
@@ -339,7 +345,7 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 			return;
 		}
 		catch (final IllegalArgumentException e) {
-			Logger.e(ES_GOB_AFIRMA, "Los datos recuperados no son un base64 valido: " + e.toString()); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "Los datos recuperados no son un base64 valido: " + e); //$NON-NLS-1$
 			showMessage(getString(R.string.error_bad_params));
 			closeActivity();
 			return;
@@ -430,9 +436,49 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 		finish();
 	}
 
-//	@Override
+	/** Env&iacute;a los datos indicado a un servlet. En caso de error, cierra la aplicaci&oacute;n.
+	 * @param data Datos que se desean enviar.
+	 * @param critical Indica si despu&eacute;s del intento de env&iacute;o del mensaje (da igual si
+	 *                 llega o no) se debe cerrar la aplicaci&oacute;n. */
+	private void sendData(final String data, final boolean critical) {
+
+		Logger.i(ES_GOB_AFIRMA, "Se almacena el resultado en el servidor con el Id: " + this.parameters.getId()); //$NON-NLS-1$
+
+		new SendDataTask(
+				this.parameters.getId(),
+				this.parameters.getStorageServletUrl().toExternalForm(),
+				data,
+				this,
+				critical
+		).execute();
+	}
+
+	@Override
+	public void onSendingDataSuccess(byte[] result, boolean critical) {
+		if (critical) {
+			closeActivity();
+		}
+	}
+
+	@Override
+	public void onSendingDataError(Throwable error, boolean critical) {
+		Logger.w(
+				"es.gob.afirma",
+				"No se pudo enviar al servidor el resultado de la operacion de guardado");
+		if (critical) {
+			closeActivity();
+		}
+	}
+
+	//	@Override
 //	protected void onStop() {
 //		super.onStop();
 //		EasyTracker.getInstance().activityStop(this);
 //	}
+
+
+	@Override
+	public void onBackPressed() {
+		sendData(ErrorManager.genError(ErrorManager.ERROR_CANCELLED_OPERATION), true);
+	}
 }

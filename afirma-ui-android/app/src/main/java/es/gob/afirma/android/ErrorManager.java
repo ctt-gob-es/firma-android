@@ -45,6 +45,7 @@ final class ErrorManager {
 	static final String ERROR_ESTABLISHING_KEYSTORE		 = "ERR-23"; //$NON-NLS-1$
 	static final String ERROR_MSC_PIN					 = "ERR-24"; //$NON-NLS-1$
 	static final String ERROR_SELECTING_CERTIFICATE		 = "ERR-25"; //$NON-NLS-1$
+	static final String ERROR_SAVING_DATA			 = "ERR-26"; //$NON-NLS-1$
 
 
 	private static final Dictionary<String, String> ERRORS = new Hashtable<>();
@@ -72,10 +73,15 @@ final class ErrorManager {
 		ERRORS.put(ERROR_ESTABLISHING_KEYSTORE, "No se ha podido establecer un almacen de certificados para su uso"); //$NON-NLS-1$
 		ERRORS.put(ERROR_MSC_PIN, "Error en la firma. Compruebe que el PIN de su dispositivo criptografico es correcto. Varios intentos incorrectos pueden bloquearlo."); //$NON-NLS-1$
 		ERRORS.put(ERROR_SELECTING_CERTIFICATE, "Ocurrio un error en la seleccion del certificado"); //$NON-NLS-1$
+		ERRORS.put(ERROR_SAVING_DATA, "Error al guardar los datos en el dispositivo"); //$NON-NLS-1$
 	}
 
 	private ErrorManager() {
 		// No instanciable
+	}
+
+	static String genError(final String number) {
+		return genError(number, null);
 	}
 
 	static String genError(final String number, final String msg) {
@@ -85,5 +91,4 @@ final class ErrorManager {
 						msg != null ? msg : ERRORS.get(number) != null ? ERRORS.get(number) : GENERIC_ERROR
 						);
 	}
-
 }
