@@ -14,7 +14,8 @@ import android.app.ProgressDialog;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
+
+import androidx.fragment.app.FragmentActivity;
 
 import java.security.KeyStore;
 

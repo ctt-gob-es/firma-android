@@ -11,6 +11,7 @@
 package es.gob.afirma.android.gui;
 
 import java.io.IOException;
+import java.net.URL;
 
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOCancelledOperationException;
@@ -31,7 +32,7 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
 	private final String id;
-	private final String servletUrl;
+	private final URL servletUrl;
 	private final String dataB64;
 	private final SendDataListener listener;
 	private final boolean critical;
@@ -45,7 +46,7 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 	 * @param listener Clase a la que se notifica el resultado del env&iacute;o de datos
 	 * @param critical {@code true} si el procedimiento es cr&iacute;tico, {@code false} en caso contrario.
 	 */
-	public SendDataTask(final String id, final String servletUrl, final String dataB64, final SendDataListener listener, final boolean critical) {
+	public SendDataTask(final String id, final URL servletUrl, final String dataB64, final SendDataListener listener, final boolean critical) {
 		this.id = id;
 		this.servletUrl = servletUrl;
 		this.dataB64 = dataB64;
@@ -58,7 +59,7 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 
 		final byte[] result;
 		try {
-			final StringBuilder url = new StringBuilder(this.servletUrl);
+			final StringBuilder url = new StringBuilder(this.servletUrl.toExternalForm());
 			url.append("?op=").append(METHOD_OP_PUT); //$NON-NLS-1$
 			url.append("&v=").append(SYNTAX_VERSION); //$NON-NLS-1$
 			url.append("&id=").append(this.id); //$NON-NLS-1$

@@ -13,7 +13,8 @@ package es.gob.afirma.android.crypto;
 import android.content.Context;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
-import android.support.v4.app.FragmentActivity;
+
+import androidx.fragment.app.FragmentActivity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

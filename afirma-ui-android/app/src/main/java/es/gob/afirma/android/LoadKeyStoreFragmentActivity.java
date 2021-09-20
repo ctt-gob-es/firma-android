@@ -18,8 +18,9 @@ import android.content.IntentFilter;
 import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
+
+import androidx.fragment.app.FragmentActivity;
 
 import java.util.HashMap;
 
@@ -124,7 +125,7 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 			// Si no se inserto el CAN o no se detecto un almacen nfc, nos aseguramos de que no
 			// haya ningun CAN cacheado y cargamos el resto de almacenes.
 			if (resultCode == RESULT_OK) {
-				this.passwordCallback = data != null ? (CachePasswordCallback)data.getSerializableExtra("pc") : null;
+				this.passwordCallback = data != null ? (CachePasswordCallback) data.getSerializableExtra("pc") : null;
 				loadNfcKeyStore();
 			}
 			else {
@@ -193,7 +194,7 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	}
 
 	/**
-	 * Carga el almac&eacute;n de certificados (que podr&oiacute;a ser una tarjeta inteligente
+	 * Carga el almac&eacute;n de certificados (que podr&oacute;a ser una tarjeta inteligente
 	 * compatible situada al alcance del NFC).
 	 * @param context Contexto de la actividad.
 	 */

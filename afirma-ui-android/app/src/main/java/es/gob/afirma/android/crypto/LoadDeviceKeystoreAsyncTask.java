@@ -14,7 +14,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
+
+import androidx.fragment.app.FragmentActivity;
 
 import java.security.KeyStore;
 import java.security.KeyStoreException;

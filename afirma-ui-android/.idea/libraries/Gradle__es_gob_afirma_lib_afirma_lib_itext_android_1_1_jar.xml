@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: es.gob.afirma.lib:afirma-lib-itext-android:1.1@jar">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/.m2/repository/es/gob/afirma/lib/afirma-lib-itext-android/1.1/afirma-lib-itext-android-1.1.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

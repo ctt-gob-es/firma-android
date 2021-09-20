@@ -21,6 +21,7 @@ public final class AndroidJcaKeyStoreManager implements MobileKeyStoreManager {
 
 	private PrivateKeyEntry pke = null;
 	private Exception pkeException = null;
+	private KeyStore ks;
 
 	/** Construye un gestor simple de claves y certificados a partir de un almac&eacute;n JCE/JCA.
 	 * @param alias Alias preseleccionado
@@ -45,6 +46,7 @@ public final class AndroidJcaKeyStoreManager implements MobileKeyStoreManager {
 			Logger.e("es.gob.afirma", "Error obteniendo la entrada a la clave privada: " + e); //$NON-NLS-1$ //$NON-NLS-2$
 			this.pkeException = e;
 		}
+		this.ks = ks;
 	}
 
 	/** {@inheritDoc} */
@@ -57,7 +59,8 @@ public final class AndroidJcaKeyStoreManager implements MobileKeyStoreManager {
 			listener.keySelected(new SelectCertificateEvent(this.pkeException));
 		}
 		else {
-			listener.keySelected(new SelectCertificateEvent(this.pke));
+
+			listener.keySelected(new SelectCertificateEvent(this.pke, this.ks));
 		}
 	}
 

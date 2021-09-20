@@ -30,7 +30,7 @@ import es.gob.afirma.android.gui.FileArrayAdapter;
 import es.gob.afirma.android.gui.FileOption;
 
 /** Actividad Android para la elecci&oacute;n de un fichero en el almacenamiento del dispositivo. */
-public final class FileChooserActivity extends ListActivity {
+public final class 	FileChooserActivity extends ListActivity {
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
@@ -87,11 +87,10 @@ public final class FileChooserActivity extends ListActivity {
 
 	private void fill(final File f) {
 
-		//Descomentar
 		((TextView) findViewById(R.id.current_directory)).setText(getString(R.string.file_chooser_directorio_actual, f.getName()));  //$NON-NLS-1$
 
-		final List<FileOption> dir = new ArrayList<FileOption>();
-		final List<FileOption> fls = new ArrayList<FileOption>();
+		final List<FileOption> dir = new ArrayList<>();
+		final List<FileOption> fls = new ArrayList<>();
 		if(f.listFiles() != null) {
 			for (final File ff : f.listFiles()) {
 				// No mostramos ficheros ni directorios ocultos

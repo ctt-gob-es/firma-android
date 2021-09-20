@@ -2,21 +2,24 @@ apply plugin: 'com.android.application'
 
 android {
 
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId "es.gob.afirma"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 30
         multiDexEnabled true
-        versionCode 19
-        versionName "1.6.5"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode 20
+        versionName "1.7.0"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
     packagingOptions {
         pickFirst 'ACRAIZ-SHA2.crt'
@@ -29,44 +32,40 @@ android {
     }
 }
 
-configurations {
-    all {
-        exclude module: 'httpclient'
-        exclude module: 'commons-logging'
-        exclude group: 'org.json', module: 'json'
-        exclude module: 'opengl-api'
-        exclude module: 'xmlParserAPIs'
-        exclude module: 'xpp3'
-    }
+repositories {
+    mavenLocal()
+    google()
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation ('es.gob.afirma.jmulticard:jmulticard-android:1.5') {
+    implementation ('es.gob.afirma.jmulticard:jmulticard-android:1.7') {
         exclude(module: 'support-v4')
+        exclude(module: 'android')
+        exclude (group: 'es.gob.afirma.jmulticard')
     }
-    implementation('es.gob.afirma:afirma-crypto-pdf:1.6.5') {
+    implementation 'es.gob.afirma.jmulticard:jmulticard-jse:1.7'
+
+    implementation('es.gob.afirma:afirma-crypto-pdf:1.7.1') {
         exclude(module: 'afirma-lib-itext')
     }
-    implementation 'es.gob.afirma.lib:afirma-lib-itext-android:1.2'
-    implementation 'es.gob.afirma:afirma-core:1.6.5'
-    implementation 'es.gob.afirma:afirma-core-keystores:1.6.5'
-    implementation 'es.gob.afirma:afirma-crypto-cades:1.6.5'
-    implementation 'es.gob.afirma:afirma-crypto-cadestri-client:1.6.5'
-    implementation 'es.gob.afirma:afirma-crypto-xadestri-client:1.6.5'
-    implementation 'es.gob.afirma:afirma-crypto-padestri-client:1.6.5'
-    implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.6.5'
-    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.6.5'
-    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.6.5'
-    implementation 'es.gob.afirma.jmulticard:jmulticard-jse:1.5'
+    implementation 'es.gob.afirma.lib:afirma-lib-itext-android:1.3'
+    implementation 'es.gob.afirma:afirma-core:1.7.1'
+    implementation ('es.gob.afirma:afirma-core-keystores:1.7.1') {
+        exclude(group: 'es.gob.afirma.jmulticard')
+    }
+    implementation 'es.gob.afirma:afirma-crypto-cades:1.7.1'
+    implementation 'es.gob.afirma:afirma-crypto-cadestri-client:1.7.1'
+    implementation 'es.gob.afirma:afirma-crypto-xadestri-client:1.7.1'
+    implementation 'es.gob.afirma:afirma-crypto-padestri-client:1.7.1'
+    implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.7.1'
+    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.7.1'
+    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.7.1'
 
-    //implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    //implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    //testImplementation 'junit:junit:4.12'
-    //androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    def fragment_version = "1.3.5"
+
+    // Java language implementation
+    implementation "androidx.fragment:fragment:$fragment_version"
 }
-
-//apply plugin: 'com.google.gms.google-services'

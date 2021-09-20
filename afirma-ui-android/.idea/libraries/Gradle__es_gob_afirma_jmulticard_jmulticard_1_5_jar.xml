@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: es.gob.afirma.jmulticard:jmulticard:1.5@jar">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/.m2/repository/es/gob/afirma/jmulticard/jmulticard/1.5/jmulticard-1.5.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

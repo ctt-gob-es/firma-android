@@ -12,43 +12,9 @@ package es.gob.afirma.android.gui;
 
 import android.os.AsyncTask;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
-import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.logging.Logger;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
-import es.gob.afirma.BuildConfig;
-import es.gob.afirma.core.AOCancelledOperationException;
-import es.gob.afirma.core.misc.http.HttpError;
-import es.gob.afirma.core.misc.http.UrlHttpManager;
-import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
-import es.gob.afirma.core.misc.http.UrlHttpMethod;
 
 /** Tarea de transferencia en segundo plano de datos por HTTP. */
 public abstract class BasicHttpTransferDataTask extends AsyncTask<Void, Void, byte[]> {

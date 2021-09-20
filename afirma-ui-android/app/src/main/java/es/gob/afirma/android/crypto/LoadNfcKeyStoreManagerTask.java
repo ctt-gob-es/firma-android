@@ -12,7 +12,8 @@ package es.gob.afirma.android.crypto;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
+
+import androidx.fragment.app.FragmentActivity;
 
 import java.security.KeyStore;
 

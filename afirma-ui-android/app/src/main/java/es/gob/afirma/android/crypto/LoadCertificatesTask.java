@@ -56,12 +56,17 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        setProgressDialog(
-                ProgressDialog.show(
-                        this.activity,
-                        "",
-                        "Cargando almac\u00E9n de claves del dispositivo",
-                        true)); //$NON-NLS-1$
+        try {
+            setProgressDialog(
+                    ProgressDialog.show(
+                            this.activity,
+                            "",
+                            "Cargando almac\u00E9n de claves del dispositivo",
+                            true)); //$NON-NLS-1$
+        }
+        catch (Throwable e) {
+            Logger.w(ES_GOB_AFIRMA, "No se pudo mostrar el dialogo de progreso de carga del almacen de certificados", e);
+        }
     }
 
     @Override

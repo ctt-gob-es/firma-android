@@ -7,9 +7,9 @@
     <string name="title_activity_cert_chooser">Importer certificat</string>
     <string name="presentation_text">Bienvenue "Client @firma Android".\nCette application permet rèaliser signatures électroniques sur les sites webs qui possédent des serveurs de certificats.\nPour bien fonctionner, vous devez disposer d’un certificat électronique et votre code privé installés dans votre dispositive. Consultez avec votre serveur de certification et la documentation de votre système Android.</string>
     <string name="import_cert">Importer cerficat</string>
-    <string name="disclaimer">2020 Gobierno de Espa\u00F1a</string>
+    <string name="disclaimer">2021 Gobierno de Espa\u00F1a</string>
     <string name="privacy_policy">Politique de confidentialité</string>
-    <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad-2020.html</string>
+    <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="ok">Accepter</string>
     <string name="title_activity_sign_data">Signature des données</string>
     <string name="error_bad_params">L\'invocation à l\'application n\'a pas réussi. Consultez avec votre serveur.</string>

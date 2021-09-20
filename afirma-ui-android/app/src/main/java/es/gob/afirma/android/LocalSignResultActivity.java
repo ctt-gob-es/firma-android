@@ -12,19 +12,27 @@ package es.gob.afirma.android;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Locale;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.ReadLocalFileTask.ReadLocalFileListener;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.SignResult;
 import es.gob.afirma.core.signers.AOSignConstants;
@@ -41,6 +49,8 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 	/** C&oacute;digo de solicitud de carga de fichero. */
 	private final static int REQUEST_CODE_SELECT_FILE = 103;
+	/** C&oacute;digo de solicitud de guardado de fichero. */
+	private final static int REQUEST_CODE_SAVE_FILE = 104;
 
 	private static final String DEFAULT_SIGNATURE_ALGORITHM = "SHA1withRSA"; //$NON-NLS-1$
 
@@ -55,6 +65,12 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	private final static String SAVE_INSTANCE_KEY_ERROR_TEXT = "errorMessage"; //$NON-NLS-1$
 
 	String fileName; //Nombre del fichero seleccionado
+
+	private SignResult signedData;
+
+	private String signatureFilename = null;
+
+	private String signedDataContentType = "*/*";
 
 	private String format = null;
 
@@ -78,10 +94,18 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		}
 		else {
 			// Elegimos un fichero del directorio
-			final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-			intent.setClass(this, FileChooserActivity.class);
-			intent.putExtra(EXTRA_RESOURCE_TITLE, getString(R.string.title_activity_choose_sign_file));
-			intent.putExtra(EXTRA_RESOURCE_EXCLUDE_DIRS, FileSystemConstants.COMMON_EXCLUDED_DIRS); //$NON-NLS-1$
+			Intent intent;
+			if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+				intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+				intent.addCategory(Intent.CATEGORY_OPENABLE);
+				intent.setTypeAndNormalize("*/*"); //$NON-NLS-1$
+			}
+			else {
+				intent = new Intent(Intent.ACTION_GET_CONTENT);
+				intent.setClass(this, FileChooserActivity.class);
+				intent.putExtra(EXTRA_RESOURCE_TITLE, getString(R.string.title_activity_choose_sign_file));
+				intent.putExtra(EXTRA_RESOURCE_EXCLUDE_DIRS, FileSystemConstants.COMMON_EXCLUDED_DIRS); //$NON-NLS-1$
+			}
 			startActivityForResult(intent, REQUEST_CODE_SELECT_FILE);
 		}
 
@@ -99,32 +123,62 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		if (requestCode == REQUEST_CODE_SELECT_FILE) {
 
 			if (resultCode == RESULT_OK) {
-				this.fileName = data.getStringExtra(FileChooserActivity.RESULT_DATA_STRING_FILENAME);
+				byte[] fileContent;
+				try {
+					if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+						final Uri dataUri = data.getData();
+						this.fileName = getFileName(dataUri);
+						fileContent = readDataFromUri(dataUri);
+					} else {
+						this.fileName = data.getStringExtra(FileChooserActivity.RESULT_DATA_STRING_FILENAME);
+						File dataFile = new File(this.fileName);
+						fileContent = readDataFromFile(dataFile);
+					}
+				} catch (final OutOfMemoryError e) {
+					showErrorMessage(getString(R.string.file_read_out_of_memory));
+					Logger.e(ES_GOB_AFIRMA, "Error de memoria al cargar el fichero", e); //$NON-NLS-1$
+					return;
+				} catch (final IOException e) {
+					showErrorMessage(getString(R.string.error_loading_selected_file, this.fileName));
+					Logger.e(ES_GOB_AFIRMA, "Error al cargar el fichero", e); //$NON-NLS-1$
+					return;
+				}
 
-				new ReadLocalFileTask(
-						new ReadLocalFileListener() {
-							@Override
-							public void setData(final Object readedData) {
-								if (readedData instanceof OutOfMemoryError) {
-									showErrorMessage(
-											getString(R.string.file_read_out_of_memory)
-									);
-								} else if (readedData instanceof Exception) {
-									showErrorMessage(
-											getString(R.string.error_loading_selected_file, LocalSignResultActivity.this.fileName)
-									);
-								} else {
-									LocalSignResultActivity.this.format = LocalSignResultActivity.this.fileName.toLowerCase(Locale.ENGLISH)
-											.endsWith(PDF_FILE_SUFFIX) ?
-											AOSignConstants.SIGN_FORMAT_PADES :
-											AOSignConstants.SIGN_FORMAT_CADES;
-									sign("SIGN", (byte[]) readedData, format, DEFAULT_SIGNATURE_ALGORITHM, null);
-								}
-							}
-						}
-				).execute(this.fileName);
+				LocalSignResultActivity.this.format = this.fileName.toLowerCase(Locale.ENGLISH)
+						.endsWith(PDF_FILE_SUFFIX) ?
+						AOSignConstants.SIGN_FORMAT_PADES :
+						AOSignConstants.SIGN_FORMAT_CADES;
+				sign("SIGN", fileContent, format, DEFAULT_SIGNATURE_ALGORITHM, null);
 			}
 			else if (resultCode == RESULT_CANCELED) {
+				finish();
+				return;
+			}
+		}
+		// Resultado del guardado de fichero a partir de Android 11
+		else if (requestCode == REQUEST_CODE_SAVE_FILE) {
+			if (resultCode == RESULT_OK) {
+
+				try {
+					OutputStream outputStream = getContentResolver().openOutputStream(data.getData());
+					if (outputStream != null) {
+						outputStream.write(this.signedData.getSignature());
+						outputStream.close();
+					}
+					else {
+						showErrorMessage(getString(R.string.error_saving_signature));
+						Logger.e(ES_GOB_AFIRMA, "No se pudo obtener el flujo para el guardado de los datos"); //$NON-NLS-1$
+						return;
+					}
+				} catch (final IOException e) {
+					showErrorMessage(getString(R.string.error_saving_signature));
+					Logger.e(ES_GOB_AFIRMA, "Error al guardar la firma", e); //$NON-NLS-1$
+					return;
+				}
+
+				showSuccessMessage(null, false);
+
+			} else {
 				finish();
 				return;
 			}
@@ -133,66 +187,122 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
+	private byte[] readDataFromFile(File dataFile) throws IOException {
+		int n;
+		final byte[] buffer = new byte[1024];
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try (final InputStream is = new FileInputStream(dataFile);) {
+			while ((n = is.read(buffer)) > 0) {
+				baos.write(buffer, 0, n);
+			}
+		}
+		return baos.toByteArray();
+	}
+
+	private byte[] readDataFromUri(Uri uri) throws IOException {
+		int n;
+		final byte[] buffer = new byte[1024];
+		final ByteArrayOutputStream baos;
+		try (InputStream is = getContentResolver().openInputStream(uri);) {
+			baos = new ByteArrayOutputStream();
+			while ((n = is.read(buffer)) > 0) {
+				baos.write(buffer, 0, n);
+			}
+		}
+		return baos.toByteArray();
+	}
+
+	public String getFileName(Uri uri) {
+		String result = null;
+		if (uri.getScheme().equals("content")) {
+			Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+			try {
+				if (cursor != null && cursor.moveToFirst()) {
+					result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+				}
+			} finally {
+				cursor.close();
+			}
+		}
+		if (result == null) {
+			result = uri.getPath();
+			int cut = result.lastIndexOf('/');
+			if (cut != -1) {
+				result = result.substring(cut + 1);
+			}
+		}
+		return result;
+	}
+
 	//Guarda los datos en un directorio del dispositivo y muestra por pantalla al usuario la informacion indicando donse se ha almacenado el fichero
 	private void saveData(final SignResult signature){
 
-		// Comprobamos que tenemos permisos de lectura sobre el directorio en el que se encuentra el fichero origen
-		boolean originalDirectory;
-		final String outDirectory;
-		if (new File(this.fileName).getParentFile().canWrite()) {
-			Logger.d(ES_GOB_AFIRMA, "La firma se guardara en el directorio del fichero de entrada"); //$NON-NLS-1$
-			outDirectory = new File(this.fileName).getParent();
-			originalDirectory = true;
-		}
-		else if (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).exists() && Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).canWrite()) {
-			Logger.d(ES_GOB_AFIRMA, "La firma se guardara en el directorio de descargas"); //$NON-NLS-1$
-			outDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-			originalDirectory = false;
-		}
-		else {
-			Logger.w(ES_GOB_AFIRMA, "No se ha encontrado donde guardar la firma generada"); //$NON-NLS-1$
-			showErrorMessage(getString(R.string.error_no_device_to_store));
-			return;
-		}
-
+		// Definimos el nombre del fichero de firma
 		String inText = null;
 		if (AOSignConstants.SIGN_FORMAT_PADES.equals(this.format)) {
 			inText = "_signed"; //$NON-NLS-1$
 		}
+		this.signatureFilename = AOSignerFactory.getSigner(this.format).getSignedName(new File(this.fileName).getName(), inText);
+		this.signedDataContentType = "application/" + this.signatureFilename.substring(this.signatureFilename.lastIndexOf('.') + 1);
 
-		int i = 0;
-		final String signatureFilename = AOSignerFactory.getSigner(this.format).getSignedName(new File(this.fileName).getName(), inText);
-		String finalSignatureFilename = signatureFilename;
-		while (new File(outDirectory, finalSignatureFilename).exists()) {
-			finalSignatureFilename = buildName(signatureFilename, ++i);
-		}
+		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+			Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+			intent.addCategory(Intent.CATEGORY_OPENABLE);
+			intent.setType(this.signedDataContentType);
+			intent.putExtra(Intent.EXTRA_TITLE, this.signatureFilename);
 
-		try {
-			final FileOutputStream fos = new FileOutputStream(new File(outDirectory, finalSignatureFilename));
-			fos.write(signature.getSignature());
-			fos.flush();
-			fos.close();
+			startActivityForResult(intent, REQUEST_CODE_SAVE_FILE);
 		}
-		catch (final Exception e) {
-			showErrorMessage(getString(R.string.error_saving_signature));
-			Logger.e(ES_GOB_AFIRMA, "Error guardando la firma: " + e); //$NON-NLS-1$
-			return;
-		}
+		else {
 
-		showSuccessMessage(finalSignatureFilename, originalDirectory);
+			// Comprobamos que tenemos permisos de lectura sobre el directorio en el que se encuentra el fichero origen
+			boolean originalDirectory;
+			final File outDirectory;
+			if (new File(this.fileName).getParentFile().canWrite()) {
+				Logger.d(ES_GOB_AFIRMA, "La firma se guardara en el directorio del fichero de entrada"); //$NON-NLS-1$
+				outDirectory = new File(this.fileName).getParentFile();
+				originalDirectory = true;
+			} else if (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).exists() && Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).canWrite()) {
+				Logger.d(ES_GOB_AFIRMA, "La firma se guardara en el directorio de descargas"); //$NON-NLS-1$
+				outDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+				originalDirectory = false;
+			} else {
+				Logger.w(ES_GOB_AFIRMA, "No se ha encontrado donde guardar la firma generada"); //$NON-NLS-1$
+				showErrorMessage(getString(R.string.error_no_device_to_store));
+				return;
+			}
 
-		// Refrescamos el directorio para permitir acceder al fichero
-		try {
-			MediaScannerConnection.scanFile(
-				this,
-				new String[] { new File(outDirectory, finalSignatureFilename).toString(),
-						new File(outDirectory).toString()},
-				null,
-				null
-			);
-		}
-		catch(final Exception e) {
-			Logger.w(ES_GOB_AFIRMA, "Error refrescando el MediaScanner: " + e); //$NON-NLS-1$
+			int i = 0;
+			String finalSignatureFilename = this.signatureFilename;
+			while (new File(outDirectory, finalSignatureFilename).exists()) {
+				finalSignatureFilename = buildName(this.signatureFilename, ++i);
+			}
+
+			try {
+				final FileOutputStream fos = new FileOutputStream(new File(outDirectory, finalSignatureFilename));
+				fos.write(signature.getSignature());
+				fos.flush();
+				fos.close();
+			} catch (final Exception e) {
+				showErrorMessage(getString(R.string.error_saving_signature));
+				Logger.e(ES_GOB_AFIRMA, "Error guardando la firma: " + e); //$NON-NLS-1$
+				return;
+			}
+
+			showSuccessMessage(finalSignatureFilename, originalDirectory);
+
+			// Refrescamos el directorio para permitir acceder al fichero
+			try {
+				MediaScannerConnection.scanFile(
+						this,
+						new String[]{new File(outDirectory, finalSignatureFilename).toString(),
+								outDirectory.toString()},
+						null,
+						null
+				);
+			} catch (final Exception e) {
+				Logger.w(ES_GOB_AFIRMA, "Error refrescando el MediaScanner: " + e); //$NON-NLS-1$
+			}
 		}
 	}
 
@@ -222,9 +332,12 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 		//activo los elementos de la interfaz que corresponden a la firma correcta de un fichero
 		final TextView tv_sf= findViewById(R.id.filestorage_path);
-		tv_sf.setText(getString(originalDirectory ?
-				R.string.signedfile_original_location :
-					R.string.signedfile_downloads_location, filename));
+		tv_sf.setText(getString(
+				filename == null ?
+						R.string.signedfile_correct :
+						originalDirectory ?
+								R.string.signedfile_original_location :
+								R.string.signedfile_downloads_location, filename));
 
 		final RelativeLayout rl = findViewById(R.id.signedfile_correct);
 		rl.setVisibility(View.VISIBLE);
@@ -232,6 +345,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 	@Override
 	public void onSigningSuccess(final SignResult signature) {
+		this.signedData = signature;
 		saveData(signature);
 	}
 

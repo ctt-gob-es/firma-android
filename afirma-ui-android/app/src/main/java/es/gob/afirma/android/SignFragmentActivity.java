@@ -126,19 +126,30 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
             setPasswordCallback(null);
 		}
 
+		String providerName = null;
+		if (kse.getKeyStore() != null) {
+			providerName = kse.getKeyStore().getProvider().getName();
+		}
+
 		try {
-			doSign(pke);
+			doSign(pke, providerName);
 		}
 		catch (final Exception e) {
 			onSigningError(KeyStoreOperation.SIGN, "Error durante la operacion de firma", e);
 		}
 	}
 
-	private void doSign(final PrivateKeyEntry keyEntry) {
+	private void doSign(final PrivateKeyEntry keyEntry, String providerName) {
 
 		if (keyEntry == null) {
 			onSigningError(KeyStoreOperation.SIGN, "No se pudo extraer la clave privada del certificado", new Exception());
 			return;
+		}
+		if (providerName != null) {
+			if (this.extraParams == null) {
+				this.extraParams = new Properties();
+			}
+			this.extraParams.setProperty("Provider." + keyEntry.getPrivateKey().getClass().getName(), providerName);
 		}
 		new SignTask(
 			this.signOperation,
@@ -176,7 +187,6 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	public void onSignError(final Throwable t) {
 		onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
 	}
-
 
 	protected abstract void onSigningSuccess(final SignResult signature);
 

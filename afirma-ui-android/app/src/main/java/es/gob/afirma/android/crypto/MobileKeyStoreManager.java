@@ -10,6 +10,7 @@
 
 package es.gob.afirma.android.crypto;
 
+import java.security.KeyStore;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.security.cert.Certificate;
 
@@ -46,6 +47,7 @@ public interface MobileKeyStoreManager {
     final class SelectCertificateEvent {
 
         private final PrivateKeyEntry pke;
+        private final KeyStore ks;
         private final Certificate[] certChain;
         private final Throwable e;
 
@@ -54,6 +56,17 @@ public interface MobileKeyStoreManager {
          *          del certificado seleccionada */
         SelectCertificateEvent(final PrivateKeyEntry p) {
             this.pke = p;
+            this.ks = null;
+            this.certChain = p.getCertificateChain();
+            this.e = null;
+        }
+
+        /** Construye un evento de selecci&oacute;n de certificado.
+         * @param p Entrada que apunta al par una clave privada y la cadena de certificaci&oacute;n
+         *          del certificado seleccionada */
+        SelectCertificateEvent(final PrivateKeyEntry p, final KeyStore ks) {
+            this.pke = p;
+            this.ks = ks;
             this.certChain = p.getCertificateChain();
             this.e = null;
         }
@@ -62,6 +75,7 @@ public interface MobileKeyStoreManager {
          * @param certChain Cadena de certificaci&oacute;n del certificado seleccionado. */
         SelectCertificateEvent(final Certificate[] certChain) {
             this.pke = null;
+            this.ks = null;
             this.certChain = certChain;
             this.e = null;
         }
@@ -70,13 +84,14 @@ public interface MobileKeyStoreManager {
          * @param t Causa del fallo en la selecci&oacute;n */
         SelectCertificateEvent(final Throwable t) {
             this.pke = null;
+            this.ks = null;
             this.certChain = null;
             this.e = t;
         }
 
         /** Obtiene la entrada que apunta a la entrada de certificado seleccionada.
          * @return Entrada del certificado y clave seleccionados.
-         * @throws Throwable Si la obtenci&oacute;n de la clave privada produjo algun error */
+         * @throws Throwable Si la obtenci&oacute;n de la clave privada produjo alg&uacute;n error */
         public PrivateKeyEntry getPrivateKeyEntry() throws Throwable {
             if (this.e != null) {
                 throw this.e;
@@ -84,9 +99,16 @@ public interface MobileKeyStoreManager {
             return this.pke;
         }
 
+        /** Obtiene el almac&eacute;n utilizado.
+         * @return Almac&eacute;n de claves/certificados.
+         * @throws Throwable Si el acceso al almac&eacute;n produjo alg&uacute;n error. */
+        public KeyStore getKeyStore() {
+            return this.ks;
+        }
+
         /** Obtiene la cadena de certificaci&oacute;n del certificado seleccionado.
          * @return Cadena de certificaci&oacute;n del certificado seleccionados.
-         * @throws Throwable Si la obtenci&oacute;n de la clave privada produjo algun error */
+         * @throws Throwable Si la obtenci&oacute;n de la clave privada produjo alg&uacute;n error */
         public Certificate[] getCertChain() throws Throwable {
             if (this.e != null) {
                 throw this.e;

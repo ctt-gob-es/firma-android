@@ -9,7 +9,6 @@
 
     <!-- Permisos que debe valorar el usuario -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- Permisos obsoletos que hay que mantener por compatibilidad -->
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
@@ -30,9 +29,21 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <!-- Proveedor que define los permisos de acceso a disco. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
 
         <activity
             android:name=".android.MainActivity"
@@ -98,9 +109,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".android.SaveDataActivity"
+            android:name=".android.WebSaveDataActivity"
             android:finishOnCloseSystemDialogs="true"
             android:finishOnTaskLaunch="true"
+            android:theme="@style/Theme.Transparent"
             android:label="@string/title_activity_save_data">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -112,6 +124,10 @@
                     android:host="save"
                     android:scheme="afirma" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".android.SaveDataActivity"
+            android:label="@string/title_activity_save_data">
         </activity>
     </application>
 

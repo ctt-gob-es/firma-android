@@ -26,6 +26,7 @@ import java.security.GeneralSecurityException;
 import java.security.cert.Certificate;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.crypto.AndroidHttpManager;
 import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
@@ -35,6 +36,7 @@ import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.misc.Base64;
+import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
 import es.gob.afirma.core.misc.protocol.ParameterException;
 import es.gob.afirma.core.misc.protocol.ProtocolInvocationUriParser;
 import es.gob.afirma.core.misc.protocol.UrlParametersToSelectCert;
@@ -65,6 +67,12 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	private ProgressDialog progressDialog = null;
 	void setProgressDialog(final ProgressDialog pd) {
 		this.progressDialog = pd;
+	}
+
+	static {
+		// Instalamos el gestor de descargas que deseamos utilizar en las invocaciones por
+		// protocolo a la aplicacion
+		UrlHttpManagerFactory.install(new AndroidHttpManager());
 	}
 
 	@Override
@@ -225,7 +233,7 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	private void sendData(final String data, final boolean critical) {
 		new SendDataTask(
 			this.parameters.getId(),
-			this.parameters.getStorageServletUrl().toExternalForm(),
+			this.parameters.getStorageServletUrl(),
 			data,
 			this,
 			critical
@@ -375,8 +383,13 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 		}
 
         Logger.i(ES_GOB_AFIRMA, "Certificado cifrado. Se envia al servidor."); //$NON-NLS-1$
-        sendData(data, true);
-        Logger.i(ES_GOB_AFIRMA, "Certificado enviado."); //$NON-NLS-1$
+		try {
+			sendData(data, true);
+			Logger.i(ES_GOB_AFIRMA, "Certificado enviado."); //$NON-NLS-1$
+		}
+		catch (Throwable e) {
+			onSendingDataError(e, true);
+		}
 	}
 
 	@Override

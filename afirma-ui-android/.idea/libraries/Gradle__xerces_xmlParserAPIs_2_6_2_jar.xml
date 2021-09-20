@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: xerces:xmlParserAPIs:2.6.2@jar">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/.m2/repository/xerces/xmlParserAPIs/2.6.2/xmlParserAPIs-2.6.2.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

@@ -15,8 +15,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 
 /** Di&aacute;logo modal con el que mostrar al usuario un mensaje y un bot&oacute;n para ocultar el
  * di&aacute;logo y, opcionalmente, realizar una acci&oacute;n. */

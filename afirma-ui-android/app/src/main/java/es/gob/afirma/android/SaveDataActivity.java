@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.List;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.crypto.AndroidHttpManager;
 import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.DownloadFileTask.DownloadDataListener;
@@ -39,11 +40,12 @@ import es.gob.afirma.android.gui.FileArrayAdapter;
 import es.gob.afirma.android.gui.FileOption;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.core.misc.MimeHelper;
+import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
 import es.gob.afirma.core.misc.protocol.ParameterException;
 import es.gob.afirma.core.misc.protocol.ProtocolInvocationUriParser;
 import es.gob.afirma.core.misc.protocol.UrlParametersToSave;
 
-/** Actividad Android para la elecci&oacute;n de un fichero en el almacenamiento del dispositivo. */
+/** Actividad  para el guardado de un fichero en el almacenamiento del dispositivo en Android 10 o inferior. */
 public final class SaveDataActivity extends ListActivity implements DownloadDataListener, SendDataTask.SendDataListener {
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
@@ -51,6 +53,8 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 	private static final String SAVE_INSTANCE_KEY_CURRENT_DIR = "currentDir"; //$NON-NLS-1$
 	private static final String SAVE_INSTANCE_KEY_INITIAL_DIR = "initialDir"; //$NON-NLS-1$
 	private static final String SAVE_INSTANCE_KEY_SELECTED_DIR = "selectedDir"; //$NON-NLS-1$
+
+	private static final int REQUEST_CODE_SAVE_FILE = 1; //$NON-NLS-1$
 
 	private static final String RESULT_OK = "OK"; //$NON-NLS-1$
 
@@ -83,6 +87,12 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 	/** Di&aacute;logo de espera durante la carga de los datos. */
 	ProgressDialog progressDialog = null;
 
+	static {
+		// Instalamos el gestor de descargas que deseamos utilizar en las invocaciones por
+		// protocolo a la aplicacion
+		UrlHttpManagerFactory.install(new AndroidHttpManager());
+	}
+
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,33 +102,6 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 			closeActivity();
 			return;
 		}
-
-		// Si ya estaban configurado el estadp de la activity, lo recargamos
-		if (savedInstanceState != null && savedInstanceState.containsKey(SAVE_INSTANCE_KEY_INITIAL_DIR)) {
-			this.initialDirectoryName = savedInstanceState.getString(SAVE_INSTANCE_KEY_INITIAL_DIR);
-			if (savedInstanceState.containsKey(SAVE_INSTANCE_KEY_CURRENT_DIR)) {
-				this.currentDir = new File(savedInstanceState.getString(SAVE_INSTANCE_KEY_CURRENT_DIR));
-			}
-			this.selectedDir = new File(savedInstanceState.getString(SAVE_INSTANCE_KEY_SELECTED_DIR));
-		}
-
-		if (this.currentDir == null) {
-			if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-				this.currentDir = Environment.getExternalStorageDirectory();
-			}
-			else {
-				this.currentDir = Environment.getDownloadCacheDirectory();
-			}
-			this.initialDirectoryName = this.currentDir.getName();
-			this.selectedDir = null;
-		}
-
-		Logger.d(ES_GOB_AFIRMA, "Se abre el directorio: " + this.currentDir.getAbsolutePath());  //$NON-NLS-1$
-
-		// Establecemos el layout con la interfaz
-		setContentView(R.layout.activity_save_data);
-
-		fill(this.currentDir);
 
 		// Recogemos los datos de la URI
 		if (this.parameters == null) {
@@ -132,6 +115,32 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 				return;
 			}
 		}
+
+		// Si ya estaban configurado el estado de la activity, lo recargamos
+		if (savedInstanceState != null && savedInstanceState.containsKey(SAVE_INSTANCE_KEY_INITIAL_DIR)) {
+			this.initialDirectoryName = savedInstanceState.getString(SAVE_INSTANCE_KEY_INITIAL_DIR);
+			if (savedInstanceState.containsKey(SAVE_INSTANCE_KEY_CURRENT_DIR)) {
+				this.currentDir = new File(savedInstanceState.getString(SAVE_INSTANCE_KEY_CURRENT_DIR));
+			}
+			this.selectedDir = new File(savedInstanceState.getString(SAVE_INSTANCE_KEY_SELECTED_DIR));
+		}
+
+		if (this.currentDir == null) {
+			if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+				this.currentDir = Environment.getExternalStorageDirectory();
+			} else {
+				this.currentDir = Environment.getDownloadCacheDirectory();
+			}
+			this.initialDirectoryName = this.currentDir.getName();
+			this.selectedDir = null;
+		}
+
+		Logger.d(ES_GOB_AFIRMA, "Se abre el directorio: " + this.currentDir.getAbsolutePath());  //$NON-NLS-1$
+
+		// Establecemos el layout con la interfaz
+		setContentView(R.layout.activity_save_data);
+
+		fill(this.currentDir);
 	}
 
 	private void fill(final File f) {
@@ -444,13 +453,18 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 
 		Logger.i(ES_GOB_AFIRMA, "Se almacena el resultado en el servidor con el Id: " + this.parameters.getId()); //$NON-NLS-1$
 
-		new SendDataTask(
-				this.parameters.getId(),
-				this.parameters.getStorageServletUrl().toExternalForm(),
-				data,
-				this,
-				critical
-		).execute();
+		try {
+			new SendDataTask(
+					this.parameters.getId(),
+					this.parameters.getStorageServletUrl(),
+					data,
+					this,
+					critical
+			).execute();
+		}
+		catch (Throwable e) {
+			onSendingDataError(e, true);
+		}
 	}
 
 	@Override

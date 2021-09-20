@@ -17,12 +17,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.security.KeyChain;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,7 +27,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -148,11 +151,20 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 	}
 
     private void startCertImport() {
-        final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setClass(this, FileChooserActivity.class);
-        intent.putExtra(EXTRA_RESOURCE_TITLE, getString(R.string.title_activity_cert_chooser));
-        intent.putExtra(EXTRA_RESOURCE_EXT, CERTIFICATE_EXTS);
-        startActivityForResult(intent, SELECT_CERT_REQUEST_CODE);
+
+		Intent intent;
+		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+			intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+			intent.addCategory(Intent.CATEGORY_OPENABLE);
+			intent.setTypeAndNormalize("application/x-pkcs12"); //$NON-NLS-1$
+		}
+		else {
+			intent = new Intent(Intent.ACTION_GET_CONTENT);
+			intent.setClass(this, FileChooserActivity.class);
+			intent.putExtra(EXTRA_RESOURCE_TITLE, getString(R.string.title_activity_cert_chooser));
+			intent.putExtra(EXTRA_RESOURCE_EXT, CERTIFICATE_EXTS);
+		}
+        startActivityForResult(intent, SELECT_CERT_REQUEST_CODE, null);
     }
 
     private void startLocalSign() {
@@ -166,7 +178,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
         switch (requestCode) {
             case REQUEST_WRITE_STORAGE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Logger.i("es.gob.afirma", "Concedido permiso de escritura en memoria");
+                    Logger.i("es.gob.afirma", "Concedido permiso de escritura en disco");
                     switch (currentOperation) {
                         case LOCALSIGN:
                             startLocalSign();
@@ -194,33 +206,53 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 
 		if (requestCode == SELECT_CERT_REQUEST_CODE && resultCode == RESULT_OK) {
-
-			final String filename = data.getStringExtra(FileChooserActivity.RESULT_DATA_STRING_FILENAME);
-
-			int n;
-			final byte[] buffer = new byte[1024];
-			final ByteArrayOutputStream baos;
+			byte[] fileContent;
+			String filename = null;
 			try {
-				baos = new ByteArrayOutputStream();
-				final InputStream is = new FileInputStream(filename);
-				while ((n = is.read(buffer)) > 0) {
-					baos.write(buffer, 0, n);
+				if (data.getStringExtra(FileChooserActivity.RESULT_DATA_STRING_FILENAME) != null) {
+					filename = data.getStringExtra(FileChooserActivity.RESULT_DATA_STRING_FILENAME);
+					fileContent = readDataFromFile(new File(filename));
 				}
-				is.close();
-			}
-			catch (final IOException e) {
+				else {
+					final Uri dataUri = data.getData();
+					filename = dataUri.getLastPathSegment();
+					fileContent = readDataFromUri(dataUri);
+				}
+			} catch (final IOException e) {
 				showErrorMessage(getString(R.string.error_loading_selected_file, filename));
-				Logger.e(ES_GOB_AFIRMA, "Error al cargar el fichero: " + e.toString()); //$NON-NLS-1$
-				e.printStackTrace();
+				Logger.e(ES_GOB_AFIRMA, "Error al cargar el fichero", e); //$NON-NLS-1$
 				return;
 			}
-
 			final Intent intent = KeyChain.createInstallIntent();
-			intent.putExtra(KeyChain.EXTRA_PKCS12, baos.toByteArray());
+			intent.putExtra(KeyChain.EXTRA_PKCS12, fileContent);
 			startActivity(intent);
 		}
-
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	private byte[] readDataFromFile(File dataFile) throws IOException {
+		int n;
+		final byte[] buffer = new byte[1024];
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try (final InputStream is = new FileInputStream(dataFile);) {
+			while ((n = is.read(buffer)) > 0) {
+				baos.write(buffer, 0, n);
+			}
+		}
+		return baos.toByteArray();
+	}
+
+	private byte[] readDataFromUri(Uri uri) throws IOException {
+		int n;
+		final byte[] buffer = new byte[1024];
+		final ByteArrayOutputStream baos;
+		try (InputStream is = getContentResolver().openInputStream(uri);) {
+			baos = new ByteArrayOutputStream();
+			while ((n = is.read(buffer)) > 0) {
+				baos.write(buffer, 0, n);
+			}
+		}
+		return baos.toByteArray();
 	}
 
 	/**

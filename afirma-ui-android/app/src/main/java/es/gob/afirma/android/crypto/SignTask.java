@@ -194,7 +194,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 	protected void onPostExecute(final SignResult result) {
 		super.onPostExecute(result);
 
-		if (result == null) {
+		if (result == null || result.getSignature() == null) {
 			this.signListener.onSignError(this.t);
 		} else {
 			this.signListener.onSignSuccess(result);
