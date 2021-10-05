@@ -17,9 +17,11 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.security.KeyChainException;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -30,6 +32,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -662,33 +665,43 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			}
 			else if (resultCode == RESULT_OK) {
 
-				final String filename = data.getStringExtra(FileChooserActivity.RESULT_DATA_STRING_FILENAME);
-
-				int n;
-				final byte[] buffer = new byte[1024];
-				final ByteArrayOutputStream baos;
+				byte[] fileContent;
+				String filename = null;
 				try {
-					baos = new ByteArrayOutputStream();
-					final InputStream is = new FileInputStream(filename);
-					while ((n = is.read(buffer)) > 0) {
-						baos.write(buffer, 0, n);
+					if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+						final Uri dataUri = data.getData();
+						filename = getFilename(dataUri);
+						fileContent = readDataFromUri(dataUri);
+					} else {
+						filename = data.getStringExtra(FileChooserActivity.RESULT_DATA_STRING_FILENAME);
+						File dataFile = new File(filename);
+						fileContent = readDataFromFile(dataFile);
 					}
-					is.close();
+				}
+				catch (final OutOfMemoryError e) {
+					showErrorMessage(getString(R.string.file_read_out_of_memory));
+					Logger.e(ES_GOB_AFIRMA, "Error de memoria al cargar el fichero", e); //$NON-NLS-1$
+					return;
 				}
 				catch (final IOException e) {
 					Logger.e(ES_GOB_AFIRMA, "Error al cargar el fichero, se dara al usuario la posibilidad de reintentar", e); //$NON-NLS-1$
-					showErrorMessageOnToast(getString(R.string.error_loading_selected_file, filename));
+					String msg = filename != null
+							? getString(R.string.error_loading_selected_file, filename)
+							: getString(R.string.error_loading_selected_undefined_file);
+					showErrorMessageOnToast(msg);
 					openSelectFileActivity();
 					return;
 				}
 				catch (final Throwable e) {
-					Logger.e(ES_GOB_AFIRMA, "Error desconocido al cargar el fichero", e); //$NON-NLS-1$
-					showErrorMessageOnToast(getString(R.string.error_loading_selected_file, filename));
-					e.printStackTrace();
+					Logger.e(ES_GOB_AFIRMA, "Error desconocido al cargar el fichero " + filename, e); //$NON-NLS-1$
+					String msg = filename != null
+							? getString(R.string.error_loading_selected_file, filename)
+							: getString(R.string.error_loading_selected_undefined_file);
+					showErrorMessageOnToast(msg);
 					return;
 				}
 
-				this.parameters.setData(baos.toByteArray());
+				this.parameters.setData(fileContent);
 
 				try {
 					processSignRequest();
@@ -696,7 +709,6 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 				catch (final Throwable e) {
 					Logger.e(ES_GOB_AFIRMA, "Error durante la firma", e); //$NON-NLS-1$
 					showErrorMessageOnToast(getString(R.string.error_signing));
-					e.printStackTrace();
 					return;
 				}
 			}
@@ -724,6 +736,53 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		}
 		this.fileChooserOpenned = true;
 		startActivityForResult(intent, SELECT_FILE_REQUEST_CODE);
+	}
+
+	private byte[] readDataFromFile(File dataFile) throws IOException {
+		int n;
+		final byte[] buffer = new byte[1024];
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try (final InputStream is = new FileInputStream(dataFile);) {
+			while ((n = is.read(buffer)) > 0) {
+				baos.write(buffer, 0, n);
+			}
+		}
+		return baos.toByteArray();
+	}
+
+	public String getFilename(Uri uri) {
+		String result = null;
+		if (uri.getScheme().equals("content")) {
+			Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+			try {
+				if (cursor != null && cursor.moveToFirst()) {
+					result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+				}
+			} finally {
+				cursor.close();
+			}
+		}
+		if (result == null) {
+			result = uri.getPath();
+			int cut = result.lastIndexOf('/');
+			if (cut != -1) {
+				result = result.substring(cut + 1);
+			}
+		}
+		return result;
+	}
+
+	private byte[] readDataFromUri(Uri uri) throws IOException {
+		int n;
+		final byte[] buffer = new byte[1024];
+		final ByteArrayOutputStream baos;
+		try (InputStream is = getContentResolver().openInputStream(uri);) {
+			baos = new ByteArrayOutputStream();
+			while ((n = is.read(buffer)) > 0) {
+				baos.write(buffer, 0, n);
+			}
+		}
+		return baos.toByteArray();
 	}
 
 	/** Accion para el cierre de la actividad. */

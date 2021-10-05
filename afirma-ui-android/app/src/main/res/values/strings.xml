@@ -33,6 +33,7 @@
     <string name="kilobytes">KB</string>
     <string name="megabytes">MB</string>
     <string name="error_loading_selected_file">Ocurri\u00F3 un error cargando el fichero \"%s\"</string>
+    <string name="error_loading_selected_undefined_file">Ocurri\u00F3 un error cargando el fichero</string>
     <string name="error_no_valid_p12">El fichero \"%s\" no es un PKCS#12 v\u00E1lido. Seleccione un nuevo almac\u00E9n para importar.</string>
     <string name="error">Error</string>
     <string name="title_activity_save_data">Guardar datos</string>

@@ -19,6 +19,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import es.gob.afirma.BuildConfig;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.misc.http.HttpError;
@@ -33,7 +34,7 @@ public class AndroidHttpManager implements UrlHttpManager {
     /** Se&ntilde;ala si la aplicaci&oacute;n se encuentra en modo depuracion y deber&iacute;a
      * permitirse la conexi&oacute;n con dominios no seguros.
      */
-    private static final boolean DEBUG = true; //BuildConfig.DEBUG;
+    private static final boolean DEBUG = BuildConfig.DEBUG;
 
     /** Tiempo de espera por defecto para descartar una conexi&oacute;n HTTP. */
     private static final int DEFAULT_TIMEOUT = -1;

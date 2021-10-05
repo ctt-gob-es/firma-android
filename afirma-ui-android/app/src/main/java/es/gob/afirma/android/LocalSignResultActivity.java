@@ -61,7 +61,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	private final static String SAVE_INSTANCE_KEY_TITLE_VISIBILITY = "titleVisibility"; //$NON-NLS-1$
 	private final static String SAVE_INSTANCE_KEY_OK_RESULT_VISIBILITY = "okVisibility"; //$NON-NLS-1$
 	private final static String SAVE_INSTANCE_KEY_ERROR_RESULT_VISIBILITY ="errorVisibility"; //$NON-NLS-1$
-	private final static String SAVE_INSTANCE_KEY_OK_TEXT = "okMessage"; //$NON-NLS-1$
+	private final static String SAVE_INSTANCE_KEY_PATH_FILE = "path_file"; //$NON-NLS-1$
 	private final static String SAVE_INSTANCE_KEY_ERROR_TEXT = "errorMessage"; //$NON-NLS-1$
 
 	String fileName; //Nombre del fichero seleccionado
@@ -87,7 +87,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 			findViewById(R.id.signedfile_error).setVisibility(
 					savedInstanceState.getBoolean(SAVE_INSTANCE_KEY_ERROR_RESULT_VISIBILITY) ? View.VISIBLE : View.INVISIBLE);
 
-			((TextView) findViewById(R.id.filestorage_path)).setText(savedInstanceState.getString(SAVE_INSTANCE_KEY_OK_TEXT));
+			((TextView) findViewById(R.id.filestorage_path)).setText(savedInstanceState.getString(SAVE_INSTANCE_KEY_PATH_FILE));
 
 			findViewById(R.id.signedfile_correct).setVisibility(
 					savedInstanceState.getBoolean(SAVE_INSTANCE_KEY_OK_RESULT_VISIBILITY) ? View.VISIBLE : View.INVISIBLE);
@@ -332,12 +332,11 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 		//activo los elementos de la interfaz que corresponden a la firma correcta de un fichero
 		final TextView tv_sf= findViewById(R.id.filestorage_path);
-		tv_sf.setText(getString(
-				filename == null ?
-						R.string.signedfile_correct :
-						originalDirectory ?
-								R.string.signedfile_original_location :
-								R.string.signedfile_downloads_location, filename));
+		tv_sf.setText(filename == null
+				? ""
+				: getString(originalDirectory ?
+						R.string.signedfile_original_location :
+						R.string.signedfile_downloads_location, filename));
 
 		final RelativeLayout rl = findViewById(R.id.signedfile_correct);
 		rl.setVisibility(View.VISIBLE);
@@ -375,7 +374,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		outState.putBoolean(SAVE_INSTANCE_KEY_TITLE_VISIBILITY,
 				findViewById(R.id.signedfile_title).getVisibility() == View.VISIBLE);
 
-		outState.putString(SAVE_INSTANCE_KEY_OK_TEXT,
+		outState.putString(SAVE_INSTANCE_KEY_PATH_FILE,
 				((TextView) findViewById(R.id.filestorage_path)).getText().toString());
 
 		outState.putBoolean(SAVE_INSTANCE_KEY_OK_RESULT_VISIBILITY,
