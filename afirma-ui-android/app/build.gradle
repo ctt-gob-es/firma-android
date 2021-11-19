@@ -1,3 +1,8 @@
+
+plugins {
+    id "org.sonarqube" version "3.0"
+}
+
 apply plugin: 'com.android.application'
 
 android {
@@ -43,7 +48,6 @@ dependencies {
     implementation ('es.gob.afirma.jmulticard:jmulticard-android:1.7') {
         exclude(module: 'support-v4')
         exclude(module: 'android')
-        exclude (group: 'es.gob.afirma.jmulticard')
     }
     implementation 'es.gob.afirma.jmulticard:jmulticard-jse:1.7'
 
