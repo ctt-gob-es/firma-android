@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config>
+        <trust-anchors>
+            <certificates src="system"/>
+            <certificates src="user"/>
+            <certificates src="@raw/ac_firmaprofesional_infraestructura"/>
+            <certificates src="@raw/ac_firmaprofesional_root"/>
+            <certificates src="@raw/ac_fnmt_componentes"/>
+            <certificates src="@raw/ac_fnmt_root"/>
+            <certificates src="@raw/ac_aca_corporativos"/>
+            <certificates src="@raw/ac_aca_root"/>
+            <certificates src="@raw/ac_acc_root"/>
+            <certificates src="@raw/ac_acc_sectorpublic"/>
+            <certificates src="@raw/ac_anf_root"/>
+            <certificates src="@raw/ac_anf_secureserver"/>
+            <certificates src="@raw/ac_accv_110"/>
+            <certificates src="@raw/ac_accv_110_sha2"/>
+            <certificates src="@raw/ac_accv_root"/>
+            <certificates src="@raw/ac_eadtrust_qualifiedweb_4096"/>
+            <certificates src="@raw/ac_eadtrust_qualifiedweb_8192"/>
+            <certificates src="@raw/ac_eadtrust_root_4096"/>
+            <certificates src="@raw/ac_eadtrust_root_8192"/>
+            <certificates src="@raw/ac_izenpe_ev"/>
+            <certificates src="@raw/ac_izenpe_root"/>
+            <certificates src="@raw/ac_izenpe_ssl"/>
+            <certificates src="@raw/ac_logalty_g2_1"/>
+            <certificates src="@raw/ac_logalty_g2_2"/>
+            <certificates src="@raw/ac_logalty_root"/>
+        </trust-anchors>
+    </base-config>
+</network-security-config>
