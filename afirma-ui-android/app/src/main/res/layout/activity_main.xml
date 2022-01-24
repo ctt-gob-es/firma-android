@@ -32,6 +32,17 @@
         android:text="@string/presentation_text"
         android:textColor="#000000" />
 
+    <TextView
+        android:id="@+id/selectOptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:text="@string/accesibility_select_option"
+        android:textColor="#000000" />
+
     <Button
         android:id="@+id/buttonSign"
         android:layout_width="match_parent"

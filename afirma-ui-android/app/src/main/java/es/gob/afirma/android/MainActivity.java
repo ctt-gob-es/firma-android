@@ -15,6 +15,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
@@ -24,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,6 +105,41 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 
         TextView privacyPolicy = findViewById(R.id.privacyPolicyTextView);
         privacyPolicy.setPaintFlags(privacyPolicy.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+
+        // Control de foco para mejorar la accesibilidad en la navegacion por teclado
+		Button signButton = findViewById(R.id.buttonSign);
+		signButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					signButton.setBackgroundColor(Color.parseColor("#000000"));
+				} else {
+					signButton.setBackgroundColor(Color.parseColor("#981c1c"));
+				}
+			}
+		});
+
+		Button importButton = findViewById(R.id.importCertButton);
+		importButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					importButton.setBackgroundColor(Color.parseColor("#000000"));
+				} else {
+					importButton.setBackgroundColor(Color.parseColor("#981c1c"));
+				}
+			}
+		});
+
+		privacyPolicy.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					privacyPolicy.setBackgroundColor(Color.parseColor("#000000"));
+					privacyPolicy.setTextColor(Color.parseColor("#ffffff"));
+				} else {
+					privacyPolicy.setBackgroundColor((Color.TRANSPARENT));
+					privacyPolicy.setTextColor(Color.parseColor("#1311A9"));
+				}
+			}
+		});
 	}
 
     public void privacyPolicyLinkClick(final View v) {

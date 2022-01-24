@@ -14,12 +14,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.DialogFragment;
 
 import es.gob.afirma.R;
@@ -47,7 +49,7 @@ public class SettingDialog extends DialogFragment {
 
 		return new AlertDialog.Builder(getActivity())
 				.setView(view)
-				.setTitle(R.string.settings)
+				.setTitle(Html.fromHtml("<font color='#000000'>" + getString(R.string.settings) + "</font>"))
 				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(final DialogInterface dialog, final int which) {

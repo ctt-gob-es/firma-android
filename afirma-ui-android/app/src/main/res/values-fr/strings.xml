@@ -22,5 +22,8 @@
     <string name="file_chooser_read_error">Erreur: Il n\'est pas possible la lecture du fichier</string>
     <string name="bytes">bytes</string>
     <string name="file_read_out_of_memory">Le fichier est trop grande et il n\'y a pas de mémoire suffisant pour lui lire</string>
+    <string name="accesibility_select_option">Sélectionnez une option</string>
+    <string name="settings">Réglage</string>
+    <string name="allow_dni3_0_NFC">Autoriser l\'utilisation de DNIe 3.0 par NFC</string>
 </resources>
 
