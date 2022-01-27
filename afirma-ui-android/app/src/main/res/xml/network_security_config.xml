@@ -8,6 +8,8 @@
             <certificates src="@raw/ac_firmaprofesional_root"/>
             <certificates src="@raw/ac_fnmt_componentes"/>
             <certificates src="@raw/ac_fnmt_root"/>
+            <certificates src="@raw/ac_fnmt_servseguros_root"/>
+            <certificates src="@raw/ac_fnmt_servseguros_tipo1"/>
             <certificates src="@raw/ac_aca_corporativos"/>
             <certificates src="@raw/ac_aca_root"/>
             <certificates src="@raw/ac_acc_root"/>
