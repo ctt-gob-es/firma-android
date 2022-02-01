@@ -81,6 +81,9 @@
     <string name="accesibility_icon_sign_ko">Error en la firma</string>
     <string name="accesibility_icon_sign_ok">Firma correcta</string>
     <string name="accesibility_select_option">Seleccione una opci\u00F3n</string>
+    <string name="accesibility_back_parent_folder">Volver a directorio padre</string>
+    <string name="accesibility_open_folder">Abrir carpeta</string>
+    <string name="accesibility_select_file">Seleccionar documento</string>
     <string name="file_read_out_of_memory">El fichero seleccionado es demasiado grande y no hay memoria suficiente para completar la operaci\u00F3n de lectura</string>
     <string name="nfc_approach">Acerque su dispositivo al DNIe</string>
     <string name="nfc_instructions">Coloque el dispositivo sobre el DNIe y no lo mueva durante la operaci\u00F3n de firma</string>

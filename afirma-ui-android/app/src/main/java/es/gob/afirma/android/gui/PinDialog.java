@@ -10,13 +10,16 @@
 
 package es.gob.afirma.android.gui;
 
+import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -93,7 +96,7 @@ public class PinDialog extends DialogFragment {
 
 			Logger.i(ES_GOB_AFIRMA, "PinDialog recibe los argumentos provider: " + this.provider + " y keyStoreName: " + this.keyStoreName);   //$NON-NLS-1$//$NON-NLS-2$
 		}
-		final Builder alertDialogBuilder = new Builder(getActivity());
+		final Builder alertDialogBuilder = new Builder(getActivity(), R.style.AlertDialog);
 		alertDialogBuilder.setTitle(getString(R.string.security_code) + " " + this.keyStoreName); //$NON-NLS-1$
 
 		final LayoutInflater layoutInflater = LayoutInflater.from(getActivity());

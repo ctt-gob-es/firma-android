@@ -26,12 +26,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.AccessibilityDelegateCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import java.io.ByteArrayOutputStream;
@@ -42,8 +46,10 @@ import java.io.InputStream;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
+import es.gob.afirma.android.gui.CanDialog;
 import es.gob.afirma.android.gui.ConfigNfcDialog;
 import es.gob.afirma.android.gui.MessageDialog;
+import es.gob.afirma.android.gui.PinDialog;
 import es.gob.afirma.android.gui.SettingDialog;
 
 /** Actividad que se muestra cuando se arranca la aplicaci&oacute;n pulsando su icono.
@@ -86,6 +92,16 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		ImageView logo = findViewById(R.id.imageView1);
+		// Configuramos el elemento como encabezado accesible
+		ViewCompat.setAccessibilityDelegate(logo, new AccessibilityDelegateCompat() {
+			@Override
+			public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
+				super.onInitializeAccessibilityNodeInfo(host, info);
+				info.setHeading(true);
+			}
+		});
+
 		if (!nfcAvailableChecked) {
 			nfcAvailable = NfcHelper.isNfcServiceAvailable(this);
 			nfcAvailableChecked = true;
@@ -102,6 +118,16 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED
         );
+
+		TextView selectOptionText = findViewById(R.id.selectOptionTextView);
+		// Configuramos el elemento como encabezado accesible
+		ViewCompat.setAccessibilityDelegate(selectOptionText, new AccessibilityDelegateCompat() {
+			@Override
+			public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
+				super.onInitializeAccessibilityNodeInfo(host, info);
+				info.setHeading(true);
+			}
+		});
 
         TextView privacyPolicy = findViewById(R.id.privacyPolicyTextView);
         privacyPolicy.setPaintFlags(privacyPolicy.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
@@ -140,6 +166,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 				}
 			}
 		});
+
 	}
 
     public void privacyPolicyLinkClick(final View v) {
@@ -271,7 +298,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 		int n;
 		final byte[] buffer = new byte[1024];
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try (final InputStream is = new FileInputStream(dataFile);) {
+		try (final InputStream is = new FileInputStream(dataFile)) {
 			while ((n = is.read(buffer)) > 0) {
 				baos.write(buffer, 0, n);
 			}
@@ -283,7 +310,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 		int n;
 		final byte[] buffer = new byte[1024];
 		final ByteArrayOutputStream baos;
-		try (InputStream is = getContentResolver().openInputStream(uri);) {
+		try (InputStream is = getContentResolver().openInputStream(uri)) {
 			baos = new ByteArrayOutputStream();
 			while ((n = is.read(buffer)) > 0) {
 				baos.write(buffer, 0, n);

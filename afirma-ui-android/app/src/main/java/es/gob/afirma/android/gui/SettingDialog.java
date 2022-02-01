@@ -47,9 +47,9 @@ public class SettingDialog extends DialogFragment {
 				NfcHelper.isNfcPreferredConnection(getContext())
 		);
 
-		return new AlertDialog.Builder(getActivity())
+		return new AlertDialog.Builder(getActivity(), R.style.AlertDialog)
 				.setView(view)
-				.setTitle(Html.fromHtml("<font color='#000000'>" + getString(R.string.settings) + "</font>"))
+				.setTitle(getString(R.string.settings))
 				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(final DialogInterface dialog, final int which) {

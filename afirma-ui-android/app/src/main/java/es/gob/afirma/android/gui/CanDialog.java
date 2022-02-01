@@ -69,7 +69,7 @@ public final class CanDialog extends DialogFragment {
 		final LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 		final View view = layoutInflater.inflate(R.layout.dialog_can, null);
 
-		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity(), R.style.AlertDialog)
 				.setView(view)
 				.setTitle(R.string.can_intro)
 				.setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
