@@ -49,51 +49,46 @@
     	        android:text="@string/signedfile_error"
     	    />
     	</RelativeLayout>
-    	
-    	<RelativeLayout
-    	    android:layout_below="@+id/signedfile_title"
-    	    android:id="@+id/signedfile_correct"
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="wrap_content"
-    	    android:orientation="horizontal"
-    	    android:padding="10sp"
-    	    android:visibility="invisible"
-    	    >
 
-    	    <ImageView
-    	        android:id="@+id/signedfile_ok_icon"
-    	        android:layout_width="wrap_content"
-    	        android:layout_height="wrap_content"
-    	        android:layout_marginLeft="10sp"
-    	        android:src="@drawable/icon_ok"
-    	        android:contentDescription="@string/accesibility_icon_sign_ok"
-    	        />
-    	    
-    	    <TextView
-    	        android:id="@+id/tv_signedfile_ok"
-    	        android:layout_width="wrap_content"
-    	        android:layout_height="wrap_content"
-    	        android:layout_toRightOf="@id/signedfile_ok_icon"
-    	        android:layout_alignTop="@id/signedfile_ok_icon"
-    	        android:layout_alignBottom="@id/signedfile_ok_icon"
-    	        android:paddingLeft="10dp"
-    	        android:paddingTop="20dp"
-    	        android:paddingBottom="10dp"
-    	        android:paddingRight="20dp"
-    	        android:text="@string/signedfile_correct"
-    	        android:textIsSelectable="false"
-    	        android:textAppearance="?android:attr/textAppearanceMedium"
-    	    />
-    	    
-    	    <TextView
-    	        android:id="@+id/filestorage_path"
-    	        android:layout_width="fill_parent"
-    	        android:layout_height="wrap_content"
-    	        android:layout_below="@id/signedfile_ok_icon"
-    	        android:layout_marginTop="10sp"
-    	        android:padding="10sp"
-    	        android:textIsSelectable="false" />
+	<RelativeLayout
+		android:id="@+id/signedfile_correct"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/signedfile_title"
+		android:orientation="horizontal"
+		android:visibility="invisible">
 
-    	</RelativeLayout>
+		<ImageView
+			android:id="@+id/signedfile_ok_icon"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10sp"
+			android:contentDescription="@string/accesibility_icon_sign_ok"
+			android:src="@drawable/icon_ok" />
+
+		<TextView
+			android:id="@+id/tv_signedfile_ok"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignTop="@id/signedfile_ok_icon"
+			android:layout_alignBottom="@id/signedfile_ok_icon"
+			android:layout_toRightOf="@id/signedfile_ok_icon"
+			android:paddingLeft="10dp"
+			android:paddingTop="20dp"
+			android:paddingRight="20dp"
+			android:paddingBottom="10dp"
+			android:text="@string/signedfile_correct"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textIsSelectable="false" />
+
+		<TextView
+			android:id="@+id/filestorage_path"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/signedfile_ok_icon"
+			android:padding="10sp"
+			android:textIsSelectable="false" />
+
+	</RelativeLayout>
 
 </RelativeLayout>

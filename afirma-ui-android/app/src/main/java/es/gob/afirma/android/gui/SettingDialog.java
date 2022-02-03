@@ -14,12 +14,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.DialogFragment;
 
 import es.gob.afirma.R;
@@ -29,7 +31,7 @@ import es.gob.afirma.android.NfcHelper;
 
 public class SettingDialog extends DialogFragment {
 
-	/** Construye un di&acute;logo para la configuraci&oacute;n de la aplicaci&oacute;n. */
+	/** Construye un di&aacute;logo para la configuraci&oacute;n de la aplicaci&oacute;n. */
 	public SettingDialog() {
 		setArguments(new Bundle());
 	}
@@ -45,9 +47,9 @@ public class SettingDialog extends DialogFragment {
 				NfcHelper.isNfcPreferredConnection(getContext())
 		);
 
-		return new AlertDialog.Builder(getActivity())
+		return new AlertDialog.Builder(getActivity(), R.style.AlertDialog)
 				.setView(view)
-				.setTitle(R.string.settings)
+				.setTitle(getString(R.string.settings))
 				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(final DialogInterface dialog, final int which) {

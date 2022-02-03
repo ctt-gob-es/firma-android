@@ -13,15 +13,19 @@ package es.gob.afirma.android;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.view.ViewCompat;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -145,7 +149,10 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 
 	private void fill(final File f) {
 
-		((TextView) findViewById(R.id.current_directory)).setText(getString(R.string.file_chooser_directorio_actual, f.getName()));  //$NON-NLS-1$
+		TextView currentDirectory = findViewById(R.id.current_directory);
+		currentDirectory.setText(getString(R.string.file_chooser_directorio_actual, f.getName()));  //$NON-NLS-1$
+		ViewCompat.setAccessibilityHeading(currentDirectory, true);
+
 
 		final List<FileOption> dir = new ArrayList<FileOption>();
 		for (final File ff : f.listFiles()) {
@@ -203,14 +210,34 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 	protected void onStart() {
 		super.onStart();
 
-		findViewById(R.id.saveButton).setOnClickListener(new SaveDataAction(this));
+		Button saveButton = findViewById(R.id.saveButton);
+		saveButton.setOnClickListener(new SaveDataAction(this));
+		saveButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					saveButton.setBackgroundColor(Color.parseColor("#000000"));
+				} else {
+					saveButton.setBackgroundColor(Color.parseColor("#981c1c"));
+				}
+			}
+		});
 
-		findViewById(R.id.cancelButton).setOnClickListener(new OnClickListener() {
+		Button cancelButton = findViewById(R.id.cancelButton);
+		cancelButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
 				// Devolvemos a la aplicacion cliente una respuesta de cancelacion
 				Logger.i(ES_GOB_AFIRMA, "Se cancela el guardado de los datos");  //$NON-NLS-1$
 				sendData(ErrorManager.genError(ErrorManager.ERROR_CANCELLED_OPERATION), true);
+			}
+		});
+		cancelButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					cancelButton.setBackgroundColor(Color.parseColor("#000000"));
+				} else {
+					cancelButton.setBackgroundColor(Color.parseColor("#981c1c"));
+				}
 			}
 		});
 

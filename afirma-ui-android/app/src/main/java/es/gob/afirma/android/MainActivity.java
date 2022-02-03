@@ -15,6 +15,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
@@ -24,12 +25,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import java.io.ByteArrayOutputStream;
@@ -84,6 +88,9 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		ImageView logo = findViewById(R.id.imageView1);
+		ViewCompat.setAccessibilityHeading(logo, true);
+
 		if (!nfcAvailableChecked) {
 			nfcAvailable = NfcHelper.isNfcServiceAvailable(this);
 			nfcAvailableChecked = true;
@@ -101,8 +108,47 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
                 ) == PackageManager.PERMISSION_GRANTED
         );
 
+		TextView selectOptionText = findViewById(R.id.selectOptionTextView);
+		ViewCompat.setAccessibilityHeading(selectOptionText, true);
+
         TextView privacyPolicy = findViewById(R.id.privacyPolicyTextView);
         privacyPolicy.setPaintFlags(privacyPolicy.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+
+        // Control de foco para mejorar la accesibilidad en la navegacion por teclado
+		Button signButton = findViewById(R.id.buttonSign);
+		signButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					signButton.setBackgroundColor(Color.parseColor("#000000"));
+				} else {
+					signButton.setBackgroundColor(Color.parseColor("#981c1c"));
+				}
+			}
+		});
+
+		Button importButton = findViewById(R.id.importCertButton);
+		importButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					importButton.setBackgroundColor(Color.parseColor("#000000"));
+				} else {
+					importButton.setBackgroundColor(Color.parseColor("#981c1c"));
+				}
+			}
+		});
+
+		privacyPolicy.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					privacyPolicy.setBackgroundColor(Color.parseColor("#000000"));
+					privacyPolicy.setTextColor(Color.parseColor("#ffffff"));
+				} else {
+					privacyPolicy.setBackgroundColor((Color.TRANSPARENT));
+					privacyPolicy.setTextColor(Color.parseColor("#1311A9"));
+				}
+			}
+		});
+
 	}
 
     public void privacyPolicyLinkClick(final View v) {
@@ -234,7 +280,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 		int n;
 		final byte[] buffer = new byte[1024];
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try (final InputStream is = new FileInputStream(dataFile);) {
+		try (final InputStream is = new FileInputStream(dataFile)) {
 			while ((n = is.read(buffer)) > 0) {
 				baos.write(buffer, 0, n);
 			}
@@ -246,7 +292,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 		int n;
 		final byte[] buffer = new byte[1024];
 		final ByteArrayOutputStream baos;
-		try (InputStream is = getContentResolver().openInputStream(uri);) {
+		try (InputStream is = getContentResolver().openInputStream(uri)) {
 			baos = new ByteArrayOutputStream();
 			while ((n = is.read(buffer)) > 0) {
 				baos.write(buffer, 0, n);

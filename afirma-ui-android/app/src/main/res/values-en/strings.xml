@@ -74,5 +74,11 @@
 	<string name="accesibility_icon_filetype">File type icon</string>
 	<string name="accesibility_icon_sign_ko">Error while signing</string>
 	<string name="accesibility_icon_sign_ok">Success signature</string>
+    <string name="accesibility_select_option">Select a option</string>
+    <string name="accesibility_back_parent_folder">Back to parent folder</string>
+    <string name="accesibility_open_folder">%1$s folder</string>
+    <string name="accesibility_select_file">%1$s file</string>
     <string name="file_read_out_of_memory">The selected file is too large and there is no enough memory to load it</string>
+    <string name="settings">Configuration</string>
+    <string name="allow_dni3_0_NFC">Allow the use of DNIe 3.0 by NFC</string>
 </resources>

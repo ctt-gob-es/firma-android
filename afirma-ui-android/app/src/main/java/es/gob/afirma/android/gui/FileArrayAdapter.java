@@ -74,14 +74,17 @@ public final class FileArrayAdapter extends ArrayAdapter<FileOption> {
 					if (PARENT_DIRECTORY_NAME.equals(o.getName())) {
 						t2.setText(R.string.file_chooser_directorio_padre);
 						icon.setImageDrawable(this.c.getResources().getDrawable(R.drawable.icon_folder_back));
+						v.setContentDescription(this.c.getString(R.string.accesibility_back_parent_folder));
 					}
 					else {
 						t2.setText(R.string.file_chooser_directorio);
 						icon.setImageDrawable(this.c.getResources().getDrawable(R.drawable.icon_folder));
+						v.setContentDescription(this.c.getString(R.string.accesibility_open_folder, o.getName()));
 					}
 				} else {
 					t2.setText(this.c.getString(R.string.file_chooser_tamano_del_fichero) + " " + formatFileSize(o.getSize())); //$NON-NLS-1$
 					icon.setImageDrawable(this.c.getResources().getDrawable(R.drawable.icon_file));
+					v.setContentDescription(this.c.getString(R.string.accesibility_select_file, o.getName()));
 				}
 			}
 		}

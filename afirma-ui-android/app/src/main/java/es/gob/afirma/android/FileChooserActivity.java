@@ -19,6 +19,10 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.core.view.AccessibilityDelegateCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -87,7 +91,9 @@ public final class 	FileChooserActivity extends ListActivity {
 
 	private void fill(final File f) {
 
-		((TextView) findViewById(R.id.current_directory)).setText(getString(R.string.file_chooser_directorio_actual, f.getName()));  //$NON-NLS-1$
+		TextView currentDirectory = ((TextView) findViewById(R.id.current_directory));
+		currentDirectory.setText(getString(R.string.file_chooser_directorio_actual, f.getName()));  //$NON-NLS-1$
+		ViewCompat.setAccessibilityHeading(currentDirectory, true);
 
 		final List<FileOption> dir = new ArrayList<>();
 		final List<FileOption> fls = new ArrayList<>();
