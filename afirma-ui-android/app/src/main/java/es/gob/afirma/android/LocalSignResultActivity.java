@@ -23,6 +23,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.view.ViewCompat;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -80,7 +82,9 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		setContentView(R.layout.activity_signed_file);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(SAVE_INSTANCE_KEY_TITLE_VISIBILITY) && savedInstanceState.getBoolean(SAVE_INSTANCE_KEY_TITLE_VISIBILITY)) {
-			findViewById(R.id.signedfile_title).setVisibility(View.VISIBLE);
+			TextView signFileTitle = findViewById(R.id.signedfile_title);
+			ViewCompat.setAccessibilityHeading(signFileTitle, true);
+			signFileTitle.setVisibility(View.VISIBLE);
 
 			((TextView) findViewById(R.id.tv_signedfile_ko)).setText(savedInstanceState.getString(SAVE_INSTANCE_KEY_ERROR_TEXT));
 

@@ -31,7 +31,7 @@ import es.gob.afirma.android.NfcHelper;
 
 public class SettingDialog extends DialogFragment {
 
-	/** Construye un di&acute;logo para la configuraci&oacute;n de la aplicaci&oacute;n. */
+	/** Construye un di&aacute;logo para la configuraci&oacute;n de la aplicaci&oacute;n. */
 	public SettingDialog() {
 		setArguments(new Bundle());
 	}

@@ -93,14 +93,7 @@ public final class 	FileChooserActivity extends ListActivity {
 
 		TextView currentDirectory = ((TextView) findViewById(R.id.current_directory));
 		currentDirectory.setText(getString(R.string.file_chooser_directorio_actual, f.getName()));  //$NON-NLS-1$
-		// Configuramos el elemento como encabezado accesible
-		ViewCompat.setAccessibilityDelegate(currentDirectory, new AccessibilityDelegateCompat() {
-			@Override
-			public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
-				super.onInitializeAccessibilityNodeInfo(host, info);
-				info.setHeading(true);
-			}
-		});
+		ViewCompat.setAccessibilityHeading(currentDirectory, true);
 
 		final List<FileOption> dir = new ArrayList<>();
 		final List<FileOption> fls = new ArrayList<>();

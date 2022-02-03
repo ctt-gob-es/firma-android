@@ -33,9 +33,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.AccessibilityDelegateCompat;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import java.io.ByteArrayOutputStream;
@@ -46,10 +44,8 @@ import java.io.InputStream;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
-import es.gob.afirma.android.gui.CanDialog;
 import es.gob.afirma.android.gui.ConfigNfcDialog;
 import es.gob.afirma.android.gui.MessageDialog;
-import es.gob.afirma.android.gui.PinDialog;
 import es.gob.afirma.android.gui.SettingDialog;
 
 /** Actividad que se muestra cuando se arranca la aplicaci&oacute;n pulsando su icono.
@@ -93,14 +89,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 		setContentView(R.layout.activity_main);
 
 		ImageView logo = findViewById(R.id.imageView1);
-		// Configuramos el elemento como encabezado accesible
-		ViewCompat.setAccessibilityDelegate(logo, new AccessibilityDelegateCompat() {
-			@Override
-			public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
-				super.onInitializeAccessibilityNodeInfo(host, info);
-				info.setHeading(true);
-			}
-		});
+		ViewCompat.setAccessibilityHeading(logo, true);
 
 		if (!nfcAvailableChecked) {
 			nfcAvailable = NfcHelper.isNfcServiceAvailable(this);
@@ -120,14 +109,7 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
         );
 
 		TextView selectOptionText = findViewById(R.id.selectOptionTextView);
-		// Configuramos el elemento como encabezado accesible
-		ViewCompat.setAccessibilityDelegate(selectOptionText, new AccessibilityDelegateCompat() {
-			@Override
-			public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
-				super.onInitializeAccessibilityNodeInfo(host, info);
-				info.setHeading(true);
-			}
-		});
+		ViewCompat.setAccessibilityHeading(selectOptionText, true);
 
         TextView privacyPolicy = findViewById(R.id.privacyPolicyTextView);
         privacyPolicy.setPaintFlags(privacyPolicy.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);

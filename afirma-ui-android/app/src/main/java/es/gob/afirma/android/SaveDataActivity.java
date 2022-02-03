@@ -25,6 +25,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.view.ViewCompat;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -147,7 +149,10 @@ public final class SaveDataActivity extends ListActivity implements DownloadData
 
 	private void fill(final File f) {
 
-		((TextView) findViewById(R.id.current_directory)).setText(getString(R.string.file_chooser_directorio_actual, f.getName()));  //$NON-NLS-1$
+		TextView currentDirectory = findViewById(R.id.current_directory);
+		currentDirectory.setText(getString(R.string.file_chooser_directorio_actual, f.getName()));  //$NON-NLS-1$
+		ViewCompat.setAccessibilityHeading(currentDirectory, true);
+
 
 		final List<FileOption> dir = new ArrayList<FileOption>();
 		for (final File ff : f.listFiles()) {
