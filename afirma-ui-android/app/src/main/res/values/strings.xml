@@ -54,9 +54,9 @@
     <string name="error_no_device_to_store">No se ha encontrado un directorio para guardar la firma</string>
     <string name="error_no_certs">No se han encontrado certificados instalados en su dispositivo.</string>
     <string name="error_title_keystore_empty">Almac\u00E9n vac\u00EDo</string>
-    <string name="error_dni_blocked_dlg">Lo sentimos, su DNI est\u00E1 bloquedado.</string>
+    <string name="error_dni_blocked_dlg">Lo sentimos, su DNI est\u00E1 bloqueado.</string>
     <string name="error_dni_blocked">Su DNI est\u00E1 bloquedado, deber\u00E1 acudir a los Puntos de Actualización de las Oficinas de Expedición para poder desbloquearlo. </string>
-    <string name="error_title_dni_blocked">DNI bloquedado</string>
+    <string name="error_title_dni_blocked">DNI bloqueado</string>
     <string name="error_pin_nulo">Error, el PIN del DNI es nulo.</string>
     <string name="error_android_4_1">Android 4.1 y 4.1.1 no permiten que los nombres de certificados contengan caracteres especiales (espacios, guiones, etc.). Modifique el alias de sus certificados al importarlos para evitar este error.</string>
     <string name="data_saved">El fichero se ha guardado con el nombre %s</string>
