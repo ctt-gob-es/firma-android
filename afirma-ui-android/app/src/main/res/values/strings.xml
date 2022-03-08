@@ -3,7 +3,7 @@
     <string name="nostorageperm">Es necesario conceder permisos sobre la memoria para hacer firmas locales</string>
     <string name="yes">S\u00ED</string>
     <string name="no">No</string>
-    <string name="app_name">Cliente m\u00F3vil @firma</string>
+    <string name="app_name">Cliente m\u00F3vil @firma 1.8</string>
     <string name="title_activity_cert_chooser">Importar certificado</string>
     <string name="title_activity_choose_sign_file">Seleccione el fichero a firmar</string>
     <string name="presentation_text">Bienvenido a "Cliente @firma Android".\nEsta aplicaci\u00F3n permite realizar firmas electrónicas en las p\u00E1ginas de los proveedores de servicios que lo soporten.\nPara funcionar correctamente debe tener un certificado electr\u00F3nico y su clave privada instalados en su dispositivo, consulte la documentaci\u00F3n de su sistema Android y con su proveedor de servicios de certificaci\u00F3n.</string>
@@ -12,7 +12,7 @@
     <string name="request_cert">Solicitar certificado</string>
     <string name="appsDialogTitle">Listado de autoridades soportadas</string>
     <string name="appsDialogMessage">Seleccione la autoridad de certificaci\u00F3n a la que desee solicitar su certificado.</string>
-    <string name="disclaimer">2021 Gobierno de Espa\u00F1a</string>
+    <string name="disclaimer">2022 Gobierno de Espa\u00F1a</string>
     <string name="privacy_policy">Pol\u00EDtica de privacidad</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="content_desc">Logotipo @firma m\u00F3vil</string>

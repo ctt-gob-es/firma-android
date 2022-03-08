@@ -3,7 +3,7 @@
     <string name="nostorageperm">Les autorisations sur le stockage sont nécessaires pour exécuter cette tâche</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
-    <string name="app_name">Client m\u00F3vil @firma</string>
+    <string name="app_name">Client m\u00F3vil @firma 1.8</string>
     <string name="title_activity_cert_chooser">Importer certificat</string>
     <string name="title_activity_choose_sign_file">Sélectionnez le fichier à signer</string>
     <string name="presentation_text">Bienvenue "Client @firma Android".\nCette application permet rèaliser signatures électroniques sur les sites webs qui possédent des serveurs de certificats.\nPour bien fonctionner, vous devez disposer d’un certificat électronique et votre code privé installés dans votre dispositive. Consultez avec votre serveur de certification et la documentation de votre système Android.</string>
@@ -12,7 +12,7 @@
     <string name="request_cert">Demander un certificat</string>
     <string name="appsDialogTitle">Liste des autorités prises en charge</string>
     <string name="appsDialogMessage">Sélectionnez l\'autorité de certification auprès de laquelle vous souhaitez demander votre certificat.</string>
-    <string name="disclaimer">2021 Gobierno de Espa\u00F1a</string>
+    <string name="disclaimer">2022 Gobierno de Espa\u00F1a</string>
     <string name="privacy_policy">Politique de confidentialité</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="content_desc">Logo @firma mobile</string>
