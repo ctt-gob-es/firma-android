@@ -20,6 +20,7 @@
     <string name="close">Fermer</string>
     <string name="ca_not_found">Aucune autorité de certification n\'est configurée.</string>
     <string name="title_activity_sign_data">Signature des données</string>
+    <string name="title_activity_sign_batch">Signature par lots</string>
     <string name="title_activity_select_certificate">Sélection de certificat</string>
     <string name="error_bad_params">L\'invocation à l\'application n\'a pas réussi. Consultez avec votre serveur.</string>
     <string name="error_server_connect">Erreur de conexion entre l\'application et le site web.</string>
@@ -59,6 +60,7 @@
     <string name="error_title_dni_blocked">Identifiant bloqué</string>
     <string name="error_pin_nulo">Erreur, le code PIN de l\'identifiant est nul.</string>
     <string name="error_android_4_1">Android 4.1 et 4.1.1 n\'autorisent pas les noms de certificats à contenir des caractères spéciaux (espaces, tirets, etc.). Modifiez l\'alias de vos certificats lors de leur importation pour éviter cette erreur.</string>
+    <string name="error_json">Erreur de travail avec JSON.</string>
     <string name="data_saved">Le fichier a été enregistré sous le nom %s</string>
     <string name="icon_ca">Icône de l\'autorité de certification</string>
     <string name="dialog_msg_loading_data">Chargement des données</string>

@@ -20,6 +20,7 @@
     <string name="close">Cerrar</string>
     <string name="ca_not_found">No hay autoridades de certificaci\u00F3n configuradas.</string>
     <string name="title_activity_sign_data">Firma de datos</string>
+    <string name="title_activity_sign_batch">Firma por lotes</string>
     <string name="title_activity_select_certificate">Selecci\u00F3n de certificado</string>
     <string name="error_bad_params">No se ha realizado correctamente la invocaci\u00F3n de la aplicaci\u00F3n. Consulte a su proveedor de servicios.</string>
     <string name="error_server_connect">Ocurri\u00F3 un error en la conexi\u00F3n entre la aplicaci\u00F3n y la p\u00E1gina web.</string>
@@ -59,6 +60,7 @@
     <string name="error_title_dni_blocked">DNI bloqueado</string>
     <string name="error_pin_nulo">Error, el PIN del DNI es nulo.</string>
     <string name="error_android_4_1">Android 4.1 y 4.1.1 no permiten que los nombres de certificados contengan caracteres especiales (espacios, guiones, etc.). Modifique el alias de sus certificados al importarlos para evitar este error.</string>
+    <string name="error_json">Error al tratar JSON.</string>
     <string name="data_saved">El fichero se ha guardado con el nombre %s</string>
     <string name="icon_ca">Icono de la autoridad de certificaci\u00F3n</string>
     <string name="dialog_msg_loading_data">Cargando datos</string>

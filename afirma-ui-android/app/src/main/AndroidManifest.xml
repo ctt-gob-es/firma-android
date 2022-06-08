@@ -95,6 +95,21 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".android.WebSignBatchActivity"
+            android:label="@string/title_activity_sign_batch"
+            android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="es.gob.afirma.android.SIGN_SERVICE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="batch"
+                    android:scheme="afirma" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".android.WebSelectCertificateActivity"
             android:label="@string/title_activity_select_certificate"
             android:theme="@style/Theme.Transparent">

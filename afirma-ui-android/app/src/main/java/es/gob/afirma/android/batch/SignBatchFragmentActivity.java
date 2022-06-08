@@ -8,77 +8,43 @@
  * You may contact the copyright holder at: soporte.afirma5@mpt.es
  */
 
-package es.gob.afirma.android;
+package es.gob.afirma.android.batch;
 
 import android.app.PendingIntent;
 import android.os.Build;
 import android.security.KeyChainException;
 
 import java.security.KeyStore.PrivateKeyEntry;
-import java.util.Properties;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.LoadKeyStoreFragmentActivity;
+import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager.SelectCertificateEvent;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
-import es.gob.afirma.android.crypto.SignResult;
-import es.gob.afirma.android.crypto.SignTask;
-import es.gob.afirma.android.crypto.SignTask.SignListener;
 import es.gob.afirma.core.AOCancelledOperationException;
+import es.gob.afirma.core.misc.protocol.UrlParametersForBatch;
 
 /** Esta actividad abstracta integra las funciones necesarias para la ejecuci&oacute;n de
- * operaciones de firma en una actividad. La actividad integra la l&oacute;gica necesaria para
+ * operaciones de firma por lotes en una actividad. La actividad integra la l&oacute;gica necesaria para
  * utilizar DNIe 3.0 v&iacute;a NFC, DNIe 2.0/3.0 a trav&eacute;s de lector de tarjetas y el
  * almac&eacute;n de Android. */
-public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
+public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActivity
 											implements  MobileKeyStoreManager.PrivateKeySelectionListener,
-                                                        SignListener {
+														SignBatchTask.SignBatchListener {
 
 	private final static String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
-	private String signOperation;
-	private byte[] dataToSign;
-	private String format = null;
-	private String algorithm = null;
-	private Properties extraParams = null;
+	private UrlParametersForBatch batchParams;
+	private PrivateKeyEntry pke;
 
 	/**
 	 * Inicia el proceso de firma.
-	 * @param signOperation Operacion de firma (firma, cofirma o multifirma)
-	 * @param data Datos a firmar.
-	 * @param format Formato de firma.
-	 * @param algorithm Algoritmo de firma.
-     * @param extraParams Par&aacute;metros
+	 * @param batchParams Firma de lotes a realizar
      */
-	public void sign(String signOperation, final byte[] data, final String format,
-						final String algorithm, final Properties extraParams) {
+	public void sign(final UrlParametersForBatch batchParams) {
 
-		if (signOperation == null) {
-			throw new IllegalArgumentException("No se han indicado la operacion de firma");
-		}
-		try {
-			this.signOperation = signOperation;
-		}
-		catch (Exception e) {
-			throw new IllegalArgumentException(String.format(
-							"Operacion de firma no valida. Debe ser: %1s, %2s o %3s.",
-							"sign", "cosign", "countersign"
-					));
-		}
-		if (data == null) {
-			throw new IllegalArgumentException("No se han indicado los datos a firmar");
-		}
-		if (format == null) {
-			throw new IllegalArgumentException("No se han indicado los datos a firmar");
-		}
-		if (algorithm == null) {
-			throw new IllegalArgumentException("No se han indicado los datos a firmar");
-		}
-
-		this.dataToSign = data;
-		this.format = format;
-		this.algorithm = algorithm;
-		this.extraParams = extraParams;
+		this.batchParams = batchParams;
 
 		// Iniciamos la carga del almacen
 		loadKeyStore(this);
@@ -87,7 +53,6 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	@Override
 	public synchronized void keySelected(final SelectCertificateEvent kse) {
 
-		PrivateKeyEntry pke;
 		try {
 			pke = kse.getPrivateKeyEntry();
 		}
@@ -125,40 +90,38 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
             setPasswordCallback(null);
 		}
 
-		String providerName = null;
-		if (kse.getKeyStore() != null) {
-			providerName = kse.getKeyStore().getProvider().getName();
-		}
-
 		try {
-			doSign(pke, providerName);
+			doSign(pke);
 		}
 		catch (final Exception e) {
 			onSigningError(KeyStoreOperation.SIGN, "Error durante la operacion de firma", e);
 		}
 	}
 
-	private void doSign(final PrivateKeyEntry keyEntry, String providerName) {
+	private void doSign(final PrivateKeyEntry keyEntry) {
 
 		if (keyEntry == null) {
 			onSigningError(KeyStoreOperation.SIGN, "No se pudo extraer la clave privada del certificado", new Exception());
 			return;
 		}
-		if (providerName != null) {
-			if (this.extraParams == null) {
-				this.extraParams = new Properties();
-			}
-			this.extraParams.setProperty("Provider." + keyEntry.getPrivateKey().getClass().getName(), providerName);
-		}
-		new SignTask(
-			this.signOperation,
-			this.dataToSign,
-			this.format,
-			this.algorithm,
+
+		new SignBatchTask(
 			keyEntry,
-			this.extraParams,
+			this.batchParams,
 			this
 		).execute();
+	}
+
+	protected PrivateKeyEntry getPke() {
+		return this.pke;
+	}
+
+	protected UrlParametersForBatch getBatchParams() {
+		return this.batchParams;
+	}
+
+	protected UrlParametersForBatch setBatchParams(UrlParametersForBatch batchParams) {
+		return this.batchParams = batchParams;
 	}
 
 	@Override
@@ -173,12 +136,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	}
 
 	@Override
-	public void onKeyStoreError(KeyStoreOperation op, String msg, Throwable t) {
-		onSigningError(op, msg, t);
-	}
-
-	@Override
-	public void onSignSuccess(final SignResult signature) {
+	public void onSignSuccess(final SignBatchResult signature) {
 		onSigningSuccess(signature);
 	}
 
@@ -187,7 +145,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 		onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
 	}
 
-	protected abstract void onSigningSuccess(final SignResult signature);
+	protected abstract void onSigningSuccess(final SignBatchResult signature);
 
 	protected abstract void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t);
 }

@@ -20,10 +20,12 @@
     <string name="close">Close</string>
     <string name="ca_not_found">There are not configured certification authorities</string>
     <string name="title_activity_sign_data">Sign data</string>
+    <string name="title_activity_sign_batch">Sign batch</string>
     <string name="title_activity_select_certificate">Certificate selection</string>
     <string name="error_bad_params">Illegal App invocation, please ask your service provider for a Web page upgrade.</string>
     <string name="error_server_connect">Network connection error.</string>
     <string name="error_server_error">Error trying to send back the signature to the Web page.</string>
+    <string name="error_json">Error working with JSON.</string>
     <string name="file_chooser_directorio_actual">Current folder: %s</string>
     <string name="file_chooser_directorio">Folder</string>
     <string name="file_chooser_directorio_padre">Parent folder</string>
