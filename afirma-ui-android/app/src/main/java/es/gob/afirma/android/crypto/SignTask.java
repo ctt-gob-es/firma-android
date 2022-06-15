@@ -21,7 +21,6 @@ import java.util.Properties;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOException;
 import es.gob.afirma.core.AOUnsupportedSignFormatException;
-import es.gob.afirma.core.misc.protocol.UrlParametersToSign.Operation;
 import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.core.signers.AOSigner;
 import es.gob.afirma.core.signers.AOSignerFactory;
@@ -45,7 +44,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 
 	private static final String SIGN_FORMAT_AUTO = "AUTO"; //$NON-NLS-1$
 
-	private final Operation op;
+	private final String op;
 	private final byte[] data;
 	private final String format;
 	private final String algorithm;
@@ -64,7 +63,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 	 * @param pke Clave privada para la firma.
 	 * @param extraParams Par&aacute;metros adicionales para la configuraci&oacute;n de la firma.
 	 * @param signListener Manejador para el tratamiento del resultado de la firma. */
-	public SignTask(final Operation op,
+	public SignTask(final String op,
 					final byte[] data,
 					final String format,
 					final String algorithm,
@@ -105,7 +104,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 			// Ejecutamos la operacion pertinente. Si no se indico nada, por defecto, el metodo
 			// que devuelve la operacion indica que es firma
 			switch (this.op) {
-			case SIGN:
+			case "sign":
 				sign = signer.sign(
 						this.data,
 						this.algorithm,
@@ -114,7 +113,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 						this.extraParams
 						);
 				break;
-			case COSIGN:
+			case "cosign":
 				sign = signer.cosign(
 						this.data,
 						this.algorithm,
@@ -123,7 +122,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 						this.extraParams
 						);
 				break;
-			case COUNTERSIGN:
+			case "countersign":
 				CounterSignTarget target = CounterSignTarget.LEAFS;
 				if (this.extraParams.containsKey(COUNTERSIGN_TARGET_KEY)) {
 					final String targetValue = this.extraParams.getProperty(COUNTERSIGN_TARGET_KEY).trim();
@@ -166,7 +165,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 		return new SignResult(sign, this.pke.getCertificate());
 	}
 
-	private static AOSigner getSupportedCompatibleSigner(final String format, final Operation operation, final byte[] signature) {
+	private static AOSigner getSupportedCompatibleSigner(final String format, final String operation, final byte[] signature) {
 
 		// La firma XAdES monofasica no esta soportada en Android, asi que pasamos a firma XAdES trifasica
 		if (format.toLowerCase(Locale.ENGLISH).startsWith(AOSignConstants.SIGN_FORMAT_XADES.toLowerCase(Locale.ENGLISH))) {
@@ -177,7 +176,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 			return AOSignerFactory.getSigner(AOSignConstants.SIGN_FORMAT_FACTURAE_TRI);
 		}
 		// Si se indica el formato AUTO, intentaremos identificar el formato de la firma
-		else if (format.equalsIgnoreCase(SIGN_FORMAT_AUTO) && (Operation.COSIGN.equals(operation) || Operation.COUNTERSIGN.equals(operation))) {
+		else if (format.equalsIgnoreCase(SIGN_FORMAT_AUTO) && ("cosign".equals(operation) || "countersign".equals(operation))) {
 			try {
 				return AOSignerFactory.getSigner(signature);
 			}

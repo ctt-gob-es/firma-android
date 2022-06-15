@@ -1,25 +1,15 @@
 package es.gob.afirma.android;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
 import java.util.Arrays;
-import java.util.Map;
 
 import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.exceptions.DecryptionException;
 import es.gob.afirma.android.exceptions.InvalidEncryptedDataLengthException;
-import es.gob.afirma.core.misc.Base64;
-import es.gob.afirma.core.misc.protocol.ParameterException;
 import es.gob.afirma.core.misc.protocol.UrlParameters;
-import es.gob.afirma.core.misc.protocol.UrlParametersForBatch;
 
 public class WebSignUtil {
 
-    private static final String METHOD_OP_PUT = "put"; //$NON-NLS-1$
-    private static final String METHOD_OP_GET = "get"; //$NON-NLS-1$
-    private static final String SYNTAX_VERSION = "1_0"; //$NON-NLS-1$
 
    public static byte[] getDataFromRetrieveServlet(final UrlParameters params) throws DecryptionException,
                                                                                         InvalidEncryptedDataLengthException,
@@ -52,13 +42,5 @@ public class WebSignUtil {
             throw new DecryptionException("Error en el descifrado de los datos: " + e, e); //$NON-NLS-1$
         }
         return data;
-    }
-
-    public static UrlParametersForBatch getParametersForBatch(final Map<String, String> params) throws ParameterException {
-        final UrlParametersForBatch ret = new UrlParametersForBatch();
-        ret.setJsonBatch(true);
-        ret.setCommonParameters(params);
-        ret.setBatchParameters(params);
-        return ret;
     }
 }

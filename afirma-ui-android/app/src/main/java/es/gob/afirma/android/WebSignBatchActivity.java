@@ -45,8 +45,6 @@ import es.gob.afirma.android.crypto.AndroidHttpManager;
 import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
-import es.gob.afirma.android.batch.SignBatchResult;
-import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.MessageDialog;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
@@ -56,9 +54,10 @@ import es.gob.afirma.core.misc.Base64;
 import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
 import es.gob.afirma.core.misc.protocol.ParameterException;
 import es.gob.afirma.core.misc.protocol.ProtocolInvocationUriParser;
+import es.gob.afirma.core.misc.protocol.ProtocolInvocationUriParserUtil;
 import es.gob.afirma.core.signers.ExtraParamsProcessor;
 
-/** Actividad dedicada a la firma de los datos recibidos en la entrada mediante un certificado
+/** Actividad dedicada a la firma por lotes de los datos recibidos en la entrada mediante un certificado
  * del almac&eacute;n central seleccionado por el usuario. */
 public final class WebSignBatchActivity extends SignBatchFragmentActivity implements SendDataListener  {
 
@@ -66,8 +65,6 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma";
 	private static final String OK_SERVER_RESULT = "OK";
 	private final static String INTENT_ENTRY_ACTION = "es.gob.afirma.android.SIGN_SERVICE";
-
-	private DownloadFileTask downloadFileTask = null;
 
 	private MessageDialog messageDialog;
 	MessageDialog getMessageDialog() {
@@ -152,7 +149,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 			// Extraemos los parametros de la URL
 			final Map<String, String> urlParams = extractParamsForBatch(getIntent().getDataString());
 			try {
-				this.setBatchParams(WebSignUtil.getParametersForBatch(urlParams));
+				this.setBatchParams(ProtocolInvocationUriParserUtil.getParametersForBatch(urlParams));
 			} catch (ParameterException e) {
 				Logger.e("Error con el parametro utilizado", e.toString());
 				showErrorMessage(getString(R.string.error_bad_params));
@@ -380,7 +377,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 	}
 
 	@Override
-	public void onSigningSuccess(final SignBatchResult signature) {
+	public void onSigningSuccess(final String signature) {
 		Logger.i(ES_GOB_AFIRMA, "Firma generada correctamente. Se cifra el resultado.");
 
 		final StringBuilder result = new StringBuilder();
@@ -400,7 +397,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 		// Si hay clave de cifrado, ciframos
 		if (this.getBatchParams().getDesKey() != null) {
 			try {
-				result.append(CipherDataManager.cipherData(signature.getSignature().getBytes(), this.getBatchParams().getDesKey()));
+				result.append(CipherDataManager.cipherData(signature.getBytes(), this.getBatchParams().getDesKey()));
 				if (signingCertEncoded != null) {
 					result.append(RESULT_SEPARATOR)
 							.append(CipherDataManager.cipherData(signingCertEncoded, this.getBatchParams().getDesKey()));
@@ -414,7 +411,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 		}
 		else {
 			Logger.i(ES_GOB_AFIRMA, "Se omite el cifrado de los datos resultantes por no haberse proporcionado una clave de cifrado");
-			result.append(Base64.encode(signature.getSignature().getBytes()));
+			result.append(Base64.encode(signature.getBytes()));
 			if (signingCertEncoded != null) {
 				result.append(RESULT_SEPARATOR).append(Base64.encode(signingCertEncoded));
 			}

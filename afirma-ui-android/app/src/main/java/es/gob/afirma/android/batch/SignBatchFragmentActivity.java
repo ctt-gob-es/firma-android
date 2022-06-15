@@ -1,4 +1,4 @@
-/* Copyright (C) 2011 [Gobierno de Espana]
+/* Copyright (C) 2022 [Gobierno de Espana]
  * This file is part of "Cliente @Firma".
  * "Cliente @Firma" is free software; you can redistribute it and/or modify it under the terms of:
  *   - the GNU General Public License as published by the Free Software Foundation;
@@ -120,8 +120,8 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 		return this.batchParams;
 	}
 
-	protected UrlParametersForBatch setBatchParams(UrlParametersForBatch batchParams) {
-		return this.batchParams = batchParams;
+	protected void setBatchParams(UrlParametersForBatch batchParams) {
+		this.batchParams = batchParams;
 	}
 
 	@Override
@@ -136,8 +136,8 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 	}
 
 	@Override
-	public void onSignSuccess(final SignBatchResult signature) {
-		onSigningSuccess(signature);
+	public void onSignSuccess(final String signatureResult) {
+		onSigningSuccess(signatureResult);
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 		onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
 	}
 
-	protected abstract void onSigningSuccess(final SignBatchResult signature);
+	protected abstract void onSigningSuccess(final String signature);
 
 	protected abstract void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t);
 }

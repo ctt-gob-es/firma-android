@@ -1,7 +1,5 @@
 package es.gob.afirma.android.batch;
 
-//import com.google.gson.Gson;
-
 import com.google.gson.Gson;
 
 import org.json.JSONArray;

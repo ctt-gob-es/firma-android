@@ -1,4 +1,4 @@
-/* Copyright (C) 2011 [Gobierno de Espana]
+/* Copyright (C) 2022 [Gobierno de Espana]
  * This file is part of "Cliente @Firma".
  * "Cliente @Firma" is free software; you can redistribute it and/or modify it under the terms of:
  *   - the GNU General Public License as published by the Free Software Foundation;
@@ -24,11 +24,9 @@ import es.gob.afirma.core.misc.protocol.UrlParametersForBatch;
 
 /**
  * Tarea que ejecuta una firma electr&oacute;nica por lotes.
- * La operaci&oacute;n puede ser firma simple, cofirma o contrafirma (de nodos hoja
- * o todo el &aacute;rbol) seg&uacute;n se indique.
  * @author Jose Montero
  */
-public class SignBatchTask extends AsyncTask<Void, Void, SignBatchResult>{
+public class SignBatchTask extends AsyncTask<Void, Void, String>{
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
@@ -38,7 +36,7 @@ public class SignBatchTask extends AsyncTask<Void, Void, SignBatchResult>{
 
 	private Throwable t;
 
-	/** Construye la tarea encargada de realizar la operaci&oacute;n criptogr&aacute;fica.
+	/** Construye la tarea encargada de realizar la operaci&oacute;n.
 	 * @param pke Clave privada para la firma.
 	 * @param batchParameters Par&aacute;metros para la configuraci&oacute;n de la firma.
 	 * @param signBatchListener Manejador para el tratamiento del resultado de la firma. */
@@ -58,7 +56,7 @@ public class SignBatchTask extends AsyncTask<Void, Void, SignBatchResult>{
 	}
 
 	@Override
-	protected SignBatchResult doInBackground(final Void... params) {
+	protected String doInBackground(final Void... params) {
 
 		// Generacion de la firma
 		String batchResult = null;
@@ -93,15 +91,14 @@ public class SignBatchTask extends AsyncTask<Void, Void, SignBatchResult>{
 			Logger.e(ES_GOB_AFIRMA, "Error en la firma: " + e, e); //$NON-NLS-1$
 			this.t = e;
 		}
-
-		return new SignBatchResult(batchResult);
+		return batchResult;
 	}
 
 	@Override
-	protected void onPostExecute(final SignBatchResult result) {
+	protected void onPostExecute(final String result) {
 		super.onPostExecute(result);
 
-		if (result == null || result.getSignature() == null) {
+		if (result == null || result.isEmpty()) {
 			this.signBatchListener.onSignError(this.t);
 		} else {
 			this.signBatchListener.onSignSuccess(result);
@@ -114,7 +111,7 @@ public class SignBatchTask extends AsyncTask<Void, Void, SignBatchResult>{
 
 		/** Gestiona el resultado de la operaci&oacute;n de firma por lotes cuando termina correctamente.
 		 * @param signature Firma/cofirma/contrafirma por lotes generada. */
-		void onSignSuccess(SignBatchResult signature);
+		void onSignSuccess(String signature);
 
 		/**
 		 * Gestiona un error en la operaci&oacute;n de firma por lotes.
