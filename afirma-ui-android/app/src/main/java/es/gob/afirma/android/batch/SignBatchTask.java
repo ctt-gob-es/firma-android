@@ -96,8 +96,6 @@ public class SignBatchTask extends AsyncTask<Void, Void, String>{
 
 	@Override
 	protected void onPostExecute(final String result) {
-		super.onPostExecute(result);
-
 		if (result == null || result.isEmpty()) {
 			this.signBatchListener.onSignError(this.t);
 		} else {

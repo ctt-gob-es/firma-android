@@ -15,6 +15,7 @@ import android.os.Build;
 import android.security.KeyChainException;
 
 import java.security.KeyStore.PrivateKeyEntry;
+import java.util.Locale;
 import java.util.Properties;
 
 import es.gob.afirma.R;
@@ -56,13 +57,15 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 		if (signOperation == null) {
 			throw new IllegalArgumentException("No se han indicado la operacion de firma");
 		}
-		try {
-			this.signOperation = signOperation;
+		if (SignTask.OP_SIGN.equalsIgnoreCase(signOperation) ||
+				SignTask.OP_COSIGN.equalsIgnoreCase(signOperation) ||
+				SignTask.OP_COUNTERSIGN.equalsIgnoreCase(signOperation)) {
+			this.signOperation = signOperation.toLowerCase(Locale.ENGLISH);
 		}
-		catch (Exception e) {
+		else {
 			throw new IllegalArgumentException(String.format(
 							"Operacion de firma no valida. Debe ser: %1s, %2s o %3s.",
-							"sign", "cosign", "countersign"
+							SignTask.OP_SIGN, SignTask.OP_COSIGN, SignTask.OP_COUNTERSIGN
 					));
 		}
 		if (data == null) {

@@ -100,7 +100,7 @@
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <action android:name="es.gob.afirma.android.SIGN_SERVICE" />
+                <action android:name="es.gob.afirma.android.SIGN_BATCH_SERVICE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />

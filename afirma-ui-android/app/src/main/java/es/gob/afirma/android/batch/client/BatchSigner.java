@@ -23,6 +23,8 @@ import es.gob.afirma.core.signers.TriphaseDataSigner;
 
 public class BatchSigner {
 
+    private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
+
     private static final String BATCH_JSON_PARAM = "json"; //$NON-NLS-1$
     private static final String BATCH_CRT_PARAM = "certs"; //$NON-NLS-1$
     private static final String BATCH_TRI_PARAM = "tridata"; //$NON-NLS-1$
@@ -85,11 +87,15 @@ public class BatchSigner {
                     UrlHttpMethod.POST
             );
         } catch (final HttpError e) {
-            Logger.e("El servicio de firma devolvio un  error durante la prefirma", e.getResponseDescription()); //$NON-NLS-1$
+            Logger.e(ES_GOB_AFIRMA, "El servicio de firma devolvio un  error durante la prefirma", e); //$NON-NLS-1$
             throw e;
         }
 
         final TriphaseData td1 = TriphaseDataParser.parseFromJSON(ret);
+
+        if (td1.getTriSigns() == null || td1.getTriSigns().isEmpty()) {
+            throw new AOException("No se genero ninguna prefirma valida del lote");
+        }
 
         // El cliente hace los PKCS#1 generando TD2, que envia de nuevo al servidor
         final TriphaseData td2 = TriphaseDataSigner.doSign(
@@ -112,7 +118,7 @@ public class BatchSigner {
                     UrlHttpMethod.POST
             );
         } catch (final HttpError e) {
-            Logger.e("El servicio de firma devolvio un  error durante la postfirma", e.getResponseDescription()); //$NON-NLS-1$
+            Logger.e(ES_GOB_AFIRMA, "El servicio de firma devolvio un  error durante la postfirma", e); //$NON-NLS-1$
             throw e;
         }
 
@@ -144,7 +150,7 @@ public class BatchSigner {
         try {
             jsonObject = new JSONObject(convertedJson);
         }catch (final JSONException jsonEx){
-            Logger.e("Error al parsear JSON", jsonEx.toString()); //$NON-NLS-1$
+            Logger.e(ES_GOB_AFIRMA, "Error al parsear JSON", jsonEx); //$NON-NLS-1$
             throw new JSONException(
                     "El JSON de definicion de lote de firmas no esta formado correctamente" //$NON-NLS-1$
             );

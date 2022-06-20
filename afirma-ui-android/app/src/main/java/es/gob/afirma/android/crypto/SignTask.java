@@ -44,6 +44,10 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 
 	private static final String SIGN_FORMAT_AUTO = "AUTO"; //$NON-NLS-1$
 
+	public static final String OP_SIGN = "sign";
+	public static final String OP_COSIGN = "cosign";
+	public static final String OP_COUNTERSIGN = "countersign";
+
 	private final String op;
 	private final byte[] data;
 	private final String format;
@@ -103,8 +107,8 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 		try {
 			// Ejecutamos la operacion pertinente. Si no se indico nada, por defecto, el metodo
 			// que devuelve la operacion indica que es firma
-			switch (this.op) {
-			case "sign":
+			switch (this.op.toLowerCase(Locale.ENGLISH)) {
+			case OP_SIGN:
 				sign = signer.sign(
 						this.data,
 						this.algorithm,
@@ -113,7 +117,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 						this.extraParams
 						);
 				break;
-			case "cosign":
+			case OP_COSIGN:
 				sign = signer.cosign(
 						this.data,
 						this.algorithm,
@@ -122,7 +126,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 						this.extraParams
 						);
 				break;
-			case "countersign":
+			case OP_COUNTERSIGN:
 				CounterSignTarget target = CounterSignTarget.LEAFS;
 				if (this.extraParams.containsKey(COUNTERSIGN_TARGET_KEY)) {
 					final String targetValue = this.extraParams.getProperty(COUNTERSIGN_TARGET_KEY).trim();
@@ -176,7 +180,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 			return AOSignerFactory.getSigner(AOSignConstants.SIGN_FORMAT_FACTURAE_TRI);
 		}
 		// Si se indica el formato AUTO, intentaremos identificar el formato de la firma
-		else if (format.equalsIgnoreCase(SIGN_FORMAT_AUTO) && ("cosign".equals(operation) || "countersign".equals(operation))) {
+		else if (format.equalsIgnoreCase(SIGN_FORMAT_AUTO) && (OP_COSIGN.equalsIgnoreCase(operation) || OP_COUNTERSIGN.equalsIgnoreCase(operation))) {
 			try {
 				return AOSignerFactory.getSigner(signature);
 			}

@@ -105,6 +105,8 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 			return;
 		}
 
+		// No queremos que se pueda acceder a esta actividad desde el historial de aplicaciones. Si
+		// se intenta, cargaremos en su lugar la pantalla principal
 		if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY)
 			== Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -114,117 +116,78 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 			return;
 		}
 
-		// Si no estamos creando ahora la pantalla (por se una rotacion)
+		// Si no estamos creando ahora la pantalla (por ser una rotacion)
 		if (savedInstanceState != null){
-			Logger.i(ES_GOB_AFIRMA, "Se esta relanzando la actividad. Se omite volver a iniciar el proceso de firma");
+			Logger.i(ES_GOB_AFIRMA, "Se esta relanzando la actividad. Se omite volver a iniciar el proceso de firma de lote");
 			return;
 		}
 
 		Logger.d(ES_GOB_AFIRMA, "URI de invocacion: " + getIntent().getDataString()); //$NON-NLS-1$
 
 		if (getIntent().getDataString() == null) {
-			Logger.w(ES_GOB_AFIRMA, "Se ha invocado sin URL a la actividad de firma por protocolo. Se cierra la actividad"); //$NON-NLS-1$
+			Logger.w(ES_GOB_AFIRMA, "Se ha invocado sin URL a la actividad de firma de lote por protocolo. Se cierra la actividad"); //$NON-NLS-1$
 			closeActivity();
 			return;
 		}
 
-        // Si no hay permisos de acceso al almacenamiento, se piden
-        if (!(
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-        )) {
-            Logger.i("es.gob.afirma", "No se tiene permiso de escritura en memoria");
-            ActivityCompat.requestPermissions(
-                this,
-                new String[]{
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                },
-                REQUEST_WRITE_STORAGE
-            );
-        }
-        // Si ya se tienen permisos, se procede
-        else {
-			// Extraemos los parametros de la URL
-			final Map<String, String> urlParams = extractParamsForBatch(getIntent().getDataString());
+		// Extraemos los parametros de la URL
+		final Map<String, String> urlParams = extractParamsForBatch(getIntent().getDataString());
+		try {
+			setBatchParams(ProtocolInvocationUriParserUtil.getParametersForBatch(urlParams));
+		} catch (ParameterException e) {
+			Logger.e("Error con el parametro utilizado", e.toString());
+			showErrorMessage(getString(R.string.error_bad_params));
+			launchError(ErrorManager.ERROR_BAD_PARAMETERS, getString(R.string.error_bad_params));
+			return;
+		}
+
+		if (requestedProtocolVersion == -1) {
+			requestedProtocolVersion = parseProtocolVersion(getBatchParams().getMinimumProtocolVersion());
+		}
+
+		// Si se indica un identificador de fichero, es que el JSON o XML de definicion de lote
+		// se tiene que descargar desde el servidor intermedio
+		if (getBatchParams().getFileId() != null) {
+			byte[] batchDefinition;
 			try {
-				this.setBatchParams(ProtocolInvocationUriParserUtil.getParametersForBatch(urlParams));
+				batchDefinition = WebSignUtil.getDataFromRetrieveServlet(getBatchParams());
+			} catch (final Exception e) {
+				Logger.e("No se pueden recuperar los datos del servidor", e.toString());
+				showErrorMessage(getString(R.string.error_server_connect));
+				launchError(ErrorManager.ERROR_CIPHERING, getString(R.string.error_server_connect));
+				return;
+			}
+
+			try {
+				Map<String, String> paramsMap;
+				paramsMap = TriphaseDataParser.parseParamsListJson(batchDefinition);
+				setBatchParams(ProtocolInvocationUriParser.getParametersForBatch(paramsMap));
 			} catch (ParameterException e) {
 				Logger.e("Error con el parametro utilizado", e.toString());
 				showErrorMessage(getString(R.string.error_bad_params));
 				launchError(ErrorManager.ERROR_BAD_PARAMETERS, getString(R.string.error_bad_params));
 				return;
+			} catch (JSONException e) {
+				Logger.e("Error en el JSON con el que se esta trabajando", e.toString());
+				showErrorMessage(getString(R.string.error_json));
+				launchError(ErrorManager.ERROR_NOT_SUPPORTED_FORMAT, getString(R.string.error_json));
+				return;
 			}
 
-			if (requestedProtocolVersion == -1) {
-				requestedProtocolVersion = parseProtocolVersion(this.getBatchParams().getMinimumProtocolVersion());
+			if (getBatchParams().isActiveWaiting()) {
+				requestWait(getBatchParams().getStorageServletUrl(), getBatchParams().getId());
 			}
-
-			// Si se indica un identificador de fichero, es que el JSON o XML de definicion de lote
-			// se tiene que descargar desde el servidor intermedio
-			if (this.getBatchParams().getFileId() != null) {
-				byte[] batchDefinition;
-				try {
-					batchDefinition = WebSignUtil.getDataFromRetrieveServlet(this.getBatchParams());
-				} catch (final Exception e) {
-					Logger.e("No se pueden recuperar los datos del servidor", e.toString());
-					showErrorMessage(getString(R.string.error_server_connect));
-					launchError(ErrorManager.ERROR_CIPHERING, getString(R.string.error_server_connect));
-					return;
-				}
-
-				try {
-					Map<String, String> paramsMap;
-					paramsMap = TriphaseDataParser.parseParamsListJson(batchDefinition);
-					this.setBatchParams(ProtocolInvocationUriParser.getParametersForBatch(paramsMap));
-				} catch (ParameterException e) {
-					Logger.e("Error con el parametro utilizado", e.toString());
-					showErrorMessage(getString(R.string.error_bad_params));
-					launchError(ErrorManager.ERROR_BAD_PARAMETERS, getString(R.string.error_bad_params));
-					return;
-				} catch (JSONException e) {
-					Logger.e("Error en el JSON con el que se esta trabajando", e.toString());
-					showErrorMessage(getString(R.string.error_json));
-					launchError(ErrorManager.ERROR_NOT_SUPPORTED_FORMAT, getString(R.string.error_json));
-					return;
-				}
-
-				if (this.getBatchParams().isActiveWaiting()) {
-					requestWait(this.getBatchParams().getStorageServletUrl(), this.getBatchParams().getId());
-				}
-			}
-
-			loadKeyStore(this);
 		}
-	}
 
-    @Override
-    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_WRITE_STORAGE) {
-			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				Logger.i("es.gob.afirma", "Concedido permiso de escritura en memoria");
-				try {
-					processSignRequest();
-				}
-				catch (final Throwable e) {
-					Logger.e(ES_GOB_AFIRMA, "Error al generar la firma: " + e, e);
-					onSigningError(KeyStoreOperation.SIGN, "Error al generar la firma", e);
-				}
-			}
-			else {
-				showErrorMessage(getString(R.string.error_no_read_permissions));
-			}
-        }
-    }
+		loadKeyStore(this);
+	}
 
 	/** Inicia el proceso de firma con los parametros previamente configurados. */
 	private void processSignRequest() {
 		Logger.i(ES_GOB_AFIRMA, "Se inicia la firma de los datos obtenidos por parametro");
 		showProgressDialog(getString(R.string.dialog_msg_signning));
 
-		sign(this.getBatchParams());
+		sign(getBatchParams());
 	}
 
 	@Override
@@ -384,7 +347,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 
 		// Si se nos ha indicado en la llamadada que devolvamos el certificado de firma, lo adjuntamos la resultado con un separador
 		byte[] signingCertEncoded = null;
-		if (this.getBatchParams().isCertNeeded()) {
+		if (getBatchParams().isCertNeeded()) {
 			try {
 				signingCertEncoded = getPke().getCertificate().getEncoded();
 			} catch (final CertificateEncodingException e) {
@@ -395,12 +358,12 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 		}
 
 		// Si hay clave de cifrado, ciframos
-		if (this.getBatchParams().getDesKey() != null) {
+		if (getBatchParams().getDesKey() != null) {
 			try {
-				result.append(CipherDataManager.cipherData(signature.getBytes(), this.getBatchParams().getDesKey()));
+				result.append(CipherDataManager.cipherData(signature.getBytes(), getBatchParams().getDesKey()));
 				if (signingCertEncoded != null) {
 					result.append(RESULT_SEPARATOR)
-							.append(CipherDataManager.cipherData(signingCertEncoded, this.getBatchParams().getDesKey()));
+							.append(CipherDataManager.cipherData(signingCertEncoded, getBatchParams().getDesKey()));
 				}
 			}
 			catch (final Exception e) {
@@ -567,11 +530,11 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 	/** Env&iacute;a los datos indicado a un servlet. En caso de error, cierra la aplicaci&oacute;n.
 	 * @param data Datos que se desean enviar. */
 	private void sendData(final String data, final boolean critical) {
-		Logger.i(ES_GOB_AFIRMA, "Se almacena el resultado en el servidor con el Id: " + this.getBatchParams().getId()); //$NON-NLS-1$
+		Logger.i(ES_GOB_AFIRMA, "Se almacena el resultado en el servidor con el Id: " + getBatchParams().getId()); //$NON-NLS-1$
 
 		new SendDataTask(
-				this.getBatchParams().getId(),
-				this.getBatchParams().getStorageServletUrl(),
+				getBatchParams().getId(),
+				getBatchParams().getStorageServletUrl(),
 				data,
 				this,
 				critical
