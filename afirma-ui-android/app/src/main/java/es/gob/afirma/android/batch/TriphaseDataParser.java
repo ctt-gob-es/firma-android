@@ -46,13 +46,15 @@ public class TriphaseDataParser {
 
         if (signsArray != null) {
             for (int i = 0 ; i < signsArray.length() ; i++) {
-                final JSONObject sign = signsArray.getJSONObject(i);
-                final JSONArray signInfo = sign.getJSONArray("signinfo"); //$NON-NLS-1$
+                if (!signsArray.isNull(i)) {
+                    final JSONObject sign = signsArray.getJSONObject(i);
+                    final JSONArray signInfo = sign.getJSONArray("signinfo"); //$NON-NLS-1$
 
-                final String id = signInfo.getJSONObject(0).getString("Id"); //$NON-NLS-1$
-                final JSONArray params = signInfo.getJSONObject(0).getJSONArray("params"); //$NON-NLS-1$
+                    final String id = signInfo.getJSONObject(0).getString("Id"); //$NON-NLS-1$
+                    final JSONArray params = signInfo.getJSONObject(0).getJSONArray("params"); //$NON-NLS-1$
 
-                triSigns.add(new TriphaseData.TriSign(parseParamsJSON(params),id));
+                    triSigns.add(new TriphaseData.TriSign(parseParamsJSON(params), id));
+                }
             }
         } else {
             final JSONArray signInfoArray = jsonObject.getJSONArray("signinfo"); //$NON-NLS-1$
