@@ -197,7 +197,7 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
     }
 
 	@Override
-	void onKeyStoreError(KeyStoreOperation op, String msg, Throwable t) {
+	public void onKeyStoreError(KeyStoreOperation op, String msg, Throwable t) {
 		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
 			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, true);
 		}

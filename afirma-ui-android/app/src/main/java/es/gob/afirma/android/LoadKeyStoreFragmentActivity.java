@@ -221,7 +221,7 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	/**
 	 * Inicia el proceso de carga de certificados para firmar.
 	 */
-	private void loadKeyStore() {
+	protected void loadKeyStore() {
 
 		// Buscamos si hay dispositivos CCID USB conectados
 		final UsbManager usbMgr = (UsbManager) getSystemService(Context.USB_SERVICE);
@@ -285,7 +285,7 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
      * @param msg Mensaje de error.
      * @param t Error que origin&oacute; el problema.
      */
-	abstract void onKeyStoreError(KeyStoreOperation op, String msg, Throwable t);
+	public abstract void onKeyStoreError(KeyStoreOperation op, String msg, Throwable t);
 
 	/** Operaci&oacute;n de firma. */
 	protected enum KeyStoreOperation {

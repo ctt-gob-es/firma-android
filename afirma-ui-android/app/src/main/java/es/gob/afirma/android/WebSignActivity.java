@@ -243,7 +243,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 				this.parameters.expandExtraParams();
 			}
 			sign(
-					this.parameters.getOperation().name(),
+					this.parameters.getOperation(),
 					this.parameters.getData(),
 					this.parameters.getSignatureFormat(),
 					this.parameters.getSignatureAlgorithm(),
@@ -517,7 +517,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
             showProgressDialog(getString(R.string.dialog_msg_signning));
             try {
                 sign(
-					this.parameters.getOperation().name(),
+					this.parameters.getOperation(),
 					this.parameters.getData(),
 					this.parameters.getSignatureFormat(),
 					this.parameters.getSignatureAlgorithm(),
