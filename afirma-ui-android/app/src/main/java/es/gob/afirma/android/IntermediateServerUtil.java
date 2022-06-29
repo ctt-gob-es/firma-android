@@ -1,7 +1,12 @@
 package es.gob.afirma.android;
 
+import android.content.Context;
+
 import java.io.IOException;
 
+import es.gob.afirma.android.crypto.AndroidHttpManager;
+import es.gob.afirma.core.misc.http.UrlHttpManager;
+import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
 import es.gob.afirma.core.misc.http.UrlHttpMethod;
 
 public class IntermediateServerUtil {
@@ -12,22 +17,6 @@ public class IntermediateServerUtil {
     private static final String SYNTAX_VERSION = "1_0"; //$NON-NLS-1$
 
     private static Object semaphore = null;
-
-    /** Env&iacute;a datos al servidor intermedio.
-     * @param data Buffer con los datos a enviar.
-     * @param storageServiceUrl URL del servicio de guardado.
-     * @param id Identificador a asignar a los datos a subir al servidor.
-     * @throws IOException Si hay problemas enviando los datos. */
-    public static void sendData(final StringBuilder data, final String storageServiceUrl, final String id) throws IOException {
-
-        final StringBuilder url = new StringBuilder(storageServiceUrl)
-                .append("?op=").append(METHOD_OP_PUT) //$NON-NLS-1$
-                .append("&v=").append(SYNTAX_VERSION) //$NON-NLS-1$
-                .append("&id=").append(id) //$NON-NLS-1$
-                .append("&dat=").append(data.toString()); //$NON-NLS-1$
-
-        send(url);
-    }
 
     /** Env&iacute;a datos al servidor intermedio.
      * @param data Buffer con los datos a enviar.
@@ -64,9 +53,9 @@ public class IntermediateServerUtil {
      * @return Respuesta del env&iacute;o.
      * @throws IOException Si hay problemas durante el env&iacute;o. */
     private static byte[] send(final StringBuilder url) throws IOException {
-
         // Llamamos al servicio para guardar los datos
-        return new HttpManager().readUrl(url.toString(), UrlHttpMethod.POST);
+        UrlHttpManager urlManager = UrlHttpManagerFactory.getInstalledManager();
+        return urlManager.readUrl(url.toString(), UrlHttpMethod.POST);
     }
 
     /**

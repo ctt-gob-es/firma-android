@@ -100,5 +100,9 @@
     <string name="nfc_card_initializing_error">Échec de l\'établissement de la connexion à la carte. Veuillez réessayer.</string>
     <string name="title_activity_main_test">MainActivityTest</string>
     <string name="allow_dni3_0_NFC">Autoriser l\'utilisation de DNIe 3.0 par NFC</string>
+    <string name="validate_SSL_connections">Valider les connexions</string>
+    <string name="trusted_domains">Domaines de confiance:</string>
+    <string name="error_format_trusted_domains">L\'un des domaines indiqués a un format incorrect</string>
+    <string name="use_asterisk">Utiliser l\'astérisque (*) comme caractère générique.</string>
 </resources>
 
