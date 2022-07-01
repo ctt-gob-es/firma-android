@@ -3,7 +3,7 @@
     <string name="nostorageperm">Es necesario conceder permisos sobre la memoria para hacer firmas locales</string>
     <string name="yes">S\u00ED</string>
     <string name="no">No</string>
-    <string name="app_name">Cliente m\u00F3vil @firma 1.7.2</string>
+    <string name="app_name">Cliente m\u00F3vil @firma 1.8</string>
     <string name="title_activity_cert_chooser">Importar certificado</string>
     <string name="title_activity_choose_sign_file">Seleccione el fichero a firmar</string>
     <string name="presentation_text">Bienvenido a "Cliente @firma Android".\nEsta aplicaci\u00F3n permite realizar firmas electrónicas en las p\u00E1ginas de los proveedores de servicios que lo soporten.\nPara funcionar correctamente debe tener un certificado electr\u00F3nico y su clave privada instalados en su dispositivo, consulte la documentaci\u00F3n de su sistema Android y con su proveedor de servicios de certificaci\u00F3n.</string>
@@ -90,8 +90,8 @@
     <string name="nfc_approach">Acerque su dispositivo al DNIe</string>
     <string name="nfc_instructions">Coloque el dispositivo sobre el DNIe y no lo mueva durante la operaci\u00F3n de firma</string>
     <string name="cancel_nfc">No usar DNIe</string>
-    <string name="enable_nfc">Por favor, active el NFC para usar DNIe 3.0 y pulsa atr\u00E1s para volver</string>
-    <string name="enable_nfc_question">Se ha detectado que su dispositivo dispone de NFC. \u00BFDesea habilitarlo para la firma con el DNIe 3.0 por NFC?</string>
+    <string name="enable_nfc">Por favor, active el NFC para usar DNIe y pulsa atr\u00E1s para volver</string>
+    <string name="enable_nfc_question">Se ha detectado que su dispositivo dispone de NFC. \u00BFDesea habilitarlo para la firma con el DNIe por NFC?</string>
     <string name="nfc_no_detected">No se ha habilitado NFC. Se usar\u00E1 el almac\u00E9n del sistema.</string>
     <string name="nfc_cancelled">Se ha cancelado el uso de NFC. Se usar\u00E1 el almac\u00E9n del sistema.</string>
     <string name="settings">Configuraci\u00F3n</string>
@@ -99,5 +99,5 @@
     <string name="unsupported_card">Tarjeta no soportada</string>
     <string name="nfc_card_initializing_error">Error al iniciar la conexi\u00F3n con la tarjeta. Int\u00E9ntelo de nuevo.</string>
     <string name="title_activity_main_test">MainActivityTest</string>
-    <string name="allow_dni3_0_NFC">Permitir el uso de DNIe 3.0 por NFC</string>
+    <string name="allow_dni3_0_NFC">Permitir el uso de DNIe por NFC</string>
 </resources>

@@ -3,7 +3,7 @@
     <string name="nostorageperm">Permissions over storage are needed in order to run this task</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="app_name">Cliente @firma M\u00F3vil 1.7.2</string>
+    <string name="app_name">Cliente @firma M\u00F3vil 1.8</string>
     <string name="title_activity_cert_chooser">Import certificate</string>
     <string name="title_activity_choose_sign_file">Please, select the file to sign</string>
     <string name="presentation_text">Wellcome to the "Cliente @firma Android"\nThis application allows making electronic signatures from compatible service providers Web pages.\nTo use the app, you\'ll need an electronic certificate and its related private key installed on the device. Consult the Android documentation and your service provider\'s documentation.</string>
@@ -90,8 +90,8 @@
     <string name="nfc_approach">Bring your device closer to the DNIe</string>
     <string name="nfc_instructions">Place the device on the DNIe and do not move it during the signing operation</string>
     <string name="cancel_nfc">Do not use DNIe</string>
-    <string name="enable_nfc">Please activate NFC to use DNIe 3.0 and press back to return</string>
-    <string name="enable_nfc_question">Your device has been detected as having NFC. Do you want to enable it to sign with the DNIe 3.0 via NFC?</string>
+    <string name="enable_nfc">Please activate NFC to use DNIe and press back to return</string>
+    <string name="enable_nfc_question">Your device has been detected as having NFC. Do you want to enable it to sign with the DNIe via NFC?</string>
     <string name="nfc_no_detected">NFC has not been enabled. The system store will be used.</string>
     <string name="nfc_cancelled">The use of NFC has been cancelled. The system store will be used.</string>
     <string name="settings">Configuration</string>
@@ -99,5 +99,5 @@
     <string name="unsupported_card">Card not supported</string>
     <string name="nfc_card_initializing_error">Error starting connection to card. Please try again.</string>
     <string name="title_activity_main_test">MainActivityTest</string>
-    <string name="allow_dni3_0_NFC">Allow the use of DNIe 3.0 by NFC</string>
+    <string name="allow_dni3_0_NFC">Allow the use of DNIe by NFC</string>
 </resources>

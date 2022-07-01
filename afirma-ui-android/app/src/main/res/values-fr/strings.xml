@@ -3,7 +3,7 @@
     <string name="nostorageperm">Les autorisations sur le stockage sont nécessaires pour exécuter cette tâche</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
-    <string name="app_name">Client m\u00F3vil @firma 1.7.2</string>
+    <string name="app_name">Client m\u00F3vil @firma 1.8</string>
     <string name="title_activity_cert_chooser">Importer certificat</string>
     <string name="title_activity_choose_sign_file">Sélectionnez le fichier à signer</string>
     <string name="presentation_text">Bienvenue "Client @firma Android".\nCette application permet rèaliser signatures électroniques sur les sites webs qui possédent des serveurs de certificats.\nPour bien fonctionner, vous devez disposer d’un certificat électronique et votre code privé installés dans votre dispositive. Consultez avec votre serveur de certification et la documentation de votre système Android.</string>
@@ -86,7 +86,7 @@
     <string name="nfc_approach">Rapprochez votre appareil du DNIe</string>
     <string name="nfc_instructions">Placez l\'appareil sur le DNIe et ne le déplacez pas pendant l\'opération de signature</string>
     <string name="cancel_nfc">Ne pas utiliser DNIe</string>
-    <string name="enable_nfc">Veuillez activer NFC pour utiliser DNIe 3.0 et appuyez sur retour pour revenir</string>
+    <string name="enable_nfc">Veuillez activer NFC pour utiliser DNIe et appuyez sur retour pour revenir</string>
     <string name="enable_nfc_question">Votre appareil a été détecté comme ayant NFC. Voulez-vous lui permettre de signer avec le DNIe 3.0 via NFC?</string>
     <string name="nfc_no_detected">NFC n\'a pas été activé. Le magasin système sera utilisé.</string>
     <string name="nfc_cancelled">L\'utilisation du NFC a été annulée. Le magasin système sera utilisé.</string>
@@ -99,6 +99,6 @@
     <string name="unsupported_card">Carte non prise en charge</string>
     <string name="nfc_card_initializing_error">Échec de l\'établissement de la connexion à la carte. Veuillez réessayer.</string>
     <string name="title_activity_main_test">MainActivityTest</string>
-    <string name="allow_dni3_0_NFC">Autoriser l\'utilisation de DNIe 3.0 par NFC</string>
+    <string name="allow_dni3_0_NFC">Autoriser l\'utilisation de DNIe par NFC</string>
 </resources>
 
