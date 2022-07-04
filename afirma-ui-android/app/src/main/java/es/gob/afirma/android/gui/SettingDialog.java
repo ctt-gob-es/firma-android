@@ -47,9 +47,13 @@ public class SettingDialog extends DialogFragment {
 		final LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 		final View view = layoutInflater.inflate(R.layout.dialog_settings, null);
 
-		((CheckBox) view.findViewById(R.id.ckbUseNfc)).setChecked(
-				NfcHelper.isNfcPreferredConnection(getContext())
-		);
+		if (!NfcHelper.isNfcServiceAvailable(getContext())) {
+			view.findViewById(R.id.ckbUseNfc).setEnabled(false);
+		} else {
+			((CheckBox) view.findViewById(R.id.ckbUseNfc)).setChecked(
+					NfcHelper.isNfcPreferredConnection(getContext())
+			);
+		}
 
 		((CheckBox) view.findViewById(R.id.ckbSSLConnections)).setChecked(
 				CheckConnectionsHelper.isValidateSSLConnections(getContext())
@@ -96,7 +100,7 @@ public class SettingDialog extends DialogFragment {
 						CheckConnectionsHelper.configureValidateSSLConnections(ckbValidateSSLConnections.isChecked());
 
 						final EditText editTextTrustedDomains = view.findViewById(R.id.editTextTrustedDomains);
-						if (checkCorrectDomainFormat(editTextTrustedDomains.getText().toString())) {
+						if (editTextTrustedDomains.getText().toString().isEmpty() || checkCorrectDomainFormat(editTextTrustedDomains.getText().toString())) {
 							CheckConnectionsHelper.setTrustedDomains(editTextTrustedDomains.getText().toString());
 							settingDialog.dismiss();
 						} else {
@@ -127,7 +131,7 @@ public class SettingDialog extends DialogFragment {
 
 		final String [] domainsArray = domainsText.split("\n");
 
-		final String regex = "^((?!-)[A-Za-z0-9-*]{1,63}(?<!-)\\.)+[A-Za-z*]{1,6}"; //$NON-NLS-1$
+		final String regex = "^[A-Za-z0-9-*]{1,63}";
 
 		final Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 

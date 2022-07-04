@@ -17,7 +17,7 @@ public class NfcHelper {
      * @param context Contexto de la aplicaci&oacute;n.
      * @return {@code true} si el dispositivo tiene NFC, {@code false} en caso contrario.
      */
-    static boolean isNfcServiceAvailable(final Context context) {
+    public static boolean isNfcServiceAvailable(final Context context) {
         final NfcManager manager = (NfcManager) context.getSystemService(Context.NFC_SERVICE);
         return manager != null && manager.getDefaultAdapter() != null;
     }
