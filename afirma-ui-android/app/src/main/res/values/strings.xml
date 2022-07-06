@@ -102,6 +102,6 @@
     <string name="allow_dni3_0_NFC">Permitir el uso de DNIe 3.0 por NFC</string>
     <string name="validate_SSL_connections">Validar conexiones SSL</string>
     <string name="trusted_domains">Dominios de confianza:</string>
-    <string name="error_format_trusted_domains">Uno de los dominios indicados tiene un formato incorrecto</string>
-    <string name="use_asterisk">Use asterisco (*) como comod\u00EDn.</string>
+    <string name="error_format_trusted_domains">El dominio \"%s\" tiene un formato incorrecto.</string>
+    <string name="use_asterisk">Use asterisco (*) al principio o final como comod\u00EDn.</string>
 </resources>

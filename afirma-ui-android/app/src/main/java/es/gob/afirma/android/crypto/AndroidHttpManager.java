@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 import java.security.cert.X509Certificate;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -211,11 +212,12 @@ public class AndroidHttpManager implements UrlHttpManager {
 
         final String secureDomainsList = CheckConnectionsHelper.getTrustedDomains(null);
         if (secureDomainsList != null && !secureDomainsList.isEmpty()) {
-            final String urlHost = url.getHost();
+            final String urlHost = url.getHost().toLowerCase(Locale.ROOT);
             final String [] secureDomainsArray = secureDomainsList.split("\n"); //$NON-NLS-1$
             for (final String secureDomain : secureDomainsArray) {
                 // Caso 1 - Dominios con * al principio y al final. Ej: *.redsara.*
-                final String replSecureDomain = secureDomain.replace("*","");  //$NON-NLS-1$//$NON-NLS-2$
+                final String replSecureDomain = secureDomain.trim().toLowerCase(Locale.ROOT)
+                        .replace("*","");  //$NON-NLS-1$//$NON-NLS-2$
                 if (secureDomain.startsWith("*") && secureDomain.endsWith("*")) { //$NON-NLS-1$ //$NON-NLS-2$
                     if (urlHost.contains(replSecureDomain)) {
                         return true;

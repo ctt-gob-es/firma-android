@@ -100,20 +100,25 @@ public class SettingDialog extends DialogFragment {
 						CheckConnectionsHelper.configureValidateSSLConnections(ckbValidateSSLConnections.isChecked());
 
 						final EditText editTextTrustedDomains = view.findViewById(R.id.editTextTrustedDomains);
-						if (editTextTrustedDomains.getText().toString().isEmpty() || checkCorrectDomainFormat(editTextTrustedDomains.getText().toString())) {
-							CheckConnectionsHelper.setTrustedDomains(editTextTrustedDomains.getText().toString());
-							settingDialog.dismiss();
-						} else {
-							AlertDialog formatErrorDlg = new AlertDialog.Builder(getContext(), R.style.AlertDialog).create();
-							formatErrorDlg.setTitle(getString(R.string.error));
-							formatErrorDlg.setMessage(getString(R.string.error_format_trusted_domains));
-							formatErrorDlg.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.ok),
-									new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog, int which) {
-											dialog.dismiss();
-										}
-									});
-							formatErrorDlg.show();
+						String domains = editTextTrustedDomains.getText().toString().trim();
+						if (!domains.isEmpty()) {
+							try {
+								checkCorrectDomainFormat(domains);
+								CheckConnectionsHelper.setTrustedDomains(domains);
+								settingDialog.dismiss();
+							}
+							catch (DomainFormatException e) {
+								AlertDialog formatErrorDlg = new AlertDialog.Builder(getContext(), R.style.AlertDialog).create();
+								formatErrorDlg.setTitle(getString(R.string.error));
+								formatErrorDlg.setMessage(getString(R.string.error_format_trusted_domains, e.getMessage()));
+								formatErrorDlg.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.ok),
+										new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int which) {
+												dialog.dismiss();
+											}
+										});
+								formatErrorDlg.show();
+							}
 						}
 					}
 				});
@@ -125,24 +130,39 @@ public class SettingDialog extends DialogFragment {
 	/**
 	 * Comprueba que el formato de los dominios indicados sea el correcto.
 	 * @param domainsText Texto con todos los dominios.
-	 * @return Devuelve true si el formato es correcto y false en caso contrario
+	 * @throws DomainFormatException Cuando se encuentra un dominio no v&aacute;lido.
 	 */
-	private static boolean checkCorrectDomainFormat(final String domainsText) {
+	private static void checkCorrectDomainFormat(final String domainsText) throws  DomainFormatException {
 
 		final String [] domainsArray = domainsText.split("\n");
 
-		final String regex = "^[A-Za-z0-9-*]{1,63}";
+		final String regex = "^[a-z0-9*][a-z0-9-.:]{1,61}[a-z0-9*]$";
 
 		final Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 
 		for (final String domain : domainsArray) {
-			final Matcher matcher = pattern.matcher(domain);
-			final boolean correctFormat = matcher.find();
-			if (!correctFormat) {
-				return false;
+			String domainCleaned = domain.trim();
+			if (!domainCleaned.isEmpty()) {
+				final Matcher matcher = pattern.matcher(domainCleaned);
+				if (!matcher.matches()) {
+					throw new DomainFormatException(domainCleaned);
+				}
 			}
 		}
+	}
 
-		return true;
+	/**
+	 * Se&ntilde;ala un error en un patr&oacute; de dominio.
+	 */
+	private static class DomainFormatException extends Exception {
+
+		/**
+		 * Construye la excepci&oacute;n con el patr&oacute; de dominio
+		 * inv&aacute;lido.
+		 * @param domain Patr&oacute;n de dominio inv&aacute;lido.
+		 */
+		public DomainFormatException(String domain) {
+			super(domain);
+		}
 	}
 }

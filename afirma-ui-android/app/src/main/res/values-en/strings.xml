@@ -102,6 +102,6 @@
     <string name="allow_dni3_0_NFC">Allow the use of DNIe 3.0 by NFC</string>
     <string name="validate_SSL_connections">Validate SSL connections</string>
     <string name="trusted_domains">Trusted domains:</string>
-    <string name="error_format_trusted_domains">One of the indicated domains has an incorrect format</string>
-    <string name="use_asterisk">Use asterisk (*) as wildcard.</string>
+    <string name="error_format_trusted_domains">The domain \"%s\" has an incorrect format.</string>
+    <string name="use_asterisk">Use asterisk (*) at the beginning or end as wildcard.</string>
 </resources>
