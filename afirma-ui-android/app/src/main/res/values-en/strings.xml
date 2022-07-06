@@ -100,4 +100,8 @@
     <string name="nfc_card_initializing_error">Error starting connection to card. Please try again.</string>
     <string name="title_activity_main_test">MainActivityTest</string>
     <string name="allow_dni3_0_NFC">Allow the use of DNIe by NFC</string>
+    <string name="validate_SSL_connections">Validate SSL connections</string>
+    <string name="trusted_domains">Trusted domains:</string>
+    <string name="error_format_trusted_domains">The domain \"%s\" has an incorrect format.</string>
+    <string name="use_asterisk">Use asterisk (*) at the beginning or end as wildcard.</string>
 </resources>

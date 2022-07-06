@@ -324,12 +324,9 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (nfcAvailable) {
-			MenuInflater inflater = getMenuInflater();
-			inflater.inflate(R.menu.menu_settings, menu);
-			return true;
-		}
-		return super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_settings, menu);
+		return true;
 	}
 
 	@Override

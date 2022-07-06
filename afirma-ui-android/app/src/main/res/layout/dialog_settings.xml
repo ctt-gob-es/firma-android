@@ -12,4 +12,40 @@
         android:layout_height="wrap_content"
         android:text="@string/allow_dni3_0_NFC"
         />
+
+    <CheckBox
+        android:id="@+id/ckbSSLConnections"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/validate_SSL_connections"
+        />
+
+    <TextView
+        android:id="@+id/textViewSecDomains"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/trusted_domains"
+        />
+
+    <EditText
+        android:id="@+id/editTextTrustedDomains"
+        android:inputType="textMultiLine"
+        android:lines="8"
+        android:maxLines="8"
+        android:gravity="top|start"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:scrollbars="vertical"
+        android:background="@drawable/edittext_trusted_domains"
+        android:padding="10dp"
+        />
+
+    <TextView
+        android:id="@+id/textViewAsterisk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="@string/use_asterisk"
+        />
 </LinearLayout>
