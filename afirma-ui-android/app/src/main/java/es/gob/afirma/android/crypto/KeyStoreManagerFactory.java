@@ -73,20 +73,16 @@ public final class KeyStoreManagerFactory {
 				Security.addProvider(p);
 
 				// Obtenemos el almacen unicamente para ver si falla
-				KeyStore ks = KeyStore.getInstance("CERES", p); //$NON-NLS-1$
-				return ks;
+				return KeyStore.getInstance("CERES", p); //$NON-NLS-1$
 			}
-			catch (final ClassNotFoundException e) {
-				Logger.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso a la tarjeta CERES: " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			catch (final NoSuchMethodException e) {
-				Logger.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso a la tarjeta CERES: " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+			catch (final ClassNotFoundException | NoSuchMethodException e) {
+				Logger.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso a la tarjeta CERES", e); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			catch (final KeyStoreException e) {
-				Logger.w(ES_GOB_AFIRMA, "Se ha encontrado un CCID USB, pero no una tarjeta CERES en el: " + e); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.w(ES_GOB_AFIRMA, "Se ha encontrado un CCID USB, pero no una tarjeta CERES en el", e); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			catch (final Exception e) {
-				Logger.w(ES_GOB_AFIRMA, "No se ha podido instanciar el controlador de la tarjeta CERES: " + e); //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.w(ES_GOB_AFIRMA, "No se ha podido instanciar el controlador de la tarjeta CERES", e); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 
@@ -108,14 +104,10 @@ public final class KeyStoreManagerFactory {
 				Security.addProvider(p);
 
 				// Obtenemos el almacen unicamente para ver si falla
-				KeyStore ks = KeyStore.getInstance("DNI", p); //$NON-NLS-1$
-				return ks;
+				return KeyStore.getInstance("DNI", p); //$NON-NLS-1$
 			}
-			catch (final ClassNotFoundException e) {
-				Logger.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso al DNIe: " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			catch (final NoSuchMethodException e) {
-				Logger.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso al DNIe: " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+			catch (final ClassNotFoundException | NoSuchMethodException e) {
+				Logger.w(ES_GOB_AFIRMA, "No se encuentran las bibliotecas de acceso al DNIe: " + e); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			catch (final KeyStoreException e) {
 				Logger.w(ES_GOB_AFIRMA, "Se ha encontrado un CCID USB, pero no un DNIe en el: " + e); //$NON-NLS-1$ //$NON-NLS-2$

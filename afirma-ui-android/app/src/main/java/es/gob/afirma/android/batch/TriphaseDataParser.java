@@ -22,6 +22,8 @@ import es.gob.afirma.core.signers.TriphaseData;
 
 public class TriphaseDataParser {
 
+    private static final String ES_GOB_AFIRMA = "es.gob.afirma";
+
     static final String DEFAULT_URL_ENCODING = StandardCharsets.UTF_8.name();
 
     /**
@@ -160,7 +162,7 @@ public class TriphaseDataParser {
                 params.put(key, URLDecoder.decode(value, DEFAULT_URL_ENCODING));
             }
             catch (final UnsupportedEncodingException e) {
-                Logger.e("Codificacion no soportada para la URL (" + DEFAULT_URL_ENCODING + "): " , e.toString());  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+                Logger.e(ES_GOB_AFIRMA,"Codificacion no soportada para la URL: " + DEFAULT_URL_ENCODING, e);  //$NON-NLS-1$
                 params.put(key, value);
             }
         }

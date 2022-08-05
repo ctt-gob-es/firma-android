@@ -36,7 +36,7 @@ public final class AndroidJcaKeyStoreManager implements MobileKeyStoreManager {
 			throw new IllegalArgumentException("El alias seleccionado es nulo"); //$NON-NLS-1$
 		}
 
-		Logger.i("es.go.afirma.android", "Alias seleccionado: " + alias); //$NON-NLS-1$ //$NON-NLS-2$
+		Logger.i("es.go.afirma", "Alias seleccionado: " + alias); //$NON-NLS-1$ //$NON-NLS-2$
 
 		try {
 			//Pasamos null para que utiliza el callback handler definido en vez de el password callback

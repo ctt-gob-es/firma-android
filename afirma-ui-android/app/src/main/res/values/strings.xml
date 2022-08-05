@@ -22,7 +22,7 @@
     <string name="title_activity_sign_data">Firma de datos</string>
     <string name="title_activity_sign_batch">Firma por lotes</string>
     <string name="title_activity_select_certificate">Selecci\u00F3n de certificado</string>
-    <string name="error_bad_params">No se ha realizado correctamente la invocaci\u00F3n de la aplicaci\u00F3n. Consulte a su proveedor de servicios.</string>
+    <string name="error_bad_params">No se ha realizado correctamente la invocaci\u00F3n de la aplicaci\u00F3n. Consulte al responsable del tr\u00E1mite.</string>
     <string name="error_server_connect">Ocurri\u00F3 un error en la conexi\u00F3n entre la aplicaci\u00F3n y la p\u00E1gina web.</string>
     <string name="error_server_error">No se ha podido devolver el resultado de firma a la p\u00E1gina web</string>
     <string name="file_chooser_directorio_actual">Directorio actual: %s</string>
@@ -35,6 +35,7 @@
     <string name="megabytes">MB</string>
     <string name="error_loading_selected_file">Ocurri\u00F3 un error cargando el fichero \"%s\"</string>
     <string name="error_loading_selected_undefined_file">Ocurri\u00F3 un error cargando el fichero</string>
+    <string name="error_loading_data_to_sign">Ocurri\u00F3 un error cargando los datos a firmar</string>
     <string name="error_no_valid_p12">El fichero \"%s\" no es un PKCS#12 v\u00E1lido. Seleccione un nuevo almac\u00E9n para importar.</string>
     <string name="error">Error</string>
     <string name="title_activity_save_data">Guardar datos</string>

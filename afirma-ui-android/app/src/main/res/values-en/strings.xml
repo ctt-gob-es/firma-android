@@ -22,7 +22,7 @@
     <string name="title_activity_sign_data">Sign data</string>
     <string name="title_activity_sign_batch">Sign batch</string>
     <string name="title_activity_select_certificate">Certificate selection</string>
-    <string name="error_bad_params">Illegal App invocation, please ask your service provider for a Web page upgrade.</string>
+    <string name="error_bad_params">Illegal App invocation, please ask the entity in charge of the process.</string>
     <string name="error_server_connect">Network connection error.</string>
     <string name="error_server_error">Error trying to send back the signature to the Web page.</string>
     <string name="error_json">Error working with JSON.</string>
@@ -36,6 +36,7 @@
     <string name="megabytes">MB</string>
     <string name="error_loading_selected_file">Error trying to load the file \"%s\"</string>
     <string name="error_loading_selected_undefined_file">The use of NFC has been cancelled. The system store will be used</string>
+    <string name="error_loading_data_to_sign">An error occurred loading the signature data</string>
     <string name="error_no_valid_p12">The file \"%s\" is not a valid PKCS#12. Please, select another store for importing.</string>
     <string name="error">Error</string>
     <string name="title_activity_save_data">Save data</string>

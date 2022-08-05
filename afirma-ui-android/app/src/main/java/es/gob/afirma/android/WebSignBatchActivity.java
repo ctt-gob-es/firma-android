@@ -24,11 +24,13 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
 import java.security.cert.CertificateEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +42,7 @@ import es.gob.afirma.android.crypto.AndroidHttpManager;
 import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
+import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.MessageDialog;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
@@ -54,7 +57,8 @@ import es.gob.afirma.core.signers.ExtraParamsProcessor;
 
 /** Actividad dedicada a la firma por lotes de los datos recibidos en la entrada mediante un certificado
  * del almac&eacute;n central seleccionado por el usuario. */
-public final class WebSignBatchActivity extends SignBatchFragmentActivity implements SendDataListener  {
+public final class WebSignBatchActivity extends SignBatchFragmentActivity
+		implements SendDataListener, DownloadFileTask.DownloadDataListener {
 
 	private static final char RESULT_SEPARATOR = '|';
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma";
@@ -129,9 +133,9 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 		// Extraemos los parametros de la URL
 		final Map<String, String> urlParams = extractParamsForBatch(getIntent().getDataString());
 		try {
-			setBatchParams(ProtocolInvocationUriParserUtil.getParametersForBatch(urlParams));
+			setBatchParams(ProtocolInvocationUriParserUtil.getParametersToBatch(urlParams));
 		} catch (ParameterException e) {
-			Logger.e("Error con el parametro utilizado", e.toString());
+			Logger.e(ES_GOB_AFIRMA, "Error con el parametro utilizado", e);
 			showErrorMessage(getString(R.string.error_bad_params));
 			launchError(ErrorManager.ERROR_BAD_PARAMETERS, getString(R.string.error_bad_params), true);
 			return;
@@ -141,41 +145,80 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 			requestedProtocolVersion = parseProtocolVersion(getBatchParams().getMinimumProtocolVersion());
 		}
 
-		// Si se indica un identificador de fichero, es que el JSON o XML de definicion de lote
-		// se tiene que descargar desde el servidor intermedio
+		// Si se indica un identificador de fichero, es que el JSON de definicion de lote
+		// se tiene que descargar previamente desde el servidor intermedio
 		if (getBatchParams().getFileId() != null) {
-			byte[] batchDefinition;
-			try {
-				batchDefinition = WebSignUtil.getDataFromRetrieveServlet(getBatchParams());
-			} catch (final Exception e) {
-				Logger.e("No se pueden recuperar los datos del servidor", e.toString());
-				showErrorMessage(getString(R.string.error_server_connect));
-				launchError(ErrorManager.ERROR_CIPHERING, getString(R.string.error_server_connect), true);
-				return;
-			}
-
-			try {
-				Map<String, String> paramsMap;
-				paramsMap = TriphaseDataParser.parseParamsListJson(batchDefinition);
-				setBatchParams(ProtocolInvocationUriParser.getParametersForBatch(paramsMap));
-			} catch (ParameterException e) {
-				Logger.e("Error con el parametro utilizado", e.toString());
-				showErrorMessage(getString(R.string.error_bad_params));
-				launchError(ErrorManager.ERROR_BAD_PARAMETERS, getString(R.string.error_bad_params), true);
-				return;
-			} catch (JSONException e) {
-				Logger.e("Error en el JSON con el que se esta trabajando", e.toString());
-				showErrorMessage(getString(R.string.error_json));
-				launchError(ErrorManager.ERROR_NOT_SUPPORTED_FORMAT, getString(R.string.error_json), true);
-				return;
-			}
-
-			if (getBatchParams().isActiveWaiting()) {
-				requestWait(getBatchParams().getStorageServletUrl(), getBatchParams().getId());
-			}
+			Logger.i(ES_GOB_AFIRMA, "Se van a descargar el lote desde servidor con el identificador: " + getBatchParams().getFileId()); //$NON-NLS-1$
+			new DownloadFileTask(getBatchParams().getFileId(), getBatchParams().getRetrieveServletUrl(), this).execute();
+			return;
 		}
 
 		loadKeyStore(this);
+	}
+
+	/**
+	 * Recibe el lote que se debe firmar despu&eacute;s de descargarlo del servidor intermedio.
+	 * @param batchDefinition Lote para firmar.
+	 */
+	@Override
+	public void onDownloadingDataSuccess(byte[] cipheredBatchDefinition) {
+
+		byte[] batchDefinition;
+		try {
+			batchDefinition = CipherDataManager.decipherData(cipheredBatchDefinition, getBatchParams().getDesKey());
+		}
+		catch (final IOException e) {
+			Logger.e(ES_GOB_AFIRMA, "Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
+			showErrorMessage(getString(R.string.error_bad_params));
+			launchError(ErrorManager.ERROR_BAD_PARAMETERS, getString(R.string.error_bad_params), true);
+			return;
+		}
+		catch (final GeneralSecurityException e) {
+			Logger.e(ES_GOB_AFIRMA, "Error al descifrar los datos recuperados del servidor para la firma", e); //$NON-NLS-1$
+			showErrorMessage(getString(R.string.error_bad_params));
+			launchError(ErrorManager.ERROR_BAD_PARAMETERS, getString(R.string.error_bad_params), true);
+			return;
+		}
+		catch (final IllegalArgumentException e) {
+			Logger.e(ES_GOB_AFIRMA, "Los datos recuperados no son un base64 valido", e); //$NON-NLS-1$
+			showErrorMessage(getString(R.string.error_bad_params));
+			launchError(ErrorManager.ERROR_BAD_PARAMETERS, getString(R.string.error_bad_params), true);
+			return;
+		}
+		catch (final Throwable e) {
+			Logger.e(ES_GOB_AFIRMA, "Error desconocido durante el descifrado de los datos", e); //$NON-NLS-1$
+			showErrorMessage(getString(R.string.error_bad_params));
+			launchError(ErrorManager.ERROR_BAD_PARAMETERS, getString(R.string.error_bad_params), true);
+			return;
+		}
+
+		try {
+			setBatchParams(ProtocolInvocationUriParser.getParametersToBatch(batchDefinition));
+		} catch (ParameterException e) {
+			Logger.e(ES_GOB_AFIRMA, "Error con el parametro utilizado", e);
+			showErrorMessage(getString(R.string.error_bad_params));
+			launchError(ErrorManager.ERROR_BAD_PARAMETERS, getString(R.string.error_bad_params), true);
+			return;
+		}
+
+		if (getBatchParams().isActiveWaiting()) {
+			requestWait(getBatchParams().getStorageServletUrl(), getBatchParams().getId());
+		}
+
+		loadKeyStore(this);
+	}
+
+	/**
+	 * Ejecuta el proceso de error debido a un fallo en la descarga del lote del servidor intermedio.
+	 * @param msg Mensaje del error
+	 * @param t Error producido
+	 */
+	@Override
+	public void onDownloadingDataError(String msg, Throwable t) {
+		Logger.e(ES_GOB_AFIRMA, "Error durante la descarga del lote de firmas del servidor intermedio", t);
+		showErrorMessage(getString(R.string.error_json));
+		launchError(ErrorManager.ERROR_SIGNING, getString(R.string.error_json), true);
+		return;
 	}
 
 	/** Inicia el proceso de firma con los parametros previamente configurados. */
@@ -506,7 +549,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity implem
 			activeWaitingThread = new ActiveWaitingThread(storageServletUrl.toString(), id);
 			activeWaitingThread.start();
 		} catch (final Exception e) {
-			Logger.w("Se ha interrumpido la espera activa para la conexion con servidor intermedio", e.toString()); //$NON-NLS-1$
+			Logger.w(ES_GOB_AFIRMA, "Se ha interrumpido la espera activa para la conexion con servidor intermedio", e); //$NON-NLS-1$
 		}
 	}
 

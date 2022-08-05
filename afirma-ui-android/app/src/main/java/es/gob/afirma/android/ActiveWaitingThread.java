@@ -10,6 +10,7 @@ import java.io.IOException;
  */
 public class ActiveWaitingThread extends Thread {
 
+    private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
     private static final String WAIT_CONSTANT = "#WAIT"; //$NON-NLS-1$
     private static final long SLEEP_PERIOD = 10000;
 
@@ -36,15 +37,15 @@ public class ActiveWaitingThread extends Thread {
             try {
                 Thread.sleep(SLEEP_PERIOD);
             } catch (final InterruptedException e) {
-                Logger.w("No se ha podido esperar para el envio de la senal de espera activa para el JavaScript. "
-                        + "No se envia la peticion", e.toString()); //$NON-NLS-1$
+                Logger.w(ES_GOB_AFIRMA, "No se ha podido esperar para el envio de la senal de espera activa para el JavaScript. "
+                        + "No se envia la peticion", e); //$NON-NLS-1$
             }
             synchronized (IntermediateServerUtil.getUniqueSemaphoreInstance()) {
                 if (!this.cancelled) {
                     try {
                         IntermediateServerUtil.sendData(WAIT_CONSTANT, this.storageServiceUrl, this.transactionId);
                     } catch (final IOException e) {
-                        Logger.w("No se ha podido enviar la peticion de espera" , e.toString());
+                        Logger.w(ES_GOB_AFIRMA, "No se ha podido enviar la peticion de espera" , e);
                     }
                 }
             }

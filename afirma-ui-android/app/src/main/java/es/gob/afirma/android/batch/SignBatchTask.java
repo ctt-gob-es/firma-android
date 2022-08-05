@@ -80,7 +80,7 @@ public class SignBatchTask extends AsyncTask<Void, Void, String>{
 				// Solo se dara este error (hasta la fecha) cuando se intente cargar el dialogo de PIN de
 				// una tarjeta criptografica
 				Logger.e(ES_GOB_AFIRMA, "Se ha intentado cargar el dialogo de PIN de una tarjeta criptografica: " + e); //$NON-NLS-1$
-				this.t = new MSCBadPinException("Se inserto un PIN incorrecto para la tarjeta critografica", e); //$NON-NLS-1$
+				this.t = new MSCBadPinException("Se ha intentado cargar el dialogo de PIN de una tarjeta criptografica", e); //$NON-NLS-1$
 			}
 			else {
 				Logger.e(ES_GOB_AFIRMA, "Error durante la operacion de firma: " + e, e); //$NON-NLS-1$

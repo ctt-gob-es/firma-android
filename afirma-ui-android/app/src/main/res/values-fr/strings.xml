@@ -22,7 +22,7 @@
     <string name="title_activity_sign_data">Signature des données</string>
     <string name="title_activity_sign_batch">Signature par lots</string>
     <string name="title_activity_select_certificate">Sélection de certificat</string>
-    <string name="error_bad_params">L\'invocation à l\'application n\'a pas réussi. Consultez avec votre serveur.</string>
+    <string name="error_bad_params">L\'invocation à l\'application n\'a pas réussi. Consultez auprès de l\'entité responsable du processus.</string>
     <string name="error_server_connect">Erreur de conexion entre l\'application et le site web.</string>
     <string name="error_server_error">Erreur dans l\'envoie du resultat de la signature au site web.</string>
     <string name="file_chooser_directorio_actual">Répertoire actuel: %s</string>
@@ -35,6 +35,7 @@
     <string name="megabytes">MB</string>
     <string name="error_loading_selected_file">Une erreur s\'est produite lors du chargement du fichier \"%s\"</string>
     <string name="error_loading_selected_undefined_file">Une erreur s\'est produite lors du chargement du fichier</string>
+    <string name="error_loading_data_to_sign">Une erreur s\'est produite lors du chargement des données de signature</string>
     <string name="error_no_valid_p12">Le fichier n\'est pas un PKCS#12 valide. Sélectionnez une nouvelle boutique à importer.</string>
     <string name="error">Erreur</string>
     <string name="title_activity_save_data">Enregistrer des données</string>

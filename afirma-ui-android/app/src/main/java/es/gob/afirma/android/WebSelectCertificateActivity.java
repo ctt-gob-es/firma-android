@@ -97,13 +97,13 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 			this.parameters = ProtocolInvocationUriParser.getParametersToSelectCert(getIntent().getDataString());
 		}
 		catch (final ParameterException e) {
-			Logger.e(ES_GOB_AFIRMA, "Error en los parametros de firma: " + e.toString(), e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "Error en los parametros de firma", e); //$NON-NLS-1$
 			showErrorMessage(getString(R.string.error_bad_params));
 			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true);
 			return;
 		}
 		catch (final Throwable e) {
-			Logger.e(ES_GOB_AFIRMA, "Error grave en el onCreate de WebSelectCertificateActivity: " + e.toString(), e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, "Error grave en el onCreate de WebSelectCertificateActivity", e); //$NON-NLS-1$
 			e.printStackTrace();
 			showErrorMessage(getString(R.string.error_bad_params));
 			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true);
@@ -339,7 +339,7 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
         try {
             this.parameters = ProtocolInvocationUriParser.getParametersToSelectCert(decipheredData);
         } catch (final ParameterException e) {
-            Logger.e(ES_GOB_AFIRMA, "Error en los parametros XML de configuracion de seleccion de certificado: " + e.toString(), e); //$NON-NLS-1$
+            Logger.e(ES_GOB_AFIRMA, "Error en los parametros XML de configuracion de seleccion de certificado", e); //$NON-NLS-1$
             showErrorMessage(getString(R.string.error_bad_params));
             return;
         } catch (final Throwable e) {
@@ -354,7 +354,7 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 
     @Override
     public synchronized void onDownloadingDataError(final String msg, final Throwable t) {
-        Logger.e(ES_GOB_AFIRMA, "Error durante la descarga de la configuracion para la seleccion de certificado:" + msg + (t != null ? ": " + t.toString() : ""), t); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        Logger.e(ES_GOB_AFIRMA, "Error durante la descarga de la configuracion para la seleccion de certificado:" + msg, t); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         showErrorMessage(getString(R.string.error_server_connect));
     }
 

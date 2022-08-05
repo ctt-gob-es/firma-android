@@ -19,10 +19,12 @@ import java.security.KeyStore.PrivateKeyEntry;
 import es.gob.afirma.R;
 import es.gob.afirma.android.LoadKeyStoreFragmentActivity;
 import es.gob.afirma.android.Logger;
+import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager.SelectCertificateEvent;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
 import es.gob.afirma.core.AOCancelledOperationException;
+import es.gob.afirma.core.misc.http.HttpError;
 import es.gob.afirma.core.misc.protocol.UrlParametersForBatch;
 
 /** Esta actividad abstracta integra las funciones necesarias para la ejecuci&oacute;n de
@@ -142,7 +144,15 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 
 	@Override
 	public void onSignError(final Throwable t) {
-		onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
+		if (t instanceof HttpError) {
+			onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
+		}
+		else if (t instanceof MSCBadPinException) {
+			onSigningError(KeyStoreOperation.SIGN, "No se pudo solicitar el PIN de la tarjeta criptografica", t);
+		}
+		else {
+			onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
+		}
 	}
 
 	protected abstract void onSigningSuccess(final String signature);
