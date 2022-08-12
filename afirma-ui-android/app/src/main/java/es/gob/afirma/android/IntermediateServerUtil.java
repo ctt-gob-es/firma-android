@@ -1,10 +1,7 @@
 package es.gob.afirma.android;
 
-import android.content.Context;
-
 import java.io.IOException;
 
-import es.gob.afirma.android.crypto.AndroidHttpManager;
 import es.gob.afirma.core.misc.http.UrlHttpManager;
 import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
 import es.gob.afirma.core.misc.http.UrlHttpMethod;

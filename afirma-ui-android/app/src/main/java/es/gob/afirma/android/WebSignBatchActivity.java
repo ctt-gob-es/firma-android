@@ -22,8 +22,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import org.json.JSONException;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -37,7 +35,6 @@ import java.util.Map;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.batch.SignBatchFragmentActivity;
-import es.gob.afirma.android.batch.TriphaseDataParser;
 import es.gob.afirma.android.crypto.AndroidHttpManager;
 import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.crypto.MSCBadPinException;
@@ -46,9 +43,11 @@ import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.MessageDialog;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
+import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.AOException;
 import es.gob.afirma.core.AOUnsupportedSignFormatException;
 import es.gob.afirma.core.misc.Base64;
+import es.gob.afirma.core.misc.http.HttpError;
 import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
 import es.gob.afirma.core.misc.protocol.ParameterException;
 import es.gob.afirma.core.misc.protocol.ProtocolInvocationUriParser;
@@ -238,6 +237,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	 * tenga constancia de &eacute;l.
 	 * @param errorId Identificador del error.
 	 * @param errorMsg Mensaje de error.
+	 * @param critical
 	 */
 	private void launchError(final String errorId, final String errorMsg, final boolean critical) {
 
@@ -335,6 +335,11 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 				launchError(ErrorManager.ERROR_MSC_PIN, t.getMessage(), false);
 				return;
 			}
+			else if (t instanceof AOCancelledOperationException) {
+				Logger.i(ES_GOB_AFIRMA, "Operacion cancelada por el usuario: " + t);
+				launchError(ErrorManager.ERROR_CANCELLED_OPERATION, t.getMessage(), false);
+				return;
+			}
 			else if (t instanceof AOUnsupportedSignFormatException) {
 				Logger.e(ES_GOB_AFIRMA, "Formato de firma no soportado: " + t);
 				showErrorMessage(getString(R.string.error_format_not_supported));
@@ -345,6 +350,11 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 				Logger.e(ES_GOB_AFIRMA, "Los parametros configurados son incompatibles con la politica de firma: " + t);
 				showErrorMessage(getString(R.string.error_signing_config));
 				launchError(ErrorManager.ERROR_BAD_PARAMETERS, t.getMessage(), true);
+				return;
+			}
+			else if (t instanceof HttpError) {
+				Logger.e(ES_GOB_AFIRMA, "Error de comunicacion con el servicio", t);
+				launchError(ErrorManager.ERROR_COMMUNICATING_WITH_WEB, "Error de comunicacion con el servicio", true);
 				return;
 			}
 			else if (t instanceof AOException) {
@@ -597,8 +607,11 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	}
 
 	@Override
-	public void onSendingDataError(Throwable error, boolean critical) {
-
+	public void onSendingDataError(Throwable e, boolean critical) {
+		Logger.e(ES_GOB_AFIRMA, "No se pudo enviar el resultado al navegador: " + e, e); //$NON-NLS-1$
+		if (critical) {
+			showErrorMessage(getString(R.string.error_sending_data));
+		}
 	}
 
 	/** Accion para el cierre de la actividad. */

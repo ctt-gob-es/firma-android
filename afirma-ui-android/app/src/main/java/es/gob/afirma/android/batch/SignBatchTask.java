@@ -14,12 +14,15 @@ import android.content.ActivityNotFoundException;
 import android.os.AsyncTask;
 
 import java.security.KeyStore.PrivateKeyEntry;
+import java.security.cert.CertificateEncodingException;
 
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.batch.client.BatchSigner;
 import es.gob.afirma.android.crypto.MSCBadPinException;
+import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.AOException;
 import es.gob.afirma.core.misc.Base64;
+import es.gob.afirma.core.misc.http.HttpError;
 import es.gob.afirma.core.misc.protocol.UrlParametersForBatch;
 
 /**
@@ -73,6 +76,29 @@ public class SignBatchTask extends AsyncTask<Void, Void, String>{
 				);
 			} else {
 				throw new IllegalStateException("Tipo de operacion de firma no soportado"); //$NON-NLS-1$
+			}
+		}
+		catch (final AOCancelledOperationException e) {
+			this.t = e;
+		}
+		catch (final IllegalArgumentException e) {
+			Logger.e(ES_GOB_AFIRMA, "Los parametros de la peticion no eran validos: " + e); //$NON-NLS-1$
+			this.t = e;
+		}
+		catch (final CertificateEncodingException e) {
+			Logger.e(ES_GOB_AFIRMA, "Error en la codificacion del certificado: " + e); //$NON-NLS-1$
+			this.t = e;
+		}
+		catch (final HttpError e) {
+			Logger.e(ES_GOB_AFIRMA, "El servicio devolvio un error: " + e); //$NON-NLS-1$
+			if (e.getResponseCode() == 400) {
+				this.t = new IllegalArgumentException("Los parametros enviados al servicio no eran validos", e);
+			}
+			else if (e.getResponseCode() / 100 == 4) {
+				this.t = e;
+			}
+			else {
+				this.t = new AOException("Error durante la operacion de firma en servidor", e);
 			}
 		}
 		catch (final AOException e) {

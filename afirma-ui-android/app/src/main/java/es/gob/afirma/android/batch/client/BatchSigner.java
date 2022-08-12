@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
+import java.util.List;
 
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.batch.TriphaseDataParser;
@@ -76,7 +77,7 @@ public class BatchSigner {
             );
         }
 
-        final String batchUrlSafe = batchB64.replace("+", "-").replace("/", "_");  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
+        String batchUrlSafe = batchB64.replace("+", "-").replace("/", "_");  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
         byte[] ret;
 
         try {
@@ -91,19 +92,38 @@ public class BatchSigner {
             throw e;
         }
 
-        final TriphaseData td1 = TriphaseDataParser.parseFromJSON(ret);
+        // Obtenemos el resultado de la prefirma del lote
+        final PresignBatch presignBatch = JSONPreSignBatchParser.parseFromJSON(ret);
+        TriphaseData td = presignBatch.getTriphaseData();
+        final List<BatchDataResult> presignErrors = presignBatch.getErrors();
 
-        if (td1.getTriSigns() == null || td1.getTriSigns().isEmpty()) {
-            throw new AOException("No se genero ninguna prefirma valida del lote");
+        // Si no se obtuvo ningun tipo de resultado, devolvemos un resultado sin
+        // elementos (nunca deberiamos llegar a este caso)
+        if (td == null && presignErrors == null) {
+            return JSONBatchInfoParser.buildEmptyResult().toString();
+        }
+
+        // Si no se obtuvo ningun resultado de firma de la prefirma es que fallaron todas las firmas,
+        // en cuyo caso podriamos devolver inmediatamente el resultado
+        if (td == null) {
+            return JSONBatchInfoParser.buildResult(presignErrors).toString();
+        }
+
+        // Si hubo errores, actualizamos la informacion del lote con ellos
+        if (presignErrors != null) {
+            final BatchInfo batchInfo = JSONBatchInfoParser.parse(Base64.decode(batchB64));
+            batchInfo.updateResults(presignErrors);
+            final byte[] batchInfoEncode = batchInfo.getInfoString().getBytes(StandardCharsets.UTF_8);
+            batchUrlSafe = Base64.encode(batchInfoEncode, true);
         }
 
         // El cliente hace los PKCS#1 generando TD2, que envia de nuevo al servidor
-        final TriphaseData td2 = TriphaseDataSigner.doSign(
+        td = TriphaseDataSigner.doSign(
                 new AOPkcs1Signer(),
                 getAlgorithmForJSON(batchB64),
                 pk,
                 certificates,
-                td1,
+                td,
                 null // Sin ExtraParams para el PKCS#1 en lotes
         );
 
@@ -114,7 +134,7 @@ public class BatchSigner {
                             BATCH_JSON_PARAM + EQU + batchUrlSafe + AMP +
                             BATCH_CRT_PARAM + EQU + getCertChainAsBase64(certificates) + AMP +
                             BATCH_TRI_PARAM + EQU +
-                            Base64.encode(TriphaseDataParser.triphaseDataToJsonString(td2).getBytes(DEFAULT_CHARSET), true),
+                            Base64.encode(TriphaseDataParser.triphaseDataToJson(td).toString().getBytes(DEFAULT_CHARSET), true),
                     UrlHttpMethod.POST
             );
         } catch (final HttpError e) {

@@ -19,9 +19,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.core.view.AccessibilityDelegateCompat;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 
 import java.io.File;
 import java.util.ArrayList;

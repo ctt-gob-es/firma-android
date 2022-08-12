@@ -15,6 +15,7 @@ import android.os.Build;
 import android.security.KeyChainException;
 
 import java.security.KeyStore.PrivateKeyEntry;
+import java.security.cert.CertificateEncodingException;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.LoadKeyStoreFragmentActivity;
@@ -24,6 +25,7 @@ import es.gob.afirma.android.crypto.MobileKeyStoreManager;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager.SelectCertificateEvent;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
 import es.gob.afirma.core.AOCancelledOperationException;
+import es.gob.afirma.core.AOException;
 import es.gob.afirma.core.misc.http.HttpError;
 import es.gob.afirma.core.misc.protocol.UrlParametersForBatch;
 
@@ -144,13 +146,24 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 
 	@Override
 	public void onSignError(final Throwable t) {
-		if (t instanceof HttpError) {
-			onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
+		if (t instanceof AOCancelledOperationException) {
+			onSigningError(KeyStoreOperation.SIGN, "Operacion cancelada por el usuario", t);
+		}
+		else if (t instanceof IllegalArgumentException) {
+			onSigningError(KeyStoreOperation.SIGN, "Los datos proporcionados al servicio no son validos", t);
+		}
+		else if (t instanceof CertificateEncodingException) {
+			onSigningError(KeyStoreOperation.SIGN, "Error al codificar el certificado", t);
+		}
+		else if (t instanceof HttpError) {
+			onSigningError(KeyStoreOperation.SIGN, "No se pudo conectar con el servicio de firma de lotes", t);
 		}
 		else if (t instanceof MSCBadPinException) {
 			onSigningError(KeyStoreOperation.SIGN, "No se pudo solicitar el PIN de la tarjeta criptografica", t);
 		}
-		else {
+		else if (t instanceof AOException) {
+			onSigningError(KeyStoreOperation.SIGN, "El servicio de firma de lotes devolvio un error", t);
+		}else {
 			onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
 		}
 	}
