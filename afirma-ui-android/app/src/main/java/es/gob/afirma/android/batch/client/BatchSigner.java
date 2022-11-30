@@ -10,6 +10,7 @@ import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
 import java.util.List;
+import java.util.Properties;
 
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.batch.TriphaseDataParser;
@@ -34,7 +35,6 @@ public class BatchSigner {
     private static final String AMP = "&"; //$NON-NLS-1$
 
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-
     /*
      * Procesa un lote de firmas.
      * Los lotes deben proporcionase definidos en un fichero JSON con un determinado esquema.
@@ -51,13 +51,37 @@ public class BatchSigner {
      * @throws CertificateEncodingException Si los certificados proporcionados no son v&aacute;lidos.
      * @throws AOException Si hay errores en las firmas cliente.
      * */
-    public static String signJSON(final String batchB64,
+    public static byte[] signJSON(final String batchB64,
                                   final String batchPresignerUrl,
                                   final String batchPostSignerUrl,
                                   final Certificate[] certificates,
                                   final PrivateKey pk) throws CertificateEncodingException,
-            IOException,
-            AOException, JSONException {
+            IOException, AOException, JSONException {
+        return signJSON(batchB64, batchPresignerUrl, batchPostSignerUrl, certificates, pk, null);
+    }
+    /*
+     * Procesa un lote de firmas.
+     * Los lotes deben proporcionase definidos en un fichero JSON con un determinado esquema.
+     * Puede ver dicho esquema y un ejemplo de petici&oacute;n
+     * <a href="doc-files/batch-scheme.html">aqu&iacute;</a>.
+     * @param batchB64 JSON de definici&oacute;n del lote de firmas.
+     * @param batchPresignerUrl URL del servicio remoto de preproceso de lotes de firma.
+     * @param batchPostSignerUrl URL del servicio remoto de postproceso de lotes de firma.
+     * @param certificates Cadena de certificados del firmante.
+     * @param pk Clave privada para realizar las firmas cliente.
+     * @return JSON con el resultado de la firma del lote. La estructura presentar&aacute;
+     * la estructura indicada <a href="doc-files/resultlog-scheme.html">aqu&iacute;</a>.
+     * @throws IOException Si hay problemas de red o en el tratamiento de datos.
+     * @throws CertificateEncodingException Si los certificados proporcionados no son v&aacute;lidos.
+     * @throws AOException Si hay errores en las firmas cliente.
+     * */
+    public static byte[] signJSON(final String batchB64,
+                                  final String batchPresignerUrl,
+                                  final String batchPostSignerUrl,
+                                  final Certificate[] certificates,
+                                  final PrivateKey pk,
+                                  final Properties pkcs1ExtraParams) throws CertificateEncodingException,
+            IOException, AOException, JSONException {
         if (batchB64 == null || batchB64.isEmpty()) {
             throw new IllegalArgumentException("El lote de firma no puede ser nulo ni vacio"); //$NON-NLS-1$
         }
@@ -100,13 +124,13 @@ public class BatchSigner {
         // Si no se obtuvo ningun tipo de resultado, devolvemos un resultado sin
         // elementos (nunca deberiamos llegar a este caso)
         if (td == null && presignErrors == null) {
-            return JSONBatchInfoParser.buildEmptyResult().toString();
+            return JSONBatchInfoParser.buildEmptyResult().toString().getBytes(StandardCharsets.UTF_8);
         }
 
         // Si no se obtuvo ningun resultado de firma de la prefirma es que fallaron todas las firmas,
         // en cuyo caso podriamos devolver inmediatamente el resultado
         if (td == null) {
-            return JSONBatchInfoParser.buildResult(presignErrors).toString();
+            return JSONBatchInfoParser.buildResult(presignErrors).toString().getBytes(StandardCharsets.UTF_8);
         }
 
         // Si hubo errores, actualizamos la informacion del lote con ellos
@@ -124,7 +148,8 @@ public class BatchSigner {
                 pk,
                 certificates,
                 td,
-                null // Sin ExtraParams para el PKCS#1 en lotes
+                pkcs1ExtraParams // Configuracion del PKCS#1 en lotes (puede contener el nombre del
+                                 // proveedor para el uso de la clave)
         );
 
         // Llamamos al servidor de nuevo para el postproceso
@@ -142,7 +167,7 @@ public class BatchSigner {
             throw e;
         }
 
-        return new String(ret, DEFAULT_CHARSET);
+        return ret;
     }
 
     private static String getCertChainAsBase64(final Certificate[] certChain) throws CertificateEncodingException {

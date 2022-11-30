@@ -28,6 +28,7 @@
         android:layout_height="0dp"
         android:layout_margin="5dp"
         android:layout_weight="0.91"
+        android:scrollbars="vertical"
         android:padding="10dp"
         android:text="@string/presentation_text"
         android:textColor="#000000" />
@@ -78,16 +79,38 @@
         android:gravity="center"
         android:text="@string/disclaimer" />
 
-    <TextView
-        android:id="@+id/privacyPolicyTextView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginBottom="3dp"
-        android:clickable="true"
-        android:onClick="privacyPolicyLinkClick"
-        android:text="@string/privacy_policy"
-        style="@style/TextLink"
-        />
+        android:layout_gravity="bottom"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/privacyPolicyTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="3dp"
+            android:clickable="true"
+            android:onClick="privacyPolicyLinkClick"
+            android:text="@string/privacy_policy"
+            style="@style/TextLink"
+            />
+
+        <TextView
+            android:id="@+id/accesibilityDeclarationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_gravity="right"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="3dp"
+            android:clickable="true"
+            android:onClick="accessibilityStatementLinkClick"
+            android:text="@string/accessibility_statement"
+            style="@style/TextLink"
+            />
+    </LinearLayout>
 </LinearLayout>

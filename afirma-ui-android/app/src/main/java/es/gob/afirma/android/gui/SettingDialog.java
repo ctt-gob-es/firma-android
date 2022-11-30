@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,8 @@ import es.gob.afirma.android.NfcHelper;
 /** Di&acute;logo para la configuraci&oacute;n de la aplicaci&oacute;n. */
 
 public class SettingDialog extends DialogFragment {
+
+	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
 	/** Construye un di&aacute;logo para la configuraci&oacute;n de la aplicaci&oacute;n. */
 	public SettingDialog() {
@@ -101,24 +104,25 @@ public class SettingDialog extends DialogFragment {
 
 						final EditText editTextTrustedDomains = view.findViewById(R.id.editTextTrustedDomains);
 						String domains = editTextTrustedDomains.getText().toString().trim();
-						if (!domains.isEmpty()) {
-							try {
+						try {
+							if (!domains.isEmpty()) {
 								checkCorrectDomainFormat(domains);
-								CheckConnectionsHelper.setTrustedDomains(domains);
-								settingDialog.dismiss();
 							}
-							catch (DomainFormatException e) {
-								AlertDialog formatErrorDlg = new AlertDialog.Builder(getContext(), R.style.AlertDialog).create();
-								formatErrorDlg.setTitle(getString(R.string.error));
-								formatErrorDlg.setMessage(getString(R.string.error_format_trusted_domains, e.getMessage()));
-								formatErrorDlg.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.ok),
-										new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface dialog, int which) {
-												dialog.dismiss();
-											}
-										});
-								formatErrorDlg.show();
-							}
+							CheckConnectionsHelper.setTrustedDomains(domains);
+							settingDialog.dismiss();
+						}
+						catch (DomainFormatException e) {
+							Log.w(ES_GOB_AFIRMA, "Se han encontrado entradas no validas en el listado de dominios", e);
+							AlertDialog formatErrorDlg = new AlertDialog.Builder(getContext(), R.style.AlertDialog).create();
+							formatErrorDlg.setTitle(getString(R.string.error));
+							formatErrorDlg.setMessage(getString(R.string.error_format_trusted_domains, e.getMessage()));
+							formatErrorDlg.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.ok),
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int which) {
+											dialog.dismiss();
+										}
+									});
+							formatErrorDlg.show();
 						}
 					}
 				});

@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.security.KeyChain;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -111,8 +112,15 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
 		TextView selectOptionText = findViewById(R.id.selectOptionTextView);
 		ViewCompat.setAccessibilityHeading(selectOptionText, true);
 
+		TextView wellcomeTextView = findViewById(R.id.textView1);
+		if (wellcomeTextView != null) {
+			wellcomeTextView.setMovementMethod(new ScrollingMovementMethod());
+		}
+
         TextView privacyPolicy = findViewById(R.id.privacyPolicyTextView);
         privacyPolicy.setPaintFlags(privacyPolicy.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+		TextView accesibilityDeclaration = findViewById(R.id.accesibilityDeclarationTextView);
+		accesibilityDeclaration.setPaintFlags(privacyPolicy.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
 
         // Control de foco para mejorar la accesibilidad en la navegacion por teclado
 		Button signButton = findViewById(R.id.buttonSign);
@@ -155,6 +163,12 @@ public final class MainActivity extends FragmentActivity implements DialogInterf
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.privacy_policy_url)));
         startActivity(browserIntent);
     }
+
+	public void accessibilityStatementLinkClick(final View v) {
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+		browserIntent.setDataAndType(Uri.parse(getString(R.string.accessibility_statement_url)), "application/pdf");
+		startActivity(browserIntent);
+	}
 
 	/** @param v Vista sobre la que se hace clic. */
 	public void onClick(final View v) {

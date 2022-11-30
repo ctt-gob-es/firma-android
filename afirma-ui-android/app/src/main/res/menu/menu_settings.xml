@@ -7,5 +7,5 @@
         android:title="@string/settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="ifRoom" />
 </menu>

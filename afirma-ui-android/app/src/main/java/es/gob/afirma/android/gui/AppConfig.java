@@ -63,7 +63,12 @@ public final class AppConfig {
     }
 
     public static void setTrustedDomains(String secureDomains) {
-        setPreference(JAVA_PARAM_SECURE_DOMAINS_LIST, secureDomains);
+        if (secureDomains == null || secureDomains.isEmpty()) {
+            removePreference(JAVA_PARAM_SECURE_DOMAINS_LIST);
+        } else {
+            setPreference(JAVA_PARAM_SECURE_DOMAINS_LIST, secureDomains);
+        }
+
     }
 
     /**
@@ -115,6 +120,16 @@ public final class AppConfig {
     private static void setPreference(final String key, final String value) {
         final SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(key, value);
+        editor.apply();
+    }
+
+    /**
+     * Elimina una preferencia de la aplicacion.
+     * @param key Clave de identificacion de la preferencia.
+     */
+    private static void removePreference(final String key) {
+        final SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove(key);
         editor.apply();
     }
 }

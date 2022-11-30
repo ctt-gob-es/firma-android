@@ -13,10 +13,13 @@ package es.gob.afirma.android.batch;
 import android.content.ActivityNotFoundException;
 import android.os.AsyncTask;
 
+import java.nio.charset.StandardCharsets;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.security.cert.CertificateEncodingException;
+import java.util.Properties;
 
 import es.gob.afirma.android.Logger;
+import es.gob.afirma.android.batch.client.BatchDataResult;
 import es.gob.afirma.android.batch.client.BatchSigner;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.core.AOCancelledOperationException;
@@ -29,12 +32,13 @@ import es.gob.afirma.core.misc.protocol.UrlParametersForBatch;
  * Tarea que ejecuta una firma electr&oacute;nica por lotes.
  * @author Jose Montero
  */
-public class SignBatchTask extends AsyncTask<Void, Void, String>{
+public class SignBatchTask extends AsyncTask<Void, Void, byte[]>{
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
 	private final PrivateKeyEntry pke;
 	private final UrlParametersForBatch batchParameters;
+	private final Properties pkcs1ExtraParams;
 	private final SignBatchListener signBatchListener;
 
 	private Throwable t;
@@ -42,13 +46,16 @@ public class SignBatchTask extends AsyncTask<Void, Void, String>{
 	/** Construye la tarea encargada de realizar la operaci&oacute;n.
 	 * @param pke Clave privada para la firma.
 	 * @param batchParameters Par&aacute;metros para la configuraci&oacute;n de la firma.
+	 * @param pkcs1ExtraParams Par&aacute;metros adicionales para la firma PKCS#1.
 	 * @param signBatchListener Manejador para el tratamiento del resultado de la firma. */
 	public SignBatchTask(final PrivateKeyEntry pke,
 						 final UrlParametersForBatch batchParameters,
+						 final Properties pkcs1ExtraParams,
                          final SignBatchListener signBatchListener) {
 
 		this.pke = pke;
 		this.batchParameters = batchParameters;
+		this.pkcs1ExtraParams = pkcs1ExtraParams;
 		this.signBatchListener = signBatchListener;
 		this.t = null;
 	}
@@ -59,10 +66,10 @@ public class SignBatchTask extends AsyncTask<Void, Void, String>{
 	}
 
 	@Override
-	protected String doInBackground(final Void... params) {
+	protected byte[] doInBackground(final Void... params) {
 
 		// Generacion de la firma
-		String batchResult = null;
+		byte[] batchResult = null;
 		try {
 			// Ejecutamos la operacion pertinente. Si no se indico nada, por defecto, el metodo
 			// que devuelve la operacion indica que es firma
@@ -72,7 +79,8 @@ public class SignBatchTask extends AsyncTask<Void, Void, String>{
 						batchParameters.getBatchPresignerUrl(),
 						batchParameters.getBatchPostSignerUrl(),
 						pke.getCertificateChain(),
-						pke.getPrivateKey()
+						pke.getPrivateKey(),
+						this.pkcs1ExtraParams
 				);
 			} else {
 				throw new IllegalStateException("Tipo de operacion de firma no soportado"); //$NON-NLS-1$
@@ -121,8 +129,8 @@ public class SignBatchTask extends AsyncTask<Void, Void, String>{
 	}
 
 	@Override
-	protected void onPostExecute(final String result) {
-		if (result == null || result.isEmpty()) {
+	protected void onPostExecute(final byte[] result) {
+		if (result == null) {
 			this.signBatchListener.onSignError(this.t);
 		} else {
 			this.signBatchListener.onSignSuccess(result);
@@ -134,8 +142,8 @@ public class SignBatchTask extends AsyncTask<Void, Void, String>{
 	public interface SignBatchListener {
 
 		/** Gestiona el resultado de la operaci&oacute;n de firma por lotes cuando termina correctamente.
-		 * @param signature Firma/cofirma/contrafirma por lotes generada. */
-		void onSignSuccess(String signature);
+		 * @param batchResult Resultado de la firma de lote. */
+		void onSignSuccess(byte[] batchResult);
 
 		/**
 		 * Gestiona un error en la operaci&oacute;n de firma por lotes.

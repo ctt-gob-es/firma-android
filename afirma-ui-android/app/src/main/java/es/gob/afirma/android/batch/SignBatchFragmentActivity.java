@@ -16,6 +16,7 @@ import android.security.KeyChainException;
 
 import java.security.KeyStore.PrivateKeyEntry;
 import java.security.cert.CertificateEncodingException;
+import java.util.Properties;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.LoadKeyStoreFragmentActivity;
@@ -47,6 +48,10 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 	 * @param batchParams Firma de lotes a realizar
      */
 	public void sign(final UrlParametersForBatch batchParams) {
+
+		if (batchParams == null) {
+			throw new IllegalArgumentException("No se han indicado el lote de firmas que procesar");
+		}
 
 		this.batchParams = batchParams;
 
@@ -94,38 +99,38 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
             setPasswordCallback(null);
 		}
 
+		String providerName = null;
+		if (kse.getKeyStore() != null) {
+			providerName = kse.getKeyStore().getProvider().getName();
+		}
+
 		try {
-			doSign(pke);
+			doSign(pke, providerName);
 		}
 		catch (final Exception e) {
-			onSigningError(KeyStoreOperation.SIGN, "Error durante la operacion de firma", e);
+			onSigningError(KeyStoreOperation.SIGN, "Error durante la operacion de firma de lote", e);
 		}
 	}
 
-	private void doSign(final PrivateKeyEntry keyEntry) {
+	private void doSign(final PrivateKeyEntry keyEntry, String providerName) {
 
 		if (keyEntry == null) {
 			onSigningError(KeyStoreOperation.SIGN, "No se pudo extraer la clave privada del certificado", new Exception());
 			return;
 		}
 
+		Properties pkcs1ExtraParams = null;
+		if (providerName != null) {
+			pkcs1ExtraParams = new Properties();
+			pkcs1ExtraParams.setProperty("Provider." + keyEntry.getPrivateKey().getClass().getName(), providerName);
+		}
+
 		new SignBatchTask(
 			keyEntry,
 			this.batchParams,
+			pkcs1ExtraParams,
 			this
 		).execute();
-	}
-
-	protected PrivateKeyEntry getPke() {
-		return this.pke;
-	}
-
-	protected UrlParametersForBatch getBatchParams() {
-		return this.batchParams;
-	}
-
-	protected void setBatchParams(UrlParametersForBatch batchParams) {
-		this.batchParams = batchParams;
 	}
 
 	@Override
@@ -140,8 +145,8 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 	}
 
 	@Override
-	public void onSignSuccess(final String signatureResult) {
-		onSigningSuccess(signatureResult);
+	public void onSignSuccess(final byte[] batchResult) {
+		onSigningSuccess(batchResult);
 	}
 
 	@Override
@@ -168,7 +173,19 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 		}
 	}
 
-	protected abstract void onSigningSuccess(final String signature);
+	protected abstract void onSigningSuccess(final byte[] batchResult);
 
 	protected abstract void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t);
+
+	protected PrivateKeyEntry getPke() {
+		return this.pke;
+	}
+
+	protected UrlParametersForBatch getBatchParams() {
+		return this.batchParams;
+	}
+
+	protected void setBatchParams(UrlParametersForBatch batchParams) {
+		this.batchParams = batchParams;
+	}
 }

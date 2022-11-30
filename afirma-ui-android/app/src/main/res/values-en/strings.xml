@@ -15,6 +15,8 @@
     <string name="disclaimer">2022 Gobierno de Espa\u00F1a</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
+    <string name="accessibility_statement">Accessibility Statement</string>
+    <string name="accessibility_statement_url">https://github.com/ctt-gob-es/clienteafirma-docs/raw/master/DECLARACION_ACCESIBILIDAD.pdf</string>
     <string name="content_desc">Ciente @firma logo</string>
     <string name="ok">OK</string>
     <string name="close">Close</string>

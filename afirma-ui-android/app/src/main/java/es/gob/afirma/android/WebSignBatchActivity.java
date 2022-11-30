@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.batch.BatchResult;
 import es.gob.afirma.android.batch.SignBatchFragmentActivity;
 import es.gob.afirma.android.crypto.AndroidHttpManager;
 import es.gob.afirma.android.crypto.CipherDataManager;
@@ -389,12 +390,12 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	}
 
 	@Override
-	public void onSigningSuccess(final String signature) {
-		Logger.i(ES_GOB_AFIRMA, "Firma generada correctamente. Se cifra el resultado.");
+	public void onSigningSuccess(final byte[] batchResult) {
+		Logger.i(ES_GOB_AFIRMA, "Firma de lote generada correctamente. Se cifra el resultado.");
 
 		final StringBuilder result = new StringBuilder();
 
-		// Si se nos ha indicado en la llamadada que devolvamos el certificado de firma, lo adjuntamos la resultado con un separador
+		// Si se nos ha indicado en la llamadada que devolvamos el certificado de firma, lo adjuntamos al resultado con un separador
 		byte[] signingCertEncoded = null;
 		if (getBatchParams().isCertNeeded()) {
 			try {
@@ -409,7 +410,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		// Si hay clave de cifrado, ciframos
 		if (getBatchParams().getDesKey() != null) {
 			try {
-				result.append(CipherDataManager.cipherData(signature.getBytes(), getBatchParams().getDesKey()));
+				result.append(CipherDataManager.cipherData(batchResult, getBatchParams().getDesKey()));
 				if (signingCertEncoded != null) {
 					result.append(RESULT_SEPARATOR)
 							.append(CipherDataManager.cipherData(signingCertEncoded, getBatchParams().getDesKey()));
@@ -423,7 +424,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		}
 		else {
 			Logger.i(ES_GOB_AFIRMA, "Se omite el cifrado de los datos resultantes por no haberse proporcionado una clave de cifrado");
-			result.append(Base64.encode(signature.getBytes()));
+			result.append(Base64.encode(batchResult));
 			if (signingCertEncoded != null) {
 				result.append(RESULT_SEPARATOR).append(Base64.encode(signingCertEncoded));
 			}
