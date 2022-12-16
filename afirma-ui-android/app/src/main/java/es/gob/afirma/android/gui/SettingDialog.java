@@ -68,7 +68,6 @@ public class SettingDialog extends DialogFragment {
 
 		AlertDialog settingDialog = new AlertDialog.Builder(getActivity(), R.style.AlertDialog)
 				.setView(view)
-				.setTitle(getString(R.string.settings))
 				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(final DialogInterface dialog, final int which) {

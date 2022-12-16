@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
-    android:layout_width="wrap_content">
-    <item android:id="@+id/settings"
-        android:icon="@android:drawable/ic_menu_preferences"
-        android:title="@string/settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:showAsAction="ifRoom" />
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/settings"
+            android:title="@string/settings" />
+
+        <item
+            android:id="@+id/privacy_policy"
+            android:title="@string/privacy_policy" />
+
+        <item
+            android:id="@+id/accesibility_policy"
+            android:title="@string/accessibility_statement" />
+    </group>
 </menu>

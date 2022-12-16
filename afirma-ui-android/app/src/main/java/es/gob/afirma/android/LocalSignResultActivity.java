@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -322,6 +323,15 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		final RelativeLayout rl = findViewById(R.id.signedfile_error);
 		rl.setVisibility(View.VISIBLE);
 
+		Button buttonKO = findViewById(R.id.homeButton_ko);
+		buttonKO.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+			}
+		});
 	}
 
 	/** Muestra los elementos de pantalla informando de que la firma se ha generado correctamente y
@@ -344,6 +354,16 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 		final RelativeLayout rl = findViewById(R.id.signedfile_correct);
 		rl.setVisibility(View.VISIBLE);
+
+		Button buttonOK = findViewById(R.id.homeButton_ok);
+		buttonOK.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+			}
+		});
 	}
 
 	@Override

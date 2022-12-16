@@ -47,6 +47,8 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation 'com.google.android.material:material:1.2.1'
+
     implementation ('es.gob.afirma.jmulticard:jmulticard-android:1.8-SNAPSHOT') {
         exclude(module: 'support-v4')
         exclude(module: 'android')

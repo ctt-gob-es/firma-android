@@ -17,7 +17,7 @@
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Déclaration d\'accessibilité</string>
     <string name="accessibility_statement_url">https://github.com/ctt-gob-es/clienteafirma-docs/raw/master/DECLARACION_ACCESIBILIDAD.pdf</string>
-    <string name="content_desc">Logo @firma mobile</string>
+    <string name="main_logo_content_desc">Client @firma mobile</string>
     <string name="ok">Accepter</string>
     <string name="close">Fermer</string>
     <string name="ca_not_found">Aucune autorité de certification n\'est configurée.</string>
@@ -107,5 +107,9 @@
     <string name="trusted_domains">Domaines de confiance:</string>
     <string name="error_format_trusted_domains">Le domaine \"%s\" est mal formaté</string>
     <string name="use_asterisk">Utilisez un astérisque (*) au début ou à la fin comme caractère générique.</string>
+    <string name="accesibility_dialog_can">Pour pouvoir établir une connexion NFC, entrez votre code CAN. Le code CAN contient six chiffres et se trouve dans le coin inférieur droit de votre ID</string>
+    <string name="navigation_drawer_open">Ouvert</string>
+    <string name="navigation_drawer_close">Proche</string>
+    <string name="home">Début</string>
 </resources>
 

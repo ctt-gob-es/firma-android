@@ -2,96 +2,124 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/vbackground" >
+    android:background="@color/white"
+    android:orientation="vertical">
 
-	<TextView
-		android:id="@+id/signedfile_title"
-		style="@style/ButtonWhiteSmall"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="20sp"
-		android:layout_marginBottom="20sp"
-		android:background="@drawable/signedfile_title_small"
-		android:gravity="center"
-		android:text="@string/signedfile_title"
-		android:visibility="invisible" />
-    	    
-    	<RelativeLayout
-    	    android:layout_below="@+id/signedfile_title"
-    	    android:id="@+id/signedfile_error"
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="wrap_content"
-    	    android:orientation="horizontal"
-    	    android:padding="10sp"
-    	    android:visibility="invisible"
-    	    >
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/vbackground"
+        android:orientation="vertical">
 
-    	    <ImageView
-    	        android:id="@+id/signedfile_ko_icon"
-    	        android:layout_width="wrap_content"
-    	        android:layout_height="wrap_content"
-    	        android:layout_marginLeft="10sp"
-    	        android:layout_marginTop="20sp"
-    	        android:src="@drawable/icon_ko"
-    	        android:contentDescription="@string/accesibility_icon_sign_ko"
-    	        />
+        <TextView
+            android:id="@+id/signedfile_title"
+            style="@style/ButtonWhiteSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
+            android:accessibilityHeading="true"
+            android:background="@drawable/signedfile_title_small"
+            android:gravity="center"
+            android:text="@string/signedfile_title"
+            android:visibility="invisible" />
 
-    	    <TextView
-    	        android:id="@+id/tv_signedfile_ko"
-    	        style="@style/ButtonBlackSmall"
-    	        android:layout_width="wrap_content"
-    	        android:layout_height="wrap_content"
-    	        android:layout_marginLeft="10sp"
-    	        android:layout_centerVertical="true"
-    	        android:layout_toRightOf="@id/signedfile_ko_icon"
-    	        android:text="@string/signedfile_error"
-    	        android:textAppearance="?android:attr/textAppearanceMedium"
-    	    />
-    	</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/signedfile_error"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/signedfile_title"
+            android:orientation="horizontal"
+            android:padding="10sp"
+            android:visibility="invisible">
 
-	<RelativeLayout
-		android:id="@+id/signedfile_correct"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/signedfile_title"
-		android:orientation="horizontal"
-		android:padding="10sp"
-		android:visibility="invisible">
+            <ImageView
+                android:id="@+id/signedfile_ko_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp"
+                android:src="@drawable/icon_ko" />
 
-		<ImageView
-			android:id="@+id/signedfile_ok_icon"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="10sp"
-			android:layout_marginTop="20sp"
-			android:contentDescription="@string/accesibility_icon_sign_ok"
-			android:src="@drawable/icon_ok" />
+            <TextView
+                android:id="@+id/tv_signedfile_ko"
+                style="@style/ButtonBlackSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10sp"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@id/signedfile_ko_icon"
+                android:text="@string/signedfile_error"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-		<TextView
-			android:id="@+id/tv_signedfile_ok"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignTop="@id/signedfile_ok_icon"
-			android:layout_toRightOf="@id/signedfile_ok_icon"
-			android:paddingLeft="10dp"
-			android:paddingTop="20dp"
-			android:paddingRight="20dp"
-			android:paddingBottom="10dp"
-			android:text="@string/signedfile_correct"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textIsSelectable="false" />
+            <Button
+                android:id="@+id/homeButton_ko"
+                style="@style/ButtonRedSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_signedfile_ko"
+                android:layout_marginTop="30sp"
+                android:onClick="onClick"
+                android:padding="10sp"
+                android:text="@string/home" />
 
-		<TextView
-			android:id="@+id/filestorage_path"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/signedfile_ok_icon"
-			android:layout_marginTop="30sp"
-			android:padding="10sp"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textIsSelectable="false" />
+        </RelativeLayout>
 
-	</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/signedfile_correct"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/signedfile_title"
+            android:orientation="horizontal"
+            android:padding="10sp"
+            android:visibility="invisible">
 
+            <ImageView
+                android:id="@+id/signedfile_ok_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp"
+                android:src="@drawable/icon_ok" />
+
+            <TextView
+                android:id="@+id/tv_signedfile_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/signedfile_ok_icon"
+                android:layout_toRightOf="@id/signedfile_ok_icon"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:text="@string/signedfile_correct"
+                android:textColor="@color/black"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textIsSelectable="false" />
+
+            <TextView
+                android:id="@+id/filestorage_path"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/signedfile_ok_icon"
+                android:layout_marginTop="30sp"
+                android:padding="10sp"
+                android:textColor="@color/black"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textIsSelectable="false" />
+
+            <Button
+                android:id="@+id/homeButton_ok"
+                style="@style/ButtonRedSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/filestorage_path"
+                android:layout_marginTop="30sp"
+                android:onClick="onClick"
+                android:padding="10sp"
+                android:text="@string/home" />
+
+        </RelativeLayout>
+    </RelativeLayout>
 </RelativeLayout>

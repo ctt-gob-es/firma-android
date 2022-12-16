@@ -6,10 +6,30 @@
     android:padding="@dimen/dialog_dimen"
     style="@style/WhiteBackground"
     >
+
+    <TextView
+        android:id="@+id/textViewSettingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:accessibilityHeading="true"
+        android:text="@string/settings"
+        />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        />
+
     <CheckBox
         android:id="@+id/ckbUseNfc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/black"
         android:text="@string/allow_dni3_0_NFC"
         />
 
@@ -17,6 +37,7 @@
         android:id="@+id/ckbSSLConnections"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:text="@string/validate_SSL_connections"
         />
 
@@ -25,6 +46,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:contentDescription="@string/trusted_domains"
+        android:labelFor="@+id/editTextTrustedDomains"
+        android:textColor="@color/black"
         android:text="@string/trusted_domains"
         />
 
@@ -37,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:scrollbars="vertical"
+        android:textColor="@color/black"
         android:background="@drawable/edittext_trusted_domains"
         android:padding="10dp"
         />
@@ -46,6 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
+        android:textColor="@color/black"
         android:text="@string/use_asterisk"
         />
 </LinearLayout>

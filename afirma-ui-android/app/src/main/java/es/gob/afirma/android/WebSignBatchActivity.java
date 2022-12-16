@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.batch.BatchResult;
 import es.gob.afirma.android.batch.SignBatchFragmentActivity;
 import es.gob.afirma.android.crypto.AndroidHttpManager;
 import es.gob.afirma.android.crypto.CipherDataManager;
@@ -110,7 +109,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY)
 			== Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setClass(this, MainActivity.class);
+			intent.setClass(this, HomeActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
 			return;
@@ -158,7 +157,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 
 	/**
 	 * Recibe el lote que se debe firmar despu&eacute;s de descargarlo del servidor intermedio.
-	 * @param batchDefinition Lote para firmar.
+	 * @param cipheredBatchDefinition Lote para firmar.
 	 */
 	@Override
 	public void onDownloadingDataSuccess(byte[] cipheredBatchDefinition) {
