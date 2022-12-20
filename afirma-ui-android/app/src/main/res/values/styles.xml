@@ -23,7 +23,6 @@
 
 	<!-- Estilo para la Toolbar. -->
 	<style name="ToolbarTheme" parent="@style/Widget.MaterialComponents.Toolbar">
-		<item name="logo">@mipmap/ic_launcher</item>
 		<item name="android:background">@color/red</item>
 	</style>
 
