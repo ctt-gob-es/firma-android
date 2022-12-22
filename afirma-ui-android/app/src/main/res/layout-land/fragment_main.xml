@@ -12,13 +12,14 @@
         <ImageView
             android:id="@+id/imageView1"
 			android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="80dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             android:layout_gravity="center"
             android:layout_margin="5dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/content_desc"
-            android:scaleType="fitXY"
+            android:contentDescription="@string/main_logo_content_desc"
             android:src="@drawable/logo_cliente" />
+
     </LinearLayout>
 
     <TextView
@@ -26,12 +27,10 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_margin="5dp"
-        android:layout_marginBottom="0dp"
         android:layout_weight="0.91"
         android:scrollbars="vertical"
         android:padding="10dp"
         android:text="@string/presentation_text"
-        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#000000" />
 
     <TextView
@@ -41,10 +40,9 @@
         android:layout_margin="5dp"
         android:gravity="center"
         android:padding="10dp"
-        android:paddingTop="0dp"
+        android:textStyle="bold"
         android:text="@string/accesibility_select_option"
-        android:textColor="#000000"
-        android:textStyle="bold" />
+        android:textColor="#000000" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -55,8 +53,8 @@
 		<Button
             android:id="@+id/buttonSign"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginLeft="11dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="11dp"
             android:onClick="onClick"
             android:text="@string/sign_file"
             style="@style/ButtonRedSmall" />
@@ -64,8 +62,8 @@
         <Button
             android:id="@+id/importCertButton"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginLeft="11dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="11dp"
             android:onClick="onClick"
             android:text="@string/import_cert"
             style="@style/ButtonRedSmall" />
@@ -79,46 +77,7 @@
         android:layout_gravity="center"
         android:layout_margin="5dp"
         android:gravity="center"
-        android:text="@string/disclaimer"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="12sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/privacyPolicyTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_marginBottom="3dp"
-            android:clickable="true"
-            android:onClick="privacyPolicyLinkClick"
-            android:text="@string/privacy_policy"
-            android:textSize="12sp"
-            style="@style/TextLink"
-            />
-
-        <TextView
-            android:id="@+id/accesibilityDeclarationTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:layout_gravity="right"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="3dp"
-            android:clickable="true"
-            android:onClick="accessibilityStatementLinkClick"
-            android:text="@string/accessibility_statement"
-            android:textSize="12sp"
-            style="@style/TextLink"
-            />
-    </LinearLayout>
-
+        android:textColor="@color/black"
+        android:text="@string/disclaimer" />
 
 </LinearLayout>

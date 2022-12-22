@@ -11,6 +11,7 @@
 package es.gob.afirma.android.gui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,11 +66,12 @@ public final class FileArrayAdapter extends ArrayAdapter<FileOption> {
 			final TextView t1 = (TextView) v.findViewById(R.id.TextView01);
 			final TextView t2 = (TextView) v.findViewById(R.id.TextView02);
 
-
 			if (t1 != null) {
+				t1.setTextColor(Color.BLACK);
 				t1.setText(o.getName());
 			}
 			if (t2 != null) {
+				t2.setTextColor(Color.BLACK);
 				if (o.isDirectory()) {
 					if (PARENT_DIRECTORY_NAME.equals(o.getName())) {
 						t2.setText(R.string.file_chooser_directorio_padre);

@@ -4,7 +4,7 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.NoActionBar">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -13,9 +13,18 @@
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
+	<style name="AppTheme" parent="AppBaseTheme">
+		<!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+	</style>
+
+	<!-- Estilo para la Toolbar. -->
+	<style name="ToolbarTheme" parent="@style/Widget.MaterialComponents.Toolbar">
+		<item name="android:background">@color/red</item>
+	</style>
 
     <!-- Estilo para pantalla de fondo transparente. -->
 	<style name="Theme.Transparent" parent="android:Theme">
@@ -25,7 +34,7 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
-    
+
 	<style name="ButtonRedSmall">
 	    <item name="android:textColor">#FEFEFE</item>
     	<item name="android:textSize">16sp</item>
@@ -94,6 +103,7 @@
 
     <style name="WhiteBackground">
         <item name="android:background">#FFFFFF</item>
+		<item name="android:textColor">#000000</item>
     </style>
 
 	<style name="AlertDialog" parent="@android:style/Theme.Holo.Light.Dialog">
@@ -101,15 +111,6 @@
 		<item name="android:windowBackground">@android:color/transparent</item>
 		<item name="android:windowMinWidthMajor">90%</item>
 		<item name="android:windowMinWidthMinor">90%</item>
-	</style>
-
-   <!-- Estilo de la barra de arriba de la app. (ActionBar) -->
-	<style name="Dialog" parent="android:style/Theme.Holo.Light">
-		<item name="android:actionBarStyle">@style/Theme.MyAppTheme.ActionBar</item>
-	</style>
-
-	<style name="Theme.MyAppTheme.ActionBar" parent="android:style/Widget.Holo.Light.ActionBar">
-		<item name="android:background">#FAFAFA</item>
 	</style>
     
 </resources>

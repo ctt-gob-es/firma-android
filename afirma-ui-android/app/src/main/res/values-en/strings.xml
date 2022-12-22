@@ -17,7 +17,7 @@
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Accessibility Statement</string>
     <string name="accessibility_statement_url">https://github.com/ctt-gob-es/clienteafirma-docs/raw/master/DECLARACION_ACCESIBILIDAD.pdf</string>
-    <string name="content_desc">Ciente @firma logo</string>
+    <string name="main_logo_content_desc">Client @firma logo</string>
     <string name="ok">OK</string>
     <string name="close">Close</string>
     <string name="ca_not_found">There are not configured certification authorities</string>
@@ -107,4 +107,8 @@
     <string name="trusted_domains">Trusted domains:</string>
     <string name="error_format_trusted_domains">The domain \"%s\" has an incorrect format.</string>
     <string name="use_asterisk">Use asterisk (*) at the beginning or end as wildcard.</string>
+    <string name="accesibility_dialog_can">To be able to establish an NFC connection, enter your CAN code. The CAN code contains six digits and can be found in the lower right corner of your ID</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="home">Home</string>
 </resources>

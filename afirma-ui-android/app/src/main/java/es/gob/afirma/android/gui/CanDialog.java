@@ -18,8 +18,10 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -71,7 +73,6 @@ public final class CanDialog extends DialogFragment {
 
 		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity(), R.style.AlertDialog)
 				.setView(view)
-				.setTitle(R.string.can_intro)
 				.setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
 				.setNegativeButton(
 						R.string.cancel_nfc,
@@ -89,6 +90,7 @@ public final class CanDialog extends DialogFragment {
 				)
 				.create();
 
+		final TextView tvPinError = view.findViewById(R.id.tvPinError);
 		final EditText editTextPin = view.findViewById(R.id.etPin);
 
 		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -102,14 +104,11 @@ public final class CanDialog extends DialogFragment {
 
 						if(editTextPin.getText() == null || "".equals(editTextPin.getText().toString())) { //$NON-NLS-1$
 							Logger.e(ES_GOB_AFIRMA, "El CAN no puede ser vacio o nulo"); //$NON-NLS-1$
-							new Runnable() {
-								@Override
-								public void run() {
-									Toast.makeText(getActivity(), R.string.can_not_can_be_null, Toast.LENGTH_LONG).show();
-								}
-							};
+							tvPinError.setVisibility(View.VISIBLE);
+							tvPinError.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
 						}
 						else {
+							tvPinError.setVisibility(View.INVISIBLE);
 							dialog.dismiss();
 							if (CanDialog.this.canResult != null) {
 								CanDialog.this.canResult.setCanObtained(true);
