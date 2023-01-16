@@ -51,6 +51,17 @@
                 android:layout_toRightOf="@id/signedfile_ko_icon"
                 android:text="@string/signedfile_error"
                 android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/homeButton_ko"
+                style="@style/ButtonRedSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_signedfile_ko"
+                android:layout_marginTop="30sp"
+                android:onClick="onClick"
+                android:padding="10sp"
+                android:text="@string/home" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -98,6 +109,16 @@
                 android:textColor="@color/black"
                 android:textIsSelectable="false" />
 
+            <Button
+                android:id="@+id/homeButton_ok"
+                style="@style/ButtonRedSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/filestorage_path"
+                android:layout_marginTop="30sp"
+                android:onClick="onClick"
+                android:padding="10sp"
+                android:text="@string/home" />
         </RelativeLayout>
 
     </RelativeLayout>

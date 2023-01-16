@@ -100,8 +100,7 @@ public interface MobileKeyStoreManager {
         }
 
         /** Obtiene el almac&eacute;n utilizado.
-         * @return Almac&eacute;n de claves/certificados.
-         * @throws Throwable Si el acceso al almac&eacute;n produjo alg&uacute;n error. */
+         * @return Almac&eacute;n de claves/certificados. */
         public KeyStore getKeyStore() {
             return this.ks;
         }

@@ -30,8 +30,8 @@ import es.gob.afirma.android.gui.SelectAliasDialog;
 import es.gob.afirma.core.misc.AOUtil;
 
 /**
- * Created by Mariano Mart&icute;nez on 10/2/16.
- * Carga el almac&ecute;n de claves del dispositivo de forma as&icute;ncrona y muestra un di&acute;logo de carga.
+ * Created by Mariano Mart&iacute;nez on 10/2/16.
+ * Carga el almac&eacute;n de claves del dispositivo de forma as&iacute;ncrona y muestra un di&acute;logo de carga.
  */
 public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
 
@@ -63,12 +63,12 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
     }
 
     /**
-     * Constructor de la tarea as&icute;ncrona de carga de almac&ecute;n de claves del dispositivo.
+     * Constructor de la tarea as&iacute;ncrona de carga de almac&eacute;n de claves del dispositivo.
      * @param activity Actividad desde la que se llama a la tarea.
      * @param pin Pin del dispositivo.
-     * @param keystore Nombre del almac&ecute;n.
+     * @param keystore Nombre del almac&eacute;n.
      * @param provider Nombre del proveedor.
-     * @param ksml Manejador del resultado de la carga del almac&ecute;n.
+     * @param ksml Manejador del resultado de la carga del almac&eacute;n.
      */
     public LoadDeviceKeystoreAsyncTask(FragmentActivity activity,
                                        String pin,
@@ -91,7 +91,7 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
     }
 
     /**
-     * Tarea de carga del almac&ecute;n de claves del dispositivo en segundo plano.
+     * Tarea de carga del almac&eacute;n de claves del dispositivo en segundo plano.
      *
      * @param params No tiene par&acute;metros.
      * @return No retorna ningun valor.

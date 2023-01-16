@@ -152,7 +152,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 			return;
 		}
 
-		loadKeyStore(this);
+		processSignRequest();
 	}
 
 	/**
@@ -204,7 +204,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 			requestWait(getBatchParams().getStorageServletUrl(), getBatchParams().getId());
 		}
 
-		loadKeyStore(this);
+		processSignRequest();
 	}
 
 	/**
@@ -217,7 +217,6 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		Logger.e(ES_GOB_AFIRMA, "Error durante la descarga del lote de firmas del servidor intermedio", t);
 		showErrorMessage(getString(R.string.error_json));
 		launchError(ErrorManager.ERROR_SIGNING, getString(R.string.error_json), true);
-		return;
 	}
 
 	/** Inicia el proceso de firma con los parametros previamente configurados. */
@@ -237,7 +236,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	 * tenga constancia de &eacute;l.
 	 * @param errorId Identificador del error.
 	 * @param errorMsg Mensaje de error.
-	 * @param critical
+	 * @param critical Error critico que obliga a cerrar la aplicaci&oacute;n.
 	 */
 	private void launchError(final String errorId, final String errorMsg, final boolean critical) {
 
@@ -461,28 +460,6 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		if (this.messageDialog != null && this.messageDialog.isVisible()) {
 					this.messageDialog.dismiss();
 		}
-	}
-
-	@Override
-	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-
-		// Si el usuario cancelo la seleccion del fichero a firmar
-		if (resultCode == RESULT_CANCELED) {
-			launchError(ErrorManager.ERROR_CANCELLED_OPERATION, "Operacion cancelada", false);
-			return;
-		}
-		else if (resultCode == RESULT_OK) {
-			try {
-				processSignRequest();
-			}
-			catch (final Throwable e) {
-				Logger.e(ES_GOB_AFIRMA, "Error durante la firma", e); //$NON-NLS-1$
-				showErrorMessageOnToast(getString(R.string.error_signing));
-				return;
-			}
-		}
-
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override

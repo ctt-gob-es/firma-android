@@ -156,13 +156,6 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			return;
 		}
 
-		if (this.parameters.getStorageServletUrl() == null) {
-			Logger.e(ES_GOB_AFIRMA, "No se ha proporcionado la URL de guardado del servidor intermedio"); //$NON-NLS-1$
-			showErrorMessage(getString(R.string.error_bad_params));
-			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true);
-			return;
-		}
-
         // Si no hay permisos de acceso al almacenamiento, se piden
         if (!(
             ContextCompat.checkSelfPermission(
@@ -170,7 +163,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
         )) {
-            Logger.i("es.gob.afirma", "No se tiene permiso de escritura en memoria");
+            Logger.i(ES_GOB_AFIRMA, "No se tiene permiso de escritura en memoria");
             ActivityCompat.requestPermissions(
                 this,
                 new String[]{

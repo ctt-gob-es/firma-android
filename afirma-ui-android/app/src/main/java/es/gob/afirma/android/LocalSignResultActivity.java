@@ -97,7 +97,8 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 			findViewById(R.id.signedfile_correct).setVisibility(
 					savedInstanceState.getBoolean(SAVE_INSTANCE_KEY_OK_RESULT_VISIBILITY) ? View.VISIBLE : View.INVISIBLE);
 		}
-		else {
+		else if (!isSigning()) {
+
 			// Elegimos un fichero del directorio
 			Intent intent;
 			if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -329,7 +330,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 			@Override
 			public void onClick(View v)
 			{
-				startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+				finish ();
 			}
 		});
 	}
@@ -361,7 +362,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 			@Override
 			public void onClick(View v)
 			{
-				startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+				finish();
 			}
 		});
 	}
