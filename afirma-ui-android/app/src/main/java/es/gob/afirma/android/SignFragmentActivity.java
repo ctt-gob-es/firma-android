@@ -126,12 +126,6 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			return;
 		}
 
-		// Ya cargado el certificado, eliminamos el CAN de memoria y el objeto para que se vuelva a pedir
-		if (getPasswordCallback() != null) {
-            getPasswordCallback().clearPassword();
-            setPasswordCallback(null);
-		}
-
 		String providerName = null;
 		if (kse.getKeyStore() != null) {
 			providerName = kse.getKeyStore().getProvider().getName();

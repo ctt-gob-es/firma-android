@@ -10,6 +10,7 @@
 
 package es.gob.afirma.android.gui;
 
+import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -21,6 +22,12 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Enumeration;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.Logger;
@@ -93,73 +100,73 @@ public class PinDialog extends DialogFragment {
 
 			Logger.i(ES_GOB_AFIRMA, "PinDialog recibe los argumentos provider: " + this.provider + " y keyStoreName: " + this.keyStoreName);   //$NON-NLS-1$//$NON-NLS-2$
 		}
-		final Builder alertDialogBuilder = new Builder(getActivity(), R.style.AlertDialog);
-		alertDialogBuilder.setTitle(getString(R.string.security_code) + " " + this.keyStoreName); //$NON-NLS-1$
 
 		final LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 		final View view = layoutInflater.inflate(R.layout.dialog_pin, null);
 
-		final EditText editTextPin = view.findViewById(R.id.etPin);
-		alertDialogBuilder.setView(view);
-		alertDialogBuilder.setNegativeButton(
-			getActivity().getString(R.string.cancel_nfc),
-			new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(final DialogInterface dialog, final int id) {
-					dialog.dismiss();
-					//Cancelamos el proceso
-					if (PinDialog.this.getKsmListener() != null) {
-						PinDialog.this.getKsmListener().onLoadingKeyStoreSuccess(null);
-					}
-				}
-			}
-		);
-		alertDialogBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(final DialogInterface dialog, final int which) {
+		final EditText editTextPin = (EditText) view.findViewById(R.id.etPin);
 
-				//TODO: El PIN no puede ser cadena vacia?
-				if(editTextPin.getText() != null && !"".equals(editTextPin.getText().toString())) { //$NON-NLS-1$
-
-					dialog.dismiss();
-					try {
-						if (PinDialog.this.getKsmListener() != null) {
-							new LoadDeviceKeystoreAsyncTask(getActivity(),
-									editTextPin.getText().toString(),
-									PinDialog.this.getKeyStoreName(),
-									PinDialog.this.getProviderName(),
-									PinDialog.this.getKsmListener()).execute();
+		final AlertDialog alertDialog = new Builder(getActivity(), R.style.AlertDialog)
+				.setView(view)
+				.setNegativeButton(
+						getActivity().getString(R.string.cancel_nfc),
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(final DialogInterface dialog, final int id) {
+								dialog.dismiss();
+								//Cancelamos el proceso
+								if (PinDialog.this.getKsmListener() != null) {
+									PinDialog.this.getKsmListener().onLoadingKeyStoreSuccess(null);
+								}
+							}
 						}
-					} catch (Exception e) {
-						Logger.w(ES_GOB_AFIRMA, "Error cargando el almacen almacen de claves del dispositivo: " + e); //$NON-NLS-1$
-					}
-				}
-				else {
-					//TODO: Gestionar este caso
-					Logger.e(ES_GOB_AFIRMA, "El pin no puede ser vacio o nulo"); //$NON-NLS-1$
-					if (PinDialog.this.getKsmListener() != null) {
-						PinDialog.this.getKsmListener().onLoadingKeyStoreError(
-							getActivity().getString(R.string.error_pin_nulo), null
-						);
-					}
-				}
-			}
-		});
-		alertDialogBuilder.setOnKeyListener(new DialogInterface.OnKeyListener() {
-			@Override
-			public boolean onKey(final DialogInterface dialog, final int keyCode, final KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_BACK) {
-					dialog.dismiss();
-					//Cancelamos el proceso
-					if (PinDialog.this.getKsmListener() != null) {
-						PinDialog.this.getKsmListener().onLoadingKeyStoreSuccess(null);
-					}
-					return true;
-				}
-				return false;
-			}
-		});
+				)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(final DialogInterface dialog, final int which) {
 
-		return alertDialogBuilder.create();
+						//TODO: El PIN no puede ser cadena vacia?
+						if(editTextPin.getText() != null && !"".equals(editTextPin.getText().toString())) { //$NON-NLS-1$
+
+							dialog.dismiss();
+							try {
+								if (PinDialog.this.getKsmListener() != null) {
+									new LoadDeviceKeystoreAsyncTask(getActivity(),
+											editTextPin.getText().toString(),
+											PinDialog.this.getKeyStoreName(),
+											PinDialog.this.getProviderName(),
+											PinDialog.this.getKsmListener()).execute();
+								}
+							} catch (Exception e) {
+								Logger.w(ES_GOB_AFIRMA, "Error cargando el almacen almacen de claves del dispositivo: " + e); //$NON-NLS-1$
+							}
+						}
+						else {
+							//TODO: Gestionar este caso
+							Logger.e(ES_GOB_AFIRMA, "El pin no puede ser vacio o nulo"); //$NON-NLS-1$
+							if (PinDialog.this.getKsmListener() != null) {
+								PinDialog.this.getKsmListener().onLoadingKeyStoreError(
+										getActivity().getString(R.string.error_pin_nulo), null
+								);
+							}
+						}
+					}
+				}).setOnKeyListener(new DialogInterface.OnKeyListener() {
+					@Override
+					public boolean onKey(final DialogInterface dialog, final int keyCode, final KeyEvent event) {
+						if (keyCode == KeyEvent.KEYCODE_BACK) {
+							dialog.dismiss();
+							//Cancelamos el proceso
+							if (PinDialog.this.getKsmListener() != null) {
+								PinDialog.this.getKsmListener().onLoadingKeyStoreSuccess(null);
+							}
+							return true;
+						}
+						return false;
+					}
+				}).create();
+
+		return alertDialog;
+
 	}
 }

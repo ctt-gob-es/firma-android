@@ -34,16 +34,6 @@ public final class LoadNfcKeyStoreManagerTask extends AsyncTask {
 	/** Crea una tarea de carga e inicializaci&oacute;n de un almacen de claves por NFC.
 	 * @param kml Clase a la que hay que notificar cuando se finaliza la
 	 * carga e inicializaci&oacute;n del gestor de claves y certificados
-	 * @param act Actividad padre */
-	public LoadNfcKeyStoreManagerTask(final KeyStoreManagerListener kml, final FragmentActivity act) {
-		this.kmListener = kml;
-		this.activity = act;
-		this.passwordCallback = null;
-	}
-
-	/** Crea una tarea de carga e inicializaci&oacute;n de un almacen de claves por NFC.
-	 * @param kml Clase a la que hay que notificar cuando se finaliza la
-	 * carga e inicializaci&oacute;n del gestor de claves y certificados
 	 * @param act Actividad padre
 	 * @param passwordCallback Callback con la contrase&ntilde;a cacheada. */
 	public LoadNfcKeyStoreManagerTask(final KeyStoreManagerListener kml,

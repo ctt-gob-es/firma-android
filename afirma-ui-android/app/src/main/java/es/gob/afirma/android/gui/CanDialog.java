@@ -40,6 +40,7 @@ public final class CanDialog extends DialogFragment {
 
 	//public static CachePasswordCallback passwordCallback;
 	private CanResult canResult;
+	private CanDialogListener listener;
 
 	/** Construye un di&acute;logo para introducir el CAN. */
 	public CanDialog() {
@@ -56,6 +57,7 @@ public final class CanDialog extends DialogFragment {
 		}
 		instance.setCanResult(canResult);
 		instance.setArguments(new Bundle());
+		instance.setListener(null);
 		return instance;
 	}
 
@@ -82,6 +84,9 @@ public final class CanDialog extends DialogFragment {
 									CanDialog.this.canResult.setCanObtained(false);
 								}
 								dialog.dismiss();
+								if (CanDialog.this.listener != null) {
+									CanDialog.this.listener.onDismiss();
+								}
 								getActivity().setResult(Activity.RESULT_CANCELED);
 								getActivity().finish();
 							}
@@ -113,6 +118,9 @@ public final class CanDialog extends DialogFragment {
 								CanDialog.this.canResult.setCanObtained(true);
 								CanDialog.this.canResult.setPasswordCallback(new CachePasswordCallback(editTextPin.getText().toString().toCharArray()));
 							}
+							if (CanDialog.this.listener != null) {
+								CanDialog.this.listener.onDismiss();
+							}
 						}
 					}
 				});
@@ -135,5 +143,13 @@ public final class CanDialog extends DialogFragment {
 		});
 
 		return alertDialog;
+	}
+
+	public void setListener(CanDialogListener listener) {
+		this.listener = listener;
+	}
+
+	public static interface CanDialogListener {
+		void onDismiss();
 	}
 }

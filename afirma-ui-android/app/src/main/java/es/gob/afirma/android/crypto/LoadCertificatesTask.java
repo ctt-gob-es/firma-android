@@ -13,6 +13,8 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
+import javax.security.auth.callback.CallbackHandler;
+
 import es.gob.afirma.R;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.gui.CertificateInfoForAliasSelect;
@@ -20,7 +22,6 @@ import es.gob.afirma.android.gui.SelectAliasDialog;
 import es.gob.afirma.core.misc.AOUtil;
 import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 import es.gob.jmulticard.android.callbacks.DialogDoneChecker;
-import es.gob.jmulticard.android.callbacks.DnieNFCCallbackHandler;
 
 /**
  * Created by a621914 on 09/06/2016.
@@ -30,7 +31,7 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
     private static final String ES_GOB_AFIRMA = "es.gob.afirma";
 
     private final KeyStore ks;
-    private final CachePasswordCallback passwordCallback;
+    private final CachePasswordCallback ksPasswordCallback;
     private final Activity activity;
     private KeyStoreManagerListener ksmListener;
 
@@ -38,14 +39,14 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
 
     public LoadCertificatesTask(KeyStore ks, KeyStoreManagerListener ksmListener, Activity ac) {
         this.ks = ks;
-        this.passwordCallback = null;
+        this.ksPasswordCallback = null;
         this.activity = ac;
         this.ksmListener = ksmListener;
     }
 
     public LoadCertificatesTask(KeyStore ks, CachePasswordCallback pc, KeyStoreManagerListener ksmListener, Activity ac) {
         this.ks = ks;
-        this.passwordCallback = pc;
+        this.ksPasswordCallback = pc;
         this.activity = ac;
         this.ksmListener = ksmListener;
     }
@@ -88,7 +89,7 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
     }
 
     private void loadCertificatesFromKeyStore() throws Exception {
-        final DialogDoneChecker ddc = new DialogDoneChecker();
+        /*final DialogDoneChecker ddc = new DialogDoneChecker();
         try {
             this.ks.load(
                     new KeyStore.LoadStoreParameter() {
@@ -113,7 +114,48 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
             // Si tenemos definido un passwordCallback, estamos en una conexion NFC y encapsulamos
             // las excepciones para que se procesen adecuadamente
             throw encapsuleException(e);
+        }*/
+        DnieConnectionManager dnieManager = DnieConnectionManager.getInstance();
+        try {
+            // Si no se ha inicializado el gestor para las solicitudes de claves del DNIe,
+            // lo inicializamos ahora
+            AndroidDnieNFCCallbackHandler dnieCallbackHandler = dnieManager.getCallbackHandler();
+            if (dnieCallbackHandler == null) {
+                final DialogDoneChecker ddc = new DialogDoneChecker();
+                dnieCallbackHandler = new AndroidDnieNFCCallbackHandler(activity, ddc, LoadCertificatesTask.this.ksPasswordCallback);
+                dnieManager.setCallbackHandler(dnieCallbackHandler);
+            }
+
+            final CallbackHandler callbackHandler = dnieCallbackHandler;
+
+            this.ks.load(
+                    new KeyStore.LoadStoreParameter() {
+                        @Override
+                        public KeyStore.ProtectionParameter getProtectionParameter() {
+                            return new KeyStore.CallbackHandlerProtection(
+                                    callbackHandler
+                            );
+                        }
+                    }
+            );
         }
+        catch (final NullPointerException e) {
+            // Se dara esta excepcion cuando no haya un KeyStore definido, lo que ocurrira cuando
+            // se deba cargar el almacen del sistema
+            Logger.e(ES_GOB_AFIRMA, "Error al cargar el almacen de claves"); //$NON-NLS-1$
+            dnieManager.setCallbackHandler(null);
+            throw e;
+        }
+        catch (final Exception e) {
+            // Estamos en una conexion NFC y encapsulamos
+            // las excepciones para que se procesen adecuadamente
+            Logger.e(ES_GOB_AFIRMA, "Error al cargar el almacen de claves del dispositivo. Es posible que CAN introducido fuese incorrecto: " + e); //$NON-NLS-1$
+            dnieManager.clearCan();
+            dnieManager.setCallbackHandler(null);
+            throw encapsuleException(e);
+        }
+
+
         // Obtenemos los elementos para el dialogo de seleccion
         final Enumeration<String> aliases;
         try {
@@ -136,7 +178,7 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
             } catch (final Exception e) {
                 // Gestion a medida de un DNIe bloqueado (usando JMultiCard)
                 if ("es.gob.jmulticard.card.AuthenticationModeLockedException".equals(e.getClass().getName())) { //$NON-NLS-1$
-                    manageLockedDnie(e, this.activity);
+                    manageLockedDnie(e, this.activity, this.ksmListener);
                     return;
                 }
                 Logger.e(ES_GOB_AFIRMA, "Error obteniendo el certificado con alias '" + alias + "': " + e, e); //$NON-NLS-1$ //$NON-NLS-2$
@@ -163,17 +205,28 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
 //            return;
 //        }
 
+        if (isCancelled()) {
+            this.ksmListener.onLoadingKeyStoreError("Operacion cancelada", null);
+            return;
+        }
+
         final SelectAliasDialog selectAlias = SelectAliasDialog.newInstance(
                 arrayListCertificate,
-                KeyStoreManagerFactory.ksmlStatic
+                this.ksmListener
         );
         selectAlias.setKeyStore(ks);
+
+        if (isCancelled()) {
+            this.ksmListener.onLoadingKeyStoreError("Operacion cancelada", null);
+            return;
+        }
+
         //No queremos que muestre todos los certificados del DNIe, sino que firme con el certificado de firma
         //selectAlias.show(this.activity.getFragmentManager(), "SelectAliasDialog"); //$NON-NLS-1$
         selectAlias.signWithSignCertificate();
     }
 
-    private static void manageLockedDnie(final Throwable e, final Activity activity) {
+    private static void manageLockedDnie(final Throwable e, final Activity activity, final KeyStoreManagerListener ksListener) {
         activity.runOnUiThread(new Runnable() {
             public void run() {
                 Logger.e(ES_GOB_AFIRMA, "El DNIe esta bloqueado: " + e); //$NON-NLS-1$
@@ -194,8 +247,8 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
                 dniBloqueado.create();
                 dniBloqueado.show();
 
-                if (KeyStoreManagerFactory.ksmlStatic != null) {
-                    KeyStoreManagerFactory.ksmlStatic.onLoadingKeyStoreError(
+                if (ksListener != null) {
+                    ksListener.onLoadingKeyStoreError(
                             activity.getString(R.string.error_dni_blocked), e
                     );
                 }
@@ -204,7 +257,9 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
     }
     
     /**
-     *Elimina el di&acute;logo de carga cuando termina la tarea en segundo plano.
+     * Elimina el di&acute;logo de carga cuando termina la tarea en segundo plano.
+     * @param e Excepci&oacute;n que hace fallar la operaci&oacute;n o {@code null}
+     *          cuando todo ha funcionado correctamente.
      */
     @Override
     protected void onPostExecute(Exception e) {
@@ -228,7 +283,7 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
      */
     private Exception encapsuleException(final Exception e) {
         Exception ex;
-        if (this.passwordCallback != null) {
+        if (this.ksPasswordCallback != null) {
             ex = new InitializingNfcCardException("Error cargando los certificados del almacen", e);
         }
         else {

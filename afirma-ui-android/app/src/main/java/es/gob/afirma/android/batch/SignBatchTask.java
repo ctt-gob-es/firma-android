@@ -61,11 +61,6 @@ public class SignBatchTask extends AsyncTask<Void, Void, byte[]>{
 	}
 
 	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-	}
-
-	@Override
 	protected byte[] doInBackground(final Void... params) {
 
 		// Generacion de la firma
