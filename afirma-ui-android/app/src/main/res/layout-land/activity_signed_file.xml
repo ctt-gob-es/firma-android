@@ -43,14 +43,19 @@
 
             <TextView
                 android:id="@+id/tv_signedfile_ko"
-                style="@style/ButtonBlackSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10sp"
+                android:layout_alignTop="@id/signedfile_ko_icon"
+                android:layout_alignBottom="@id/signedfile_ko_icon"
                 android:layout_toRightOf="@id/signedfile_ko_icon"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
                 android:text="@string/signedfile_error"
-                android:textColor="@color/black" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:textIsSelectable="false" />
 
             <Button
                 android:id="@+id/homeButton_ko"
