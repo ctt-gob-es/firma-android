@@ -71,8 +71,7 @@
             android:label="@string/title_activity_cert_chooser" />
         <activity
             android:name=".android.LocalSignResultActivity"
-            android:label="@string/title_activity_save_data"
-            android:theme="@style/Theme.Transparent"/>
+            android:label="@string/title_activity_save_data"/>
         <activity
             android:name=".android.WebSignActivity"
             android:label="@string/title_activity_sign_data"
