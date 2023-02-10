@@ -3,10 +3,10 @@
     <string name="nostorageperm">Permissions over storage are needed in order to run this task</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="app_name">Cliente @firma M\u00F3vil 1.8</string>
+    <string name="app_name">Cliente @firma M\u00F3vil</string>
     <string name="title_activity_cert_chooser">Import certificate</string>
     <string name="title_activity_choose_sign_file">Please, select the file to sign</string>
-    <string name="presentation_text">Wellcome to the "Cliente @firma Android"\nThis application allows making electronic signatures from compatible service providers Web pages.\nTo use the app, you\'ll need an electronic certificate and its related private key installed on the device. Consult the Android documentation and your service provider\'s documentation.</string>
+    <string name="presentation_text">Wellcome to the "Cliente @firma Android 1.8"\nThis application allows making electronic signatures from compatible service providers Web pages.\nTo use the app, you\'ll need an electronic certificate and its related private key installed on the device. Consult the Android documentation and your service provider\'s documentation.</string>
     <string name="import_cert">Import certificate</string>
     <string name="sign_file">Sign local file</string>
     <string name="request_cert">Request new certificate</string>
