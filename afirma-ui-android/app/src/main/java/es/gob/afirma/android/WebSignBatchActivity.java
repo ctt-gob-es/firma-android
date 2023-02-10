@@ -27,7 +27,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.cert.CertificateEncodingException;
 import java.util.HashMap;
@@ -522,7 +521,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 				try {
 					params.put(
 							param.substring(0, equalsPos),
-							URLDecoder.decode(param.substring(equalsPos + 1), StandardCharsets.UTF_8.toString()));
+							URLDecoder.decode(param.substring(equalsPos + 1), DEFAULT_URL_ENCODING));
 				} catch (final UnsupportedEncodingException e) {
 					Logger.e(ES_GOB_AFIRMA, "No se pudo decodificar el valor del parametro '" + param.substring(0, equalsPos) + "': " + e);
 				}
