@@ -28,7 +28,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -174,13 +176,42 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 		return contentLayout;
 	}
 	private void requestStoragePerm() {
-		ActivityCompat.requestPermissions(
-				getActivity(),
+		requestPermissions(
 				new String[]{
 						Manifest.permission.WRITE_EXTERNAL_STORAGE
 				},
 				REQUEST_WRITE_STORAGE
 		);
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+										   @NonNull int[] grantResults) {
+		switch (requestCode) {
+			case REQUEST_WRITE_STORAGE: {
+				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					Logger.i("es.gob.afirma", "Concedido permiso de escritura en disco");
+					switch (currentOperation) {
+						case LOCALSIGN:
+							startLocalSign();
+							break;
+						case CERTIMPORT:
+							startCertImport();
+							break;
+						default:
+							Logger.w("es.gob.afirma", "Operacion desconocida ha provocado la solicitud de permisos");
+					}
+
+				}
+				else {
+					Toast.makeText(
+							getActivity(),
+							R.string.nostorageperm,
+							Toast.LENGTH_LONG
+					).show();
+				}
+			}
+		}
 	}
 
 	private void startCertImport() {
