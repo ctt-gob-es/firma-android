@@ -74,7 +74,9 @@
     <string name="dialog_title_select_cert">Select a certificate</string>
     <string name="security_code">Security code</string>
     <string name="security_code_hint">Security code (PIN).</string>
-    <string name="signedfile_title">Local file signature</string>
+    <string name="signedfile_title">Signature result</string>
+    <string name="signedfile_title_result_error">Resultado de firma: Failed to sign</string>
+    <string name="signedfile_title_result_correct">Resultado de firma: Correct signature</string>
     <string name="signedfile_error">The signature could not be completed, please, try again later.</string>
     <string name="signedfile_correct">The signature was finished successfully.</string>
     <string name="signedfile_original_location">The signature "%1$s" was saved on the same folder as the original file.</string>
@@ -107,7 +109,7 @@
     <string name="trusted_domains">Trusted domains:</string>
     <string name="error_format_trusted_domains">The domain \"%s\" has an incorrect format.</string>
     <string name="use_asterisk">Use asterisk (*) at the beginning or end as wildcard.</string>
-    <string name="accesibility_dialog_can">To be able to establish an NFC connection, enter your CAN code. The CAN code contains six digits and can be found in the lower right corner of your ID</string>
+    <string name="accesibility_dialog_can">To be able to establish an NFC connection, enter your CAN code. The CAN code contains six digits and can be found in the lower right corner of your DNI</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
     <string name="home">Home</string>

@@ -74,7 +74,9 @@
     <string name="dialog_title_select_cert">Seleccione un certificado</string>
     <string name="security_code">C\u00F3digo de seguridad</string>
     <string name="security_code_hint">C\u00F3digo de seguridad. </string>
-    <string name="signedfile_title">Firma de fichero local</string>
+    <string name="signedfile_title">Resultado de firma</string>
+    <string name="signedfile_title_result_error">Resultado de firma: Error al firmar</string>
+    <string name="signedfile_title_result_correct">Resultado de firma: Firma correcta</string>
     <string name="signedfile_error">Lo sentimos la firma no se ha podido realizar. Por favor, reint\u00E9ntelo de nuevo.</string>
     <string name="signedfile_correct">La firma se ha realizado correctamente.</string>
     <string name="signedfile_original_location">La firma "%1$s" se ha almacenado en el mismo directorio que el fichero original.</string>
@@ -107,7 +109,7 @@
     <string name="trusted_domains">Dominios de confianza:</string>
     <string name="error_format_trusted_domains">El dominio \"%s\" tiene un formato incorrecto.</string>
     <string name="use_asterisk">Use asterisco (*) al principio o final como comod\u00EDn.</string>
-    <string name="accesibility_dialog_can">Para poder establecer una conexi\u00F3n NFC, introduzca su c\u00F3digo CAN. El c\u00F3digo CAN contiene seis d\u00EDgitos y se puede encontrar en la esquina inferior derecha de su identificaci\u00F3n</string>
+    <string name="accesibility_dialog_can">Para poder establecer una conexi\u00F3n NFC, introduzca su c\u00F3digo CAN. El c\u00F3digo CAN contiene seis d\u00EDgitos y se puede encontrar en la esquina inferior derecha del anverso de su DNI</string>
     <string name="navigation_drawer_open">Abierto</string>
     <string name="navigation_drawer_close">Cerrado</string>
     <string name="home">Inicio</string>

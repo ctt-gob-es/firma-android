@@ -318,7 +318,9 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	private void showErrorMessage(final String message) {
 
 		// Ya cerrados los dialogos modales, mostramos el titulo de la pantalla
+		// y agregamos una descripcion mas precisa para mejorar la accesibilidad
 		final TextView tvTitle = findViewById(R.id.signedfile_title);
+		tvTitle.setContentDescription(getString(R.string.signedfile_title_result_error));
 		tvTitle.setVisibility(View.VISIBLE);
 
 		final RelativeLayout rl = findViewById(R.id.signedfile_error);
@@ -342,7 +344,9 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	private void showSuccessMessage(final String filename, final boolean originalDirectory) {
 
 		// Ya cerrados los dialogos modales, mostramos el titulo de la pantalla
+		// y agregamos una descripcion mas precisa para mejorar la accesibilidad
 		final TextView tvTitle = findViewById(R.id.signedfile_title);
+		tvTitle.setContentDescription(getString(R.string.signedfile_title_result_correct));
 		tvTitle.setVisibility(View.VISIBLE);
 
 		//activo los elementos de la interfaz que corresponden a la firma correcta de un fichero

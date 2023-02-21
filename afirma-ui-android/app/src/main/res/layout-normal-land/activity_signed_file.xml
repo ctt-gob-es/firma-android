@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/hbackground"
@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
             android:layout_marginBottom="10sp"
+            android:accessibilityHeading="true"
             android:background="@drawable/signedfile_title_small"
             android:gravity="center"
             android:text="@string/signedfile_title"
@@ -36,7 +37,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10sp"
-                android:contentDescription="@string/accesibility_icon_sign_ko"
                 android:src="@drawable/icon_ko" />
 
             <TextView
@@ -80,7 +80,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10sp"
-                android:contentDescription="@string/accesibility_icon_sign_ok"
                 android:src="@drawable/icon_ok" />
 
             <TextView
