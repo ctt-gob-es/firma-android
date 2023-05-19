@@ -34,12 +34,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Locale;
+import java.util.Properties;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.SignResult;
 import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.core.signers.AOSignerFactory;
+import es.gob.afirma.signers.cades.CAdESExtraParams;
 
 /** Esta actividad permite firmar un fichero local. La firma se guarda en un fichero <i>.csig</i>.
  * Esta clase tiene mucho c&oacute;digo duplicado de la clase <code>LocalSignResultActivity</code>.
@@ -55,7 +57,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	/** C&oacute;digo de solicitud de guardado de fichero. */
 	private final static int REQUEST_CODE_SAVE_FILE = 104;
 
-	private static final String DEFAULT_SIGNATURE_ALGORITHM = "SHA1withRSA"; //$NON-NLS-1$
+	private static final String DEFAULT_SIGNATURE_ALGORITHM = "SHA256withRSA"; //$NON-NLS-1$
 
 	private static final String PDF_FILE_SUFFIX = ".pdf"; //$NON-NLS-1$
 
@@ -154,7 +156,11 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 						.endsWith(PDF_FILE_SUFFIX) ?
 						AOSignConstants.SIGN_FORMAT_PADES :
 						AOSignConstants.SIGN_FORMAT_CADES;
-				sign("SIGN", fileContent, format, DEFAULT_SIGNATURE_ALGORITHM, null);
+
+				Properties extraParams = new Properties();
+				extraParams.setProperty(CAdESExtraParams.MODE, "implicit");
+
+				sign("SIGN", fileContent, format, DEFAULT_SIGNATURE_ALGORITHM, extraParams);
 			}
 			else if (resultCode == RESULT_CANCELED) {
 				finish();
@@ -224,7 +230,10 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 			Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 			try {
 				if (cursor != null && cursor.moveToFirst()) {
-					result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+					int idx = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+					if (idx >= 0) {
+						result = cursor.getString(idx);
+					}
 				}
 			} finally {
 				cursor.close();

@@ -50,8 +50,6 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
-	private static final String OK_SERVER_RESULT = "OK"; //$NON-NLS-1$
-
 	/** Juego de carateres UTF-8. */
 	private static final String DEFAULT_URL_ENCODING = "UTF-8"; //$NON-NLS-1$
 
@@ -389,16 +387,6 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	@Override
 	public void onSendingDataSuccess(final byte[] result, final boolean critical) {
 		Logger.i(ES_GOB_AFIRMA, "Resultado del deposito de la firma: " + (result == null ? null : new String(result))); //$NON-NLS-1$
-
-		if (result == null || !new String(result).trim().equals(OK_SERVER_RESULT)) {
-			Logger.e(ES_GOB_AFIRMA, "No se pudo entregar la firma al servlet: " + (result == null ? null : new String(result))); //$NON-NLS-1$
-			if (critical) {
-				showErrorMessage(getString(R.string.error_sending_data));
-				return;
-			}
-		} else {
-			Logger.i(ES_GOB_AFIRMA, "Resultado entregado satisfactoriamente."); //$NON-NLS-1$
-		}
 		closeActivity();
 	}
 

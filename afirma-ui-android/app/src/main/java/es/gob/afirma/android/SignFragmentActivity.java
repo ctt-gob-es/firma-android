@@ -13,6 +13,7 @@ package es.gob.afirma.android;
 import android.app.PendingIntent;
 import android.os.Build;
 import android.security.KeyChainException;
+import android.util.Base64;
 
 import java.security.KeyStore.PrivateKeyEntry;
 import java.util.Locale;

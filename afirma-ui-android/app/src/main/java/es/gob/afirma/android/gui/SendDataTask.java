@@ -31,6 +31,9 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
+	/** Respuesta de &eacute;xito obtenida del servidor intermedio al guardar datos. */
+	private static final String OK_SERVER_RESULT = "OK"; //$NON-NLS-1$
+
 	private final String id;
 	private final URL servletUrl;
 	private final String dataB64;
@@ -87,10 +90,12 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 	protected void onPostExecute(final byte[] result) {
 		super.onPostExecute(result);
 
-		if (result != null) {
-			this.listener.onSendingDataSuccess(result, this.critical);
-		} else {
+		if (result == null || !new String(result).trim().equals(OK_SERVER_RESULT)) {
+			Logger.e(ES_GOB_AFIRMA, "Error en el envio al servidor intermedio: "
+					+ (result != null ? new String(result) : null)); //$NON-NLS-1$
 			this.listener.onSendingDataError(this.error, this.critical);
+		} else {
+			this.listener.onSendingDataSuccess(result, this.critical);
 		}
 
 	}

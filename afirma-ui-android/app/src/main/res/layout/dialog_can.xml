@@ -31,6 +31,7 @@
         android:layout_marginTop="15dp"
         android:text="@string/dialog_can"
         android:contentDescription="@string/accesibility_dialog_can"
+        android:labelFor="@id/etPin"
         android:textColor="@color/black"
         android:textSize="15sp"
         android:layout_gravity="center_vertical"

@@ -60,7 +60,6 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 
 	private static final char RESULT_SEPARATOR = '|';
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma";
-	private static final String OK_SERVER_RESULT = "OK";
 	private final static String INTENT_ENTRY_ACTION = "es.gob.afirma.android.SIGN_SERVICE";
 
 	/** Juego de carateres UTF-8. */
@@ -569,16 +568,6 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	@Override
 	public void onSendingDataSuccess(byte[] result, boolean critical) {
 		Logger.i(ES_GOB_AFIRMA, "Resultado del deposito de la firma: " + (result == null ? null : new String(result))); //$NON-NLS-1$
-		if (result == null || !new String(result).trim().equals(OK_SERVER_RESULT)) {
-			Logger.e(ES_GOB_AFIRMA, "No se pudo entregar la firma al servlet: " + (result == null ? null : new String(result))); //$NON-NLS-1$
-			if (critical) {
-				showErrorMessage(getString(R.string.error_sending_data));
-				return;
-			}
-		}
-		else {
-			Logger.i(ES_GOB_AFIRMA, "Resultado entregado satisfactoriamente."); //$NON-NLS-1$
-		}
 		closeActivity();
 	}
 
