@@ -15,6 +15,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -69,6 +70,8 @@ public final class WebSaveDataActivity extends FragmentActivity
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// Si cargamos la actividad desde el carrusel de aplicaciones, redirigimos a la
+		// pantalla principal
 		if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY)
 				== Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -78,12 +81,24 @@ public final class WebSaveDataActivity extends FragmentActivity
 			return;
 		}
 
-		boolean writePermissionGranted = (
-				ContextCompat.checkSelfPermission(
-						this,
-						Manifest.permission.WRITE_EXTERNAL_STORAGE
-				) == PackageManager.PERMISSION_GRANTED
-		);
+		// Si no estamos creando ahora la pantalla (por se una rotacion)
+		if (savedInstanceState != null){
+			Logger.i(ES_GOB_AFIRMA, "Se esta relanzando la actividad. Se omite volver a iniciar el proceso de firma");
+			return;
+		}
+
+		boolean writePermissionGranted;
+		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+			writePermissionGranted = true;
+		}
+		else {
+			writePermissionGranted = (
+					ContextCompat.checkSelfPermission(
+							this,
+							Manifest.permission.WRITE_EXTERNAL_STORAGE
+					) == PackageManager.PERMISSION_GRANTED
+			);
+		}
 
 		if (!writePermissionGranted) {
 			requestStoragePerm();

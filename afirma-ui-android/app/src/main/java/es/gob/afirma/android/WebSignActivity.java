@@ -114,6 +114,8 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			return;
 		}
 
+		// Si cargamos la actividad desde el carrusel de aplicaciones, redirigimos a la
+		// pantalla principal
 		if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY)
 			== Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -687,13 +689,18 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	private void openSelectFileActivity() {
 
 		// Si no hay permisos de acceso al almacenamiento, se piden
-		if (!(
-				ContextCompat.checkSelfPermission(
-						this,
-						Manifest.permission.WRITE_EXTERNAL_STORAGE
-				) == PackageManager.PERMISSION_GRANTED
-		)) {
-			Logger.i(ES_GOB_AFIRMA, "No se tiene permiso de escritura en memoria");
+		boolean hasWritePermission;
+		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+			hasWritePermission = true;
+		}
+		else {
+			hasWritePermission = ContextCompat.checkSelfPermission(
+					this,
+					Manifest.permission.WRITE_EXTERNAL_STORAGE
+			) == PackageManager.PERMISSION_GRANTED;
+		}
+		if (!hasWritePermission) {
+			Logger.i(ES_GOB_AFIRMA, "No se tiene permiso de escritura en memoria y lo pedimos");
 			ActivityCompat.requestPermissions(
 					this,
 					new String[]{

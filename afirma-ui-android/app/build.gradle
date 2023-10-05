@@ -12,14 +12,14 @@ android {
         checkReleaseBuilds false
     }
     namespace 'es.gob.afirma'
-    compileSdkVersion 31
+    compileSdk 33
     defaultConfig {
         applicationId "es.gob.afirma"
         minSdkVersion 19
-        targetSdkVersion 31
+        targetSdkVersion 33
         multiDexEnabled true
-        versionCode 24
-        versionName "1.8.2"
+        versionCode 25
+        versionName "1.8.3"
     }
     buildTypes {
         release {
@@ -27,6 +27,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -52,7 +53,7 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-	implementation 'com.google.android.material:material:1.6.0'
+	implementation 'com.google.android.material:material:1.9.0'
 	implementation ('es.gob.afirma.jmulticard:jmulticard-android:1.8') {
         exclude(module: 'support-v4')
         exclude(module: 'android')
@@ -76,8 +77,16 @@ dependencies {
     implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.8.2'
     implementation 'com.google.code.gson:gson:2.9.0'
 
-    def fragment_version = "1.5.5"
-
     // Java language implementation
-    implementation "androidx.fragment:fragment:$fragment_version"
+    implementation "androidx.fragment:fragment:1.6.1"
+
+    // Restricciones para evitar clases duplicadas debido a dependencias
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
 }

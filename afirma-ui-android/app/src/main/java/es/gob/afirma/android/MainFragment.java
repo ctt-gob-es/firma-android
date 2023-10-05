@@ -104,12 +104,19 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 			AppConfig.setFirstExecution(false);
 		}
 
-		writePerm = (
-				ContextCompat.checkSelfPermission(
-						getActivity(),
-						Manifest.permission.WRITE_EXTERNAL_STORAGE
-				) == PackageManager.PERMISSION_GRANTED
-		);
+		// En Android 11 y superiores guardamos la ayuda en el directorio de cache directamente.
+		// En anteriores nos aseguramos de pedir permisos.
+		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+			writePerm = true;
+		}
+		else {
+			writePerm = (
+					ContextCompat.checkSelfPermission(
+							getActivity(),
+							Manifest.permission.WRITE_EXTERNAL_STORAGE
+					) == PackageManager.PERMISSION_GRANTED
+			);
+		}
 
 		TextView selectOptionText = contentLayout.findViewById(R.id.selectOptionTextView);
 		ViewCompat.setAccessibilityHeading(selectOptionText, true);

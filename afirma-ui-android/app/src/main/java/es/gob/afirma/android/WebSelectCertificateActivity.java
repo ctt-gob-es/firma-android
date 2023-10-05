@@ -13,6 +13,7 @@ package es.gob.afirma.android;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.security.KeyChainException;
@@ -80,6 +81,23 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 		if (getIntent() == null || getIntent().getData() == null) {
 			Logger.w(ES_GOB_AFIRMA, "No se han indicado parametros de entrada para la actividad");  //$NON-NLS-1$
 			closeActivity();
+			return;
+		}
+
+		// Si cargamos la actividad desde el carrusel de aplicaciones, redirigimos a la
+		// pantalla principal
+		if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY)
+				== Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) {
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setClass(this, HomeActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			return;
+		}
+
+		// Si no estamos creando ahora la pantalla (por se una rotacion)
+		if (savedInstanceState != null){
+			Logger.i(ES_GOB_AFIRMA, "Se esta relanzando la actividad. Se omite volver a iniciar el proceso de firma");
 			return;
 		}
 
@@ -394,7 +412,6 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	public void onSendingDataError(final Throwable error, final boolean critical) {
 
 		Logger.e(ES_GOB_AFIRMA, "Se ejecuta la funcion de error en el envio de datos", error); //$NON-NLS-1$
-		error.printStackTrace();
 
 		if (critical) {
 			dismissProgressDialog();
