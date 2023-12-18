@@ -73,7 +73,7 @@
     <string name="dialog_can">Pour pouvoir établir une connexion NFC, entrez votre code CAN.\n</string>
     <string name="dialog_title_select_cert">Sélectionnez un certificat</string>
     <string name="security_code">Code de sécurité</string>
-    <string name="security_code_hint">Code de sécurité. </string>
+    <string name="security_code_hint">Code CAN. </string>
     <string name="signedfile_title">Signature de fichiers locaux</string>
     <string name="signedfile_error">Désolé, la signature n\'a pas pu être faite. Veuillez réessayer.</string>
     <string name="signedfile_correct">La signature a réussi.</string>
@@ -111,5 +111,6 @@
     <string name="navigation_drawer_open">Ouvert</string>
     <string name="navigation_drawer_close">Proche</string>
     <string name="home">Début</string>
+    <string name="menu_elements_list">Liste de trois éléments</string>
 </resources>
 

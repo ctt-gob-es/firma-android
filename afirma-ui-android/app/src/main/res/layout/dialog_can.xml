@@ -61,8 +61,9 @@
         android:inputType="numberPassword"
         android:textColor="@color/black"
 	    android:hint="@string/security_code_hint"
-        android:textColorHint="@android:color/darker_gray"
+        android:textColorHint="#737373"
         android:layout_gravity="center_vertical"
+        android:background="@drawable/edittext_can"
         />
 
 </LinearLayout>

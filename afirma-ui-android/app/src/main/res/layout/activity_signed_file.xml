@@ -18,10 +18,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
             android:layout_marginBottom="20sp"
-            android:accessibilityHeading="true"
             android:background="@drawable/signedfile_title_small"
             android:gravity="center"
             android:text="@string/signedfile_title"
+            android:nextFocusForward="@+id/homeButton_ok"
             android:visibility="invisible" />
 
         <RelativeLayout
@@ -116,6 +116,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/filestorage_path"
                 android:layout_marginTop="30sp"
+                android:contentDescription="@string/home"
+                android:importantForAccessibility="yes"
+                android:accessibilityHeading="true"
+                android:focusable="true"
                 android:onClick="onClick"
                 android:padding="10sp"
                 android:text="@string/home" />

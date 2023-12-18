@@ -61,6 +61,8 @@
         android:layout_margin="11dp"
         android:onClick="onClick"
         android:text="@string/import_cert"
+        android:nextFocusForward="@+id/drawer_layout"
+        android:imeOptions="actionNext"
         style="@style/ButtonRedSmall" />
 
     <TextView

@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/white"
+    android:contentDescription="@string/menu_elements_list"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -18,6 +19,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
+            android:touchscreenBlocksFocus="false"
             android:textColorPrimary="@android:color/white"
             android:textColorSecondary="@android:color/white"
             android:layout_height="?attr/actionBarSize"

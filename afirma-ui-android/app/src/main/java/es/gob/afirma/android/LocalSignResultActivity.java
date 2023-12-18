@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -356,6 +357,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		rl.setVisibility(View.VISIBLE);
 
 		Button buttonOK = findViewById(R.id.homeButton_ok);
+		buttonOK.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
 		buttonOK.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
