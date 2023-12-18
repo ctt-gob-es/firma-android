@@ -68,8 +68,6 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
-	private static final String OK_SERVER_RESULT = "OK"; //$NON-NLS-1$
-
 	/** Juego de carateres UTF-8. */
 	private static final String DEFAULT_URL_ENCODING = "UTF-8"; //$NON-NLS-1$
 
@@ -116,6 +114,8 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			return;
 		}
 
+		// Si cargamos la actividad desde el carrusel de aplicaciones, redirigimos a la
+		// pantalla principal
 		if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY)
 			== Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -156,39 +156,13 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			return;
 		}
 
-		if (this.parameters.getStorageServletUrl() == null) {
-			Logger.e(ES_GOB_AFIRMA, "No se ha proporcionado la URL de guardado del servidor intermedio"); //$NON-NLS-1$
-			showErrorMessage(getString(R.string.error_bad_params));
-			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true);
-			return;
+		try {
+			processSignRequest();
 		}
-
-        // Si no hay permisos de acceso al almacenamiento, se piden
-        if (!(
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-        )) {
-            Logger.i("es.gob.afirma", "No se tiene permiso de escritura en memoria");
-            ActivityCompat.requestPermissions(
-                this,
-                new String[]{
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                },
-                REQUEST_WRITE_STORAGE
-            );
-        }
-        // Si ya se tienen permisos, se procede
-        else {
-        	try {
-				processSignRequest();
-			}
-			catch (final Throwable e) {
-				Logger.e(ES_GOB_AFIRMA, "Error al generar la firma: " + e, e); //$NON-NLS-1$
-				onSigningError(KeyStoreOperation.SIGN, "Error al generar la firma", e);
-			}
-        }
+		catch (final Throwable e) {
+			Logger.e(ES_GOB_AFIRMA, "Error al generar la firma: " + e, e); //$NON-NLS-1$
+			onSigningError(KeyStoreOperation.SIGN, "Error al generar la firma", e);
+		}
 	}
 
     @Override
@@ -206,7 +180,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 				}
 			}
 			else {
-				showErrorMessage(getString(R.string.error_no_read_permissions));
+				onSigningError(KeyStoreOperation.SIGN, "No se concedieron permisos de acceso a disco", null);
 			}
         }
     }
@@ -379,7 +353,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	@Override
 	protected void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t) {
 		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
-			Log.e(ES_GOB_AFIRMA, "Error al cargar el almacen de certificados", t);
+			Log.e(ES_GOB_AFIRMA, "Error al cargar el almacen de certificados: " + msg, t);
 			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, true);
 			return;
 		}
@@ -401,7 +375,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 				return;
 			}
 			else {
-				Logger.e(ES_GOB_AFIRMA, "Error al recuperar la clave del certificado de firma", t); //$NON-NLS-1$
+				Logger.e(ES_GOB_AFIRMA, "Error inesperado al recuperar la clave del certificado de firma: " + msg, t); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_PKE, true);
 				return;
 			}
@@ -431,12 +405,12 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 				return;
 			}
 			else {
-				Logger.e(ES_GOB_AFIRMA, "Error desconocido durante la firma", t); //$NON-NLS-1$
+				Logger.e(ES_GOB_AFIRMA, "Error inesperado durante la firma: " + msg, t); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_SIGNING,true);
 				return;
 			}
 		}
-		Logger.e(ES_GOB_AFIRMA, "Error desconocido", t); //$NON-NLS-1$
+		Logger.e(ES_GOB_AFIRMA, "Error inesperado: " + msg, t); //$NON-NLS-1$
 		launchError(ErrorManager.ERROR_SIGNING, true);
 	}
 
@@ -620,17 +594,6 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	@Override
 	public void onSendingDataSuccess(final byte[] result, final boolean critical) {
 		Logger.i(ES_GOB_AFIRMA, "Resultado del deposito de la firma: " + (result == null ? null : new String(result))); //$NON-NLS-1$
-
-		if (result == null || !new String(result).trim().equals(OK_SERVER_RESULT)) {
-			Logger.e(ES_GOB_AFIRMA, "No se pudo entregar la firma al servlet: " + (result == null ? null : new String(result))); //$NON-NLS-1$
-			if (critical) {
-				showErrorMessage(getString(R.string.error_sending_data));
-				return;
-			}
-		}
-		else {
-			Logger.i(ES_GOB_AFIRMA, "Resultado entregado satisfactoriamente."); //$NON-NLS-1$
-		}
 		closeActivity();
 	}
 
@@ -725,31 +688,54 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 
 	private void openSelectFileActivity() {
 
-		Intent intent;
+		// Si no hay permisos de acceso al almacenamiento, se piden
+		boolean hasWritePermission;
 		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-			intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-			intent.addCategory(Intent.CATEGORY_OPENABLE);
-			intent.setType("*/*"); //$NON-NLS-1$
+			hasWritePermission = true;
 		}
 		else {
-			intent = new Intent(Intent.ACTION_GET_CONTENT);
-			intent.setClass(this, FileChooserActivity.class);
-			intent.putExtra(EXTRA_RESOURCE_TITLE, getString(R.string.title_activity_choose_sign_file));
-			intent.putExtra(EXTRA_RESOURCE_EXCLUDE_DIRS, FileSystemConstants.COMMON_EXCLUDED_DIRS);
-			final String exts = identifyExts(this.parameters.getSignatureFormat());
-			if (exts != null) {
-				intent.putExtra(EXTRA_RESOURCE_EXT, exts);
-			}
+			hasWritePermission = ContextCompat.checkSelfPermission(
+					this,
+					Manifest.permission.WRITE_EXTERNAL_STORAGE
+			) == PackageManager.PERMISSION_GRANTED;
 		}
-		this.fileChooserOpenned = true;
-		startActivityForResult(intent, SELECT_FILE_REQUEST_CODE);
+		if (!hasWritePermission) {
+			Logger.i(ES_GOB_AFIRMA, "No se tiene permiso de escritura en memoria y lo pedimos");
+			ActivityCompat.requestPermissions(
+					this,
+					new String[]{
+							Manifest.permission.WRITE_EXTERNAL_STORAGE
+					},
+					REQUEST_WRITE_STORAGE
+			);
+		}
+		// Si hay permisos, se habre el dialogo de carga de ficheros
+		else {
+			Intent intent;
+			if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+				intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+				intent.addCategory(Intent.CATEGORY_OPENABLE);
+				intent.setType("*/*"); //$NON-NLS-1$
+			} else {
+				intent = new Intent(Intent.ACTION_GET_CONTENT);
+				intent.setClass(this, FileChooserActivity.class);
+				intent.putExtra(EXTRA_RESOURCE_TITLE, getString(R.string.title_activity_choose_sign_file));
+				intent.putExtra(EXTRA_RESOURCE_EXCLUDE_DIRS, FileSystemConstants.COMMON_EXCLUDED_DIRS);
+				final String exts = identifyExts(this.parameters.getSignatureFormat());
+				if (exts != null) {
+					intent.putExtra(EXTRA_RESOURCE_EXT, exts);
+				}
+			}
+			this.fileChooserOpenned = true;
+			startActivityForResult(intent, SELECT_FILE_REQUEST_CODE);
+		}
 	}
 
 	private byte[] readDataFromFile(File dataFile) throws IOException {
 		int n;
 		final byte[] buffer = new byte[1024];
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try (final InputStream is = new FileInputStream(dataFile);) {
+		try (final InputStream is = new FileInputStream(dataFile)) {
 			while ((n = is.read(buffer)) > 0) {
 				baos.write(buffer, 0, n);
 			}
@@ -760,13 +746,10 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	public String getFilename(Uri uri) {
 		String result = null;
 		if (uri.getScheme().equals("content")) {
-			Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-			try {
+			try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
 				if (cursor != null && cursor.moveToFirst()) {
 					result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
 				}
-			} finally {
-				cursor.close();
 			}
 		}
 		if (result == null) {
@@ -783,7 +766,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		int n;
 		final byte[] buffer = new byte[1024];
 		final ByteArrayOutputStream baos;
-		try (InputStream is = getContentResolver().openInputStream(uri);) {
+		try (InputStream is = getContentResolver().openInputStream(uri)) {
 			baos = new ByteArrayOutputStream();
 			while ((n = is.read(buffer)) > 0) {
 				baos.write(buffer, 0, n);

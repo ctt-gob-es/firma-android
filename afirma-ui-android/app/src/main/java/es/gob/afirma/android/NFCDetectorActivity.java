@@ -9,23 +9,25 @@ import android.nfc.tech.NfcA;
 import android.nfc.tech.NfcB;
 import android.nfc.tech.NfcF;
 import android.nfc.tech.NfcV;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.content.IntentCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
-import es.gob.afirma.R;
+import es.gob.afirma.android.crypto.DnieConnectionManager;
 import es.gob.afirma.android.gui.CanDialog;
 import es.gob.afirma.android.gui.CanResult;
+import es.gob.afirma.R;
 import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 
 /** Indica al usuario que acerque el DNIe por NFC para obtener los certificados.
  * @author Sergio Mart&iacute;nez */
 public class NFCDetectorActivity extends FragmentActivity {
 
-    private static final String ES_GOB_AFIRMA = "es.gob.afirma";
-
     static final String INTENT_EXTRA_CAN_VALUE = "canValue"; //$NON-NLS-1$
+    static final String INTENT_EXTRA_PASSWORD_CALLBACK = "pc"; //$NON-NLS-1$
 
     private NfcAdapter mNfcAdapter;
     private PendingIntent pendingIntent;
@@ -33,8 +35,7 @@ public class NFCDetectorActivity extends FragmentActivity {
     private String[][] mTechLists;
 
     private CanResult canResult;
-
-    public static Tag discoveredTag;
+    public Tag discoveredTag = null;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -42,6 +43,10 @@ public class NFCDetectorActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detect_nfc);
 
+        // Si buscamos la tarjeta, borramos los datos que ya tuviesemos
+        DnieConnectionManager.getInstance().reset();
+
+        this.discoveredTag = null;
         this.canResult = new CanResult();
 
         if (getIntent() != null && getIntent().hasExtra(INTENT_EXTRA_CAN_VALUE)) {
@@ -49,11 +54,25 @@ public class NFCDetectorActivity extends FragmentActivity {
                     new CachePasswordCallback(getIntent().getCharArrayExtra(INTENT_EXTRA_CAN_VALUE)));
         }
         else {
-            DialogFragment canDialog = CanDialog.newInstance(canResult);
+            CanDialog canDialog = CanDialog.newInstance(canResult);
+            canDialog.setCancelable(false);
             canDialog.show(getSupportFragmentManager(), "dialog");
+            canDialog.setListener(new CanDialog.CanDialogListener() {
+                @Override
+                public void onDismiss() {
+                    if (canResult.getPasswordCallback() != null && discoveredTag != null) {
+                        prepareCardConnection();
+                    }
+                }
+            });
         }
+
+        final Intent singleTopIntent = new Intent(this, getClass())
+                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         pendingIntent = PendingIntent.getActivity(
-                this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+                this, 0, singleTopIntent,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ? PendingIntent.FLAG_MUTABLE : 0);
+
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         IntentFilter discovery = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
         IntentFilter ndefDetected = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
@@ -72,13 +91,20 @@ public class NFCDetectorActivity extends FragmentActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        if (this.canResult.getPasswordCallback() != null) {
-            discoveredTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            Intent dataIntent = new Intent();
-            dataIntent.putExtra("pc", this.canResult.getPasswordCallback());
-            setResult(RESULT_OK, dataIntent);
-            finish();
+        super.onNewIntent(intent);
+        discoveredTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        if (this.canResult.getPasswordCallback() != null && discoveredTag != null) {
+            prepareCardConnection();
         }
+    }
+
+    private void prepareCardConnection() {
+        DnieConnectionManager.getInstance().setDiscoveredTag(this.discoveredTag);
+
+        Intent dataIntent = new Intent();
+        dataIntent.putExtra(INTENT_EXTRA_PASSWORD_CALLBACK, this.canResult.getPasswordCallback());
+        setResult(RESULT_OK, dataIntent);
+        finish();
     }
 
     @Override

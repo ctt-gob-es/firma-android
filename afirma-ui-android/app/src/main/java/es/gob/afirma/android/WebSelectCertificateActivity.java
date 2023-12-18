@@ -13,6 +13,7 @@ package es.gob.afirma.android;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.security.KeyChainException;
@@ -50,8 +51,6 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
-	private static final String OK_SERVER_RESULT = "OK"; //$NON-NLS-1$
-
 	/** Juego de carateres UTF-8. */
 	private static final String DEFAULT_URL_ENCODING = "UTF-8"; //$NON-NLS-1$
 
@@ -82,6 +81,23 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 		if (getIntent() == null || getIntent().getData() == null) {
 			Logger.w(ES_GOB_AFIRMA, "No se han indicado parametros de entrada para la actividad");  //$NON-NLS-1$
 			closeActivity();
+			return;
+		}
+
+		// Si cargamos la actividad desde el carrusel de aplicaciones, redirigimos a la
+		// pantalla principal
+		if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY)
+				== Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) {
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setClass(this, HomeActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			return;
+		}
+
+		// Si no estamos creando ahora la pantalla (por se una rotacion)
+		if (savedInstanceState != null){
+			Logger.i(ES_GOB_AFIRMA, "Se esta relanzando la actividad. Se omite volver a iniciar el proceso de firma");
 			return;
 		}
 
@@ -174,12 +190,6 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
             Logger.e(ES_GOB_AFIRMA, "Error al recuperar el certificado seleccionado", e); //$NON-NLS-1$
             onKeyStoreError(KeyStoreOperation.SELECT_CERTIFICATE, "Error al recuperar la clave del certificado de firma", e); //$NON-NLS-1$
             return;
-        }
-
-        // Ya cargado el certificado, eliminamos el CAN de memoria y el objeto para que se vuelva a pedir
-        if (getPasswordCallback() != null) {
-            getPasswordCallback().clearPassword();
-            setPasswordCallback(null);
         }
 
         onSelectCertificateChainSuccess(certificate);
@@ -395,16 +405,6 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	@Override
 	public void onSendingDataSuccess(final byte[] result, final boolean critical) {
 		Logger.i(ES_GOB_AFIRMA, "Resultado del deposito de la firma: " + (result == null ? null : new String(result))); //$NON-NLS-1$
-
-		if (result == null || !new String(result).trim().equals(OK_SERVER_RESULT)) {
-			Logger.e(ES_GOB_AFIRMA, "No se pudo entregar la firma al servlet: " + (result == null ? null : new String(result))); //$NON-NLS-1$
-			if (critical) {
-				showErrorMessage(getString(R.string.error_sending_data));
-				return;
-			}
-		} else {
-			Logger.i(ES_GOB_AFIRMA, "Resultado entregado satisfactoriamente."); //$NON-NLS-1$
-		}
 		closeActivity();
 	}
 
@@ -412,7 +412,6 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	public void onSendingDataError(final Throwable error, final boolean critical) {
 
 		Logger.e(ES_GOB_AFIRMA, "Se ejecuta la funcion de error en el envio de datos", error); //$NON-NLS-1$
-		error.printStackTrace();
 
 		if (critical) {
 			dismissProgressDialog();

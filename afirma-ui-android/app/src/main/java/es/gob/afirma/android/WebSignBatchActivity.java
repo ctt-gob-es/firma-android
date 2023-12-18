@@ -27,7 +27,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.cert.CertificateEncodingException;
 import java.util.HashMap;
@@ -61,7 +60,6 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 
 	private static final char RESULT_SEPARATOR = '|';
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma";
-	private static final String OK_SERVER_RESULT = "OK";
 	private final static String INTENT_ENTRY_ACTION = "es.gob.afirma.android.SIGN_SERVICE";
 
 	/** Juego de carateres UTF-8. */
@@ -152,7 +150,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 			return;
 		}
 
-		loadKeyStore(this);
+		processSignRequest();
 	}
 
 	/**
@@ -204,7 +202,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 			requestWait(getBatchParams().getStorageServletUrl(), getBatchParams().getId());
 		}
 
-		loadKeyStore(this);
+		processSignRequest();
 	}
 
 	/**
@@ -217,7 +215,6 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		Logger.e(ES_GOB_AFIRMA, "Error durante la descarga del lote de firmas del servidor intermedio", t);
 		showErrorMessage(getString(R.string.error_json));
 		launchError(ErrorManager.ERROR_SIGNING, getString(R.string.error_json), true);
-		return;
 	}
 
 	/** Inicia el proceso de firma con los parametros previamente configurados. */
@@ -237,7 +234,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	 * tenga constancia de &eacute;l.
 	 * @param errorId Identificador del error.
 	 * @param errorMsg Mensaje de error.
-	 * @param critical
+	 * @param critical Error critico que obliga a cerrar la aplicaci&oacute;n.
 	 */
 	private void launchError(final String errorId, final String errorMsg, final boolean critical) {
 
@@ -464,28 +461,6 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	}
 
 	@Override
-	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-
-		// Si el usuario cancelo la seleccion del fichero a firmar
-		if (resultCode == RESULT_CANCELED) {
-			launchError(ErrorManager.ERROR_CANCELLED_OPERATION, "Operacion cancelada", false);
-			return;
-		}
-		else if (resultCode == RESULT_OK) {
-			try {
-				processSignRequest();
-			}
-			catch (final Throwable e) {
-				Logger.e(ES_GOB_AFIRMA, "Error durante la firma", e); //$NON-NLS-1$
-				showErrorMessageOnToast(getString(R.string.error_signing));
-				return;
-			}
-		}
-
-		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	@Override
 	public void onKeyStoreError(KeyStoreOperation op, String msg, Throwable t) {
 		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
 			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, "Error cargando almacen", true);
@@ -545,7 +520,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 				try {
 					params.put(
 							param.substring(0, equalsPos),
-							URLDecoder.decode(param.substring(equalsPos + 1), StandardCharsets.UTF_8.toString()));
+							URLDecoder.decode(param.substring(equalsPos + 1), DEFAULT_URL_ENCODING));
 				} catch (final UnsupportedEncodingException e) {
 					Logger.e(ES_GOB_AFIRMA, "No se pudo decodificar el valor del parametro '" + param.substring(0, equalsPos) + "': " + e);
 				}
@@ -593,16 +568,6 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	@Override
 	public void onSendingDataSuccess(byte[] result, boolean critical) {
 		Logger.i(ES_GOB_AFIRMA, "Resultado del deposito de la firma: " + (result == null ? null : new String(result))); //$NON-NLS-1$
-		if (result == null || !new String(result).trim().equals(OK_SERVER_RESULT)) {
-			Logger.e(ES_GOB_AFIRMA, "No se pudo entregar la firma al servlet: " + (result == null ? null : new String(result))); //$NON-NLS-1$
-			if (critical) {
-				showErrorMessage(getString(R.string.error_sending_data));
-				return;
-			}
-		}
-		else {
-			Logger.i(ES_GOB_AFIRMA, "Resultado entregado satisfactoriamente."); //$NON-NLS-1$
-		}
 		closeActivity();
 	}
 

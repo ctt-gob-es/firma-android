@@ -6,20 +6,24 @@
     android:padding="@dimen/dialog_dimen"
     style="@style/WhiteBackground"
     >
-   
-    <TextView 
+    <TextView
         android:id="@+id/tvPin"
+        android:filterTouchesWhenObscured="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:text="@string/dialog_pin"
         android:textColor="@color/black"
         android:textSize="15sp"/>
     <EditText 
         android:id="@+id/etPin"
+        android:filterTouchesWhenObscured="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
+        android:textColor="@color/black"
 	    android:hint="@string/security_code_hint"
+        android:textColorHint="@android:color/darker_gray"
         />
 
 </LinearLayout>

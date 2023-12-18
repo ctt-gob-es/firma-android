@@ -12,12 +12,15 @@ package es.gob.afirma.android;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.security.KeyChain;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,16 +28,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
 import es.gob.afirma.android.gui.ConfigNfcDialog;
+import es.gob.afirma.android.gui.MessageDialog;
 
 /** Actividad que se muestra cuando se arranca la aplicaci&oacute;n pulsando su icono.
  * @author Alberto Mart&iacute;nez */
@@ -92,12 +104,19 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 			AppConfig.setFirstExecution(false);
 		}
 
-		writePerm = (
-				ContextCompat.checkSelfPermission(
-						getActivity(),
-						Manifest.permission.WRITE_EXTERNAL_STORAGE
-				) == PackageManager.PERMISSION_GRANTED
-		);
+		// En Android 11 y superiores guardamos la ayuda en el directorio de cache directamente.
+		// En anteriores nos aseguramos de pedir permisos.
+		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+			writePerm = true;
+		}
+		else {
+			writePerm = (
+					ContextCompat.checkSelfPermission(
+							getActivity(),
+							Manifest.permission.WRITE_EXTERNAL_STORAGE
+					) == PackageManager.PERMISSION_GRANTED
+			);
+		}
 
 		TextView selectOptionText = contentLayout.findViewById(R.id.selectOptionTextView);
 		ViewCompat.setAccessibilityHeading(selectOptionText, true);
@@ -114,7 +133,7 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 			public void onClick(View v)
 			{
 				if (!writePerm) {
-					Logger.i("es.gob.afirma", "No se tiene permiso de escritura en memoria");
+					Logger.i(ES_GOB_AFIRMA, "No se tiene permiso de escritura en memoria");
 					currentOperation = OP_BEFORE_PERM_REQUEST.LOCALSIGN;
 					requestStoragePerm();
 				}
@@ -141,7 +160,7 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 			public void onClick(View v)
 			{
 				if (!writePerm) {
-					Logger.i("es.gob.afirma", "No se tiene permiso de escritura en memoria");
+					Logger.i(ES_GOB_AFIRMA, "No se tiene permiso de escritura en memoria");
 					currentOperation = OP_BEFORE_PERM_REQUEST.CERTIMPORT;
 					requestStoragePerm();
 				}
@@ -163,15 +182,43 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 
 		return contentLayout;
 	}
-
 	private void requestStoragePerm() {
-		ActivityCompat.requestPermissions(
-				getActivity(),
+		requestPermissions(
 				new String[]{
 						Manifest.permission.WRITE_EXTERNAL_STORAGE
 				},
 				REQUEST_WRITE_STORAGE
 		);
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+										   @NonNull int[] grantResults) {
+		switch (requestCode) {
+			case REQUEST_WRITE_STORAGE: {
+				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					Logger.i("es.gob.afirma", "Concedido permiso de escritura en disco");
+					switch (currentOperation) {
+						case LOCALSIGN:
+							startLocalSign();
+							break;
+						case CERTIMPORT:
+							startCertImport();
+							break;
+						default:
+							Logger.w("es.gob.afirma", "Operacion desconocida ha provocado la solicitud de permisos");
+					}
+
+				}
+				else {
+					Toast.makeText(
+							getActivity(),
+							R.string.nostorageperm,
+							Toast.LENGTH_LONG
+					).show();
+				}
+			}
+		}
 	}
 
 	private void startCertImport() {
@@ -193,6 +240,69 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 
 	private void startLocalSign() {
 		startActivity(new Intent(getActivity().getApplicationContext(), LocalSignResultActivity.class));
+	}
+
+	@Override
+	public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+
+		if (requestCode == SELECT_CERT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+			byte[] fileContent;
+			String filename = null;
+			try {
+				if (data.getStringExtra(FileChooserActivity.RESULT_DATA_STRING_FILENAME) != null) {
+					filename = data.getStringExtra(FileChooserActivity.RESULT_DATA_STRING_FILENAME);
+					fileContent = readDataFromFile(new File(filename));
+				}
+				else {
+					final Uri dataUri = data.getData();
+					filename = dataUri.getLastPathSegment();
+					fileContent = readDataFromUri(dataUri);
+				}
+			} catch (final IOException e) {
+				showErrorMessage(getString(R.string.error_loading_selected_file, filename));
+				Logger.e(ES_GOB_AFIRMA, "Error al cargar el fichero", e); //$NON-NLS-1$
+				return;
+			}
+			final Intent intent = KeyChain.createInstallIntent();
+			intent.putExtra(KeyChain.EXTRA_PKCS12, fileContent);
+			startActivity(intent);
+		}
+	}
+
+	private byte[] readDataFromFile(File dataFile) throws IOException {
+		int n;
+		final byte[] buffer = new byte[1024];
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try (final InputStream is = new FileInputStream(dataFile)) {
+			while ((n = is.read(buffer)) > 0) {
+				baos.write(buffer, 0, n);
+			}
+		}
+		return baos.toByteArray();
+	}
+
+	private byte[] readDataFromUri(Uri uri) throws IOException {
+		int n;
+		final byte[] buffer = new byte[1024];
+		final ByteArrayOutputStream baos;
+		try (InputStream is = getActivity().getContentResolver().openInputStream(uri)) {
+			baos = new ByteArrayOutputStream();
+			while ((n = is.read(buffer)) > 0) {
+				baos.write(buffer, 0, n);
+			}
+		}
+		return baos.toByteArray();
+	}
+
+	/**
+	 * Muestra un mensaje de advertencia al usuario.
+	 * @param message Mensaje que se desea mostrar.
+	 */
+	private void showErrorMessage(final String message) {
+		MessageDialog md = MessageDialog.newInstance(message);
+		md.setListener(null);
+		md.setDialogBuilder(getActivity());
+		md.show(getActivity().getSupportFragmentManager(), "ErrorDialog"); //$NON-NLS-1$;
 	}
 
 	@Override

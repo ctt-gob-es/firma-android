@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/hbackground"
@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
             android:layout_marginBottom="10sp"
+            android:accessibilityHeading="true"
             android:background="@drawable/signedfile_title_small"
             android:gravity="center"
             android:text="@string/signedfile_title"
@@ -29,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/signedfile_title"
             android:orientation="horizontal"
-            android:padding="10sp"
             android:visibility="invisible">
 
             <ImageView
@@ -37,20 +37,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10sp"
-                android:layout_marginTop="20sp"
-                android:contentDescription="@string/accesibility_icon_sign_ko"
                 android:src="@drawable/icon_ko" />
 
             <TextView
                 android:id="@+id/tv_signedfile_ko"
-                style="@style/ButtonBlackSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10sp"
+                android:layout_alignTop="@id/signedfile_ko_icon"
+                android:layout_alignBottom="@id/signedfile_ko_icon"
                 android:layout_toRightOf="@id/signedfile_ko_icon"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
                 android:text="@string/signedfile_error"
-                android:textColor="@color/black" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:textIsSelectable="false" />
+
+            <Button
+                android:id="@+id/homeButton_ko"
+                style="@style/ButtonRedSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_signedfile_ko"
+                android:layout_marginTop="30sp"
+                android:onClick="onClick"
+                android:padding="10sp"
+                android:text="@string/home" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -66,7 +80,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10sp"
-                android:contentDescription="@string/accesibility_icon_sign_ok"
                 android:src="@drawable/icon_ok" />
 
             <TextView
@@ -94,6 +107,16 @@
                 android:textColor="@color/black"
                 android:textIsSelectable="false" />
 
+            <Button
+                android:id="@+id/homeButton_ok"
+                style="@style/ButtonRedSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/filestorage_path"
+                android:layout_marginTop="30sp"
+                android:onClick="onClick"
+                android:padding="10sp"
+                android:text="@string/home" />
         </RelativeLayout>
 
     </RelativeLayout>

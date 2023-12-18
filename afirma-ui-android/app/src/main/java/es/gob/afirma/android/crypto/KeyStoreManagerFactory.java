@@ -25,8 +25,8 @@ import java.security.Security;
 import java.util.Properties;
 
 import es.gob.afirma.android.Logger;
-import es.gob.afirma.android.NFCDetectorActivity;
 import es.gob.afirma.android.gui.PinDialog;
+import es.gob.jmulticard.android.nfc.AndroidNfcConnection;
 import es.gob.jmulticard.apdu.connection.ApduConnection;
 
 /** Facrtor&iacute;a de gestores de contrase&ntilde;as y claves para Android. */
@@ -34,8 +34,6 @@ public final class KeyStoreManagerFactory {
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 	private static final String AET_PKCS11_STORE = "PKCS11KeyStore"; //$NON-NLS-1$
-
-	public static KeyStoreManagerListener ksmlStatic;
 
 	private KeyStoreManagerFactory() {
 		// Se prohibe crear instancias
@@ -52,8 +50,6 @@ public final class KeyStoreManagerFactory {
 											   final KeyStoreManagerListener ksml,
 											   final UsbDevice usbDevice,
 											   final UsbManager usbManager) {
-
-		ksmlStatic = ksml;
 
 		// Buscamos primero una tarjeta CERES
 		if (usbDevice != null && usbManager != null) {
@@ -194,14 +190,15 @@ public final class KeyStoreManagerFactory {
 									throws UnsupportedNfcCardException,
 			InitializingNfcCardException {
 
-		ksmlStatic = ksml;
-
 		KeyStore ks = null;
 
 		// En caso de no existir un lector conectado por USB, comprobamos que se haya detectado una tarjeta por NFC
-		if(NFCDetectorActivity.discoveredTag != null) {
+		DnieConnectionManager dnieManager = DnieConnectionManager.getInstance();
+		if (dnieManager.getDiscoveredTag() != null) {
 			try {
-				final ApduConnection androidNfcConnectionObject = new es.gob.jmulticard.android.nfc.AndroidNfcConnection(NFCDetectorActivity.discoveredTag);
+				final ApduConnection androidNfcConnectionObject =
+						new AndroidNfcConnection(dnieManager.getDiscoveredTag());
+				dnieManager.setNfcConnection(androidNfcConnectionObject);
 				final Provider p = new es.gob.jmulticard.jse.provider.DnieProvider(androidNfcConnectionObject);
 
 				Security.addProvider(p);

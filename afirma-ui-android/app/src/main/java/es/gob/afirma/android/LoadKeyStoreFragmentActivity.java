@@ -18,6 +18,7 @@ import android.content.IntentFilter;
 import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
@@ -25,6 +26,7 @@ import androidx.fragment.app.FragmentActivity;
 import java.util.HashMap;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.crypto.DnieConnectionManager;
 import es.gob.afirma.android.crypto.InitializingNfcCardException;
 import es.gob.afirma.android.crypto.KeyStoreManagerListener;
 import es.gob.afirma.android.crypto.LoadKeyStoreManagerTask;
@@ -48,8 +50,6 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	private final static int REQUEST_CODE_ENABLE_NFC = 2002;   // The request code
 
     private static final String ACTION_USB_PERMISSION = "es.gob.afirma.android.USB_PERMISSION"; //$NON-NLS-1$
-
-    private CachePasswordCallback passwordCallback = null;
 
 	private UsbManager usbManager = null;
 
@@ -89,12 +89,6 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 		}
 	};
 
-    protected void setPasswordCallback(CachePasswordCallback passwordCallback) {
-        this.passwordCallback = passwordCallback;
-    }
-    protected CachePasswordCallback getPasswordCallback() {
-        return passwordCallback;
-    }
     UsbManager getUsbManager() {
         return this.usbManager;
     }
@@ -125,10 +119,18 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 			// Si no se inserto el CAN o no se detecto un almacen nfc, nos aseguramos de que no
 			// haya ningun CAN cacheado y cargamos el resto de almacenes.
 			if (resultCode == RESULT_OK) {
-				this.passwordCallback = data != null ? (CachePasswordCallback) data.getSerializableExtra("pc") : null;
-				loadNfcKeyStore();
+
+				CachePasswordCallback canPasswordCallback = data != null
+						? (CachePasswordCallback) data.getSerializableExtra(NFCDetectorActivity.INTENT_EXTRA_PASSWORD_CALLBACK)
+						: null;
+				DnieConnectionManager.getInstance().setCanPasswordCallback(canPasswordCallback);
+				loadNfcKeyStore(canPasswordCallback);
 			}
 			else {
+				// Si no se puede cargar el almacen y se establecido un CAN de DNIE, puede que
+				// el problema es que sea erroneo, asi que lo borramos
+				DnieConnectionManager.getInstance().clearCan();
+
 				runOnUiThread(
 						new Runnable() {
 							@Override
@@ -137,10 +139,14 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 							}
 						}
 				);
-				if (passwordCallback != null) {
-					this.passwordCallback.clearPassword();
-					this.passwordCallback = null;
+
+				if (resultCode == RESULT_CANCELED) {
+					Logger.w(ES_GOB_AFIRMA, "Se cancelo el dialogo de insercion de CAN");
 				}
+				else {
+					Logger.w(ES_GOB_AFIRMA, "No se detecto tarjeta NFC");
+				}
+
 				loadKeyStore();
 			}
 		}
@@ -174,10 +180,10 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	 * metodo onActivityResult().
 	 */
 	public void searchNewNfcCard() {
-
 		final Intent intentNFC = new Intent(this, NFCDetectorActivity.class);
-		if (this.passwordCallback != null) {
-			intentNFC.putExtra(NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE, this.passwordCallback.getPassword());
+		CachePasswordCallback canPasswordCallback = DnieConnectionManager.getInstance().getCanPasswordCallback();
+		if (canPasswordCallback != null) {
+			intentNFC.putExtra(NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE, canPasswordCallback.getPassword());
 		}
 		startActivityForResult(intentNFC, REQUEST_CODE_DETECT_NFC_CARD);
 	}
@@ -187,7 +193,7 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	 * activado o no se determina en el onActivityResult.
 	 */
 	private void openNfcSystemSettings() {
-		Toast.makeText(getApplicationContext(), R.string.enable_nfc, Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), R.string.enable_nfc, Toast.LENGTH_SHORT).show();
 		startActivityForResult(
 				new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS),
 				REQUEST_CODE_ENABLE_NFC);
@@ -254,8 +260,8 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	 * Inicia el proceso de carga de certificados para firmar usando un almacen
 	 * por conexion NFC.
 	 */
-	public void loadNfcKeyStore() {
-		new LoadNfcKeyStoreManagerTask(this, this, this.passwordCallback).execute();
+	private void loadNfcKeyStore(CachePasswordCallback canPasswordCallback) {
+		new LoadNfcKeyStoreManagerTask(this, this, canPasswordCallback).execute(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 	@Override

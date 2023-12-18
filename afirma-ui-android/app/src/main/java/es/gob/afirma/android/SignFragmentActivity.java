@@ -13,6 +13,7 @@ package es.gob.afirma.android;
 import android.app.PendingIntent;
 import android.os.Build;
 import android.security.KeyChainException;
+import android.util.Base64;
 
 import java.security.KeyStore.PrivateKeyEntry;
 import java.util.Locale;
@@ -43,6 +44,8 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	private String algorithm = null;
 	private Properties extraParams = null;
 
+	private boolean signing = false;
+
 	/**
 	 * Inicia el proceso de firma.
 	 * @param signOperation Operacion de firma (firma, cofirma o multifirma)
@@ -72,16 +75,18 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			throw new IllegalArgumentException("No se han indicado los datos a firmar");
 		}
 		if (format == null) {
-			throw new IllegalArgumentException("No se han indicado los datos a firmar");
+			throw new IllegalArgumentException("No se ha indicado el formato de firma");
 		}
 		if (algorithm == null) {
-			throw new IllegalArgumentException("No se han indicado los datos a firmar");
+			throw new IllegalArgumentException("No se han indicado el algoritmo de firma");
 		}
 
 		this.dataToSign = data;
 		this.format = format;
 		this.algorithm = algorithm;
 		this.extraParams = extraParams;
+
+		this.signing = true;
 
 		// Iniciamos la carga del almacen
 		loadKeyStore(this);
@@ -122,12 +127,6 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			return;
 		}
 
-		// Ya cargado el certificado, eliminamos el CAN de memoria y el objeto para que se vuelva a pedir
-		if (getPasswordCallback() != null) {
-            getPasswordCallback().clearPassword();
-            setPasswordCallback(null);
-		}
-
 		String providerName = null;
 		if (kse.getKeyStore() != null) {
 			providerName = kse.getKeyStore().getProvider().getName();
@@ -164,6 +163,10 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 		).execute();
 	}
 
+	protected boolean isSigning() {
+		return this.signing;
+	}
+
 	@Override
 	public synchronized void onLoadingKeyStoreSuccess(final MobileKeyStoreManager msm) {
 
@@ -177,16 +180,19 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 
 	@Override
 	public void onKeyStoreError(KeyStoreOperation op, String msg, Throwable t) {
+		this.signing = false;
 		onSigningError(op, msg, t);
 	}
 
 	@Override
 	public void onSignSuccess(final SignResult signature) {
+		this.signing = false;
 		onSigningSuccess(signature);
 	}
 
 	@Override
 	public void onSignError(final Throwable t) {
+		this.signing = false;
 		onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
 	}
 

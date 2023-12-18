@@ -166,6 +166,7 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 			this.t = e;
 		}
 
+		// En caso de error, "sign" es nulo y despues se utiliza la excepcion para notificar el problema
 		return new SignResult(sign, this.pke.getCertificate());
 	}
 
