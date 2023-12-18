@@ -108,7 +108,7 @@
     <string name="error_format_trusted_domains">Le domaine \"%s\" est mal formaté</string>
     <string name="use_asterisk">Utilisez un astérisque (*) au début ou à la fin comme caractère générique.</string>
     <string name="accesibility_dialog_can">Pour pouvoir établir une connexion NFC, entrez votre code CAN. Le code CAN contient six chiffres et se trouve dans le coin inférieur droit de votre ID</string>
-    <string name="navigation_drawer_open">Ouvert</string>
+    <string name="menu">Menu</string>
     <string name="navigation_drawer_close">Proche</string>
     <string name="home">Début</string>
     <string name="menu_elements_list">Liste de trois éléments</string>

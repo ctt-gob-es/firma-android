@@ -108,7 +108,7 @@
     <string name="error_format_trusted_domains">El dominio \"%s\" tiene un formato incorrecto.</string>
     <string name="use_asterisk">Use asterisco (*) al principio o final como comod\u00EDn.</string>
     <string name="accesibility_dialog_can">Para poder establecer una conexi\u00F3n NFC, introduzca su c\u00F3digo CAN. El c\u00F3digo CAN contiene seis d\u00EDgitos y se puede encontrar en la esquina inferior derecha de su identificaci\u00F3n</string>
-    <string name="navigation_drawer_open">Abierto</string>
+    <string name="menu">Men\u00FA</string>
     <string name="navigation_drawer_close">Cerrado</string>
     <string name="home">Inicio</string>
     <string name="menu_elements_list">Lista de tres elementos</string>

@@ -108,7 +108,7 @@
     <string name="error_format_trusted_domains">The domain \"%s\" has an incorrect format.</string>
     <string name="use_asterisk">Use asterisk (*) at the beginning or end as wildcard.</string>
     <string name="accesibility_dialog_can">To be able to establish an NFC connection, enter your CAN code. The CAN code contains six digits and can be found in the lower right corner of your ID</string>
-    <string name="navigation_drawer_open">Open</string>
+    <string name="menu">Menu</string>
     <string name="navigation_drawer_close">Close</string>
     <string name="home">Home</string>
     <string name="menu_elements_list">List of three elements</string>

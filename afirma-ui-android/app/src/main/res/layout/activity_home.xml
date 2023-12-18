@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/white"
-    android:contentDescription="@string/menu_elements_list"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -37,6 +36,7 @@
         app:itemBackground="@drawable/drawer_background_selector"
         app:itemIconTint="@drawable/drawer_selector"
         app:itemTextColor="@drawable/drawer_selector"
+        android:contentDescription="@string/menu_elements_list"
         app:menu="@menu/menu_settings" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
