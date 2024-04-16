@@ -205,6 +205,10 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 		}
 	}
 
+	public Properties getExtraParams() {
+		return this.extraParams;
+	}
+
 	/** Interfaz que debe implementar el manejador del resultado de la operaci&oacute;n de firma.
 	 * @author Carlos Gamuci. */
 	public interface SignListener {

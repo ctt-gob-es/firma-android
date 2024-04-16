@@ -62,6 +62,7 @@
     <string name="error_dni_blocked_dlg">The smart card seems locked.</string>
     <string name="error_dni_blocked">Your smart card is locked. Please contact the issuer for more information. </string>
     <string name="error_title_dni_blocked">Locked smart card</string>
+    <string name="error_empty_pdf_password">The PDF password cannot be empty.\n</string>
     <string name="error_pin_nulo">Error: The smart card PIN is empty or null.</string>
     <string name="error_android_4_1">Android 4.1 and 4.1.1 versions do not allow special characters on certificate aliases. Please, change the name avoiding special characters.</string>
     <string name="data_saved">The file was saves as: %s</string>
@@ -69,6 +70,8 @@
     <string name="dialog_msg_loading_data">Loading data</string>
     <string name="dialog_msg_loading_keystore">Loading key store</string>
     <string name="dialog_msg_signning">Signing</string>
+    <string name="dialog_pdf_password">The PDF is password protected. Enter the PDF password.\n</string>
+    <string name="dialog_pdf_bad_password">The password entered is incorrect. Enter the PDF password.\n</string>
     <string name="dialog_pin">Please, enter your security code (PIN).</string>
     <string name="dialog_can">Enter your CAN code to establish an NFC connection with your DNIe.</string>
     <string name="dialog_title_select_cert">Select a certificate</string>
@@ -114,4 +117,5 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="home">Home</string>
     <string name="menu_elements_list">List of three elements</string>
+    <string name="pdf_password">PDF password.</string>
 </resources>

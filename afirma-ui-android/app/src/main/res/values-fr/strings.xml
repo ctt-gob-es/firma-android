@@ -61,6 +61,7 @@
     <string name="error_dni_blocked_dlg">Désolé, votre identifiant est bloqué.</string>
     <string name="error_dni_blocked">Votre DNI est bloqué, vous devez vous rendre aux points de mise à jour des bureaux d\'expédition pour pouvoir le débloquer. </string>
     <string name="error_title_dni_blocked">Identifiant bloqué</string>
+    <string name="error_empty_pdf_password">Le mot de passe PDF ne peut pas être vide.\n</string>
     <string name="error_pin_nulo">Erreur, le code PIN de l\'identifiant est nul.</string>
     <string name="error_android_4_1">Android 4.1 et 4.1.1 n\'autorisent pas les noms de certificats à contenir des caractères spéciaux (espaces, tirets, etc.). Modifiez l\'alias de vos certificats lors de leur importation pour éviter cette erreur.</string>
     <string name="error_json">Erreur de travail avec JSON.</string>
@@ -69,6 +70,8 @@
     <string name="dialog_msg_loading_data">Chargement des données</string>
     <string name="dialog_msg_loading_keystore">Chargement du magasin de clés</string>
     <string name="dialog_msg_signning">Signature</string>
+    <string name="dialog_pdf_password">Le PDF est protégé par mot de passe. Entrez le mot de passe PDF.\n</string>
+    <string name="dialog_pdf_bad_password">Le mot de passe saisi est incorrect. Entrez le mot de passe PDF.\n</string>
     <string name="dialog_pin">Pour pouvoir utiliser le certificat, entrez votre code de sécurité.</string>
     <string name="dialog_can">Entrez votre code CAN pour établir une connexion NFC avec votre DNIe.</string>
     <string name="dialog_title_select_cert">Sélectionnez un certificat</string>
@@ -114,5 +117,6 @@
     <string name="navigation_drawer_close">Proche</string>
     <string name="home">Début</string>
     <string name="menu_elements_list">Liste de trois éléments</string>
+    <string name="pdf_password">Mot de passe PDF.</string>
 </resources>
 

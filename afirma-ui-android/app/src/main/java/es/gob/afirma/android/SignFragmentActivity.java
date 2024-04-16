@@ -13,7 +13,7 @@ package es.gob.afirma.android;
 import android.app.PendingIntent;
 import android.os.Build;
 import android.security.KeyChainException;
-import android.util.Base64;
+import android.widget.Toast;
 
 import java.security.KeyStore.PrivateKeyEntry;
 import java.util.Locale;
@@ -26,7 +26,11 @@ import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
 import es.gob.afirma.android.crypto.SignResult;
 import es.gob.afirma.android.crypto.SignTask;
 import es.gob.afirma.android.crypto.SignTask.SignListener;
+import es.gob.afirma.android.gui.PDFPasswordDialog;
 import es.gob.afirma.core.AOCancelledOperationException;
+import es.gob.afirma.core.RuntimeConfigNeededException;
+import es.gob.afirma.signers.pades.common.BadPdfPasswordException;
+import es.gob.afirma.signers.pades.common.PdfIsPasswordProtectedException;
 
 /** Esta actividad abstracta integra las funciones necesarias para la ejecuci&oacute;n de
  * operaciones de firma en una actividad. La actividad integra la l&oacute;gica necesaria para
@@ -45,6 +49,8 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	private Properties extraParams = null;
 
 	private boolean signing = false;
+
+	private PrivateKeyEntry keyEntry = null;
 
 	/**
 	 * Inicia el proceso de firma.
@@ -152,12 +158,15 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			}
 			this.extraParams.setProperty("Provider." + keyEntry.getPrivateKey().getClass().getName(), providerName);
 		}
+
+		this.keyEntry = keyEntry;
+
 		new SignTask(
 			this.signOperation,
 			this.dataToSign,
 			this.format,
 			this.algorithm,
-			keyEntry,
+			this.keyEntry,
 			this.extraParams,
 			this
 		).execute();
@@ -192,8 +201,35 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 
 	@Override
 	public void onSignError(final Throwable t) {
-		this.signing = false;
-		onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
+		if (t instanceof PdfIsPasswordProtectedException && ((PdfIsPasswordProtectedException) t).getRequestType() == RuntimeConfigNeededException.RequestType.PASSWORD
+			|| t instanceof BadPdfPasswordException && ((BadPdfPasswordException) t).getRequestType() == RuntimeConfigNeededException.RequestType.PASSWORD) {
+			// Este error se da cuando el PDF esta protegido o se ha introducido de manera erronea, por lo que se pedira la contrasena al usuario
+			try {
+				final PDFPasswordDialog pdfPasswordDialog = new PDFPasswordDialog(new SignTask(
+						this.signOperation,
+						this.dataToSign,
+						this.format,
+						this.algorithm,
+						this.keyEntry,
+						this.extraParams,
+						this
+				),
+				this,
+				t);
+
+				pdfPasswordDialog.show(this.getSupportFragmentManager(),
+						"PasswordDialog");
+			}
+			catch (final Exception e1) {
+				// Si falla el mostrar el error (posiblemente por no disponer de un contexto grafico para mostrarlo)
+				// se mostrara en un toast
+				Toast.makeText(getApplicationContext(), "El PDF esta protegido con contrasena", Toast.LENGTH_LONG).show();
+			}
+		}
+		else {
+			this.signing = false;
+			onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
+		}
 	}
 
 	protected abstract void onSigningSuccess(final SignResult signature);
