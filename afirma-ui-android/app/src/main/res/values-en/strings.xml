@@ -3,7 +3,7 @@
     <string name="nostorageperm">Permissions over storage are needed in order to run this task</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="app_name">Cliente @firma M\u00F3vil</string>
+    <string name="app_name">Cliente m\\u00F3vil @firma</string>
     <string name="title_activity_cert_chooser">Import certificate</string>
     <string name="title_activity_choose_sign_file">Please, select the file to sign</string>
     <string name="presentation_text">Wellcome to the "Cliente @firma Android 1.8.2"\nThis application allows making electronic signatures from compatible service providers Web pages.\nTo use the app, you\'ll need an electronic certificate and its related private key installed on the device. Consult the Android documentation and your service provider\'s documentation.</string>
@@ -12,12 +12,12 @@
     <string name="request_cert">Request new certificate</string>
     <string name="appsDialogTitle">Supported certification authorities</string>
     <string name="appsDialogMessage">Please select the certification authority for requesting your new certificate.</string>
-    <string name="disclaimer">2023 Gobierno de Espa\u00F1a</string>
+    <string name="disclaimer">2024 Gobierno de Espa\\u00F1a</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Accessibility Statement</string>
     <string name="accessibility_statement_url">http://estaticos.redsara.es/comunes/clientefirmaandroid/1/8/0/declaracion_accesibilidad.pdf</string>
-    <string name="main_logo_content_desc">Client @firma logo</string>
+    <string name="main_logo_content_desc">Client @firma mobile</string>
     <string name="ok">OK</string>
     <string name="close">Close</string>
     <string name="ca_not_found">There are not configured certification authorities</string>
@@ -62,7 +62,7 @@
     <string name="error_dni_blocked_dlg">The smart card seems locked.</string>
     <string name="error_dni_blocked">Your smart card is locked. Please contact the issuer for more information. </string>
     <string name="error_title_dni_blocked">Locked smart card</string>
-    <string name="error_empty_pdf_password">The PDF password cannot be empty.\n</string>
+    <string name="error_empty_pdf_password">The PDF password cannot be empty:</string>
     <string name="error_pin_nulo">Error: The smart card PIN is empty or null.</string>
     <string name="error_android_4_1">Android 4.1 and 4.1.1 versions do not allow special characters on certificate aliases. Please, change the name avoiding special characters.</string>
     <string name="data_saved">The file was saves as: %s</string>
@@ -70,8 +70,8 @@
     <string name="dialog_msg_loading_data">Loading data</string>
     <string name="dialog_msg_loading_keystore">Loading key store</string>
     <string name="dialog_msg_signning">Signing</string>
-    <string name="dialog_pdf_password">The PDF is password protected. Enter the PDF password.\n</string>
-    <string name="dialog_pdf_bad_password">The password entered is incorrect. Enter the PDF password.\n</string>
+    <string name="dialog_pdf_password">Enter the password:</string>
+    <string name="dialog_pdf_bad_password">Incorrect password:</string>
     <string name="dialog_pin">Please, enter your security code (PIN).</string>
     <string name="dialog_can">Enter your CAN code to establish an NFC connection with your DNIe.</string>
     <string name="dialog_title_select_cert">Select a certificate</string>
@@ -118,4 +118,6 @@
     <string name="home">Home</string>
     <string name="menu_elements_list">List of three elements</string>
     <string name="pdf_password">PDF password.</string>
+    <string name="pdf_password_protected">The document is password protected</string>
+    <string name="dialog_pdf_password_title">Protected document</string>
 </resources>

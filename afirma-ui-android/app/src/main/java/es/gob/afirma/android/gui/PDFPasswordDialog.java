@@ -69,15 +69,17 @@ public class PDFPasswordDialog extends DialogFragment {
 
 		if (pdfPasswordExc instanceof BadPdfPasswordException) {
 			tvPDFPassword.setText(R.string.dialog_pdf_bad_password);
+			tvPDFPassword.setTextColor(getResources().getColor(R.color.red));
 		} else {
 			tvPDFPassword.setText(R.string.dialog_pdf_password);
+			tvPDFPassword.setTextColor(getResources().getColor(R.color.black));
 		}
 
 		final EditText editTextPassword = view.findViewById(R.id.etPDFPassword);
-		final TextView tvErrorPDFPassword = view.findViewById(R.id.tvErrorPDFPassword);
 
 		final AlertDialog alertDialog = new Builder(getActivity(), R.style.AlertDialog)
 				.setView(view)
+				.setTitle(R.string.dialog_pdf_password_title)
 				.setCancelable(false)
 				.setNegativeButton(
 						getActivity().getString(R.string.cancel),
@@ -108,13 +110,13 @@ public class PDFPasswordDialog extends DialogFragment {
 					@Override
 					public void onClick(View view) {
 
-						if(editTextPassword.getText() == null || "".equals(editTextPassword.getText().toString())) { //$NON-NLS-1$
+						if (editTextPassword.getText() == null || "".equals(editTextPassword.getText().toString())) { //$NON-NLS-1$
 							Logger.e(ES_GOB_AFIRMA, "La contrasena no puede ser vacia o nula"); //$NON-NLS-1$
-							tvErrorPDFPassword.setVisibility(View.VISIBLE);
-							tvErrorPDFPassword.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+							tvPDFPassword.setText(R.string.error_empty_pdf_password);
+							tvPDFPassword.setTextColor(getResources().getColor(R.color.red));
+							tvPDFPassword.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
 						}
 						else {
-							tvErrorPDFPassword.setVisibility(View.INVISIBLE);
 							dialog.dismiss();
 							try {
 								if (pdfPasswordExc instanceof RuntimePasswordNeededException) {

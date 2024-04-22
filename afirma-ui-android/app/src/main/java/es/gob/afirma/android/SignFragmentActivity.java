@@ -223,7 +223,9 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			catch (final Exception e1) {
 				// Si falla el mostrar el error (posiblemente por no disponer de un contexto grafico para mostrarlo)
 				// se mostrara en un toast
-				Toast.makeText(getApplicationContext(), "El PDF esta protegido con contrasena", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), R.string.pdf_password_protected, Toast.LENGTH_SHORT).show();
+				this.signing = false;
+				onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
 			}
 		}
 		else {

@@ -12,7 +12,7 @@
     <string name="request_cert">Solicitar certificado</string>
     <string name="appsDialogTitle">Listado de autoridades soportadas</string>
     <string name="appsDialogMessage">Seleccione la autoridad de certificaci\u00F3n a la que desee solicitar su certificado.</string>
-    <string name="disclaimer">2023 Gobierno de Espa\u00F1a</string>
+    <string name="disclaimer">2024 Gobierno de Espa\\u00F1a</string>
     <string name="privacy_policy">Pol\u00EDtica de privacidad</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Declaraci\u00F3n de accesibilidad</string>
@@ -61,7 +61,7 @@
     <string name="error_dni_blocked_dlg">Lo sentimos, su DNI est\u00E1 bloqueado.</string>
     <string name="error_dni_blocked">Su DNI est\u00E1 bloquedado, deber\u00E1 acudir a los Puntos de Actualización de las Oficinas de Expedición para poder desbloquearlo. </string>
     <string name="error_title_dni_blocked">DNI bloqueado</string>
-    <string name="error_empty_pdf_password">La contrase\u00F1a del PDF no puede estar vac\u00EDa.\n</string>
+    <string name="error_empty_pdf_password">La contrase\u00F1a del PDF no puede estar vac\u00EDa:</string>
     <string name="error_pin_nulo">Error, el PIN del DNI es nulo.</string>
     <string name="error_android_4_1">Android 4.1 y 4.1.1 no permiten que los nombres de certificados contengan caracteres especiales (espacios, guiones, etc.). Modifique el alias de sus certificados al importarlos para evitar este error.</string>
     <string name="error_json">Error al tratar JSON.</string>
@@ -70,8 +70,9 @@
     <string name="dialog_msg_loading_data">Cargando datos</string>
     <string name="dialog_msg_loading_keystore">Cargando almac\u00E9n de claves</string>
     <string name="dialog_msg_signning">Firmando</string>
-    <string name="dialog_pdf_password">El PDF est\u00E1 protegido por contrase\u00F1a. Introduzca la contrase\u00F1a del PDF.\n</string>
-    <string name="dialog_pdf_bad_password">La contrase\u00F1a introducida es incorrecta. Introduzca la contrase\u00F1a del PDF.\n</string>
+    <string name="dialog_pdf_password_title">Documento protegido</string>
+    <string name="dialog_pdf_password">Introduzca la contrase\u00F1a:</string>
+    <string name="dialog_pdf_bad_password">Contrase\u00F1a incorrecta:</string>
     <string name="dialog_pin">Para poder utilizar el certificado introduzca su c\u00F3digo de seguridad.\n</string>
     <string name="dialog_can">Introduzca su c\u00F3digo CAN para establecer una conexi\u00F3n NFC con su DNIe.\n</string>
     <string name="dialog_title_select_cert">Seleccione un certificado</string>
@@ -117,5 +118,6 @@
     <string name="navigation_drawer_close">Cerrado</string>
     <string name="home">Inicio</string>
     <string name="menu_elements_list">Lista de tres elementos</string>
-    <string name="pdf_password">Contrase\u00F1a del PDF.</string>
+    <string name="pdf_password">Contrase\u00F1a del documento.</string>
+    <string name="pdf_password_protected">El documento est\u00E1 protegido con contrase\u00F1a.</string>
 </resources>

@@ -3,7 +3,7 @@
     <string name="nostorageperm">Les autorisations sur le stockage sont nécessaires pour exécuter cette tâche</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
-    <string name="app_name">Client m\u00F3vil @firma</string>
+    <string name="app_name">Cliente m\\u00F3vil @firma</string>
     <string name="title_activity_cert_chooser">Importer certificat</string>
     <string name="title_activity_choose_sign_file">Sélectionnez le fichier à signer</string>
     <string name="presentation_text">Bienvenue "Client @firma Android 1.8.2".\nCette application permet rèaliser signatures électroniques sur les sites webs qui possédent des serveurs de certificats.\nPour bien fonctionner, vous devez disposer d’un certificat électronique et votre code privé installés dans votre dispositive. Consultez avec votre serveur de certification et la documentation de votre système Android.</string>
@@ -12,7 +12,7 @@
     <string name="request_cert">Demander un certificat</string>
     <string name="appsDialogTitle">Liste des autorités prises en charge</string>
     <string name="appsDialogMessage">Sélectionnez l\'autorité de certification auprès de laquelle vous souhaitez demander votre certificat.</string>
-    <string name="disclaimer">2023 Gobierno de Espa\u00F1a</string>
+    <string name="disclaimer">2024 Gobierno de Espa\\u00F1a</string>
     <string name="privacy_policy">Politique de confidentialité</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Déclaration d\'accessibilité</string>
@@ -61,7 +61,7 @@
     <string name="error_dni_blocked_dlg">Désolé, votre identifiant est bloqué.</string>
     <string name="error_dni_blocked">Votre DNI est bloqué, vous devez vous rendre aux points de mise à jour des bureaux d\'expédition pour pouvoir le débloquer. </string>
     <string name="error_title_dni_blocked">Identifiant bloqué</string>
-    <string name="error_empty_pdf_password">Le mot de passe PDF ne peut pas être vide.\n</string>
+    <string name="error_empty_pdf_password">Le mot de passe PDF ne peut pas être vide:</string>
     <string name="error_pin_nulo">Erreur, le code PIN de l\'identifiant est nul.</string>
     <string name="error_android_4_1">Android 4.1 et 4.1.1 n\'autorisent pas les noms de certificats à contenir des caractères spéciaux (espaces, tirets, etc.). Modifiez l\'alias de vos certificats lors de leur importation pour éviter cette erreur.</string>
     <string name="error_json">Erreur de travail avec JSON.</string>
@@ -70,8 +70,8 @@
     <string name="dialog_msg_loading_data">Chargement des données</string>
     <string name="dialog_msg_loading_keystore">Chargement du magasin de clés</string>
     <string name="dialog_msg_signning">Signature</string>
-    <string name="dialog_pdf_password">Le PDF est protégé par mot de passe. Entrez le mot de passe PDF.\n</string>
-    <string name="dialog_pdf_bad_password">Le mot de passe saisi est incorrect. Entrez le mot de passe PDF.\n</string>
+    <string name="dialog_pdf_password">Entrez le mot de passe:</string>
+    <string name="dialog_pdf_bad_password">Mot de passe incorrect:</string>
     <string name="dialog_pin">Pour pouvoir utiliser le certificat, entrez votre code de sécurité.</string>
     <string name="dialog_can">Entrez votre code CAN pour établir une connexion NFC avec votre DNIe.</string>
     <string name="dialog_title_select_cert">Sélectionnez un certificat</string>
@@ -117,6 +117,8 @@
     <string name="navigation_drawer_close">Proche</string>
     <string name="home">Début</string>
     <string name="menu_elements_list">Liste de trois éléments</string>
-    <string name="pdf_password">Mot de passe PDF.</string>
+    <string name="pdf_password">Mot de passe du document.</string>
+    <string name="pdf_password_protected">Le document est protégé par mot de passe.</string>
+    <string name="dialog_pdf_password_title">Document protégé</string>
 </resources>
 

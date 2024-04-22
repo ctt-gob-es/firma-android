@@ -77,7 +77,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 
 	private final static String INTENT_ENTRY_ACTION = "es.gob.afirma.android.SIGN_SERVICE"; //$NON-NLS-1$
 	
-	/** C&oacute;digo de petici\u00F3n usado para invocar a la actividad que selecciona el fichero para firmar. */
+	/** C&oacute;digo de petici&oacute;n usado para invocar a la actividad que selecciona el fichero para firmar. */
 	private static final int SELECT_FILE_REQUEST_CODE = 102;
 
 	private boolean fileChooserOpenned;
@@ -262,6 +262,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			this,
 			critical
 		).execute();
+
 	}
 
 	/** Muestra un mensaje de error y lo env&iacute;a al servidor para que la p&aacute;gina Web
@@ -548,6 +549,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 				signature.getSigningCertificate().getEncoded(),
 				this.parameters.getDesKey()
 			);
+			Logger.i(ES_GOB_AFIRMA, "Firma cifrada."); //$NON-NLS-1$
 		}
 		catch (final GeneralSecurityException e) {
 			Logger.e(ES_GOB_AFIRMA, "Error en el cifrado del certificado de firma: " + e, e); //$NON-NLS-1$
@@ -564,10 +566,10 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			sendDataIntent(Activity.RESULT_OK, responseText);
 		}
 		else {
-			Logger.i(ES_GOB_AFIRMA, "Firma cifrada. Se envia al servidor."); //$NON-NLS-1$
+
 			try {
+				Logger.i(ES_GOB_AFIRMA, "Enviando firma..."); //$NON-NLS-1$
 				sendData(responseText, true);
-				Logger.i(ES_GOB_AFIRMA, "Firma enviada."); //$NON-NLS-1$
 			}
 			catch (final Throwable e) {
 				Logger.e(ES_GOB_AFIRMA,
@@ -743,12 +745,13 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		return baos.toByteArray();
 	}
 
-	public String getFilename(Uri uri) {
+	private String getFilename(Uri uri) {
 		String result = null;
 		if (uri.getScheme().equals("content")) {
 			try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
 				if (cursor != null && cursor.moveToFirst()) {
-					result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+					int idx = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+					result = idx > -1 ? cursor.getString(idx) : null;
 				}
 			}
 		}
