@@ -18,8 +18,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 33
         multiDexEnabled true
-        versionCode 25
-        versionName "1.8.3"
+        versionCode 26
+        versionName "1.8.4"
     }
     buildTypes {
         release {
@@ -63,7 +63,7 @@ dependencies {
     implementation('es.gob.afirma:afirma-crypto-pdf:1.8.2') {
         exclude(module: 'afirma-lib-itext')
     }
-    implementation 'es.gob.afirma.lib:afirma-lib-itext-android:1.0.6-SNAPSHOT'
+    implementation 'es.gob.afirma.lib:afirma-lib-itext-android:1.6'
     implementation 'es.gob.afirma:afirma-core:1.8.2'
     implementation ('es.gob.afirma:afirma-core-keystores:1.8.2') {
         exclude(group: 'es.gob.afirma.jmulticard')

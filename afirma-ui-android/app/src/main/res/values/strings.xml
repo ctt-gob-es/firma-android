@@ -6,13 +6,13 @@
     <string name="app_name">Cliente m\u00F3vil @firma</string>
     <string name="title_activity_cert_chooser">Importar certificado</string>
     <string name="title_activity_choose_sign_file">Seleccione el fichero a firmar</string>
-    <string name="presentation_text">Bienvenido a "Cliente @firma Android 1.8.2".\nEsta aplicaci\u00F3n permite realizar firmas electrónicas en las p\u00E1ginas de los proveedores de servicios que lo soporten.\nPara funcionar correctamente debe tener un certificado electr\u00F3nico y su clave privada instalados en su dispositivo, consulte la documentaci\u00F3n de su sistema Android y con su proveedor de servicios de certificaci\u00F3n.</string>
+    <string name="presentation_text">Bienvenido a "Cliente @firma Android 1.8.4".\nEsta aplicaci\u00F3n permite realizar firmas electrónicas en las p\u00E1ginas de los proveedores de servicios que lo soporten.\nPara funcionar correctamente debe tener un certificado electr\u00F3nico y su clave privada instalados en su dispositivo, consulte la documentaci\u00F3n de su sistema Android y con su proveedor de servicios de certificaci\u00F3n.</string>
     <string name="import_cert">Importar certificado</string>
     <string name="sign_file">Firmar fichero</string>
     <string name="request_cert">Solicitar certificado</string>
     <string name="appsDialogTitle">Listado de autoridades soportadas</string>
     <string name="appsDialogMessage">Seleccione la autoridad de certificaci\u00F3n a la que desee solicitar su certificado.</string>
-    <string name="disclaimer">2024 Gobierno de Espa\\u00F1a</string>
+    <string name="disclaimer">2024 Gobierno de Espa\u00F1a</string>
     <string name="privacy_policy">Pol\u00EDtica de privacidad</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Declaraci\u00F3n de accesibilidad</string>
