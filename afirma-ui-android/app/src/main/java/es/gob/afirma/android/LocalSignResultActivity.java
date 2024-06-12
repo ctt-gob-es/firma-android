@@ -58,7 +58,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	/** C&oacute;digo de solicitud de guardado de fichero. */
 	private final static int REQUEST_CODE_SAVE_FILE = 104;
 
-	private static final String DEFAULT_SIGNATURE_ALGORITHM = "SHA256withRSA"; //$NON-NLS-1$
+	private static final String DEFAULT_SIGNATURE_ALGORITHM = "SHA256"; //$NON-NLS-1$
 
 	private static final String PDF_FILE_SUFFIX = ".pdf"; //$NON-NLS-1$
 

@@ -81,7 +81,7 @@ public final class Android4KeyStoreManager implements MobileKeyStoreManager {
 		        	}
 		        }
     		},
-			new String[] { "RSA" }, // KeyTypes (El paquete "android.security.keystore" no esta disponible hasta el API 23) //$NON-NLS-1$
+			null, // KeyTypes (El paquete "android.security.keystore" no esta disponible hasta el API 23) //$NON-NLS-1$
             null, // Issuers
             null, // Host
             -1, // Port
@@ -122,7 +122,7 @@ public final class Android4KeyStoreManager implements MobileKeyStoreManager {
 						}
 					}
 				},
-				new String[] { "RSA" }, // KeyTypes (El paquete "android.security.keystore" no esta disponible hasta el API 23) //$NON-NLS-1$
+				null, // KeyTypes (El paquete "android.security.keystore" no esta disponible hasta el API 23) //$NON-NLS-1$
 				null, // Issuers
 				null, // Host
 				-1, // Port

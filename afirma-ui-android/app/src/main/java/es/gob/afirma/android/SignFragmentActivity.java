@@ -29,6 +29,7 @@ import es.gob.afirma.android.crypto.SignTask.SignListener;
 import es.gob.afirma.android.gui.PDFPasswordDialog;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.RuntimeConfigNeededException;
+import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.signers.pades.common.BadPdfPasswordException;
 import es.gob.afirma.signers.pades.common.PdfIsPasswordProtectedException;
 
@@ -161,11 +162,21 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 
 		this.keyEntry = keyEntry;
 
+		// Seleccionamos el algoritmo de firma
+		final String keyType = keyEntry.getPrivateKey().getAlgorithm();
+		String signatureAlgorithm;
+		try {
+			signatureAlgorithm = AOSignConstants.composeSignatureAlgorithmName(this.algorithm, keyType);
+		} catch (final Exception e) {
+			onSigningError(KeyStoreOperation.SIGN, "Tipo de clave de firma no soportado", e);
+			return;
+		}
+
 		new SignTask(
 			this.signOperation,
 			this.dataToSign,
 			this.format,
-			this.algorithm,
+			signatureAlgorithm,
 			this.keyEntry,
 			this.extraParams,
 			this
