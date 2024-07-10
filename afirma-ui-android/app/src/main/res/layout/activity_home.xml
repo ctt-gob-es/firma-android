@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/white"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -19,10 +18,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:touchscreenBlocksFocus="false"
-            android:textColorPrimary="@android:color/white"
-            android:textColorSecondary="@android:color/white"
+            app:popupTheme="@style/AppTheme"
             android:layout_height="?attr/actionBarSize"
-            style="@style/ToolbarTheme"/>
+            android:theme="@style/ToolbarTheme"/>
 
     </LinearLayout>
 

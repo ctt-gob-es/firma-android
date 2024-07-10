@@ -14,16 +14,13 @@
 
     <!-- Application theme. -->
 	<style name="AppTheme" parent="AppBaseTheme">
-		<!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
 	</style>
 
 	<!-- Estilo para la Toolbar. -->
-	<style name="ToolbarTheme" parent="@style/Widget.MaterialComponents.Toolbar">
-		<item name="android:background">@color/red</item>
+	<style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+		<item name="windowNoTitle">true</item>
+		<item name="android:background">#EFF3F5</item>
+		<item name="colorOnPrimary">@color/black</item>
 	</style>
 
     <!-- Estilo para pantalla de fondo transparente. -->
@@ -43,7 +40,7 @@
     	<item name="android:paddingRight">7dp</item>
     	<item name="android:paddingTop">0dp</item>
     	<item name="android:paddingBottom">0dp</item>
-    	<item name="android:background">@drawable/buttonbackground</item>
+    	<item name="android:background">@drawable/buttonredbackground</item>
 	</style>
 	
 	<style name="ButtonSignSmall">
@@ -58,13 +55,26 @@
 	
 	<style name="ButtonRedLarge">
 	    <item name="android:textColor">#FEFEFE</item>
-    	<item name="android:textSize">20sp</item>
+    	<item name="android:textSize">13sp</item>
     	<item name="android:gravity">center_vertical|center_horizontal</item>
     	<item name="android:paddingLeft">7dp</item>
     	<item name="android:paddingRight">7dp</item>
     	<item name="android:paddingTop">0dp</item>
     	<item name="android:paddingBottom">0dp</item>
-    	<item name="android:background">@drawable/buttonbackground</item>
+		<item name="android:fontFamily">@font/nunitosansbold</item>
+    	<item name="android:background">@drawable/buttonredbackground</item>
+	</style>
+
+	<style name="ButtonWhiteLarge">
+		<item name="android:textColor">#B44D3D</item>
+		<item name="android:textSize">13sp</item>
+		<item name="android:gravity">center_vertical|center_horizontal</item>
+		<item name="android:paddingLeft">7dp</item>
+		<item name="android:paddingRight">7dp</item>
+		<item name="android:paddingTop">0dp</item>
+		<item name="android:paddingBottom">0dp</item>
+		<item name="android:fontFamily">@font/nunitosansbold</item>
+		<item name="android:background">@drawable/buttonwhitebackground</item>
 	</style>
 	
 	<style name="ButtonSignLarge">
@@ -86,6 +96,10 @@
     	<item name="android:paddingTop">0dp</item>
     	<item name="android:paddingBottom">0dp</item>
 		<item name="android:textStyle">bold</item>
+	</style>
+
+	<style name="ButtonNoBorder">
+		<item name="android:background">@drawable/noborderbutton</item>
 	</style>
 	
     <style name="ButtonBlackSmall">
@@ -111,6 +125,14 @@
 		<item name="android:windowBackground">@android:color/transparent</item>
 		<item name="android:windowMinWidthMajor">90%</item>
 		<item name="android:windowMinWidthMinor">90%</item>
+	</style>
+
+	<style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+		<item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+	</style>
+
+	<style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+		<item name="android:background">@android:color/transparent</item>
 	</style>
     
 </resources>

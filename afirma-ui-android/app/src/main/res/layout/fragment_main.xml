@@ -2,7 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/vbackground">
+    android:background="@color/white"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +19,7 @@
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:contentDescription="@string/main_logo_content_desc"
-            android:src="@drawable/logo_cliente" />
+            android:src="@drawable/logo_autofirma_app" />
 
     </LinearLayout>
 
@@ -29,8 +30,9 @@
         android:layout_margin="5dp"
         android:layout_weight="0.91"
         android:padding="10dp"
+        android:fontFamily="@font/nunitosans"
         android:text="@string/presentation_text"
-        android:textColor="#000000" />
+        android:textColor="#56636D" />
 
     <TextView
         android:id="@+id/selectOptionTextView"
@@ -41,7 +43,8 @@
         android:padding="10dp"
         android:textStyle="bold"
         android:text="@string/accesibility_select_option"
-        android:textColor="#000000" />
+        android:fontFamily="@font/merriweatherbold"
+        android:textColor="@color/black"/>
 
     <Button
         android:id="@+id/buttonSign"
@@ -52,7 +55,7 @@
         android:layout_marginBottom="5dp"
         android:onClick="onClick"
         android:text="@string/sign_file"
-        style="@style/ButtonRedSmall" />
+        style="@style/ButtonRedLarge" />
 
     <Button
         android:id="@+id/importCertButton"
@@ -60,19 +63,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="11dp"
         android:onClick="onClick"
-        android:text="@string/import_cert"
+        android:text="@string/add_new_cert"
         android:nextFocusForward="@+id/drawer_layout"
         android:imeOptions="actionNext"
-        style="@style/ButtonRedSmall" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:text="@string/disclaimer" />
+        style="@style/ButtonWhiteLarge" />
 
 </LinearLayout>

@@ -3,10 +3,10 @@
     <string name="nostorageperm">Es necesario conceder permisos sobre la memoria para hacer firmas locales</string>
     <string name="yes">S\u00ED</string>
     <string name="no">No</string>
-    <string name="app_name">Cliente m\u00F3vil @firma</string>
+    <string name="app_name">Autofirma App</string>
     <string name="title_activity_cert_chooser">Importar certificado</string>
     <string name="title_activity_choose_sign_file">Seleccione el fichero a firmar</string>
-    <string name="presentation_text">Bienvenido a "Cliente @firma Android 1.8.4".\nEsta aplicaci\u00F3n permite realizar firmas electrónicas en las p\u00E1ginas de los proveedores de servicios que lo soporten.\nPara funcionar correctamente debe tener un certificado electr\u00F3nico y su clave privada instalados en su dispositivo, consulte la documentaci\u00F3n de su sistema Android y con su proveedor de servicios de certificaci\u00F3n.</string>
+    <string name="presentation_text">Bienvenido a "Autofirma App".\nEsta aplicaci\u00F3n permite realizar firmas electrónicas en las p\u00E1ginas de los proveedores de servicios que lo soporten.\nPara funcionar correctamente debe tener un certificado electr\u00F3nico y su clave privada instalados en su dispositivo, consulte la documentaci\u00F3n de su sistema Android y con su proveedor de servicios de certificaci\u00F3n.</string>
     <string name="import_cert">Importar certificado</string>
     <string name="sign_file">Firmar fichero</string>
     <string name="request_cert">Solicitar certificado</string>
@@ -17,7 +17,7 @@
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Declaraci\u00F3n de accesibilidad</string>
     <string name="accessibility_statement_url">http://estaticos.redsara.es/comunes/clientefirmaandroid/1/8/0/declaracion_accesibilidad.pdf</string>
-    <string name="main_logo_content_desc">Cliente @firma m\u00F3vil</string>
+    <string name="main_logo_content_desc">Autofirma App</string>
     <string name="ok">Aceptar</string>
     <string name="close">Cerrar</string>
     <string name="ca_not_found">No hay autoridades de certificaci\u00F3n configuradas.</string>
@@ -120,4 +120,19 @@
     <string name="menu_elements_list">Lista de tres elementos</string>
     <string name="pdf_password">Contrase\u00F1a del documento.</string>
     <string name="pdf_password_protected">El documento est\u00E1 protegido con contrase\u00F1a.</string>
+    <string name="intro_title">Firma f\u00E1cil y segura</string>
+    <string name="intro_text">Firma documentos de forma segura y legal identific\u00E1ndote con tu certificado digital o DNI electr\u00F3nico.</string>
+    <string name="start">Comenzar</string>
+    <string name="drag_on">Continuar</string>
+    <string name="understood">Entendido</string>
+    <string name="add_new_cert">A\u00F1adir nuevo certificado</string>
+    <string name="add_cert">A\u00F1adir certificado</string>
+    <string name="cancel_underline"><u>Cancelar</u></string>
+    <string name="locate_file_title">Localiza el archivo</string>
+    <string name="locate_file_message">Localiza el archivo .p12 o .pfx. en tu tel\u00E9fono</string>
+    <string name="send_to_device_title">Env\u00EDa al dispositivo</string>
+    <string name="send_to_device_message">Si no lo encuentras, env\u00EDalo a tu m\u00F3vil desde otro dispositivo mediante correo electr\u00F3nico u otras aplicaciones en Cloud.</string>
+    <string name="cant_add_cert_title">No hemos podido a\u00F1adir tu certificado</string>
+    <string name="cant_add_cert_message">No hemos podido a\u00F1adir tu certificado a la aplicaci\u00F3n de AutoFirma de manera correcta. Int\u00E9ntalo de nuevo m\u00E1s tarde</string>
+    <string name="try_again">Intentar de nuevo</string>
 </resources>

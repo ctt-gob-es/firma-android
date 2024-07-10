@@ -3,10 +3,10 @@
     <string name="nostorageperm">Les autorisations sur le stockage sont nécessaires pour exécuter cette tâche</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
-    <string name="app_name">Cliente m\\u00F3vil @firma</string>
+    <string name="app_name">Autofirma App</string>
     <string name="title_activity_cert_chooser">Importer certificat</string>
     <string name="title_activity_choose_sign_file">Sélectionnez le fichier à signer</string>
-    <string name="presentation_text">Bienvenue "Client @firma Android 1.8.4".\nCette application permet rèaliser signatures électroniques sur les sites webs qui possédent des serveurs de certificats.\nPour bien fonctionner, vous devez disposer d’un certificat électronique et votre code privé installés dans votre dispositive. Consultez avec votre serveur de certification et la documentation de votre système Android.</string>
+    <string name="presentation_text">Bienvenue "Autofirma App".\nCette application permet rèaliser signatures électroniques sur les sites webs qui possédent des serveurs de certificats.\nPour bien fonctionner, vous devez disposer d’un certificat électronique et votre code privé installés dans votre dispositive. Consultez avec votre serveur de certification et la documentation de votre système Android.</string>
     <string name="import_cert">Importer cerficat</string>
     <string name="sign_file">Signer le fichier</string>
     <string name="request_cert">Demander un certificat</string>
@@ -17,7 +17,7 @@
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Déclaration d\'accessibilité</string>
     <string name="accessibility_statement_url">http://estaticos.redsara.es/comunes/clientefirmaandroid/1/8/0/declaracion_accesibilidad.pdf</string>
-    <string name="main_logo_content_desc">Client @firma mobile</string>
+    <string name="main_logo_content_desc">Autofirma App</string>
     <string name="ok">Accepter</string>
     <string name="close">Fermer</string>
     <string name="ca_not_found">Aucune autorité de certification n\'est configurée.</string>
@@ -120,5 +120,20 @@
     <string name="pdf_password">Mot de passe du document.</string>
     <string name="pdf_password_protected">Le document est protégé par mot de passe.</string>
     <string name="dialog_pdf_password_title">Document protégé</string>
+    <string name="intro_title">Firma f\u00E1cil y segura</string>
+    <string name="intro_text">Firma documentos de forma segura y legal identific\u00E1ndote con tu certificado digital o DNI electr\u00F3nico.</string>
+    <string name="start">Comenzar</string>
+    <string name="drag_on">Continuar</string>
+    <string name="understood">Entendido</string>
+    <string name="add_new_cert">A\u00F1adir nuevo certificado</string>
+    <string name="add_cert">A\u00F1adir certificado</string>
+    <string name="cancel_underline"><u>Cancelar</u></string>
+    <string name="locate_file_title">Localiza el archivo</string>
+    <string name="locate_file_message">Localiza el archivo .p12 o .pfx. en tu tel\u00F3fono</string>
+    <string name="send_to_device_title">Env\u00EDa al dispositivo</string>
+    <string name="send_to_device_message">Si no lo encuentras, env\u00EDalo a tu m\u00F3vil desde otro dispositivo mediante correo electr\u00F3nico u otras aplicaciones en Cloud.</string>
+    <string name="cant_add_cert_title">No hemos podido a\u00F1adir tu certificado</string>
+    <string name="cant_add_cert_message">No hemos podido a\u00F1adir tu certificado a la aplicaci\u00F3n de AutoFirma de manera correcta. Int\u00E9ntalo de nuevo m\u00E1s tarde</string>
+    <string name="try_again">Intentar de nuevo</string>
 </resources>
 

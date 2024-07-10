@@ -32,7 +32,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
@@ -45,8 +44,9 @@ import java.io.InputStream;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
+import es.gob.afirma.android.gui.CertImportInstructionsActivity;
 import es.gob.afirma.android.gui.ConfigNfcDialog;
-import es.gob.afirma.android.gui.MessageDialog;
+import es.gob.afirma.android.gui.CustomDialog;
 
 /** Actividad que se muestra cuando se arranca la aplicaci&oacute;n pulsando su icono.
  * @author Alberto Mart&iacute;nez */
@@ -63,12 +63,16 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 
 	private final static String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
-	private final static String EXTRA_RESOURCE_TITLE = "es.gob.afirma.android.title"; //$NON-NLS-1$
-	private final static String EXTRA_RESOURCE_EXT = "es.gob.afirma.android.exts"; //$NON-NLS-1$
+	public final static String EXTRA_RESOURCE_TITLE = "es.gob.afirma.android.title"; //$NON-NLS-1$
+	public final static String EXTRA_RESOURCE_EXT = "es.gob.afirma.android.exts"; //$NON-NLS-1$
 
-	private final static String CERTIFICATE_EXTS = ".p12,.pfx"; //$NON-NLS-1$
+	public final static String CERTIFICATE_EXTS = ".p12,.pfx"; //$NON-NLS-1$
 
-	private final static int SELECT_CERT_REQUEST_CODE = 1;
+	public final static int SELECT_CERT_REQUEST_CODE = 1;
+
+	public final static int SELECT_IMPORT_CERT_INSTRUCTIONS_CODE = 2;
+
+	public final static int SELECT_INSTALL_CERT = 3;
 
 	/** Indica si tenemos o no permiso de escritura en almacenamiento. */
 	private boolean writePerm = false;
@@ -146,9 +150,9 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 		signButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					signButton.setBackgroundColor(Color.parseColor("#000000"));
+					signButton.setBackground(getResources().getDrawable(R.drawable.buttonblackbackground));
 				} else {
-					signButton.setBackgroundColor(Color.parseColor("#981c1c"));
+					signButton.setBackground(getResources().getDrawable(R.drawable.buttonredbackground));
 				}
 			}
 		});
@@ -165,7 +169,8 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 					requestStoragePerm();
 				}
 				else {
-					startCertImport();
+					Intent intent = new Intent(getContext(), CertImportInstructionsActivity.class);
+					startActivityForResult(intent, SELECT_IMPORT_CERT_INSTRUCTIONS_CODE);
 				}
 			}
 		});
@@ -173,9 +178,11 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 		importButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					importButton.setBackgroundColor(Color.parseColor("#000000"));
+					importButton.setBackground(getResources().getDrawable(R.drawable.buttonblackbackground));
+					importButton.setTextColor(Color.parseColor("#FFFFFF"));
 				} else {
-					importButton.setBackgroundColor(Color.parseColor("#981c1c"));
+					importButton.setBackground(getResources().getDrawable(R.drawable.buttonwhitebackground));
+					importButton.setTextColor(Color.parseColor("#B44D3D"));
 				}
 			}
 		});
@@ -255,17 +262,32 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 				}
 				else {
 					final Uri dataUri = data.getData();
-					filename = dataUri.getLastPathSegment();
-					fileContent = readDataFromUri(dataUri);
+					fileContent = readDataFromUri(Uri.parse("dfasfds"));
 				}
 			} catch (final IOException e) {
-				showErrorMessage(getString(R.string.error_loading_selected_file, filename));
+				CustomDialog cd = new CustomDialog(this.getContext(), R.mipmap.error_icon, getString(R.string.cant_add_cert_title), getString(R.string.cant_add_cert_message),
+						getString(R.string.try_again), true, getString(R.string.cancel_underline));
+				CustomDialog finalCd = cd;
+				cd.setAcceptButtonClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						finalCd.hide();
+						startCertImport();
+					}
+				});
+				cd.show();
 				Logger.e(ES_GOB_AFIRMA, "Error al cargar el fichero", e); //$NON-NLS-1$
 				return;
 			}
 			final Intent intent = KeyChain.createInstallIntent();
 			intent.putExtra(KeyChain.EXTRA_PKCS12, fileContent);
-			startActivity(intent);
+			startActivityForResult(intent, SELECT_INSTALL_CERT);
+		} else if (requestCode == SELECT_IMPORT_CERT_INSTRUCTIONS_CODE && resultCode == Activity.RESULT_OK) {
+			startCertImport();
+		} else if (requestCode == SELECT_INSTALL_CERT && resultCode == Activity.RESULT_OK) {
+			CustomDialog cd = new CustomDialog(this.getContext(), R.mipmap.check_icon, "Certificado anadido", "El certificado se ha añadido correctamente",
+					"Entendido", false,null);
+			cd.show();
 		}
 	}
 
@@ -292,17 +314,6 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 			}
 		}
 		return baos.toByteArray();
-	}
-
-	/**
-	 * Muestra un mensaje de advertencia al usuario.
-	 * @param message Mensaje que se desea mostrar.
-	 */
-	private void showErrorMessage(final String message) {
-		MessageDialog md = MessageDialog.newInstance(message);
-		md.setListener(null);
-		md.setDialogBuilder(getActivity());
-		md.show(getActivity().getSupportFragmentManager(), "ErrorDialog"); //$NON-NLS-1$;
 	}
 
 	@Override

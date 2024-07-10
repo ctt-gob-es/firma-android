@@ -1,0 +1,88 @@
+/* Copyright (C) 2011 [Gobierno de Espana]
+ * This file is part of "Cliente @Firma".
+ * "Cliente @Firma" is free software; you can redistribute it and/or modify it under the terms of:
+ *   - the GNU General Public License as published by the Free Software Foundation;
+ *     either version 2 of the License, or (at your option) any later version.
+ *   - or The European Software License; either version 1.1 or (at your option) any later version.
+ * Date: 11/01/11
+ * You may contact the copyright holder at: soporte.afirma5@mpt.es
+ */
+
+package es.gob.afirma.android.gui;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import es.gob.afirma.R;
+
+/** Di&aacute;logo modal con el que mostrar al usuario un mensaje y un bot&oacute;n para ocultar el
+ * di&aacute;logo y, opcionalmente, realizar una acci&oacute;n. */
+public class CustomDialog extends BottomSheetDialog {
+
+	public CustomDialog(final Context context, final Integer iconID, String title, String message, final String acceptButtonText,
+						final boolean includeCancelButton, final String cancelButtonText) {
+		super(context, R.style.BottomSheetDialogTheme);
+		View layout = LayoutInflater.from(context).inflate(R.layout.custom_dialog, this.findViewById(R.id.customDialog));
+		this.setContentView(layout);
+		this.setCancelable(false);
+		this.setCanceledOnTouchOutside(true);
+		if (iconID != null) {
+			ImageView iconImage = this.findViewById(R.id.iconImg);
+			iconImage.setBackgroundResource(iconID);
+		}
+		TextView titleTv = this.findViewById(R.id.title);
+		titleTv.setText(title);
+		TextView messageTv = this.findViewById(R.id.message);
+		messageTv.setText(message);
+		if (includeCancelButton) {
+			Button cancelButton = this.findViewById(R.id.cancelButton);
+			if (cancelButtonText != null) {
+				cancelButton.setText(cancelButtonText);
+			}
+			cancelButton.setVisibility(View.VISIBLE);
+
+			cancelButton.setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View v)
+					{
+						hide();
+					}
+			});
+		}
+		Button acceptButton = this.findViewById(R.id.buttonSign);
+		if (acceptButtonText != null) {
+			acceptButton.setText(acceptButtonText);
+		}
+
+		acceptButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+				{
+					hide();
+				}
+		});
+
+
+	}
+
+	public void setAcceptButtonClickListener(final View.OnClickListener onClickAcceptButton) {
+		Button acceptButton = this.findViewById(R.id.buttonSign);
+		acceptButton.setOnClickListener(onClickAcceptButton);
+	}
+
+	public void setCancelButtonClickListener(final View.OnClickListener onClickCancelButton) {
+		Button cancelButton = this.findViewById(R.id.cancelButton);
+		cancelButton.setOnClickListener(onClickCancelButton);
+	}
+
+
+}
