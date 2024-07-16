@@ -23,9 +23,6 @@ public class IntermediateServerUtil {
      * @param id Identificador a asignar a los datos a subir al servidor.
      * @throws IOException Si hay problemas enviando los datos. */
     public static byte[] sendData(final String data, final String storageServiceUrl, final String id) throws IOException {
-
-        Log.i("es.gob.afirma", "URL de guardado: " + storageServiceUrl);
-
         final StringBuilder url = new StringBuilder(storageServiceUrl)
                 .append("?op=").append(METHOD_OP_PUT) //$NON-NLS-1$
                 .append("&v=").append(SYNTAX_VERSION) //$NON-NLS-1$
