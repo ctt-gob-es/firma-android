@@ -112,7 +112,7 @@ public final class WebSaveDataActivity extends FragmentActivity
 
 		// Comprobamos si se indico un nombre de fichero en la peticion
 		try {
-			this.parameters = ProtocolInvocationUriParser.getParametersToSave(getIntent().getDataString());
+			this.parameters = ProtocolInvocationUriParser.getParametersToSave(getIntent().getDataString(), true);
 		}
 		catch (final ParameterException e) {
 			Logger.e(ES_GOB_AFIRMA, "Error en los parametros de entrada: " + e); //$NON-NLS-1$
@@ -313,7 +313,7 @@ public final class WebSaveDataActivity extends FragmentActivity
 		Logger.i(ES_GOB_AFIRMA, "Se han descifrado los datos y se inicia su analisis:\n" + new String(decipheredData)); //$NON-NLS-1$
 
 		try {
-			this.parameters = ProtocolInvocationUriParser.getParametersToSave(decipheredData);
+			this.parameters = ProtocolInvocationUriParser.getParametersToSave(decipheredData, true);
 		}
 		catch (final ParameterException e) {
 			Logger.e(ES_GOB_AFIRMA, "Error en los parametros XML de configuracion de guardado de datos: " + e, e); //$NON-NLS-1$

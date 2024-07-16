@@ -1,5 +1,7 @@
 package es.gob.afirma.android;
 
+import android.util.Log;
+
 import java.io.IOException;
 
 import es.gob.afirma.core.misc.http.UrlHttpManager;
@@ -20,7 +22,9 @@ public class IntermediateServerUtil {
      * @param storageServiceUrl URL del servicio de guardado.
      * @param id Identificador a asignar a los datos a subir al servidor.
      * @throws IOException Si hay problemas enviando los datos. */
-    public static void sendData(final String data, final String storageServiceUrl, final String id) throws IOException {
+    public static byte[] sendData(final String data, final String storageServiceUrl, final String id) throws IOException {
+
+        Log.i("es.gob.afirma", "URL de guardado: " + storageServiceUrl);
 
         final StringBuilder url = new StringBuilder(storageServiceUrl)
                 .append("?op=").append(METHOD_OP_PUT) //$NON-NLS-1$
@@ -28,7 +32,7 @@ public class IntermediateServerUtil {
                 .append("&id=").append(id) //$NON-NLS-1$
                 .append("&dat=").append(data); //$NON-NLS-1$
 
-        send(url);
+        return send(url);
     }
 
     /** Recupera datos del servidor intermedio.

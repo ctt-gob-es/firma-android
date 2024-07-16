@@ -110,7 +110,7 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
         }
 
 		try {
-			this.parameters = ProtocolInvocationUriParser.getParametersToSelectCert(getIntent().getDataString());
+			this.parameters = ProtocolInvocationUriParser.getParametersToSelectCert(getIntent().getDataString(), true);
 		}
 		catch (final ParameterException e) {
 			Logger.e(ES_GOB_AFIRMA, "Error en los parametros de firma", e); //$NON-NLS-1$
@@ -347,7 +347,7 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
         Logger.i(ES_GOB_AFIRMA, "Se han descifrado los datos y se inicia su analisis:\n" + new String(decipheredData)); //$NON-NLS-1$
 
         try {
-            this.parameters = ProtocolInvocationUriParser.getParametersToSelectCert(decipheredData);
+            this.parameters = ProtocolInvocationUriParser.getParametersToSelectCert(decipheredData, true);
         } catch (final ParameterException e) {
             Logger.e(ES_GOB_AFIRMA, "Error en los parametros XML de configuracion de seleccion de certificado", e); //$NON-NLS-1$
             showErrorMessage(getString(R.string.error_bad_params));

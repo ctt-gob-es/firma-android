@@ -25,6 +25,8 @@ import es.gob.afirma.android.CheckConnectionsHelper;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.misc.http.HttpError;
+import es.gob.afirma.core.misc.http.HttpErrorProcessor;
+import es.gob.afirma.core.misc.http.SSLConfig;
 import es.gob.afirma.core.misc.http.UrlHttpManager;
 import es.gob.afirma.core.misc.http.UrlHttpMethod;
 
@@ -70,19 +72,71 @@ public class AndroidHttpManager implements UrlHttpManager {
     }
 
     @Override
+    public byte[] readUrl(final String url, final UrlHttpMethod method, final HttpErrorProcessor processor) throws IOException {
+        return readUrl(url, DEFAULT_TIMEOUT, null, null, method, processor);
+    }
+
+    @Override
+    public byte[] readUrl(final String url, final UrlHttpMethod method, final HttpErrorProcessor processor, final SSLConfig sslConfig) throws IOException {
+        return readUrl(url, DEFAULT_TIMEOUT, null, null, method, processor, sslConfig);
+    }
+
+    @Override
     public byte[] readUrl(String url, int timeout, String contentType, String accept, UrlHttpMethod method) throws IOException {
+        final Properties headers = buildHeaders(contentType, accept);
+        return readUrl(url, timeout, method, headers);
+    }
+
+    private static Properties buildHeaders(final String contentType, final String accept) {
         final Properties headers = new Properties();
         if (contentType != null) {
             headers.setProperty("Content-Type", contentType); //$NON-NLS-1$
         }
         if (accept != null) {
-            headers.setProperty("Accept", accept); //$NON-NLS-1$
+            headers.setProperty("Accept", accept);
         }
-        return readUrl(url, timeout, method, headers);
+        return headers;
     }
 
     @Override
-    public byte[] readUrl(String url, int timeout, UrlHttpMethod method, Properties requestProperties) throws IOException {
+    public byte[] readUrl(final String urlToRead,
+                          final int timeout,
+                          final String contentType,
+                          final String accept,
+                          final UrlHttpMethod method,
+                          final HttpErrorProcessor httpProcessor) throws IOException {
+        final Properties headers = buildHeaders(contentType, accept);
+        return readUrl(urlToRead, timeout, method, headers, httpProcessor);
+    }
+
+    @Override
+    public byte[] readUrl(final String urlToRead,
+                          final int timeout,
+                          final UrlHttpMethod method,
+                          final Properties requestProperties) throws IOException {
+        return readUrl(urlToRead, timeout, method, requestProperties, null);
+    }
+
+    @Override
+    public byte[] readUrl(final String urlToRead,
+                          final int timeout,
+                          final UrlHttpMethod method,
+                          final Properties requestProperties,
+                          final HttpErrorProcessor httpProcessor) throws IOException {
+        return readUrl(urlToRead, timeout, method, requestProperties, httpProcessor, null);
+    }
+
+    @Override
+    public byte[] readUrl(final String url, final int timeout, final String contentType, final String accept, final UrlHttpMethod method,
+                          final HttpErrorProcessor httpProcessor, final SSLConfig sslConfig) throws IOException {
+        final Properties headers = buildHeaders(contentType, accept);
+        return readUrl(url, timeout, method, headers, httpProcessor, sslConfig);
+    }
+
+    @Override
+    public byte[] readUrl(String url, int timeout, UrlHttpMethod method, Properties requestProperties,
+                          HttpErrorProcessor httpProcessor,
+                          SSLConfig sslConfig) throws IOException {
         if (url == null) {
             throw new IllegalArgumentException("La URL a leer no puede ser nula"); //$NON-NLS-1$
         }
@@ -106,47 +160,56 @@ public class AndroidHttpManager implements UrlHttpManager {
             disableSslChecks();
         }
 
-        final HttpURLConnection conn = (HttpURLConnection) uri.openConnection(Proxy.NO_PROXY);
+        final byte[] data;
+        try {
+            final HttpURLConnection conn = (HttpURLConnection) uri.openConnection(Proxy.NO_PROXY);
 
-        conn.setRequestMethod(method.toString());
+            conn.setRequestMethod(method.toString());
 
-        if (requestProperties != null) {
-            for (final String key : requestProperties.keySet().toArray(new String[0])) {
-                conn.addRequestProperty(key, requestProperties.getProperty(key)); //$NON-NLS-1$ //$NON-NLS-2$
+            if (requestProperties != null) {
+                for (final String key : requestProperties.keySet().toArray(new String[0])) {
+                    conn.addRequestProperty(key, requestProperties.getProperty(key)); //$NON-NLS-1$ //$NON-NLS-2$
+                }
             }
-        }
 
-        if (timeout != DEFAULT_TIMEOUT) {
-            conn.setConnectTimeout(timeout);
-            conn.setReadTimeout(timeout);
-        }
+            if (timeout != DEFAULT_TIMEOUT) {
+                conn.setConnectTimeout(timeout);
+                conn.setReadTimeout(timeout);
+            }
 
-        if (urlParameters != null) {
-            conn.setDoOutput(true);
-            final OutputStreamWriter writer = new OutputStreamWriter(
-                    conn.getOutputStream()
-            );
-            writer.write(urlParameters);
-            writer.flush();
-            writer.close();
-        }
+            if (urlParameters != null) {
+                conn.setDoOutput(true);
+                final OutputStreamWriter writer = new OutputStreamWriter(
+                        conn.getOutputStream()
+                );
+                writer.write(urlParameters);
+                writer.flush();
+                writer.close();
+            }
 
-        conn.connect();
-        final int resCode = conn.getResponseCode();
-        final String statusCode = Integer.toString(resCode);
-        if (statusCode.startsWith("4") || statusCode.startsWith("5")) { //$NON-NLS-1$ //$NON-NLS-2$
-            if (debugMode) {
+            conn.connect();
+            final int resCode = conn.getResponseCode();
+            final String statusCode = Integer.toString(resCode);
+            if (statusCode.startsWith("4") || statusCode.startsWith("5")) { //$NON-NLS-1$ //$NON-NLS-2$
+                throw new HttpError(resCode, conn.getResponseMessage(), url);
+            }
+
+            final InputStream is = conn.getInputStream();
+            data = readDataFromInputStream(is);
+            is.close();
+
+        }
+        catch (final IOException e) {
+            if (httpProcessor != null) {
+                return httpProcessor.processHttpError(e, this, url, timeout, method, requestProperties);
+            }
+
+            throw e;
+        }
+        finally {
+            if (debugMode || (!validateSSLConnections || isSecureDomain)) {
                 enableSslChecks();
             }
-            throw new HttpError(resCode, conn.getResponseMessage(), url);
-        }
-
-        final InputStream is = conn.getInputStream();
-        final byte[] data = readDataFromInputStream(is);
-        is.close();
-
-        if (debugMode) {
-            enableSslChecks();
         }
 
         return data;

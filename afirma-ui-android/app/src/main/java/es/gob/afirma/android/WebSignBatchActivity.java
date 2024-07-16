@@ -130,7 +130,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		// Extraemos los parametros de la URL
 		final Map<String, String> urlParams = extractParamsForBatch(getIntent().getDataString());
 		try {
-			setBatchParams(ProtocolInvocationUriParserUtil.getParametersToBatch(urlParams));
+			setBatchParams(ProtocolInvocationUriParserUtil.getParametersToBatch(urlParams, true));
 		} catch (ParameterException e) {
 			Logger.e(ES_GOB_AFIRMA, "Error con el parametro utilizado", e);
 			showErrorMessage(getString(R.string.error_bad_params));
@@ -190,7 +190,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		}
 
 		try {
-			setBatchParams(ProtocolInvocationUriParser.getParametersToBatch(batchDefinition));
+			setBatchParams(ProtocolInvocationUriParser.getParametersToBatch(batchDefinition, true));
 		} catch (ParameterException e) {
 			Logger.e(ES_GOB_AFIRMA, "Error con el parametro utilizado", e);
 			showErrorMessage(getString(R.string.error_bad_params));

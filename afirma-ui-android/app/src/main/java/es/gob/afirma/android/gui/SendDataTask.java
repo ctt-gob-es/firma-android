@@ -10,9 +10,12 @@
 
 package es.gob.afirma.android.gui;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.net.URL;
 
+import es.gob.afirma.android.IntermediateServerUtil;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.misc.http.UrlHttpManager;
@@ -60,17 +63,9 @@ public final class SendDataTask extends BasicHttpTransferDataTask {
 	@Override
 	protected byte[] doInBackground(final Void... arg0) {
 
-		final byte[] result;
+		byte[] result;
 		try {
-			final StringBuilder url = new StringBuilder(this.servletUrl.toExternalForm());
-			url.append("?op=").append(METHOD_OP_PUT); //$NON-NLS-1$
-			url.append("&v=").append(SYNTAX_VERSION); //$NON-NLS-1$
-			url.append("&id=").append(this.id); //$NON-NLS-1$
-			url.append("&dat=").append(this.dataB64); //$NON-NLS-1$
-
-			// Llamamos al servicio para guardar los datos
-			final UrlHttpManager urlManager = UrlHttpManagerFactory.getInstalledManager();
-			result = urlManager.readUrl(url.toString(), UrlHttpMethod.POST);
+			result = IntermediateServerUtil.sendData(this.dataB64, this.servletUrl.toExternalForm(), this.id);
 		}
 		catch (final IOException e) {
 			Logger.e(ES_GOB_AFIRMA, "No se pudo conectar con el servidor intermedio para el envio de datos: " + e); //$NON-NLS-1$
