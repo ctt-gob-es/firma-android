@@ -45,6 +45,7 @@ import java.io.InputStream;
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
 import es.gob.afirma.android.gui.CertImportInstructionsActivity;
+import es.gob.afirma.android.gui.ChooseCertTypeDialog;
 import es.gob.afirma.android.gui.ConfigNfcDialog;
 import es.gob.afirma.android.gui.CustomDialog;
 
@@ -68,11 +69,15 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 
 	public final static String CERTIFICATE_EXTS = ".p12,.pfx"; //$NON-NLS-1$
 
+	public final static String SIGN_OK = "OK"; //$NON-NLS-1$
+
 	public final static int SELECT_CERT_REQUEST_CODE = 1;
 
-	public final static int SELECT_IMPORT_CERT_INSTRUCTIONS_CODE = 2;
+	public final static int IMPORT_CERT_INSTRUCTIONS_CODE = 2;
 
-	public final static int SELECT_INSTALL_CERT = 3;
+	public final static int INSTALLED_CERT = 3;
+
+	public final static int SIGNED_FILE_OK = 4;
 
 	/** Indica si tenemos o no permiso de escritura en almacenamiento. */
 	private boolean writePerm = false;
@@ -85,6 +90,24 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 
 	/** Indica si se ha detectado que el dispositivo tiene NFC. */
 	private boolean nfcAvailable = false;
+
+	private String signResult;
+
+	private boolean startImportCert;
+
+	public MainFragment() {
+		signResult = null;
+		startImportCert = false;
+	}
+
+	public MainFragment(String signResult) {
+		this.signResult = signResult;
+		startImportCert = false;
+	}
+
+	public MainFragment(boolean startImportCert) {
+		this.startImportCert = startImportCert;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
@@ -170,7 +193,7 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 				}
 				else {
 					Intent intent = new Intent(getContext(), CertImportInstructionsActivity.class);
-					startActivityForResult(intent, SELECT_IMPORT_CERT_INSTRUCTIONS_CODE);
+					startActivityForResult(intent, IMPORT_CERT_INSTRUCTIONS_CODE);
 				}
 			}
 		});
@@ -186,6 +209,24 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 				}
 			}
 		});
+
+		// Comprobamos si hay que mostrar en un dialogo el resutado de alguna firma
+		if (signResult != null) {
+			CustomDialog cd;
+			if (SIGN_OK.equals(signResult)) {
+				cd = new CustomDialog(this.getContext(), R.mipmap.check_icon, getString(R.string.signed_file_title), getString(R.string.signed_file_message),
+						getString(R.string.understood));
+			} else {
+				cd = new CustomDialog(this.getContext(), R.mipmap.error_icon, getString(R.string.accesibility_icon_sign_ko), getString(R.string.signedfile_error),
+						getString(R.string.understood));
+			}
+			cd.show();
+		}
+
+		// Comprobamos si se ha mandado la orden para comenzar con la importacion de certificado
+		if (startImportCert) {
+			startCertImport();
+		}
 
 		return contentLayout;
 	}
@@ -245,10 +286,6 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 		startActivityForResult(intent, SELECT_CERT_REQUEST_CODE, null);
 	}
 
-	private void startLocalSign() {
-		startActivity(new Intent(getActivity().getApplicationContext(), LocalSignResultActivity.class));
-	}
-
 	@Override
 	public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 
@@ -262,7 +299,7 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 				}
 				else {
 					final Uri dataUri = data.getData();
-					fileContent = readDataFromUri(Uri.parse("dfasfds"));
+					fileContent = readDataFromUri(dataUri);
 				}
 			} catch (final IOException e) {
 				CustomDialog cd = new CustomDialog(this.getContext(), R.mipmap.error_icon, getString(R.string.cant_add_cert_title), getString(R.string.cant_add_cert_message),
@@ -281,12 +318,16 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 			}
 			final Intent intent = KeyChain.createInstallIntent();
 			intent.putExtra(KeyChain.EXTRA_PKCS12, fileContent);
-			startActivityForResult(intent, SELECT_INSTALL_CERT);
-		} else if (requestCode == SELECT_IMPORT_CERT_INSTRUCTIONS_CODE && resultCode == Activity.RESULT_OK) {
+			startActivityForResult(intent, INSTALLED_CERT);
+		} else if (requestCode == IMPORT_CERT_INSTRUCTIONS_CODE && resultCode == Activity.RESULT_OK) {
 			startCertImport();
-		} else if (requestCode == SELECT_INSTALL_CERT && resultCode == Activity.RESULT_OK) {
+		} else if (requestCode == INSTALLED_CERT && resultCode == Activity.RESULT_OK) {
 			CustomDialog cd = new CustomDialog(this.getContext(), R.mipmap.check_icon, "Certificado anadido", "El certificado se ha añadido correctamente",
 					"Entendido", false,null);
+			cd.show();
+		} else if (requestCode == SIGNED_FILE_OK && resultCode == Activity.RESULT_OK) {
+			CustomDialog cd = new CustomDialog(this.getContext(), R.mipmap.check_icon,
+					"Fichero firmado", "Fichero firmado correctamente.", getString(R.string.understood));
 			cd.show();
 		}
 	}
@@ -314,6 +355,16 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 			}
 		}
 		return baos.toByteArray();
+	}
+
+	private void startLocalSign() {
+		if (true) {
+			ChooseCertTypeDialog certTypeDialog = new ChooseCertTypeDialog(getContext());
+			certTypeDialog.show();
+		} else {
+			Intent intent = new Intent(getContext(), LocalSignResultActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	@Override

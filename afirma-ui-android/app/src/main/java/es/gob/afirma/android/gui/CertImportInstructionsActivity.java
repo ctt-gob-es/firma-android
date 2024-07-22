@@ -65,10 +65,7 @@ public class CertImportInstructionsActivity extends FragmentActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent replyIntent = new Intent();
-                replyIntent.putExtra("RESPONSE", "OK");
-                setResult(RESULT_OK, replyIntent);
-                finish();
+                onBackPressed();
             }
         });
         navIcon = toolbar.getNavigationIcon();
@@ -92,8 +89,10 @@ public class CertImportInstructionsActivity extends FragmentActivity {
             @Override
             public void onClick(View v)
             {
-                Intent replyIntent = new Intent();
+                Intent replyIntent = new Intent(getBaseContext(), HomeActivity.class);
+                replyIntent.putExtra("startImportCert", true);
                 setResult(RESULT_OK, replyIntent);
+                startActivity(replyIntent);
                 finish();
             }
         });

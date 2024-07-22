@@ -7,7 +7,6 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.gui.CertImportInstructionsActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -22,6 +21,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Intent intent = new Intent(SplashScreenActivity.this, IntroScreenActivity.class);
                 startActivity(intent);
             }
-        }, 4000);
+        }, 2000);
     }
 }

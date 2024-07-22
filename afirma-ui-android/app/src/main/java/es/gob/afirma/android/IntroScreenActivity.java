@@ -25,7 +25,7 @@ public class IntroScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(IntroScreenActivity.this, HomeActivity.class);
+                Intent intent = new Intent(IntroScreenActivity.this, ConditionsActivity.class);
                 startActivity(intent);
             }
         });

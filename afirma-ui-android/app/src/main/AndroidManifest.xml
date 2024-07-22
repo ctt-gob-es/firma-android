@@ -63,7 +63,35 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".android.ConditionsActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".android.gui.CertImportInstructionsActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".android.SettingsActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".android.PermissionsActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".android.FaqActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".android.VersionActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".android.IntroSignDnieActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".android.StepsSignDnieActivity"
             android:exported="true">
         </activity>
         <activity

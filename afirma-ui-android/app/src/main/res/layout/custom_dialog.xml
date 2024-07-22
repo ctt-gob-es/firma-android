@@ -14,7 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="30dp">
 
         <ImageView
@@ -55,7 +55,6 @@
         android:textColor="#56636D"
         android:textSize="15sp" />
 
-    <!--Text view for displaying a heading text-->
     <Button
         android:id="@+id/cancelButton"
         android:layout_width="match_parent"
@@ -81,8 +80,10 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="5dp"
+        android:fontFamily="@font/nunitosans"
+        android:textStyle="bold"
         android:onClick="onClick"
-        android:text="Entendido"
+        android:text="@string/understood"
         style="@style/ButtonRedLarge" />
 
 

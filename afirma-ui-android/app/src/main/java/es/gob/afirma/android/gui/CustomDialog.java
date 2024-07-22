@@ -1,10 +1,10 @@
-/* Copyright (C) 2011 [Gobierno de Espana]
- * This file is part of "Cliente @Firma".
- * "Cliente @Firma" is free software; you can redistribute it and/or modify it under the terms of:
+/* Copyright (C) 2024 [Gobierno de Espana]
+ * This file is part of "AutoFirma App".
+ * "AutoFirma App" is free software; you can redistribute it and/or modify it under the terms of:
  *   - the GNU General Public License as published by the Free Software Foundation;
  *     either version 2 of the License, or (at your option) any later version.
  *   - or The European Software License; either version 1.1 or (at your option) any later version.
- * Date: 11/01/11
+ * Date: 15/07/24
  * You may contact the copyright holder at: soporte.afirma5@mpt.es
  */
 
@@ -22,9 +22,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import es.gob.afirma.R;
 
-/** Di&aacute;logo modal con el que mostrar al usuario un mensaje y un bot&oacute;n para ocultar el
- * di&aacute;logo y, opcionalmente, realizar una acci&oacute;n. */
+/** Di&aacute;logo modal con el que mostrar un mensaje personalizado y dar a sus botones
+ * funciones personalizadas. */
 public class CustomDialog extends BottomSheetDialog {
+
+	public CustomDialog(final Context context, final Integer iconID, String title, String message, final String acceptButtonText) {
+		this(context, iconID, title, message, acceptButtonText,false, null);
+	}
 
 	public CustomDialog(final Context context, final Integer iconID, String title, String message, final String acceptButtonText,
 						final boolean includeCancelButton, final String cancelButtonText) {
@@ -70,8 +74,6 @@ public class CustomDialog extends BottomSheetDialog {
 					hide();
 				}
 		});
-
-
 	}
 
 	public void setAcceptButtonClickListener(final View.OnClickListener onClickAcceptButton) {

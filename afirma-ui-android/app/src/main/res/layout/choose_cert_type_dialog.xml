@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chooseCertTypeDialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/radiusdialogbackground"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="120dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/chooseFileTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/nunitosansbold"
+            android:text="@string/choose_cert_type_title"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:id="@+id/iconCloseDialogButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bt_close_dialog" />
+
+    </LinearLayout>
+
+    <!--Text view for displaying a heading text-->
+    <TextView
+        android:id="@+id/cert_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:drawableLeft="@mipmap/docs_icon"
+        android:drawablePadding="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="30dp"
+        android:fontFamily="@font/nunitosansbold"
+        android:text="@string/certificate"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/dnie_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:drawableLeft="@mipmap/ecard_icon"
+        android:drawablePadding="10dp"
+        android:paddingBottom="30dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="30dp"
+        android:fontFamily="@font/nunitosansbold"
+        android:text="@string/dnie"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:clickable="true"/>
+
+
+
+</LinearLayout>

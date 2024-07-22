@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/signDnieSteps"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/stepsSignDnieToolbar"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/toolbar"
+        android:theme="@style/ToolbarTheme"
+        android:touchscreenBlocksFocus="false"
+        app:menu="@menu/sign_dnie_toolbar"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:popupTheme="@style/AppTheme" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/toolbar"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/subTitleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitosansbold"
+            android:paddingLeft="30dp"
+            android:paddingTop="15dp"
+            android:text="@string/dnie_identification"
+            android:textColor="#000000"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/merriweatherbold"
+            android:paddingLeft="30dp"
+            android:paddingTop="5dp"
+            android:text="@string/enter_can_dni"
+            android:textColor="#000000"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/stepTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/nunitosans"
+            android:paddingLeft="30dp"
+            android:paddingTop="5dp"
+            android:text="@string/actual_step"
+            android:textColor="#000000"
+            android:textSize="10dp" />
+
+        <ProgressBar
+            android:id="@+id/signDnieStepsPb"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#E5E5E5"
+            style="?android:attr/progressBarStyleHorizontal"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/step_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+</LinearLayout>

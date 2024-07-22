@@ -103,7 +103,7 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
     }
 
 	private void askForUsbPermission(){
-		final PendingIntent mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+		final PendingIntent mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_IMMUTABLE);
 		final IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
 		registerReceiver(this.mUsbReceiver, filter);
 		this.usbManager.requestPermission(this.usbDevice, mPermissionIntent);

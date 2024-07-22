@@ -40,6 +40,7 @@ import java.util.Properties;
 import es.gob.afirma.R;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.SignResult;
+import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.core.signers.AOSignerFactory;
 import es.gob.afirma.signers.cades.CAdESExtraParams;
@@ -67,6 +68,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	private final static String SAVE_INSTANCE_KEY_TITLE_VISIBILITY = "titleVisibility"; //$NON-NLS-1$
 	private final static String SAVE_INSTANCE_KEY_OK_RESULT_VISIBILITY = "okVisibility"; //$NON-NLS-1$
 	private final static String SAVE_INSTANCE_KEY_ERROR_RESULT_VISIBILITY ="errorVisibility"; //$NON-NLS-1$
+	private final static String SIGNED_FILE_RESULT = "signedFileResult"; //$NON-NLS-1$
 	private final static String SAVE_INSTANCE_KEY_PATH_FILE = "path_file"; //$NON-NLS-1$
 	private final static String SAVE_INSTANCE_KEY_ERROR_TEXT = "errorMessage"; //$NON-NLS-1$
 
@@ -189,7 +191,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 					return;
 				}
 
-				showSuccessMessage(null, false);
+				showSuccessMessage();
 
 			} else {
 				finish();
@@ -305,7 +307,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 				return;
 			}
 
-			showSuccessMessage(finalSignatureFilename, originalDirectory);
+			showSuccessMessage();
 
 			// Refrescamos el directorio para permitir acceder al fichero
 			try {
@@ -327,59 +329,17 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	 * @param message Mensaje que describe el error producido. */
 	private void showErrorMessage(final String message) {
 
-		// Ya cerrados los dialogos modales, mostramos el titulo de la pantalla
-		// y agregamos una descripcion mas precisa para mejorar la accesibilidad
-		final TextView tvTitle = findViewById(R.id.signedfile_title);
-		tvTitle.setContentDescription(getString(R.string.signedfile_title_result_error));
-		tvTitle.setVisibility(View.VISIBLE);
-
-		final RelativeLayout rl = findViewById(R.id.signedfile_error);
-		rl.setVisibility(View.VISIBLE);
-
-		Button buttonKO = findViewById(R.id.homeButton_ko);
-		buttonKO.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				finish ();
-			}
-		});
+		Intent intent = new Intent(LocalSignResultActivity.this, HomeActivity.class);
+		intent.putExtra(SIGNED_FILE_RESULT, "KO");
+		startActivity(intent);
 	}
 
 	/** Muestra los elementos de pantalla informando de que la firma se ha generado correctamente y
-	 * donde se ha almacenado.
-	 * @param filename Nombre del fichero almacenado.
-	 * @param originalDirectory Directorio donde estaba originalmente el fichero que se firm&oacute;. */
-	private void showSuccessMessage(final String filename, final boolean originalDirectory) {
-
-		// Ya cerrados los dialogos modales, mostramos el titulo de la pantalla
-		// y agregamos una descripcion mas precisa para mejorar la accesibilidad
-		final TextView tvTitle = findViewById(R.id.signedfile_title);
-		tvTitle.setContentDescription(getString(R.string.signedfile_title_result_correct));
-		tvTitle.setVisibility(View.VISIBLE);
-
-		//activo los elementos de la interfaz que corresponden a la firma correcta de un fichero
-		final TextView tv_sf= findViewById(R.id.filestorage_path);
-		tv_sf.setText(filename == null
-				? ""
-				: getString(originalDirectory ?
-						R.string.signedfile_original_location :
-						R.string.signedfile_downloads_location, filename));
-
-		final RelativeLayout rl = findViewById(R.id.signedfile_correct);
-		rl.setVisibility(View.VISIBLE);
-
-		Button buttonOK = findViewById(R.id.homeButton_ok);
-		buttonOK.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
-		buttonOK.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				finish();
-			}
-		});
+	 * donde se ha almacenado. */
+	private void showSuccessMessage() {
+		Intent intent = new Intent(LocalSignResultActivity.this, HomeActivity.class);
+		intent.putExtra(SIGNED_FILE_RESULT, "OK");
+		startActivity(intent);
 	}
 
 	@Override
@@ -410,21 +370,6 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	@Override
 	protected void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
-
-		outState.putBoolean(SAVE_INSTANCE_KEY_TITLE_VISIBILITY,
-				findViewById(R.id.signedfile_title).getVisibility() == View.VISIBLE);
-
-		outState.putString(SAVE_INSTANCE_KEY_PATH_FILE,
-				((TextView) findViewById(R.id.filestorage_path)).getText().toString());
-
-		outState.putBoolean(SAVE_INSTANCE_KEY_OK_RESULT_VISIBILITY,
-				findViewById(R.id.signedfile_correct).getVisibility() == View.VISIBLE);
-
-		outState.putString(SAVE_INSTANCE_KEY_ERROR_TEXT,
-				((TextView) findViewById(R.id.tv_signedfile_ko)).getText().toString());
-
-		outState.putBoolean(SAVE_INSTANCE_KEY_ERROR_RESULT_VISIBILITY,
-				findViewById(R.id.signedfile_error).getVisibility() == View.VISIBLE);
 	}
 
 	@Override

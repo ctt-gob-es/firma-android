@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/close"
+        android:icon="@mipmap/close_dialog_icon"
+        android:title="Cerrar proceso de firma con DNIe"
+        android:onClick="onOptionsItemSelected"
+        android:contentDescription="Cierra el proceso de firma con DNIe"
+        app:showAsAction="ifRoom" />
+
+</menu>

@@ -1,6 +1,7 @@
 package es.gob.afirma.android;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -18,98 +19,61 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.gui.CustomDialog;
+import es.gob.afirma.android.gui.HelpDialog;
 import es.gob.afirma.android.gui.SettingDialog;
 
-public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        DrawerLayout.DrawerListener {
+public class HomeActivity extends AppCompatActivity {
 
-    private DrawerLayout drawerLayout;
+    protected final static String SIGNED_FILE_RESULT = "signedFileResult"; //$NON-NLS-1$
+
+    protected final static String START_IMPORT_CERT = "startImportCert"; //$NON-NLS-1$
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        MaterialToolbar toolbar = findViewById(R.id.topHomeToolbar);
         toolbar.setLogo(R.drawable.logo_autofirma);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.menu,
-                R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        drawerLayout.addDrawerListener(this);
+        MainFragment mainFragment;
+        Intent intent = getIntent();
+        String signResult = intent.getStringExtra(SIGNED_FILE_RESULT);
+        boolean startImportCert = intent.getBooleanExtra(START_IMPORT_CERT, false);
+        if(signResult != null) {
+            mainFragment = new MainFragment(signResult);
+        } else if (startImportCert) {
+            mainFragment = new MainFragment(startImportCert);
+        } else {
+            mainFragment = new MainFragment();
+        }
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)
-                .replace(R.id.home_content, new MainFragment())
+                .replace(R.id.home_content, mainFragment)
                 .commit();
     }
 
     @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.settings:
-                new SettingDialog().show(getSupportFragmentManager(), "SettingDialog"); //$NON-NLS-1$
-                break;
-            case R.id.privacy_policy:
-                Intent browserPrivacyPolicyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.privacy_policy_url)));
-                startActivity(browserPrivacyPolicyIntent);
-                break;
-            case R.id.accesibility_policy:
-                Intent browserAccesibilityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.accessibility_statement_url)));
-                startActivity(browserAccesibilityIntent);
-                break;
+                Intent i = new Intent(this, SettingsActivity.class);
+                this.startActivity(i);
+                return true;
+            case R.id.info:
+                HelpDialog hd = new HelpDialog(this);
+                hd.show();
+                return true;
             default:
-                throw new IllegalArgumentException("Opcion del menu no implementada.");
+                return super.onOptionsItemSelected(item);
         }
-
-        setTitle(getString(R.string.app_name));
-
-        drawerLayout.closeDrawer(GravityCompat.START);
-
-        return true;
-    }
-
-    @Override
-    public void onDrawerSlide(@NonNull View view, float v) {
-        //Cambio en la posición del drawer.
-    }
-
-    @Override
-    public void onDrawerOpened(@NonNull View view) {
-        //Drawer abierto.
-    }
-
-    @Override
-    public void onDrawerClosed(@NonNull View view) {
-        //Drawer cerrado.
-    }
-
-    @Override
-    public void onDrawerStateChanged(int i) {
-        //Cambio de estado del drawer.
     }
 
 }

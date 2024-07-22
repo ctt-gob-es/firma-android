@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/info"
+        android:icon="@mipmap/icon_info"
+        android:title="Informacion"
+        android:contentDescription="Descripcion info"
+        android:onClick="onOptionsItemSelected"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/settings"
+        android:icon="@mipmap/icon_settings"
+        android:title="Ajustes"
+        android:onClick="onOptionsItemSelected"
+        android:contentDescription="Descripcion ajustes"
+        app:showAsAction="ifRoom" />
+
+</menu>
