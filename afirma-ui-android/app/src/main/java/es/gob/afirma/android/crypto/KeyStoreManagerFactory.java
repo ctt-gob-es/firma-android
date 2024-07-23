@@ -27,7 +27,7 @@ import java.util.Properties;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.gui.PinDialog;
 import es.gob.jmulticard.android.nfc.AndroidNfcConnection;
-import es.gob.jmulticard.connection.ApduConnection;
+import es.gob.jmulticard.apdu.connection.ApduConnection;
 
 /** Facrtor&iacute;a de gestores de contrase&ntilde;as y claves para Android. */
 public final class KeyStoreManagerFactory {
@@ -191,6 +191,30 @@ public final class KeyStoreManagerFactory {
 			InitializingNfcCardException {
 
 		KeyStore ks = null;
+
+
+		// En caso de no existir un lector conectado por USB, comprobamos que se haya detectado una tarjeta por NFC
+		DnieConnectionManager dnieManager = DnieConnectionManager.getInstance();
+		if (dnieManager.getDiscoveredTag() != null) {
+			try {
+				final ApduConnection androidNfcConnectionObject =
+						new AndroidNfcConnection(dnieManager.getDiscoveredTag());
+				dnieManager.setNfcConnection(androidNfcConnectionObject);
+				final Provider p = new es.gob.jmulticard.jse.provider.DnieProvider(androidNfcConnectionObject);
+
+				Security.addProvider(p);
+
+				// Obtenemos el almacen unicamente para ver si falla
+				ks = KeyStore.getInstance("DNI", p); //$NON-NLS-1$
+			} catch (final KeyStoreException e) {
+				Logger.e(ES_GOB_AFIRMA, "Se ha encontrado una tarjeta por NFC, pero no es un DNIe: " + e); //$NON-NLS-1$ //$NON-NLS-2$
+				throw new UnsupportedNfcCardException("Se ha encontrado una tarjeta por NFC distinta al DNIe", e);
+			} catch (final Exception e) {
+				Logger.e(ES_GOB_AFIRMA, "No se ha podido instanciar el controlador del DNIe por NFC: " + e, e); //$NON-NLS-1$ //$NON-NLS-2$
+				throw new InitializingNfcCardException("Error inicializando la tarjeta", e);
+			}
+		}
+
 		return ks;
 	}
 }
