@@ -25,6 +25,8 @@ import es.gob.afirma.android.CheckConnectionsHelper;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.misc.http.HttpError;
+import es.gob.afirma.core.misc.http.HttpErrorProcessor;
+import es.gob.afirma.core.misc.http.SSLConfig;
 import es.gob.afirma.core.misc.http.UrlHttpManager;
 import es.gob.afirma.core.misc.http.UrlHttpMethod;
 
@@ -70,6 +72,16 @@ public class AndroidHttpManager implements UrlHttpManager {
     }
 
     @Override
+    public byte[] readUrl(String s, UrlHttpMethod urlHttpMethod, HttpErrorProcessor httpErrorProcessor) throws IOException {
+        return new byte[0];
+    }
+
+    @Override
+    public byte[] readUrl(String s, UrlHttpMethod urlHttpMethod, HttpErrorProcessor httpErrorProcessor, SSLConfig sslConfig) throws IOException {
+        return new byte[0];
+    }
+
+    @Override
     public byte[] readUrl(String url, int timeout, String contentType, String accept, UrlHttpMethod method) throws IOException {
         final Properties headers = new Properties();
         if (contentType != null) {
@@ -79,6 +91,26 @@ public class AndroidHttpManager implements UrlHttpManager {
             headers.setProperty("Accept", accept); //$NON-NLS-1$
         }
         return readUrl(url, timeout, method, headers);
+    }
+
+    @Override
+    public byte[] readUrl(String s, int i, String s1, String s2, UrlHttpMethod urlHttpMethod, HttpErrorProcessor httpErrorProcessor) throws IOException {
+        return new byte[0];
+    }
+
+    @Override
+    public byte[] readUrl(String s, int i, String s1, String s2, UrlHttpMethod urlHttpMethod, HttpErrorProcessor httpErrorProcessor, SSLConfig sslConfig) throws IOException {
+        return new byte[0];
+    }
+
+    @Override
+    public byte[] readUrl(String s, int i, UrlHttpMethod urlHttpMethod, Properties properties, HttpErrorProcessor httpErrorProcessor) throws IOException {
+        return new byte[0];
+    }
+
+    @Override
+    public byte[] readUrl(String s, int i, UrlHttpMethod urlHttpMethod, Properties properties, HttpErrorProcessor httpErrorProcessor, SSLConfig sslConfig) throws IOException {
+        return new byte[0];
     }
 
     @Override

@@ -20,8 +20,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.view.View;
-import android.view.accessibility.AccessibilityEvent;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,7 +38,6 @@ import java.util.Properties;
 import es.gob.afirma.R;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.SignResult;
-import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.core.signers.AOSignerFactory;
 import es.gob.afirma.signers.cades.CAdESExtraParams;
@@ -68,7 +65,13 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	private final static String SAVE_INSTANCE_KEY_TITLE_VISIBILITY = "titleVisibility"; //$NON-NLS-1$
 	private final static String SAVE_INSTANCE_KEY_OK_RESULT_VISIBILITY = "okVisibility"; //$NON-NLS-1$
 	private final static String SAVE_INSTANCE_KEY_ERROR_RESULT_VISIBILITY ="errorVisibility"; //$NON-NLS-1$
-	private final static String SIGNED_FILE_RESULT = "signedFileResult"; //$NON-NLS-1$
+	private final static String SIGNING_ERROR = "errorSigning"; //$NON-NLS-1$
+
+	private final static String SHOW_SIGNING_RESULT = "showSigningResult"; //$NON-NLS-1$
+
+	private final static String ERROR_TITLE_PARAM = "errorTitle"; //$NON-NLS-1$
+
+	private final static String ERROR_MESSAGE_PARAM = "errorMessage"; //$NON-NLS-1$
 	private final static String SAVE_INSTANCE_KEY_PATH_FILE = "path_file"; //$NON-NLS-1$
 	private final static String SAVE_INSTANCE_KEY_ERROR_TEXT = "errorMessage"; //$NON-NLS-1$
 
@@ -146,11 +149,11 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 						fileContent = readDataFromFile(dataFile);
 					}
 				} catch (final OutOfMemoryError e) {
-					showErrorMessage(getString(R.string.file_read_out_of_memory));
+					showErrorMessage(getString(R.string.error), getString(R.string.file_read_out_of_memory));
 					Logger.e(ES_GOB_AFIRMA, "Error de memoria al cargar el fichero", e); //$NON-NLS-1$
 					return;
 				} catch (final IOException e) {
-					showErrorMessage(getString(R.string.error_loading_selected_file, this.fileName));
+					showErrorMessage(getString(R.string.error), getString(R.string.error_loading_selected_file, this.fileName));
 					Logger.e(ES_GOB_AFIRMA, "Error al cargar el fichero", e); //$NON-NLS-1$
 					return;
 				}
@@ -181,12 +184,12 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 						outputStream.close();
 					}
 					else {
-						showErrorMessage(getString(R.string.error_saving_signature));
+						showErrorMessage(getString(R.string.error), getString(R.string.error_saving_signature));
 						Logger.e(ES_GOB_AFIRMA, "No se pudo obtener el flujo para el guardado de los datos"); //$NON-NLS-1$
 						return;
 					}
 				} catch (final IOException e) {
-					showErrorMessage(getString(R.string.error_saving_signature));
+					showErrorMessage(getString(R.string.error), getString(R.string.error_saving_signature));
 					Logger.e(ES_GOB_AFIRMA, "Error al guardar la firma", e); //$NON-NLS-1$
 					return;
 				}
@@ -286,7 +289,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 				originalDirectory = false;
 			} else {
 				Logger.w(ES_GOB_AFIRMA, "No se ha encontrado donde guardar la firma generada"); //$NON-NLS-1$
-				showErrorMessage(getString(R.string.error_no_device_to_store));
+				showErrorMessage(getString(R.string.error), getString(R.string.error_no_device_to_store));
 				return;
 			}
 
@@ -302,7 +305,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 				fos.flush();
 				fos.close();
 			} catch (final Exception e) {
-				showErrorMessage(getString(R.string.error_saving_signature));
+				showErrorMessage(getString(R.string.error), getString(R.string.error_saving_signature));
 				Logger.e(ES_GOB_AFIRMA, "Error guardando la firma: " + e); //$NON-NLS-1$
 				return;
 			}
@@ -326,11 +329,14 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 	/** Muestra los elementos de pantalla informando de un error ocurrido durante la operaci&oacute;n de
 	 * firma.
+	 * @param title T&iacute;tulo que describe el error producido.
 	 * @param message Mensaje que describe el error producido. */
-	private void showErrorMessage(final String message) {
-
+	private void showErrorMessage(final String title, final String message) {
 		Intent intent = new Intent(LocalSignResultActivity.this, HomeActivity.class);
-		intent.putExtra(SIGNED_FILE_RESULT, "KO");
+		intent.putExtra(SHOW_SIGNING_RESULT, true);
+		intent.putExtra(SIGNING_ERROR, true);
+		intent.putExtra(ERROR_TITLE_PARAM, title);
+		intent.putExtra(ERROR_MESSAGE_PARAM, message);
 		startActivity(intent);
 	}
 
@@ -338,7 +344,8 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	 * donde se ha almacenado. */
 	private void showSuccessMessage() {
 		Intent intent = new Intent(LocalSignResultActivity.this, HomeActivity.class);
-		intent.putExtra(SIGNED_FILE_RESULT, "OK");
+		intent.putExtra(SHOW_SIGNING_RESULT, true);
+		intent.putExtra(SIGNING_ERROR, false);
 		startActivity(intent);
 	}
 
@@ -377,19 +384,20 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 		if (KeyStoreOperation.SELECT_CERTIFICATE == op && t instanceof PendingIntent.CanceledException) {
 			Logger.w(ES_GOB_AFIRMA, "Operacion de seleccion de certificados cancelada por el usuario");
+			showErrorMessage(getString(R.string.not_selected_cert), getString(R.string.not_selected_cert_desc));
 			finish();
 		}
 		else {
 			if (KeyStoreOperation.SIGN == op) {
 				if (t instanceof MSCBadPinException) {
-					showErrorMessage(getString(R.string.error_msc_pin));
+					showErrorMessage(getString(R.string.incorrect_pin), getString(R.string.error_msc_pin));
 				}
 				else {
-					showErrorMessage(getString(R.string.error_signing));
+					showErrorMessage(getString(R.string.error), getString(R.string.error_signing));
 				}
 			}
 			else {
-				showErrorMessage(msg);
+				showErrorMessage(getString(R.string.error), msg);
 			}
 
 			// Ya cerrados los dialogos modales, mostramos el titulo de la pantalla
@@ -401,5 +409,6 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 			Logger.e(ES_GOB_AFIRMA, "Error durante la firma: " + t);
 		}
 	}
+
 }
 

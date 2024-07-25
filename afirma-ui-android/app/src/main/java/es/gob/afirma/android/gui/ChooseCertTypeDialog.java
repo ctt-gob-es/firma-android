@@ -11,7 +11,6 @@
 package es.gob.afirma.android.gui;
 
 import static android.app.PendingIntent.getActivity;
-import static androidx.core.app.ActivityCompat.startActivityForResult;
 
 import android.content.Context;
 import android.content.Intent;

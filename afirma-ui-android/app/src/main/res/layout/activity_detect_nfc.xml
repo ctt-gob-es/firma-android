@@ -1,25 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/readDnieDialog"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/nfcText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nfc_instructions"
-            android:layout_marginTop="15px"
-            android:layout_marginLeft="15px"
-            android:layout_marginRight="15px"
-            android:textSize="15sp"/>
-        <view class="es.gob.afirma.android.gui.GIFView"
-            android:id="@+id/gifview"
+    android:layout_height="match_parent"
+    android:background="@drawable/radiusdialogbackground"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="120dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+    android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="40dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="30dp">
+
+                <ImageView
+                    android:id="@+id/searchImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/ic_search"
+                    />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:src="@drawable/dni_nfc"
-            android:layout_gravity="center|bottom">
-        </view>
-</FrameLayout>
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="30dp"
+            android:fontFamily="@font/merriweatherbold"
+            android:text="@string/searching_dnie"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+
+            android:paddingLeft="30dp"
+            android:fontFamily="@font/nunitosans"
+            android:text="@string/put_dnie_near_nfc"
+            android:textColor="#56636D"
+            android:textSize="15sp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.10"/>
+
+        <Button
+            android:id="@+id/cancelSearchBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/nunitosans"
+            android:textStyle="bold"
+            android:onClick="onClick"
+            android:text="@string/cancel"
+            android:layout_marginBottom="5dp"
+            style="@style/ButtonRedLarge" />
+
+
+</LinearLayout>

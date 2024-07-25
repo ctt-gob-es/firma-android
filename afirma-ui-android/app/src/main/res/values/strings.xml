@@ -85,6 +85,7 @@
     <string name="signedfile_correct">La firma se ha realizado correctamente.</string>
     <string name="signedfile_original_location">La firma "%1$s" se ha almacenado en el mismo directorio que el fichero original.</string>
     <string name="signedfile_downloads_location">La firma "%1$s" se ha almacenado en su directorio de descargas.</string>
+    <string name="incorrect_pin">PIN incorrecto</string>
     <string name="error_msc_pin">El PIN del dispositivo criptogr\u00E1fico es incorrecto. Tenga en cuenta que varios intentos fallidos consecutivos podr\u00EDan bloquearlo.</string>
     <string name="error_format_not_supported">Formato de firma no soportado.</string>
     <string name="dialog_alias_cert_text">%1$s\nV\u00E1lido: %2$s\nHasta: %3$s\nEmisor: %4$s</string>
@@ -110,7 +111,7 @@
     <string name="title_activity_main_test">MainActivityTest</string>
     <string name="allow_dni3_0_NFC">Permitir el uso de DNIe por NFC</string>
     <string name="validate_SSL_connections">Validar conexiones SSL</string>
-    <string name="trusted_domains">Dominios de confianza:</string>
+    <string name="trusted_domains">Dominios de confianza</string>
     <string name="error_format_trusted_domains">El dominio \"%s\" tiene un formato incorrecto.</string>
     <string name="use_asterisk">Use asterisco (*) al principio o final como comod\u00EDn.</string>
     <string name="accesibility_dialog_can">Introduzca su c\u00F3digo CAN para establecer una conexi\u00F3n NFC con su DNIe. El c\u00F3digo CAN contiene seis d\u00EDgitos y se puede encontrar en la esquina inferior derecha del anverso de su DNI.</string>
@@ -180,4 +181,19 @@
     <string name="read_dnie_with_smartphone_desc">Coloca tu DNIe en una superficie lisa y sit\u00FAa tu m\u00F3vil <b>sin funda</b> sobre \u00E9l hasta que detecte el chip.</string>
     <string name="read_dnie">Leer DNIe</string>
     <string name="actual_step">Paso %s de 3</string>
+    <string name="searching_dnie">Buscando DNIe</string>
+    <string name="put_dnie_near_nfc">Pon tu m\u00F3vil sobre el DNIe lo m\u00E1s cerca posible del lector NFC.</string>
+    <string name="not_selected_cert">Certificado no seleccionado</string>
+    <string name="not_selected_cert_desc">No se ha encontrado ning\u00FAn certificado instalado en el sistema o no se ha seleccionado para realizar la firma.</string>
+    <string name="espanol">Espa\u00F1ol</string>
+    <string name="english">English</string>
+    <string name="catala">Catal\u00E1</string>
+    <string name="galego">Galego</string>
+    <string name="euskera">Euskera</string>
+    <string name="valenciano">Valenciano</string>
+    <string name="trusted_domains_desc">Introduzca en el siguiente apartado los dominios de confianza para la aplicaci\u00F3n</string>
+    <string name="save_changes">Guardar cambios</string>
+    <string name="enter_trusted_domains">Introduzca uno o varios dominios de confianza</string>
+    <string name="changes_saved">Cambios guardados</string>
+    <string name="changes_saved_correctly">Los cambios se han guardado correctamente.</string>
 </resources>

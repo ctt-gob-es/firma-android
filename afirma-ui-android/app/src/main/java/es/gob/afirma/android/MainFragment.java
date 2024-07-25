@@ -91,18 +91,28 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 	/** Indica si se ha detectado que el dispositivo tiene NFC. */
 	private boolean nfcAvailable = false;
 
-	private String signResult;
+	private boolean errorSigning;
+
+	private boolean showSigningResult;
 
 	private boolean startImportCert;
 
+	private String errorTitleDialog;
+
+	private String errorMessageDialog;
+
 	public MainFragment() {
-		signResult = null;
-		startImportCert = false;
+		this.errorSigning = false;
+		this.showSigningResult = false;
+		this.startImportCert = false;
 	}
 
-	public MainFragment(String signResult) {
-		this.signResult = signResult;
-		startImportCert = false;
+	public MainFragment(boolean showSigningResult, boolean errorSigning, String errorTitleDialog, String errorMessageDialog) {
+		this.errorSigning = errorSigning;
+		this.showSigningResult = showSigningResult;
+		this.errorTitleDialog = errorTitleDialog;
+		this.errorMessageDialog = errorMessageDialog;
+		this.startImportCert = false;
 	}
 
 	public MainFragment(boolean startImportCert) {
@@ -211,13 +221,13 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 		});
 
 		// Comprobamos si hay que mostrar en un dialogo el resutado de alguna firma
-		if (signResult != null) {
+		if (showSigningResult) {
 			CustomDialog cd;
-			if (SIGN_OK.equals(signResult)) {
-				cd = new CustomDialog(this.getContext(), R.mipmap.check_icon, getString(R.string.signed_file_title), getString(R.string.signed_file_message),
+			if (errorSigning) {
+				cd = new CustomDialog(this.getContext(), R.mipmap.error_icon, errorTitleDialog, errorMessageDialog,
 						getString(R.string.understood));
 			} else {
-				cd = new CustomDialog(this.getContext(), R.mipmap.error_icon, getString(R.string.accesibility_icon_sign_ko), getString(R.string.signedfile_error),
+				cd = new CustomDialog(this.getContext(), R.mipmap.check_icon, getString(R.string.signed_file_title), getString(R.string.signed_file_message),
 						getString(R.string.understood));
 			}
 			cd.show();
@@ -358,7 +368,7 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 	}
 
 	private void startLocalSign() {
-		if (true) {
+		if (NfcHelper.isNfcPreferredConnection(getContext())) {
 			ChooseCertTypeDialog certTypeDialog = new ChooseCertTypeDialog(getContext());
 			certTypeDialog.show();
 		} else {

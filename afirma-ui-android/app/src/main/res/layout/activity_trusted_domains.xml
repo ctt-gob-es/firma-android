@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/permissions_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/trustedDomainsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme"
+        android:touchscreenBlocksFocus="false"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:popupTheme="@style/AppTheme"
+        app:title="@string/trusted_domains"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/ToolbarTitle"
+        app:titleTextColor="@color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/nunitosansbold"
+            android:text="@string/validate_SSL_connections"/>
+
+        <Switch
+            android:id="@+id/checkSSLSwitch"
+            android:thumb="@drawable/bg_thumb_switch"
+            android:track="@drawable/bg_track_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunitosans"
+        android:gravity="center_horizontal"
+        android:padding="20dp"
+        android:text="@string/trusted_domains_desc"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editTextTrustedDomains"
+        android:inputType="textMultiLine"
+        android:lines="8"
+        android:maxLines="8"
+        android:gravity="top|start"
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="@string/enter_trusted_domains"
+        android:scrollbars="vertical"
+        android:textColor="@color/black"
+        android:layout_weight="0.80"
+        android:background="@drawable/rounded_black_borders"
+        android:padding="10dp"
+        />
+
+    <Button
+        android:id="@+id/saveChangesBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:onClick="onClick"
+        android:text="@string/save_changes"
+        style="@style/ButtonRedLarge" />
+
+
+</LinearLayout>

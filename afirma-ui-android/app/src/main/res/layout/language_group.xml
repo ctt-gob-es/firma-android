@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/faqGroupContent"
+    android:id="@+id/languageGroupContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:listSelector="@drawable/language_list_selector"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/faqGroup"
+        android:id="@+id/languageGroup"
         android:layout_gravity="center"
         android:layout_width="325dp"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_height="50dp"
         android:fontFamily="@font/nunitosansbold"
         android:textSize="15sp"
         android:textColor="@color/black"
+        android:focusable="false"
         android:padding="10dp"
         android:layout_marginLeft="10dp"
         />
 
     <ImageView
-        android:id="@+id/groupIndicatorImg"
+        android:id="@+id/languageIndicatorImg"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:src="@mipmap/chevron_down" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:paddingRight="25dp"
+        android:focusable="false"
+        android:visibility="gone"
+        android:src="@mipmap/check_icon" />
 
 </LinearLayout>

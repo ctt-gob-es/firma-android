@@ -30,12 +30,32 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        // Idioma
+        TextView languageTv = this.findViewById(R.id.languageTv);
+        languageTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), LanguageActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // Permisos
         TextView permissionsTv = this.findViewById(R.id.permissionsTv);
         permissionsTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), PermissionsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Dominios de confianza
+        TextView trustedDomainsTv = this.findViewById(R.id.trustedDomainsTv);
+        trustedDomainsTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), TrustedDomainsActivity.class);
                 startActivity(intent);
             }
         });

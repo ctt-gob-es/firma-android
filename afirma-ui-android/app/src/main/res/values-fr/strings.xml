@@ -174,8 +174,21 @@
     <string name="enter_can_dni_desc">El CAN es un n\u00FAmero situado en la parte inferior derecha del DNI. Es necesario para la lectura del DNI con NFC.</string>
     <string name="enter_pin_dni">Introduzca el PIN</string>
     <string name="enter_pin_dni_desc">Al hacerte el DNIe recibiste un c\u00F3digo PIN que puedes recuperar o cambiar en comisar\u00EDas sin cita previa.</string>
+    <string name="enter_can_dni_hint">Escribe tu c\u00F3digo CAN del DNI</string>
+    <string name="enter_your_pin_code">Escribe tu c\u00F3digo PIN</string>
     <string name="read_dnie_with_smartphone">Lee tu DNIe con el m\u00F3vil</string>
     <string name="read_dnie_with_smartphone_desc">Coloca tu DNIe en una superficie lisa y sit\u00FAa tu mu00F3vilsin funda sobre \u00E9l hasta que detecte el chip.</string>
+    <string name="read_dnie">Leer DNIe</string>
     <string name="actual_step">Paso %s de 3</string>
+    <string name="searching_dnie">Buscando DNIe</string>
+    <string name="put_dnie_near_nfc">Pon tu m\u00F3vil sobre el DNIe lo m\u00E1s cerca posible del lector NFC.</string>
+    <string name="not_selected_cert">Certificado no seleccionado</string>
+    <string name="not_selected_cert_desc">No se ha encontrado ning\u00FAn certificado instalado en el sistema o no se ha seleccionado para realizar la firma.</string>
+    <string name="espanol">Espa\u00F1ol</string>
+    <string name="english">English</string>
+    <string name="catala">Catal\u00E1</string>
+    <string name="galego">Galego</string>
+    <string name="euskera">Euskera</string>
+    <string name="valenciano">Valenciano</string>
 </resources>
 

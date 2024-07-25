@@ -10,9 +10,12 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import es.gob.afirma.R;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.MainFragment;
+import es.gob.afirma.android.NFCDetectorActivity;
 
 public class SignWithDnieStep1Fragment extends Fragment {
     @Override
@@ -41,6 +44,10 @@ public class SignWithDnieStep1Fragment extends Fragment {
                 progressBar.setProgress(2,true);
 
                 SignWithDnieStep2Fragment signWithDnieStep2Fragment = new SignWithDnieStep2Fragment();
+                Bundle bundle = new Bundle();
+                TextInputEditText canText = getActivity().findViewById(R.id.canEtxLayout);
+                bundle.putString(NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE, canText.getText().toString());
+                signWithDnieStep2Fragment.setArguments(bundle);
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.step_content, signWithDnieStep2Fragment)

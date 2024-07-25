@@ -58,6 +58,7 @@
             android:focusable="true">
 
             <TextView
+                android:id="@+id/languageTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -79,7 +80,6 @@
             android:background="@color/toolbar"
             />
 
-
         <!-- Permisos -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,6 +97,32 @@
                 android:drawablePadding="10dp"
                 android:drawableLeft="@drawable/ic_permissions"
                 android:text="@string/permissions"
+                android:paddingStart="8dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/toolbar"
+            />
+
+        <!-- Dominios de confianza -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/trustedDomainsTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableLeft="@drawable/ic_domain"
+                android:text="@string/trusted_domains"
                 android:paddingStart="8dp"/>
         </LinearLayout>
 

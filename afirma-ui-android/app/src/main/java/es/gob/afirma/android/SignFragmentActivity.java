@@ -11,11 +11,19 @@
 package es.gob.afirma.android;
 
 import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Build;
 import android.security.KeyChainException;
+import android.view.View;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.security.KeyStore;
 import java.security.KeyStore.PrivateKeyEntry;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
 

@@ -26,7 +26,6 @@
 
     </LinearLayout>
 
-    <!--Text view for displaying a heading text-->
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
@@ -41,13 +40,12 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <!--Text view for displaying a heading text-->
     <TextView
         android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:paddingBottom="10dp"
+        android:paddingBottom="20dp"
         android:paddingRight="10dp"
         android:paddingLeft="30dp"
         android:fontFamily="@font/nunitosans"
@@ -61,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:padding="10dp"
         android:textAlignment="center"
         android:fontFamily="@font/nunitosans"
@@ -79,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:fontFamily="@font/nunitosans"
         android:textStyle="bold"
         android:onClick="onClick"

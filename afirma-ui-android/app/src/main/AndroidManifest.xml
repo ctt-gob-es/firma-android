@@ -75,7 +75,15 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".android.LanguageActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".android.PermissionsActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".android.TrustedDomainsActivity"
             android:exported="true">
         </activity>
         <activity

@@ -1,37 +1,27 @@
 package es.gob.afirma.android;
 
-
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.navigation.NavigationView;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.HelpDialog;
-import es.gob.afirma.android.gui.SettingDialog;
 
 public class HomeActivity extends AppCompatActivity {
 
-    protected final static String SIGNED_FILE_RESULT = "signedFileResult"; //$NON-NLS-1$
+    protected final static String SIGNING_ERROR = "errorSigning"; //$NON-NLS-1$
+
+    private final static String SHOW_SIGNING_RESULT = "showSigningResult"; //$NON-NLS-1$
 
     protected final static String START_IMPORT_CERT = "startImportCert"; //$NON-NLS-1$
+
+    private final static String ERROR_TITLE_PARAM = "errorTitle"; //$NON-NLS-1$
+
+    private final static String ERROR_MESSAGE_PARAM = "errorMessage"; //$NON-NLS-1$
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +33,15 @@ public class HomeActivity extends AppCompatActivity {
 
         MainFragment mainFragment;
         Intent intent = getIntent();
-        String signResult = intent.getStringExtra(SIGNED_FILE_RESULT);
+        boolean showSigningResult = intent.getBooleanExtra(SHOW_SIGNING_RESULT, false);
+        boolean signingError = intent.getBooleanExtra(SIGNING_ERROR, false);
         boolean startImportCert = intent.getBooleanExtra(START_IMPORT_CERT, false);
-        if(signResult != null) {
-            mainFragment = new MainFragment(signResult);
+        if(showSigningResult) {
+            String errorTitle = intent.getStringExtra(ERROR_TITLE_PARAM);
+            String errorMessage = intent.getStringExtra(ERROR_MESSAGE_PARAM);
+            mainFragment = new MainFragment(true, signingError, errorTitle, errorMessage);
         } else if (startImportCert) {
-            mainFragment = new MainFragment(startImportCert);
+            mainFragment = new MainFragment(true);
         } else {
             mainFragment = new MainFragment();
         }
