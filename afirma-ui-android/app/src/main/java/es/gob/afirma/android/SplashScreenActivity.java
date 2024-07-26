@@ -7,6 +7,7 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.gui.AppConfig;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -19,6 +20,13 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent intent = new Intent(SplashScreenActivity.this, IntroScreenActivity.class);
+                if (AppConfig.isSkipIntroScreen(getApplicationContext())) {
+                    if (AppConfig.isSkipConditionsScreen(getApplicationContext())) {
+                        intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+                    } else {
+                        intent = new Intent(SplashScreenActivity.this, ConditionsActivity.class);
+                    }
+                }
                 startActivity(intent);
             }
         }, 2000);

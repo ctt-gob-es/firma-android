@@ -69,8 +69,6 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 
 	public final static String CERTIFICATE_EXTS = ".p12,.pfx"; //$NON-NLS-1$
 
-	public final static String SIGN_OK = "OK"; //$NON-NLS-1$
-
 	public final static int SELECT_CERT_REQUEST_CODE = 1;
 
 	public final static int IMPORT_CERT_INSTRUCTIONS_CODE = 2;
@@ -95,7 +93,7 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 
 	private boolean showSigningResult;
 
-	private boolean startImportCert;
+	private final boolean startImportCert;
 
 	private String errorTitleDialog;
 

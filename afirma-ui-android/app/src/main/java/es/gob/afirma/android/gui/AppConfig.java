@@ -16,6 +16,12 @@ public final class AppConfig {
     /** Clave de la preferencia que indica si debe usarse NFC para conectar con el DNIe 3.0 */
     private static final String PREFERENCE_KEY_USE_NFC = "useNfc";
 
+    /** Clave de la preferencia que indica si se debe omitir la pantalla de introducci&oacute;n */
+    private static final String PREFERENCE_SKIP_INTRO_SCREEN = "skipIntroScreen";
+
+    /** Clave de la preferencia que indica si se debe omitir la pantalla de aceptaci&oacute;n de condiciones */
+    private static final String PREFERENCE_SKIP_CONDITIONS_SCREEN = "skipConditionsScreen";
+
     /** Nombre de la propiedad a establecer a <code>true</code> para habilitar las comprobaciones
      * de confianza SSL en las peticiones. Si se establece a <code>false</code> o no se establece,
      * no se realizar&aacute;n comprobaciones. */
@@ -48,6 +54,22 @@ public final class AppConfig {
 
     public static void setFirstExecution(boolean firstExecution) {
         setPreference(PREFERENCE_KEY_FIRST_EXECUTION, firstExecution);
+    }
+
+    public static boolean isSkipIntroScreen(Context context) {
+        return getPreference(context, PREFERENCE_SKIP_INTRO_SCREEN, false);
+    }
+
+    public static void setSkipIntroScreen(boolean skipIntroScreen) {
+        setPreference(PREFERENCE_SKIP_INTRO_SCREEN, skipIntroScreen);
+    }
+
+    public static boolean isSkipConditionsScreen(Context context) {
+        return getPreference(context, PREFERENCE_SKIP_CONDITIONS_SCREEN, false);
+    }
+
+    public static void setSkipConditionsScreen(boolean skipConditionsScreen) {
+        setPreference(PREFERENCE_SKIP_CONDITIONS_SCREEN, skipConditionsScreen);
     }
 
     public static boolean isValidateSSLConnections(Context context) {

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.gui.AppConfig;
 
 public class ConditionsActivity extends AppCompatActivity {
 
@@ -25,6 +26,7 @@ public class ConditionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                AppConfig.setSkipConditionsScreen(true);
                 Intent intent = new Intent(ConditionsActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
@@ -61,6 +63,11 @@ public class ConditionsActivity extends AppCompatActivity {
             acceptConditionsBtn.setEnabled(false);
             acceptConditionsBtn.setTextColor(Color.parseColor("#767676"));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // No hace nada
     }
 
 }

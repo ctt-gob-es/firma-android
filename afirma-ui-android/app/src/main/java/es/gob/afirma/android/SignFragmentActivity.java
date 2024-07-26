@@ -11,19 +11,14 @@
 package es.gob.afirma.android;
 
 import android.app.PendingIntent;
-import android.content.Intent;
 import android.os.Build;
 import android.security.KeyChainException;
 import android.view.View;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.security.KeyStore;
 import java.security.KeyStore.PrivateKeyEntry;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.util.Enumeration;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.X509Certificate;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -34,6 +29,7 @@ import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
 import es.gob.afirma.android.crypto.SignResult;
 import es.gob.afirma.android.crypto.SignTask;
 import es.gob.afirma.android.crypto.SignTask.SignListener;
+import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.PDFPasswordDialog;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.RuntimeConfigNeededException;
@@ -109,11 +105,30 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	@Override
 	public synchronized void keySelected(final SelectCertificateEvent kse) {
 
-		PrivateKeyEntry pke;
+		PrivateKeyEntry pke = null;
 		try {
 			pke = kse.getPrivateKeyEntry();
-		}
-		catch (final KeyChainException e) {
+			X509Certificate cert = (X509Certificate) pke.getCertificate();
+			cert.checkValidity();
+		} catch (final CertificateExpiredException e) {
+			Logger.e(ES_GOB_AFIRMA, "El certificado seleccionado esta caducado: " + e); //$NON-NLS-1$
+			PrivateKeyEntry finalPke = pke;
+			SignFragmentActivity.this.runOnUiThread(new Runnable() {
+				public void run() {
+					CustomDialog cd = new CustomDialog(SignFragmentActivity.this, R.drawable.baseline_info_24, getString(R.string.expired_cert), getString(R.string.not_valid_cert), getString(R.string.drag_on));
+					CustomDialog finalCd = cd;
+					cd.setAcceptButtonClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							finalCd.hide();
+							startDoSign(kse, finalPke);
+						}
+					});
+					cd.show();
+				}
+			});
+			return;
+		} catch (final KeyChainException e) {
 			if ("4.1.1".equals(Build.VERSION.RELEASE) || "4.1.0".equals(Build.VERSION.RELEASE) || "4.1".equals(Build.VERSION.RELEASE)) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				Logger.e(ES_GOB_AFIRMA, "Error al extraer la clave en Android " + Build.VERSION.RELEASE + ": " + e); //$NON-NLS-1$ //$NON-NLS-2$
 				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, getString(R.string.error_android_4_1), new SelectKeyAndroid41BugException(e));
@@ -141,6 +156,10 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			return;
 		}
 
+		startDoSign(kse, pke);
+	}
+
+	private synchronized void startDoSign(final SelectCertificateEvent kse, final PrivateKeyEntry pke) {
 		String providerName = null;
 		if (kse.getKeyStore() != null) {
 			providerName = kse.getKeyStore().getProvider().getName();

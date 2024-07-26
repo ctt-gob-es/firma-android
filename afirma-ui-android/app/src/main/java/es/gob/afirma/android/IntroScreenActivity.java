@@ -8,6 +8,7 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 import es.gob.afirma.R;
+import es.gob.afirma.android.gui.AppConfig;
 
 public class IntroScreenActivity extends AppCompatActivity {
 
@@ -25,11 +26,16 @@ public class IntroScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                AppConfig.setSkipIntroScreen(true);
                 Intent intent = new Intent(IntroScreenActivity.this, ConditionsActivity.class);
                 startActivity(intent);
             }
         });
 
+    }
 
+    @Override
+    public void onBackPressed() {
+        // No hace nada
     }
 }

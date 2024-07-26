@@ -64,7 +64,7 @@
         android:layout_margin="11dp"
         android:onClick="onClick"
         android:text="@string/add_new_cert"
-        android:nextFocusForward="@+id/drawer_layout"
+        android:nextFocusForward="@+id/topHomeToolbar"
         android:imeOptions="actionNext"
         style="@style/ButtonWhiteLarge" />
 

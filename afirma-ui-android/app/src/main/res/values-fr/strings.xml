@@ -190,5 +190,12 @@
     <string name="galego">Galego</string>
     <string name="euskera">Euskera</string>
     <string name="valenciano">Valenciano</string>
+    <string name="trusted_domains_desc">Introduzca en el siguiente apartado los dominios de confianza para la aplicaci\u00F3n</string>
+    <string name="save_changes">Guardar cambios</string>
+    <string name="enter_trusted_domains">Introduzca uno o varios dominios de confianza</string>
+    <string name="changes_saved">Cambios guardados</string>
+    <string name="changes_saved_correctly">Los cambios se han guardado correctamente.</string>
+    <string name="expired_cert">Certificado caducado</string>
+    <string name="not_valid_cert">El certificado no es v\u00E1lido, ya que est\u00E1 caducado.</string>
 </resources>
 

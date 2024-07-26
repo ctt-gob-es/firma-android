@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/info"
-        android:icon="@mipmap/icon_info"
+        android:icon="@drawable/baseline_info_24"
         android:title="Informacion"
         android:contentDescription="Descripcion info"
         android:onClick="onOptionsItemSelected"
@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/settings"
-        android:icon="@mipmap/icon_settings"
+        android:icon="@drawable/baseline_settings_24"
         android:title="Ajustes"
         android:onClick="onOptionsItemSelected"
         android:contentDescription="Descripcion ajustes"

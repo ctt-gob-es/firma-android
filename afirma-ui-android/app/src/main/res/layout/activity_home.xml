@@ -19,7 +19,6 @@
                 android:theme="@style/ToolbarTheme"
                 android:background="@color/toolbar"
                 app:popupTheme="@style/AppTheme"
-                android:touchscreenBlocksFocus="false"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:menu="@menu/home_toolbar"
