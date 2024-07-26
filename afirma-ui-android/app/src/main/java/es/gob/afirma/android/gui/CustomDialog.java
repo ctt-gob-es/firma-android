@@ -11,6 +11,9 @@
 package es.gob.afirma.android.gui;
 
 import android.content.Context;
+import android.graphics.Paint;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -48,6 +51,7 @@ public class CustomDialog extends BottomSheetDialog {
 		if (includeCancelButton) {
 			Button cancelButton = this.findViewById(R.id.cancelButton);
 			if (cancelButtonText != null) {
+				cancelButton.setPaintFlags(cancelButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 				cancelButton.setText(cancelButtonText);
 			}
 			cancelButton.setVisibility(View.VISIBLE);

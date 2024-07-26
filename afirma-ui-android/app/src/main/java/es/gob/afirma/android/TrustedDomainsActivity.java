@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Switch;
 
@@ -17,7 +16,6 @@ import java.util.regex.Pattern;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.CustomDialog;
-import es.gob.afirma.android.gui.SettingDialog;
 
 public class TrustedDomainsActivity extends AppCompatActivity {
 

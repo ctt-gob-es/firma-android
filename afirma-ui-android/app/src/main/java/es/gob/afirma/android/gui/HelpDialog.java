@@ -12,6 +12,7 @@ package es.gob.afirma.android.gui;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,7 @@ public class HelpDialog extends BottomSheetDialog {
 		this.setCanceledOnTouchOutside(true);
 
 		Button moreInfoButton = this.findViewById(R.id.moreInfoButton);
+		moreInfoButton.setPaintFlags(moreInfoButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 		moreInfoButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override

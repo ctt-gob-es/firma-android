@@ -11,6 +11,7 @@
 package es.gob.afirma.android;
 
 import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Build;
 import android.security.KeyChainException;
 import android.view.View;
@@ -115,13 +116,22 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			PrivateKeyEntry finalPke = pke;
 			SignFragmentActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
-					CustomDialog cd = new CustomDialog(SignFragmentActivity.this, R.drawable.baseline_info_24, getString(R.string.expired_cert), getString(R.string.not_valid_cert), getString(R.string.drag_on));
+					CustomDialog cd = new CustomDialog(SignFragmentActivity.this, R.drawable.baseline_info_24, getString(R.string.expired_cert),
+							getString(R.string.not_valid_cert), getString(R.string.drag_on), true, getString(R.string.cancel_underline));
 					CustomDialog finalCd = cd;
 					cd.setAcceptButtonClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
 							finalCd.hide();
 							startDoSign(kse, finalPke);
+						}
+					});
+					cd.setCancelButtonClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							finalCd.hide();
+							Intent intent = new Intent(SignFragmentActivity.this, HomeActivity.class);
+							startActivity(intent);
 						}
 					});
 					cd.show();

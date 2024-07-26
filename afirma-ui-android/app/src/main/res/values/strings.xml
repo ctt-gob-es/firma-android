@@ -128,7 +128,7 @@
     <string name="understood">Entendido</string>
     <string name="add_new_cert">A\u00F1adir nuevo certificado</string>
     <string name="add_cert">A\u00F1adir certificado</string>
-    <string name="cancel_underline"><u>Cancelar</u></string>
+    <string name="cancel_underline">Cancelar</string>
     <string name="locate_file_title">Localiza el archivo</string>
     <string name="locate_file_message">Localiza el archivo .p12 o .pfx. en tu tel\u00E9fono</string>
     <string name="send_to_device_title">Env\u00EDa al dispositivo</string>
@@ -146,7 +146,7 @@
     <string name="how_install_certs">¿C\u00F3mo instalar certificados?</string>
     <string name="load_cert">Carga tu certificado en tu dispositivo o iCloud. Imp\u00F3rtalo a trav\u00E9s de la opci\u00F3n "A\u00F1adir certificado" de la aplicaci\u00F3n.</string>
     <string name="allowed_extensions">Extensiones permitidas: .p12 y .pfx. Recuerda que necesitas la contrase\u00F1a de exportaci\u00F3n de tu certificado, y que \u00E9ste debe de incluir la clave privada. </string>
-    <string name="more_information_underline"><u>M\u00E1s informaci\u00F3n</u></string>
+    <string name="more_information_underline">M\u00E1s informaci\u00F3n</string>
     <string name="my_settings">MI CONFIGURACI\u00d3N</string>
     <string name="language">Idioma</string>
     <string name="permissions">Permisos</string>
@@ -170,7 +170,7 @@
     <string name="read_and_accept_legal">He le\u00EDdo y estoy de acuerdo con el Aviso Legal y los T\u00E9rminos y Condiciones de Uso</string>
     <string name="dnie_identification">Identificaci\u00F3n con DNIe</string>
     <string name="dnie_identification_desc">Para identificarte mediante DNIe es necesario que tengas un DNI electr\u00F3nico con <b>certificados vigentes</b> y conozcas el <b>c\u00F3digo PIN</b>.</string>
-    <string name="is_my_dnie_suitable"><u>¿Es mi DNI compatible?</u></string>
+    <string name="is_my_dnie_suitable">¿Es mi DNI compatible?</string>
     <string name="enter_can_dni">Introduzca el CAN del DNI</string>
     <string name="enter_can_dni_desc">El CAN es un n\u00FAmero situado en la parte inferior derecha del DNI. Es necesario para la lectura del DNI con NFC.</string>
     <string name="enter_can_dni_hint">Escribe tu c\u00F3digo CAN del DNI</string>
