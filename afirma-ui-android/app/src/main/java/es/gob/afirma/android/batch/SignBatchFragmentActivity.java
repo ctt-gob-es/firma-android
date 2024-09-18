@@ -21,6 +21,7 @@ import java.util.Properties;
 import es.gob.afirma.R;
 import es.gob.afirma.android.LoadKeyStoreFragmentActivity;
 import es.gob.afirma.android.Logger;
+import es.gob.afirma.android.crypto.KeyStoreManagerListener;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager.SelectCertificateEvent;
@@ -35,7 +36,7 @@ import es.gob.afirma.core.misc.protocol.UrlParametersForBatch;
  * utilizar DNIe 3.0 v&iacute;a NFC, DNIe 2.0/3.0 a trav&eacute;s de lector de tarjetas y el
  * almac&eacute;n de Android. */
 public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActivity
-											implements  MobileKeyStoreManager.PrivateKeySelectionListener,
+											implements KeyStoreManagerListener, MobileKeyStoreManager.PrivateKeySelectionListener,
 														SignBatchTask.SignBatchListener {
 
 	private final static String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
@@ -54,6 +55,7 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 		}
 
 		this.batchParams = batchParams;
+		this.ksmListener = this;
 
 		// Iniciamos la carga del almacen
 		loadKeyStore(this);

@@ -4,7 +4,7 @@ import android.nfc.Tag;
 
 import es.gob.afirma.android.Logger;
 import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
-import es.gob.jmulticard.apdu.connection.ApduConnection;
+import es.gob.jmulticard.connection.ApduConnection;
 
 /**
  * Instancia &uacute;nica que almacenar&aacute; los distintos elementos para la conexi&oacute;n
@@ -24,6 +24,7 @@ public class DnieConnectionManager {
     }
 
     private CachePasswordCallback canPasswordCallback;
+    private CachePasswordCallback pinPasswordCallback;
     private AndroidDnieNFCCallbackHandler callbackHandler;
     private MobileKeyStoreManager keyStoreManager;
     private ApduConnection nfcConnection;
@@ -31,6 +32,7 @@ public class DnieConnectionManager {
 
     private DnieConnectionManager() {
         this.canPasswordCallback = null;
+        this.pinPasswordCallback = null;
         this.callbackHandler = null;
         this.keyStoreManager = null;
         this.nfcConnection = null;
@@ -101,6 +103,18 @@ public class DnieConnectionManager {
         this.canPasswordCallback = canPasswordCallback;
     }
 
+    public CachePasswordCallback getPinPasswordCallback() {
+        return pinPasswordCallback;
+    }
+
+    /**
+     * Establece la cach&eacute; con el PIN de la tarjeta.
+     * @param pinPasswordCallback Cach&eacute; con el PIN de la tarjeta.
+     */
+    public void setPinPasswordCallback(CachePasswordCallback pinPasswordCallback) {
+        this.pinPasswordCallback = pinPasswordCallback;
+    }
+
     /**
      * Recupera el Tag NFC del DNIe.
      * @return  Tag NFC del DNIe.
@@ -143,6 +157,16 @@ public class DnieConnectionManager {
         if (this.canPasswordCallback != null) {
             this.canPasswordCallback.clearPassword();
             this.canPasswordCallback = null;
+        }
+    }
+
+    /**
+     * Reinicia el PIN almacenado.
+     */
+    public void clearPin() {
+        if (this.pinPasswordCallback != null) {
+            this.pinPasswordCallback.clearPassword();
+            this.pinPasswordCallback = null;
         }
     }
 }

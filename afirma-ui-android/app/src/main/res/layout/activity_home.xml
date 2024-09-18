@@ -12,17 +12,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ToolbarTheme"
+            android:touchscreenBlocksFocus="false"
             >
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topHomeToolbar"
                 android:theme="@style/ToolbarTheme"
+                android:touchscreenBlocksFocus="false"
                 android:background="@color/toolbar"
-                app:popupTheme="@style/AppTheme"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:menu="@menu/home_toolbar"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 />
 
         </com.google.android.material.appbar.AppBarLayout>

@@ -122,7 +122,8 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
             AndroidDnieNFCCallbackHandler dnieCallbackHandler = dnieManager.getCallbackHandler();
             if (dnieCallbackHandler == null) {
                 final DialogDoneChecker ddc = new DialogDoneChecker();
-                dnieCallbackHandler = new AndroidDnieNFCCallbackHandler(activity, ddc, LoadCertificatesTask.this.ksPasswordCallback);
+                CachePasswordCallback pin = dnieManager.getPinPasswordCallback();
+                dnieCallbackHandler = new AndroidDnieNFCCallbackHandler(activity, ddc, LoadCertificatesTask.this.ksPasswordCallback, pin);
                 dnieManager.setCallbackHandler(dnieCallbackHandler);
             }
 
@@ -149,8 +150,9 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
         catch (final Exception e) {
             // Estamos en una conexion NFC y encapsulamos
             // las excepciones para que se procesen adecuadamente
-            Logger.e(ES_GOB_AFIRMA, "Error al cargar el almacen de claves del dispositivo. Es posible que CAN introducido fuese incorrecto: " + e); //$NON-NLS-1$
+            Logger.e(ES_GOB_AFIRMA, "Error al cargar el almacen de claves del dispositivo. Es posible que CAN o PIN introducido fuese incorrecto: " + e); //$NON-NLS-1$
             dnieManager.clearCan();
+            dnieManager.clearPin();
             dnieManager.setCallbackHandler(null);
             throw encapsuleException(e);
         }
@@ -269,8 +271,6 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
         }
         //Si se pierde la conexion reininciamos el proceso
         if(e != null) {
-
-            Toast.makeText(this.activity, "No se han podido cargar los certificados. Reintentando la conexión.", Toast.LENGTH_SHORT).show();
 
             this.ksmListener.onLoadingKeyStoreError("Error cargando los certificados. Se reintentara la conexion", e);
         }

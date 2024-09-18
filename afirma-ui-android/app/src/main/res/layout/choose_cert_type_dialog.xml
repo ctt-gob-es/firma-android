@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/toolbar">
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/chooseCertTypeDialog"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
     android:background="@drawable/radiusdialogbackground"
     app:behavior_hideable="true"
     app:behavior_peekHeight="120dp"
@@ -38,21 +47,22 @@
             android:id="@+id/iconCloseDialogButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/bt_close_dialog" />
+            android:background="@drawable/bt_close_dialog_selector" />
 
     </LinearLayout>
 
-    <!--Text view for displaying a heading text-->
     <TextView
         android:id="@+id/cert_option"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:drawableLeft="@mipmap/docs_icon"
         android:drawablePadding="10dp"
-        android:paddingBottom="10dp"
-        android:paddingRight="10dp"
-        android:paddingLeft="30dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/option_selector"
         android:fontFamily="@font/nunitosansbold"
         android:text="@string/certificate"
         android:textColor="@color/black"
@@ -64,12 +74,14 @@
         android:id="@+id/dnie_option"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:drawableLeft="@mipmap/ecard_icon"
         android:drawablePadding="10dp"
-        android:paddingBottom="30dp"
-        android:paddingRight="10dp"
-        android:paddingLeft="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/option_selector"
         android:fontFamily="@font/nunitosansbold"
         android:text="@string/dnie"
         android:textColor="@color/black"
@@ -77,6 +89,6 @@
         android:textStyle="bold"
         android:clickable="true"/>
 
-
+</LinearLayout>
 
 </LinearLayout>

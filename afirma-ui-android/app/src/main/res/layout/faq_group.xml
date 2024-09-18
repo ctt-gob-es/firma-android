@@ -11,7 +11,6 @@
         android:layout_gravity="center"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:fontFamily="@font/nunitosansbold"
         android:textSize="15sp"
         android:textColor="@color/black"

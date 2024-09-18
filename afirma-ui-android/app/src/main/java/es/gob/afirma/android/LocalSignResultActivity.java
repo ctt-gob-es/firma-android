@@ -41,6 +41,7 @@ import es.gob.afirma.android.crypto.SignResult;
 import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.core.signers.AOSignerFactory;
 import es.gob.afirma.signers.cades.CAdESExtraParams;
+import es.gob.jmulticard.card.BadPinException;
 
 /** Esta actividad permite firmar un fichero local. La firma se guarda en un fichero <i>.csig</i>.
  * Esta clase tiene mucho c&oacute;digo duplicado de la clase <code>LocalSignResultActivity</code>.
@@ -56,7 +57,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	/** C&oacute;digo de solicitud de guardado de fichero. */
 	private final static int REQUEST_CODE_SAVE_FILE = 104;
 
-	private static final String DEFAULT_SIGNATURE_ALGORITHM = "SHA256withRSA"; //$NON-NLS-1$
+	protected static final String DEFAULT_SIGNATURE_ALGORITHM = "SHA256withRSA"; //$NON-NLS-1$
 
 	private static final String PDF_FILE_SUFFIX = ".pdf"; //$NON-NLS-1$
 
@@ -90,22 +91,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_signed_file);
 
-		if (savedInstanceState != null && savedInstanceState.containsKey(SAVE_INSTANCE_KEY_TITLE_VISIBILITY) && savedInstanceState.getBoolean(SAVE_INSTANCE_KEY_TITLE_VISIBILITY)) {
-			TextView signFileTitle = findViewById(R.id.signedfile_title);
-			ViewCompat.setAccessibilityHeading(signFileTitle, true);
-			signFileTitle.setVisibility(View.VISIBLE);
-
-			((TextView) findViewById(R.id.tv_signedfile_ko)).setText(savedInstanceState.getString(SAVE_INSTANCE_KEY_ERROR_TEXT));
-
-			findViewById(R.id.signedfile_error).setVisibility(
-					savedInstanceState.getBoolean(SAVE_INSTANCE_KEY_ERROR_RESULT_VISIBILITY) ? View.VISIBLE : View.INVISIBLE);
-
-			((TextView) findViewById(R.id.filestorage_path)).setText(savedInstanceState.getString(SAVE_INSTANCE_KEY_PATH_FILE));
-
-			findViewById(R.id.signedfile_correct).setVisibility(
-					savedInstanceState.getBoolean(SAVE_INSTANCE_KEY_OK_RESULT_VISIBILITY) ? View.VISIBLE : View.INVISIBLE);
-		}
-		else if (!isSigning()) {
+		if (!isSigning()) {
 
 			// Elegimos un fichero del directorio
 			Intent intent;
@@ -165,6 +151,8 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 				Properties extraParams = new Properties();
 				extraParams.setProperty(CAdESExtraParams.MODE, "implicit");
+
+				//ELECCION DE TIPO DE ALMACEN
 
 				sign("SIGN", fileContent, format, DEFAULT_SIGNATURE_ALGORITHM, extraParams);
 			}
@@ -390,7 +378,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		else {
 			if (KeyStoreOperation.SIGN == op) {
 				if (t instanceof MSCBadPinException) {
-					showErrorMessage(getString(R.string.incorrect_pin), getString(R.string.error_msc_pin));
+					showErrorMessage(getString(R.string.incorrect_pin), t.getMessage());
 				}
 				else {
 					showErrorMessage(getString(R.string.error), getString(R.string.error_signing));
@@ -400,12 +388,6 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 				showErrorMessage(getString(R.string.error), msg);
 			}
 
-			// Ya cerrados los dialogos modales, mostramos el titulo de la pantalla
-			final TextView tvTitle = findViewById(R.id.signedfile_title);
-			tvTitle.setVisibility(View.VISIBLE);
-
-			final RelativeLayout rl = findViewById(R.id.signedfile_error);
-			rl.setVisibility(View.VISIBLE);
 			Logger.e(ES_GOB_AFIRMA, "Error durante la firma: " + t);
 		}
 	}

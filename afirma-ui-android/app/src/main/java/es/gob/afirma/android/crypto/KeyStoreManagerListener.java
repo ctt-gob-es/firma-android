@@ -1,5 +1,7 @@
 package es.gob.afirma.android.crypto;
 
+import es.gob.afirma.android.LoadKeyStoreFragmentActivity;
+
 /** Interfaz para la notificaci&oacute;n de finalizaci&oacute;n de la
  * carga e inicializaci&oacute;n del gestor de claves y certificados. */
 public interface KeyStoreManagerListener {
@@ -12,4 +14,6 @@ public interface KeyStoreManagerListener {
      * @param msg Texto con la descripci&oacute;n del error.
      * @param t Error capturado. */
     void onLoadingKeyStoreError(String msg, Throwable t);
+
+    void onKeyStoreError(LoadKeyStoreFragmentActivity.KeyStoreOperation op, String msg, Throwable t);
 }

@@ -10,6 +10,8 @@
 
 package es.gob.afirma.android;
 
+import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
+
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,6 +21,7 @@ import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
@@ -33,27 +36,39 @@ import es.gob.afirma.android.crypto.LoadKeyStoreManagerTask;
 import es.gob.afirma.android.crypto.LoadNfcKeyStoreManagerTask;
 import es.gob.afirma.android.crypto.LoadingCertificateException;
 import es.gob.afirma.android.crypto.UnsupportedNfcCardException;
+import es.gob.afirma.android.gui.ChooseCertTypeDialog;
 import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 
 /** Esta actividad abstracta integra las funciones necesarias para la cargar de un almacen de
  * certificados del dispositivo. La actividad integra la l&oacute;gica necesaria para utilizar
  * DNIe 3.0 v&iacute;a NFC, DNIe 2.0/3.0 a trav&eacute;s de lector de tarjetas y el almac&eacute;n
  * de Android. */
-public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
-                                                   implements  KeyStoreManagerListener {
+public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 
 	private final static String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
+
+	public static final String INTENT_EXTRA_PIN_VALUE = "pinValue"; //$NON-NLS-1$
 
 	/** C&oacute;digo de solicitud de detecci&oacute;n de tarjeta por NFC. */
 	private final static int REQUEST_CODE_DETECT_NFC_CARD = 2001;
 	/** C&oacute;digo de solicitud de la habilitaci&oacute;n del NFC del dispositivo. */
 	private final static int REQUEST_CODE_ENABLE_NFC = 2002;   // The request code
 
-    private static final String ACTION_USB_PERMISSION = "es.gob.afirma.android.USB_PERMISSION"; //$NON-NLS-1$
+	public final static int REQUEST_KEYSTORE = 2004;   // The request code
+
+	public final static int REQUEST_NFC_PARAMS = 2005;   // The request code
+
+	public final static int REQUEST_NFC_KEYSTORE = 2006;   // The request code
+
+	public final static String ERROR_LOADING_NFC_KEYSTORE = "errorLoadingNFCKeystore";   // The request code
+
+	private static final String ACTION_USB_PERMISSION = "es.gob.afirma.android.USB_PERMISSION"; //$NON-NLS-1$
 
 	private UsbManager usbManager = null;
 
     private UsbDevice usbDevice = null;
+
+	protected static KeyStoreManagerListener ksmListener;
 
 	private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
 		@Override
@@ -73,7 +88,7 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 
 					// Ya sea con dispositivo o sin el, se continua la ejecucion cargando el almacen
 					new LoadKeyStoreManagerTask(
-							LoadKeyStoreFragmentActivity.this,
+							ksmListener,
 							LoadKeyStoreFragmentActivity.this,
 							LoadKeyStoreFragmentActivity.this.getUsbDevice(),
 							LoadKeyStoreFragmentActivity.this.getUsbManager()
@@ -82,7 +97,7 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 			}
 			else {
 				new LoadKeyStoreManagerTask(
-						LoadKeyStoreFragmentActivity.this,
+						ksmListener,
 						LoadKeyStoreFragmentActivity.this
 				).execute();
 			}
@@ -110,6 +125,20 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	}
 
 	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		String can = getIntent().getStringExtra(INTENT_EXTRA_CAN_VALUE);
+		String pin = getIntent().getStringExtra(INTENT_EXTRA_PIN_VALUE);
+
+		if (can != null && pin != null) {
+			DnieConnectionManager.getInstance().setCanPasswordCallback(new CachePasswordCallback(can.toCharArray()));
+			DnieConnectionManager.getInstance().setPinPasswordCallback(new CachePasswordCallback(pin.toCharArray()));
+			searchNewNfcCard();
+		}
+	}
+
+	@Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 
 		// Si volvemos de la pantalla de insercion de CAN y deteccion de tarjeta NFC
@@ -127,9 +156,10 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 				loadNfcKeyStore(canPasswordCallback);
 			}
 			else {
-				// Si no se puede cargar el almacen y se establecido un CAN de DNIE, puede que
-				// el problema es que sea erroneo, asi que lo borramos
+				// Si no se puede cargar el almacen y se establecido un CAN y DNI de DNIE, puede que
+				// el problema es que alguno sea erroneo, asi que lo borramos
 				DnieConnectionManager.getInstance().clearCan();
+				DnieConnectionManager.getInstance().clearPin();
 
 				runOnUiThread(
 						new Runnable() {
@@ -169,6 +199,13 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 				);
 				loadKeyStore();
 			}
+		} else if (requestCode == REQUEST_KEYSTORE) {
+			// Depende de la eleccion del usuario se solicitara el almacen de un tipo u otro
+			if (resultCode == REQUEST_NFC_KEYSTORE) {
+				requestNFCKeystore();
+			} else {
+				loadKeyStore();
+			}
 		}
 
 		super.onActivityResult(requestCode, resultCode, data);
@@ -205,22 +242,27 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	 * @param context Contexto de la actividad.
 	 */
 	protected void loadKeyStore(Context context) {
-		// Si tenemos habilitado el uso de NFC, buscamos una tarjeta; si no, cargamos directamente
+		// Si tenemos habilitado el uso de NFC, se pregunta al usuario si firmar con DNIe o el almacen de certificados; si no, cargamos directamente
 		// el almacen en cuestion (que puede ser una tarjeta previamente buscada)
 		if (NfcHelper.isNfcPreferredConnection(context)) {
-
-			// Comprobamos si se configuro el uso de NFC
-			// Si el NFC esta activado, lanzamos una actividad para detectar el DNIe 3.0
-			if (NfcHelper.isNfcServiceEnabled(context)) {
-				searchNewNfcCard();
-			}
-			// Si el NFC no esta activado, se le solicita al usuario activarlo
-			else {
-				openNfcSystemSettings();
-			}
+			final Intent intentRequestKeystore = new Intent(this, ChooseCertTypeDialog.class);
+			startActivityForResult(intentRequestKeystore, REQUEST_KEYSTORE);
 		}
 		else {
 			loadKeyStore();
+		}
+	}
+
+	protected void requestNFCKeystore() {
+		// Comprobamos si se configuro el uso de NFC
+		// Si el NFC esta activado, lanzamos una actividad para detectar el DNIe 3.0
+		if (NfcHelper.isNfcServiceEnabled(getApplicationContext())) {
+			final Intent stepsSignDNIe = new Intent(this, IntroSignDnieActivity.class);
+			startActivity(stepsSignDNIe);
+		}
+		// Si el NFC no esta activado, se le solicita al usuario activarlo
+		else {
+			openNfcSystemSettings();
 		}
 	}
 
@@ -246,7 +288,7 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 		if (this.usbManager == null) {
 			Logger.i(ES_GOB_AFIRMA, "No hay dispositivos CCID USB conectados"); //$NON-NLS-1$
 			// Cargamos el almacen de certificados normalmente
-			new LoadKeyStoreManagerTask(this, this).execute();
+			new LoadKeyStoreManagerTask(ksmListener, this).execute();
 		}
 
 		//Si no, pedimos acceso al dispositivo
@@ -261,40 +303,33 @@ public abstract class LoadKeyStoreFragmentActivity extends FragmentActivity
 	 * por conexion NFC.
 	 */
 	private void loadNfcKeyStore(CachePasswordCallback canPasswordCallback) {
-		new LoadNfcKeyStoreManagerTask(this, this, canPasswordCallback).execute(AsyncTask.THREAD_POOL_EXECUTOR);
+		new LoadNfcKeyStoreManagerTask(ksmListener, this, canPasswordCallback).execute(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
-	@Override
 	public void onLoadingKeyStoreError(final String msg, final Throwable t) {
 
 		// Si el error de carga es un error de conexion NFC, volvemos a mostrar el dialogo,
 		// si no, indicamos un error en la firma.
 		if (t instanceof UnsupportedNfcCardException) {
-			Toast.makeText(this, R.string.unsupported_card, Toast.LENGTH_SHORT).show();
-			searchNewNfcCard();
+			final Intent stepsSignDNIe = new Intent(this, IntroSignDnieActivity.class);
+			stepsSignDNIe.putExtra(ERROR_LOADING_NFC_KEYSTORE, getString(R.string.unsupported_card));
+			startActivity(stepsSignDNIe);
 		}
 		else if (t instanceof InitializingNfcCardException) {
-			Toast.makeText(this, R.string.nfc_card_initializing_error, Toast.LENGTH_SHORT).show();
-			searchNewNfcCard();
+			final Intent stepsSignDNIe = new Intent(this, IntroSignDnieActivity.class);
+			stepsSignDNIe.putExtra(ERROR_LOADING_NFC_KEYSTORE, getString(R.string.nfc_card_initializing_error));
+			startActivity(stepsSignDNIe);
 		}
 		else if (t instanceof LoadingCertificateException) {
 			loadKeyStore();
 		}
 		else {
-            onKeyStoreError(KeyStoreOperation.LOAD_KEYSTORE, msg, t);
+            ksmListener.onKeyStoreError(KeyStoreOperation.LOAD_KEYSTORE, msg, t);
 		}
 	}
 
-    /**
-     * Cuando se propduce un error al operar con el almacen de certificados.
-     * @param op Operaci&oacute;n en la cual se produjo el error.
-     * @param msg Mensaje de error.
-     * @param t Error que origin&oacute; el problema.
-     */
-	public abstract void onKeyStoreError(KeyStoreOperation op, String msg, Throwable t);
-
 	/** Operaci&oacute;n de firma. */
-	protected enum KeyStoreOperation {
+	public enum KeyStoreOperation {
 		/** Operaci&oacute;n de firma. */
 		SIGN,
 		/** Operaci&oacute;n de carga de almac&eacute;n. */

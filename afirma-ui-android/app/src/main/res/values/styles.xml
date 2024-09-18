@@ -68,11 +68,11 @@
     	<item name="android:paddingTop">0dp</item>
     	<item name="android:paddingBottom">0dp</item>
 		<item name="android:fontFamily">@font/nunitosansbold</item>
-    	<item name="android:background">@drawable/buttonredbackground</item>
+    	<item name="android:background">@drawable/red_button_selector</item>
 	</style>
 
 	<style name="ButtonWhiteLarge">
-		<item name="android:textColor">#B44D3D</item>
+		<item name="android:textColor">@drawable/white_button_textcolor_selector</item>
 		<item name="android:textSize">13sp</item>
 		<item name="android:gravity">center_vertical|center_horizontal</item>
 		<item name="android:paddingLeft">7dp</item>
@@ -80,17 +80,7 @@
 		<item name="android:paddingTop">0dp</item>
 		<item name="android:paddingBottom">0dp</item>
 		<item name="android:fontFamily">@font/nunitosansbold</item>
-		<item name="android:background">@drawable/buttonwhitebackground</item>
-	</style>
-	
-	<style name="ButtonSignLarge">
-	    <item name="android:textColor">#FEFEFE</item>
-    	<item name="android:textSize">20sp</item>
-    	<item name="android:gravity">center_vertical|center_horizontal</item>
-    	<item name="android:paddingLeft">7dp</item>
-    	<item name="android:paddingRight">7dp</item>
-    	<item name="android:paddingTop">0dp</item>
-    	<item name="android:paddingBottom">0dp</item>
+		<item name="android:background">@drawable/white_button_selector</item>
 	</style>
 	
 	<style name="ButtonWhiteSmall">
@@ -152,6 +142,10 @@
 	<style name="TextHintBlack">
 		<item name="android:textSize">12sp</item>
 		<item name="android:textColor">#000000</item>
+	</style>
+
+	<style name="InputLayoutError" parent="TextAppearance.AppCompat.Caption">
+		<item name="android:textColor">@android:color/holo_red_dark</item>
 	</style>
 
     

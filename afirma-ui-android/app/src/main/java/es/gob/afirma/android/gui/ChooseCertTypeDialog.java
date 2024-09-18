@@ -10,44 +10,38 @@
 
 package es.gob.afirma.android.gui;
 
-import static android.app.PendingIntent.getActivity;
+import static es.gob.afirma.android.LoadKeyStoreFragmentActivity.REQUEST_NFC_KEYSTORE;
 
-import android.content.Context;
 import android.content.Intent;
-import android.view.LayoutInflater;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+import androidx.fragment.app.FragmentActivity;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.IntroSignDnieActivity;
-import es.gob.afirma.android.LocalSignResultActivity;
 
 /** Di&aacute;logo modal con el que mostrar al usuario un mensaje y un bot&oacute;n para ocultar el
  * di&aacute;logo y, opcionalmente, realizar una acci&oacute;n. */
-public class ChooseCertTypeDialog extends BottomSheetDialog {
+public class ChooseCertTypeDialog extends FragmentActivity {
 
-	public final static int SELECT_CERT_REQUEST_CODE = 1;
+	@Override
+	public void onCreate(final Bundle savedInstanceState) {
 
-	public ChooseCertTypeDialog(final Context context) {
-		super(context, R.style.BottomSheetDialogTheme);
-		View layout = LayoutInflater.from(context).inflate(R.layout.choose_cert_type_dialog, this.findViewById(R.id.chooseCertTypeDialog));
-		this.setContentView(layout);
-		this.setCancelable(false);
-		this.setCanceledOnTouchOutside(true);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.choose_cert_type_dialog);
 
 		TextView certificateTv = this.findViewById(R.id.cert_option);
 		certificateTv.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
-				{
-					hide();
-					Intent intent = new Intent(getContext(), LocalSignResultActivity.class);
-					v.getContext().startActivity(intent);
-				}
+			{
+				Intent dataIntent = new Intent();
+				setResult(RESULT_OK, dataIntent);
+				finish();
+			}
 		});
 
 		TextView signWithDnieTv = this.findViewById(R.id.dnie_option);
@@ -56,9 +50,9 @@ public class ChooseCertTypeDialog extends BottomSheetDialog {
 			@Override
 			public void onClick(View v)
 			{
-				hide();
-				Intent intent = new Intent(getContext(), IntroSignDnieActivity.class);
-				getContext().startActivity(intent);
+				Intent dataIntent = new Intent();
+				setResult(REQUEST_NFC_KEYSTORE, dataIntent);
+				finish();
 			}
 		});
 
@@ -68,9 +62,10 @@ public class ChooseCertTypeDialog extends BottomSheetDialog {
 			@Override
 			public void onClick(View v)
 			{
-				hide();
+				finish();
 			}
 		});
+
 	}
 
 

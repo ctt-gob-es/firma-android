@@ -13,7 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ToolbarTheme"
         android:touchscreenBlocksFocus="false"
-        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIcon="@drawable/nav_back_selector"
         app:popupTheme="@style/AppTheme"
         app:title="@string/language"
         app:titleCentered="true"
@@ -27,7 +27,11 @@
         android:divider="@color/toolbar"
         android:dividerHeight="1dp"
         android:background="@color/white"
+        android:listSelector="@drawable/option_selector"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:clickable="true"
+        android:touchscreenBlocksFocus="false"
         android:padding="20dp"
         />
 

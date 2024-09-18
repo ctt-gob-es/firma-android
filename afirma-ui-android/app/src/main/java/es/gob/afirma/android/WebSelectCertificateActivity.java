@@ -29,6 +29,7 @@ import java.security.cert.Certificate;
 import es.gob.afirma.R;
 import es.gob.afirma.android.crypto.AndroidHttpManager;
 import es.gob.afirma.android.crypto.CipherDataManager;
+import es.gob.afirma.android.crypto.KeyStoreManagerListener;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
 import es.gob.afirma.android.gui.DownloadFileTask;
@@ -45,7 +46,7 @@ import es.gob.afirma.core.misc.protocol.UrlParametersToSelectCert;
 /** Actividad dedicada a la firma de los datos recibidos en la entrada mediante un certificado
  * del almac&eacute;n central seleccionado por el usuario. */
 public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActivity
-                                                implements DownloadFileTask.DownloadDataListener,
+                                                implements KeyStoreManagerListener, DownloadFileTask.DownloadDataListener,
                                                             SendDataListener,
                                                             MobileKeyStoreManager.CertificateSelectionListener {
 
@@ -77,6 +78,8 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		ksmListener = this;
 
 		if (getIntent() == null || getIntent().getData() == null) {
 			Logger.w(ES_GOB_AFIRMA, "No se han indicado parametros de entrada para la actividad");  //$NON-NLS-1$
@@ -110,7 +113,7 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
         }
 
 		try {
-			this.parameters = ProtocolInvocationUriParser.getParametersToSelectCert(getIntent().getDataString());
+			this.parameters = ProtocolInvocationUriParser.getParametersToSelectCert(getIntent().getDataString(), true);
 		}
 		catch (final ParameterException e) {
 			Logger.e(ES_GOB_AFIRMA, "Error en los parametros de firma", e); //$NON-NLS-1$

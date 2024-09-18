@@ -5,4 +5,6 @@
         <color name="black">#ff000000</color>
         <color name="red">#ff95191c</color>
         <color name="toolbar">#eff3f5</color>
+        <color name="blue">#0000FF</color>
+        <color name="gray">#b5a19f</color>
 </resources>

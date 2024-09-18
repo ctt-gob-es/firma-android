@@ -16,7 +16,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,7 +44,6 @@ import java.io.InputStream;
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
 import es.gob.afirma.android.gui.CertImportInstructionsActivity;
-import es.gob.afirma.android.gui.ChooseCertTypeDialog;
 import es.gob.afirma.android.gui.ConfigNfcDialog;
 import es.gob.afirma.android.gui.CustomDialog;
 
@@ -177,16 +175,6 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 				}
 			}
 		});
-		// Control de foco para mejorar la accesibilidad en la navegacion por teclado
-		signButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					signButton.setBackground(getResources().getDrawable(R.drawable.buttonblackbackground));
-				} else {
-					signButton.setBackground(getResources().getDrawable(R.drawable.buttonredbackground));
-				}
-			}
-		});
 
 		Button importButton = contentLayout.findViewById(R.id.importCertButton);
 		importButton.setOnClickListener(new View.OnClickListener()
@@ -202,18 +190,6 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 				else {
 					Intent intent = new Intent(getContext(), CertImportInstructionsActivity.class);
 					startActivityForResult(intent, IMPORT_CERT_INSTRUCTIONS_CODE);
-				}
-			}
-		});
-		// Control de foco para mejorar la accesibilidad en la navegacion por teclado
-		importButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					importButton.setBackground(getResources().getDrawable(R.drawable.buttonblackbackground));
-					importButton.setTextColor(Color.parseColor("#FFFFFF"));
-				} else {
-					importButton.setBackground(getResources().getDrawable(R.drawable.buttonwhitebackground));
-					importButton.setTextColor(Color.parseColor("#B44D3D"));
 				}
 			}
 		});
@@ -330,13 +306,15 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 		} else if (requestCode == IMPORT_CERT_INSTRUCTIONS_CODE && resultCode == Activity.RESULT_OK) {
 			startCertImport();
 		} else if (requestCode == INSTALLED_CERT && resultCode == Activity.RESULT_OK) {
-			CustomDialog cd = new CustomDialog(this.getContext(), R.mipmap.check_icon, "Certificado anadido", "El certificado se ha añadido correctamente",
-					"Entendido", false,null);
+			CustomDialog cd = new CustomDialog(this.getContext(), R.mipmap.check_icon, getString(R.string.added_cert_title), getString(R.string.added_cert_message),
+					getString(R.string.understood), false,null);
 			cd.show();
 		} else if (requestCode == SIGNED_FILE_OK && resultCode == Activity.RESULT_OK) {
 			CustomDialog cd = new CustomDialog(this.getContext(), R.mipmap.check_icon,
-					"Fichero firmado", "Fichero firmado correctamente.", getString(R.string.understood));
+					getString(R.string.signed_file_title), getString(R.string.signed_file_message), getString(R.string.understood));
 			cd.show();
+		} else if (requestCode == 0) {
+
 		}
 	}
 
@@ -366,13 +344,8 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 	}
 
 	private void startLocalSign() {
-		if (NfcHelper.isNfcPreferredConnection(getContext())) {
-			ChooseCertTypeDialog certTypeDialog = new ChooseCertTypeDialog(getContext());
-			certTypeDialog.show();
-		} else {
-			Intent intent = new Intent(getContext(), LocalSignResultActivity.class);
-			startActivity(intent);
-		}
+		Intent intent = new Intent(getContext(), LocalSignResultActivity.class);
+		startActivity(intent);
 	}
 
 	@Override

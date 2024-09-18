@@ -36,6 +36,7 @@ import es.gob.afirma.R;
 import es.gob.afirma.android.batch.SignBatchFragmentActivity;
 import es.gob.afirma.android.crypto.AndroidHttpManager;
 import es.gob.afirma.android.crypto.CipherDataManager;
+import es.gob.afirma.android.crypto.KeyStoreManagerListener;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
 import es.gob.afirma.android.gui.DownloadFileTask;
@@ -56,7 +57,7 @@ import es.gob.afirma.core.signers.ExtraParamsProcessor;
 /** Actividad dedicada a la firma por lotes de los datos recibidos en la entrada mediante un certificado
  * del almac&eacute;n central seleccionado por el usuario. */
 public final class WebSignBatchActivity extends SignBatchFragmentActivity
-		implements SendDataListener, DownloadFileTask.DownloadDataListener {
+		implements KeyStoreManagerListener, SendDataListener, DownloadFileTask.DownloadDataListener {
 
 	private static final char RESULT_SEPARATOR = '|';
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma";
@@ -130,7 +131,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		// Extraemos los parametros de la URL
 		final Map<String, String> urlParams = extractParamsForBatch(getIntent().getDataString());
 		try {
-			setBatchParams(ProtocolInvocationUriParserUtil.getParametersToBatch(urlParams));
+			setBatchParams(ProtocolInvocationUriParserUtil.getParametersToBatch(urlParams, true));
 		} catch (ParameterException e) {
 			Logger.e(ES_GOB_AFIRMA, "Error con el parametro utilizado", e);
 			showErrorMessage(getString(R.string.error_bad_params));
@@ -190,7 +191,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		}
 
 		try {
-			setBatchParams(ProtocolInvocationUriParser.getParametersToBatch(batchDefinition));
+			setBatchParams(ProtocolInvocationUriParser.getParametersToBatch(batchDefinition, true));
 		} catch (ParameterException e) {
 			Logger.e(ES_GOB_AFIRMA, "Error con el parametro utilizado", e);
 			showErrorMessage(getString(R.string.error_bad_params));
@@ -593,7 +594,10 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	}
 
 	void closeActivity() {
-		finishAffinity();
+		Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.putExtra("CLOSE_ACTIVITY", true);
+		startActivity(intent);
 	}
 
 	@Override

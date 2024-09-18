@@ -20,7 +20,7 @@
         android:layout_marginTop="5dip"
         android:layout_toRightOf="@id/fileIcon"
         android:singleLine="true"
-        android:textStyle="bold"
+        android:fontFamily="@font/nunitosansbold"
         android:textIsSelectable="false" />
 
     <TextView
@@ -30,6 +30,7 @@
         android:layout_marginLeft="10dip"
         android:layout_toRightOf="@id/fileIcon"
         android:layout_below="@id/TextView01"
+        android:fontFamily="@font/nunitosans"
         android:textIsSelectable="false" />
     
 </RelativeLayout>

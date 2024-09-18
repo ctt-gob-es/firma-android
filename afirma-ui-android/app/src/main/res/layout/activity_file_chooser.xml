@@ -8,14 +8,15 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/vbackground"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/current_directory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitosans"
             android:textColor="@color/black"
+            android:background="@color/toolbar"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textIsSelectable="false" />
 
@@ -23,8 +24,7 @@
             android:id="@+id/separator"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:background="@android:color/darker_gray" />
 
         <ListView

@@ -107,7 +107,7 @@
     <string name="settings">Ajustes</string>
     <string name="can_not_can_be_null">El CAN no puede ser vac\u00EDo o nulo</string>
     <string name="unsupported_card">Tarjeta no soportada</string>
-    <string name="nfc_card_initializing_error">Error al iniciar la conexi\u00F3n con la tarjeta. Int\u00E9ntelo de nuevo.</string>
+    <string name="nfc_card_initializing_error">Error al iniciar la conexi\u00F3n con la tarjeta. Es posible que el CAN sea incorrecto. Int\u00E9ntelo de nuevo.</string>
     <string name="title_activity_main_test">MainActivityTest</string>
     <string name="allow_dni3_0_NFC">Permitir el uso de DNIe por NFC</string>
     <string name="validate_SSL_connections">Validar conexiones SSL</string>
@@ -132,7 +132,7 @@
     <string name="locate_file_title">Localiza el archivo</string>
     <string name="locate_file_message">Localiza el archivo .p12 o .pfx. en tu tel\u00E9fono</string>
     <string name="send_to_device_title">Env\u00EDa al dispositivo</string>
-    <string name="send_to_device_message">Si no lo encuentras, env\u00EDalo a tu m\u00F3vil desde otro dispositivo mediante correo electr\u00F3nico u otras aplicaciones en Cloud.</string>
+    <string name="send_to_device_message">Si no lo encuentras, env\u00EDalo a tu m\u00F3vil desde otro dispositivo mediante correo electr\u00F3nico u otras aplicaciones en la nube.</string>
     <string name="cant_add_cert_title">No hemos podido a\u00F1adir tu certificado</string>
     <string name="cant_add_cert_message">No hemos podido a\u00F1adir tu certificado a la aplicaci\u00F3n de AutoFirma de manera correcta. Int\u00E9ntalo de nuevo m\u00E1s tarde</string>
     <string name="try_again">Intentar de nuevo</string>
@@ -142,9 +142,9 @@
     <string name="certificate">Certificado electr\u00F3nico</string>
     <string name="dnie">DNI electr\u00F3nico</string>
     <string name="what_is_autofirma_for_title">¿Para qu\u00E9 sirve AutoFirma?</string>
-    <string name="what_is_autofirma_for_desc">Esta aplicaci\u00F3n permite realizar firmas electr\u00F3nicas en las p\u00E1ginas de los proveedores de servicios que lo soporten. Para funcionar correctamente debes instalar un certificado electr\u00F3nico. Consulta la documentaci\u00F3n de su sistema IOS y con tu proveedor de servicios de certificaci\u00F3n.</string>
+    <string name="what_is_autofirma_for_desc">Esta aplicaci\u00F3n permite realizar firmas electr\u00F3nicas en las p\u00E1ginas de los proveedores de servicios que lo soporten. Para funcionar correctamente debes instalar un certificado electr\u00F3nico. Consulta la documentaci\u00F3n de su sistema Android y con tu proveedor de servicios de certificaci\u00F3n.</string>
     <string name="how_install_certs">¿C\u00F3mo instalar certificados?</string>
-    <string name="load_cert">Carga tu certificado en tu dispositivo o iCloud. Imp\u00F3rtalo a trav\u00E9s de la opci\u00F3n "A\u00F1adir certificado" de la aplicaci\u00F3n.</string>
+    <string name="load_cert">Carga tu certificado en tu dispositivo o en la nube. Imp\u00F3rtalo a trav\u00E9s de la opci\u00F3n "A\u00F1adir certificado" de la aplicaci\u00F3n.</string>
     <string name="allowed_extensions">Extensiones permitidas: .p12 y .pfx. Recuerda que necesitas la contrase\u00F1a de exportaci\u00F3n de tu certificado, y que \u00E9ste debe de incluir la clave privada. </string>
     <string name="more_information_underline">M\u00E1s informaci\u00F3n</string>
     <string name="my_settings">MI CONFIGURACI\u00d3N</string>
@@ -157,14 +157,20 @@
     <string name="legal_announcement">Aviso legal</string>
     <string name="version">Versi\u00F3n v1.0</string>
     <string name="question_1">¿C\u00F3mo puedo realizar firmas electr\u00F3nicas con este programa?</string>
-    <string name="response_1"><p>El AutoFirma App Android permite firmar con su certificado tr\u00E1mites web compatibles con la aplicaci\u00F3n.</p><p>Para firmar un tr\u00E1mite, compl\u00E9telo normalmente a trav\u00E9s de su navegador web. Si el tr\u00E1mite est\u00E1 preparado para la firma con AutoFirma App, este se ejecutar\u00E1 en el momento de la firma para que el usuario seleccione su certificado y ejecute la operaci\u00F3n.</p><p>Recuerde que antes de iniciar el tr\u00E1mite debe haber importado su certificado de firma en AutoFirma App.</p></string>
+    <string name="response_1"><p>AutoFirma App permite firmar con su certificado tr\u00E1mites web compatibles con la aplicaci\u00F3n.</p><p>Para firmar un tr\u00E1mite, compl\u00E9telo normalmente a trav\u00E9s de su navegador web. Si el tr\u00E1mite est\u00E1 preparado para la firma con AutoFirma App, este se ejecutar\u00E1 en el momento de la firma para que el usuario seleccione su certificado y ejecute la operaci\u00F3n.</p><p>Recuerde que antes de iniciar el tr\u00E1mite debe haber importado su certificado de firma en AutoFirma App.</p></string>
     <string name="question_2">La firma de algunos tr\u00E1mites web fallan, mientras que ese mismo tr\u00E1mite funciona en otros dispositivos. ¿Por qu\u00E9?</string>
     <string name="response_2">AutoFirma App carece a\u00FAn de ciertas funcionalidades que s\u00ED est\u00E1n presentes en versiones para otros sistemas operativos. Futuras actualizaciones del producto solventer\u00E1n estas carencias. Mientras tanto, utilice otro sistema y notifique si lo considera preciso al responsable del tr\u00E1mite web.</string>
     <string name="question_3">¿Corren peligro mis certificados si pierdo el dispositivo?</string>
     <string name="response_3">Los certificados se almacenan en su dispositivo con un potente cifrado protegido con contrase\u00F1a, pero como cualquier sistema criptogr\u00E1fico, en el momento que este est\u00E1 fuera del control de propietario corre el riesgo de ser comprometido. Si pierde el dispositivo debe contactar lo antes posible con su proveedor de servicios de certificaci\u00F3n para revocar de inmediato los certificados que este conten\u00EDa.</string>
-    <string name="question_4">He importado los certificados correctamente en AutoFirma App para Android, pero aun as\u00ED no consigo identificarme con ellos en las sedes electr\u00F3nicas y dem\u00E1s p\u00E1ginas Web que lo requieren ¿Por qu\u00E9?</string>
-    <string name="response_4">Los certificados importados en AutoFirma App para Android son de uso exclusivo para firma electr\u00F3nica en p\u00E1ginas Web dise\u00F1adas a tal efecto. Para usar un certificado digital en una autenticaci\u00F3n Web segura debe seguir las instrucciones de su navegador Web y de Android respecto al proceso de instalaci\u00F3n de los certificados y sus claves en el sistema operativo iOS y en el propio navegador Web si fuese preciso.</string>
-    <string name="version_desc"><![CDATA[<p>“AutoFirma App” v.1.0 2023 Gobierno de España</p><p>AutoFirma App es Software Libre; puedes redistribuirlo y/o modificarlo bajo los términos de la siguiente licencia: “European Software License 1.1”, Curyo texto completo puede consultarse en la siguiente página Web: <a href="http://ec.europa.eu/idabc/eupl.html">http://ec.europa.eu/idabc/eupl.html</a></p><p>El código fuente de este programa, así como del resto de los componentes del proyecto se pueden descargar libremente desde: <a href="http://forja-ctt.administracionelectronica.gob.es">http://forja-ctt.administracionelectronica.gob.es</a></p><p>El proyecto Cliente @firma es un proyecto colaborativo, si desea participar en él, no dude en unirse a la comunidad, accesible desde la siguiente página Web:</p><p><a href="https://administracionelectronica.gob.es/ctt/clienteafirma/mas#.Xxp7T0I7mhc">https://administracionelectronica.gob.es/ctt/clienteafirma/mas#.Xxp7T0I7mhc</a></p>]]></string>
+    <string name="question_4">He importado los certificados correctamente en AutoFirma App, pero aun as\u00ED no consigo identificarme con ellos en las sedes electr\u00F3nicas y dem\u00E1s p\u00E1ginas Web que lo requieren ¿Por qu\u00E9?</string>
+    <string name="response_4">Los certificados importados en AutoFirma App son de uso exclusivo para firma electr\u00F3nica en p\u00E1ginas Web dise\u00F1adas a tal efecto. Para usar un certificado digital en una autenticaci\u00F3n Web segura debe seguir las instrucciones de su navegador Web y de Android respecto al proceso de instalaci\u00F3n de los certificados y sus claves en el sistema operativo Android y en el propio navegador Web si fuese preciso.</string>
+    <string name="version_desc_p1">“AutoFirma App” v.1.0 2023 Gobierno de Espa\u00F1a</string>
+    <string name="version_desc_p2">AutoFirma App es Software Libre; puedes redistribuirlo y/o modificarlo bajo los t\u00E9rminos de la siguiente licencia: “European Software License 1.1”, Curyo texto completo puede consultarse en la siguiente p\u00E1gina Web:</string>
+    <string name="version_desc_p3">El c\u00F3digo fuente de este programa, as\u00ED como del resto de los componentes del proyecto se pueden descargar libremente desde: </string>
+    <string name="version_desc_p4">El proyecto AutoFirma App es un proyecto colaborativo, si desea participar en \u00E9l, no dude en unirse a la comunidad, accesible desde la siguiente p\u00E1gina Web:</string>
+    <string name="version_desc_link1">http://ec.europa.eu/idabc/eupl.html</string>
+    <string name="version_desc_link2">http://forja-ctt.administracionelectronica.gob.es</string>
+    <string name="version_desc_link3">https://administracionelectronica.gob.es/ctt/clienteafirma/mas#.Xxp7T0I7mhc</string>
     <string name="acceptance_conditions">Aceptaci\u00F3n de condiciones</string>
     <string name="read_and_accept_privacy">He le\u00EDdo y estoy de acuerdo con la Pol\u00EDtica de Privacidad</string>
     <string name="read_and_accept_legal">He le\u00EDdo y estoy de acuerdo con el Aviso Legal y los T\u00E9rminos y Condiciones de Uso</string>
@@ -187,6 +193,7 @@
     <string name="not_selected_cert_desc">No se ha encontrado ning\u00FAn certificado instalado en el sistema o no se ha seleccionado para realizar la firma.</string>
     <string name="espanol">Espa\u00F1ol</string>
     <string name="english">English</string>
+    <string name="french">Français</string>
     <string name="catala">Catal\u00E1</string>
     <string name="galego">Galego</string>
     <string name="euskera">Euskera</string>
@@ -198,4 +205,11 @@
     <string name="changes_saved_correctly">Los cambios se han guardado correctamente.</string>
     <string name="expired_cert">Certificado caducado</string>
     <string name="not_valid_cert">El certificado no es v\u00E1lido, ya que est\u00E1 caducado.</string>
+    <string name="pseudonym_cert">Certificado de seud\u00F3nimo</string>
+    <string name="pseudonym_cert_desc">El certificado escogido es un certificado de seud\u00F3nimo. En la firma no aparecer\u00E1n sus datos personales</string>
+    <string name="change_cert">Cambiar de certificado</string>
+    <string name="enter_valid_can">Introduzca un CAN v\u00E1lido</string>
+    <string name="enter_valid_pin">Introduzca un pin v\u00E1lido</string>
+    <string name="added_cert_title">Certificado a\u00F1adido</string>
+    <string name="added_cert_message">El certificado se ha a\u00F1adido correctamente</string>
 </resources>

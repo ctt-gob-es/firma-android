@@ -140,7 +140,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		}
 
 		try {
-			this.parameters = ProtocolInvocationUriParser.getParametersToSign(getIntent().getDataString());
+			this.parameters = ProtocolInvocationUriParser.getParametersToSign(getIntent().getDataString(), true);
 		}
 		catch (final ParameterException e) {
 			Logger.e(ES_GOB_AFIRMA, "Error en los parametros de firma: " + e, e); //$NON-NLS-1$
@@ -467,7 +467,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
         Logger.i(ES_GOB_AFIRMA, "Se han descifrado los datos y se inicia su analisis:\n" + new String(decipheredData)); //$NON-NLS-1$
 
         try {
-            this.parameters = ProtocolInvocationUriParser.getParametersToSign(decipheredData);
+            this.parameters = ProtocolInvocationUriParser.getParametersToSign(decipheredData, true);
         }
         catch (final ParameterException e) {
             Logger.e(ES_GOB_AFIRMA, "Error en los parametros XML de configuracion de firma: " + e, e); //$NON-NLS-1$
@@ -792,7 +792,10 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	}
 
 	void closeActivity() {
-		finishAffinity();
+		Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.putExtra("CLOSE_ACTIVITY", true);
+		startActivity(intent);
 	}
 
 	@Override

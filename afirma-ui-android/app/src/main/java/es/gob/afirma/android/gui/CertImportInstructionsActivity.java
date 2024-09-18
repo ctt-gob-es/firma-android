@@ -69,7 +69,6 @@ public class CertImportInstructionsActivity extends FragmentActivity {
             }
         });
         navIcon = toolbar.getNavigationIcon();
-        desactivateReturnIconToolbar();
 
         continueButton = findViewById(R.id.continueButton);
 
@@ -119,16 +118,6 @@ public class CertImportInstructionsActivity extends FragmentActivity {
         }
     }
 
-    private void desactivateReturnIconToolbar() {
-        Toolbar toolbar = findViewById(R.id.importCertToolbar);
-        toolbar.setNavigationIcon(null);
-    }
-
-    private void activateReturnIconToolbar() {
-        Toolbar toolbar = findViewById(R.id.importCertToolbar);
-        toolbar.setNavigationIcon(navIcon);
-    }
-
     private void activateStep1() {
         titleText.setText(R.string.locate_file_title);
         introText.setText(R.string.locate_file_message);
@@ -138,7 +127,6 @@ public class CertImportInstructionsActivity extends FragmentActivity {
         page1Indicator.setImageResource(R.drawable.selectedpageindicator);
         ImageView page2Indicator = findViewById(R.id.page2Indicator);
         page2Indicator.setImageResource(R.drawable.unselectedpageindicator);
-        desactivateReturnIconToolbar();
     }
 
     private void activateStep2() {
@@ -150,7 +138,6 @@ public class CertImportInstructionsActivity extends FragmentActivity {
         page1Indicator.setImageResource(R.drawable.unselectedpageindicator);
         ImageView page2Indicator = findViewById(R.id.page2Indicator);
         page2Indicator.setImageResource(R.drawable.selectedpageindicator);
-        activateReturnIconToolbar();
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStateAdapter {

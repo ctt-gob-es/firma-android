@@ -5,6 +5,9 @@
     android:id="@+id/permissions_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:touchscreenBlocksFocus="false"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -13,7 +16,7 @@
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ToolbarTheme"
         android:touchscreenBlocksFocus="false"
-        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIcon="@drawable/nav_back_selector"
         app:popupTheme="@style/AppTheme"
         app:title="@string/faq"
         app:titleCentered="true"
@@ -25,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/toolbar"
-        android:dividerHeight="1dp"
-        android:background="@color/white" />
+        android:listSelector="@drawable/option_selector"
+        android:dividerHeight="1dp" />
 
 </LinearLayout>

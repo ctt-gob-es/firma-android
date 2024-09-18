@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/close"
-        android:icon="@mipmap/close_dialog_icon"
+        android:icon="@drawable/bt_close_dialog_selector"
         android:title="Cerrar proceso de firma con DNIe"
         android:onClick="onOptionsItemSelected"
         android:contentDescription="Cierra el proceso de firma con DNIe"

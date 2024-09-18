@@ -30,6 +30,9 @@ public final class AppConfig {
     /** Lista de dominios seguros para conexiones HTTPS. */
     public static final String JAVA_PARAM_SECURE_DOMAINS_LIST = "secureDomainsList"; //$NON-NLS-1$
 
+    /** Alamacena el idioma que est&eacute; confiurado en la app. */
+    public static final String PREFERENCE_LOCALE_CONFIG = "localeConfig"; //$NON-NLS-1$
+
     private static SharedPreferences sharedPref;
 
     /** Inicializa el manejador de preferencias.
@@ -91,6 +94,14 @@ public final class AppConfig {
             setPreference(JAVA_PARAM_SECURE_DOMAINS_LIST, secureDomains);
         }
 
+    }
+
+    public static String getLocaleConfig(Context context) {
+        return getPreference(context, PREFERENCE_LOCALE_CONFIG, "es");
+    }
+
+    public static void setLocaleConfig(String locale) {
+        setPreference(PREFERENCE_LOCALE_CONFIG, locale);
     }
 
     /**

@@ -2,6 +2,7 @@ package es.gob.afirma.android.gui;
 
 import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,9 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.NFCDetectorActivity;
 
 public class SignWithDnieStep2Fragment extends Fragment {
 
@@ -41,30 +42,48 @@ public class SignWithDnieStep2Fragment extends Fragment {
             @Override
             public void onClick(View v)
             {
-                TextView stepTv = getActivity().findViewById(R.id.stepTv);
-                stepTv.setText(getString(R.string.actual_step, "3"));
-
-                TextView titleTv = getActivity().findViewById(R.id.titleTv);
-                titleTv.setText(getString(R.string.read_dnie_with_smartphone));
-
-                ProgressBar progressBar = getActivity().findViewById(R.id.signDnieStepsPb);
-                progressBar.setProgress(3,true);
-
-                SignWithDnieStep3Fragment signWithDnieStep3Fragment = new SignWithDnieStep3Fragment();
-                Bundle bundle = new Bundle();
                 TextInputEditText pinText = getActivity().findViewById(R.id.pinEtx);
 
-                bundle.putString(NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE, canValue);
-                bundle.putString(INTENT_EXTRA_PIN_VALUE, pinText.getText().toString());
-                signWithDnieStep3Fragment.setArguments(bundle);
+                if (isValidPin(pinText)) {
+                    TextView stepTv = getActivity().findViewById(R.id.stepTv);
+                    stepTv.setText(getString(R.string.actual_step, "3"));
 
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.step_content, signWithDnieStep3Fragment)
-                        .commit();
+                    TextView titleTv = getActivity().findViewById(R.id.titleTv);
+                    titleTv.setText(getString(R.string.read_dnie_with_smartphone));
+
+                    ProgressBar progressBar = getActivity().findViewById(R.id.signDnieStepsPb);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        progressBar.setProgress(3,true);
+                    }
+
+                    SignWithDnieStep3Fragment signWithDnieStep3Fragment = new SignWithDnieStep3Fragment();
+                    Bundle bundle = new Bundle();
+
+
+                    bundle.putString(INTENT_EXTRA_CAN_VALUE, canValue);
+                    bundle.putString(INTENT_EXTRA_PIN_VALUE, pinText.getText().toString());
+                    signWithDnieStep3Fragment.setArguments(bundle);
+
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.step_content, signWithDnieStep3Fragment)
+                            .commit();
+                } else {
+                    TextInputLayout pinInputLayout = getActivity().findViewById(R.id.pinEtxLayout);
+                    pinInputLayout.setError(getString(R.string.enter_valid_pin));
+                    pinInputLayout.setErrorEnabled(true);
+                }
             }
         });
 
         return contentLayout;
     }
+
+    private boolean isValidPin(TextInputEditText pinText) {
+        if (pinText.getText() != null && !pinText.getText().toString().isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
 }

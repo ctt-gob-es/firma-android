@@ -26,6 +26,14 @@ public class PermissionsActivity extends AppCompatActivity {
             );
         }
 
+        final Switch switchNFC = this.findViewById(R.id.permissionsSwitch);
+        switchNFC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NfcHelper.configureNfcAsPreferredConnection(switchNFC.isChecked());
+            }
+        });
+
         MaterialToolbar toolbar = findViewById(R.id.permissionsToolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

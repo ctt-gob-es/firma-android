@@ -15,34 +15,98 @@
         app:popupTheme="@style/AppTheme"
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ToolbarTheme"
-        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIcon="@drawable/nav_back_selector"
         app:titleCentered="true"
         app:title="@string/version"
         app:titleTextAppearance="@style/ToolbarTitle"
-        app:titleTextColor="@color/black"/>
+        app:titleTextColor="@color/black"
+        />
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:theme="@style/TextViewSettingsTheme"
-    android:background="@color/white">
-
-    <LinearLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:theme="@style/TextViewSettingsTheme"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/versionContentTv"
+                android:id="@+id/p1Tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:fontFamily="@font/nunitosans"
+                android:text="@string/version_desc_p1"
                 android:paddingStart="8dp"/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/p2Tv"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunitosans"
+                android:text="@string/version_desc_p2"
+                android:paddingStart="8dp"/>
+
+            <TextView
+                android:id="@+id/l1Tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunitosans"
+                android:textColor="@drawable/external_link_textcolor_selector"
+                android:background="@drawable/external_link_selector"
+                android:text="@string/version_desc_link1"
+                android:drawableLeft="@drawable/baseline_open_in_new_24"
+                android:drawablePadding="10dp"
+                android:paddingStart="8dp"/>
+
+            <TextView
+                android:id="@+id/p3Tv"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunitosans"
+                android:text="@string/version_desc_p3"
+                android:paddingStart="8dp"/>
+
+            <TextView
+                android:id="@+id/l2Tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunitosans"
+                android:drawableLeft="@drawable/baseline_open_in_new_24"
+                android:drawablePadding="10dp"
+                android:textColor="@drawable/external_link_textcolor_selector"
+                android:background="@drawable/external_link_selector"
+                android:text="@string/version_desc_link2"
+                android:paddingStart="8dp"/>
+
+            <TextView
+                android:id="@+id/p4Tv"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunitosans"
+                android:text="@string/version_desc_p4"
+                android:paddingStart="8dp"/>
+
+            <TextView
+                android:id="@+id/l3Tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunitosans"
+                android:textColor="@drawable/external_link_textcolor_selector"
+                android:background="@drawable/external_link_selector"
+                android:text="@string/version_desc_link3"
+                android:drawableLeft="@drawable/baseline_open_in_new_24"
+                android:drawablePadding="10dp"
+                android:paddingStart="8dp"/>
+
+        </LinearLayout>
 
 
-</ScrollView>
+    </ScrollView>
 </LinearLayout>

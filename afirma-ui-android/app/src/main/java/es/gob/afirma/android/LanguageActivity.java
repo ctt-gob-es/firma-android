@@ -1,27 +1,23 @@
 package es.gob.afirma.android;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import es.gob.afirma.R;
 
 public class LanguageActivity extends AppCompatActivity {
 
     private ListView languagesLV;
-    private FaqAdapter adapter;
     private ArrayList<String> languagesList;
 
     @Override
@@ -47,6 +43,7 @@ public class LanguageActivity extends AppCompatActivity {
 
         languagesList.add(getResources().getString(R.string.espanol));
         languagesList.add(getResources().getString(R.string.english));
+        languagesList.add(getResources().getString(R.string.french));
         languagesList.add(getResources().getString(R.string.catala));
         languagesList.add(getResources().getString(R.string.galego));
         languagesList.add(getResources().getString(R.string.euskera));
@@ -58,11 +55,34 @@ public class LanguageActivity extends AppCompatActivity {
         languagesLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String language = (String) adapter.getItem(position);
-                Toast.makeText(getApplicationContext(), language, Toast.LENGTH_SHORT);
+                switch (position) {
+                    case 1:
+                        changeLang("en");
+                        break;
+                    case 2:
+                        changeLang("fr");
+                        break;
+                    default:
+                        changeLang("es");
+                }
             }
         });
 
     }
 
+    public void changeLang(String lang) {
+        LocaleHelper.setLocale(this, lang);
+        this.recreate();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, SettingsActivity.class);
+        this.startActivity(i);
+    }
 }

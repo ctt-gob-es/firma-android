@@ -3,9 +3,11 @@ package es.gob.afirma.android;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -13,6 +15,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import junit.runner.Version;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.gui.AppConfig;
 import es.gob.afirma.android.gui.CertImportInstructionsActivity;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -39,6 +42,11 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Abreviatura de idioma seleccionado
+        TextView selectLangTv = this.findViewById(R.id.languageSelectedTv);
+        String lang = AppConfig.getLocaleConfig(this);
+        selectLangTv.setText(lang.toUpperCase());
 
         // Permisos
         TextView permissionsTv = this.findViewById(R.id.permissionsTv);
@@ -123,7 +131,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, HomeActivity.class);
+        this.startActivity(i);
     }
 
 }

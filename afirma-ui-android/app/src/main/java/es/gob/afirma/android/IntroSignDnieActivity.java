@@ -1,18 +1,18 @@
 package es.gob.afirma.android;
 
+import static es.gob.afirma.android.LoadKeyStoreFragmentActivity.ERROR_LOADING_NFC_KEYSTORE;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.gui.CertImportInstructionsActivity;
+import es.gob.afirma.android.gui.CustomDialog;
 
 public class IntroSignDnieActivity extends AppCompatActivity {
 
@@ -37,10 +37,21 @@ public class IntroSignDnieActivity extends AppCompatActivity {
             {
                 Intent intent = new Intent(getBaseContext(), StepsSignDnieActivity.class);
                 v.getContext().startActivity(intent);
+                finish();
             }
         });
 
+        if(getIntent().getExtras() != null && getIntent().getExtras().containsKey(ERROR_LOADING_NFC_KEYSTORE)) {
+            CustomDialog cd = new CustomDialog(this, R.mipmap.error_icon,
+                    getString(R.string.error), getIntent().getStringExtra(ERROR_LOADING_NFC_KEYSTORE), getString(R.string.understood));
+            cd.show();
+        }
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, HomeActivity.class);
+        this.startActivity(i);
+    }
 }

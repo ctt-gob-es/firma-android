@@ -39,7 +39,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginRight="15dp"
-            android:background="@drawable/bt_close_dialog" />
+            android:background="@drawable/bt_close_dialog_selector" />
 
     </LinearLayout>
 
@@ -90,7 +90,7 @@
         android:layout_margin="5dp"
         android:drawableLeft="@mipmap/ic_doc"
         android:drawablePadding="10dp"
-        android:paddingBottom="10dp"
+        android:paddingBottom="20dp"
         android:paddingRight="40dp"
         android:paddingLeft="30dp"
         android:fontFamily="@font/nunitosans"
@@ -109,6 +109,7 @@
         android:textAlignment="center"
         android:fontFamily="@font/nunitosans"
         android:text="@string/more_information_underline"
+        android:visibility="gone"
         android:onClick="onClick"
         android:textColor="#B44D3D"
         android:textSize="10sp"
@@ -122,8 +123,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="5dp"
-        android:fontFamily="@font/nunitosans"
-        android:textStyle="bold"
         android:onClick="onClick"
         android:text="@string/understood"
         style="@style/ButtonRedLarge" />

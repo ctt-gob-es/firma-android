@@ -1,5 +1,6 @@
 package es.gob.afirma.android.gui;
 
+import static es.gob.afirma.android.LoadKeyStoreFragmentActivity.REQUEST_NFC_PARAMS;
 import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
 import static es.gob.afirma.android.gui.SignWithDnieStep2Fragment.INTENT_EXTRA_PIN_VALUE;
 
@@ -9,17 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.NFCDetectorActivity;
+import es.gob.afirma.android.IntroSignDnieActivity;
+import es.gob.afirma.android.LoadKeyStoreFragmentActivity;
+import es.gob.afirma.android.StepsSignDnieActivity;
 
-public class SignWithDnieStep3Fragment extends Fragment {
-
-    private final static int REQUEST_CODE_DETECT_NFC_CARD = 2001;
+public class SignWithDnieStep3Fragment extends Fragment{
 
     String canValue;
     String pinValue;
@@ -44,12 +43,14 @@ public class SignWithDnieStep3Fragment extends Fragment {
             @Override
             public void onClick(View v)
             {
-                final Intent intentNFC = new Intent(getActivity(), NFCDetectorActivity.class);
-                intentNFC.putExtra(INTENT_EXTRA_CAN_VALUE, canValue);
-                startActivityForResult(intentNFC, REQUEST_CODE_DETECT_NFC_CARD);
+                final Intent resultNFC = new Intent(getContext(), LoadKeyStoreFragmentActivity.class);
+                resultNFC.putExtra(INTENT_EXTRA_CAN_VALUE, canValue);
+                resultNFC.putExtra(INTENT_EXTRA_PIN_VALUE, pinValue);
+                startActivity(resultNFC);
             }
         });
 
         return contentLayout;
     }
+
 }

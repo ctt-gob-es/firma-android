@@ -9,15 +9,14 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/stepsSignDnieToolbar"
-        style="@style/Widget.MaterialComponents.Toolbar.Primary"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/toolbar"
-        android:theme="@style/ToolbarTheme"
         android:touchscreenBlocksFocus="false"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme"
         app:menu="@menu/sign_dnie_toolbar"
-        app:navigationIcon="?attr/homeAsUpIndicator"
-        app:popupTheme="@style/AppTheme" />
+        app:popupTheme="@style/AppTheme"
+        app:navigationIcon="@drawable/nav_back_selector"
+        />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

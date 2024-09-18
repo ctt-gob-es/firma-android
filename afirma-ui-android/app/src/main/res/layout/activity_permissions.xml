@@ -15,7 +15,7 @@
         app:popupTheme="@style/AppTheme"
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ToolbarTheme"
-        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIcon="@drawable/nav_back_selector"
         app:titleCentered="true"
         app:title="@string/permissions"
         app:titleTextAppearance="@style/ToolbarTitle"
@@ -50,8 +50,8 @@
 
             <Switch
                 android:id="@+id/permissionsSwitch"
-                android:thumb="@drawable/bg_thumb_switch"
-                android:track="@drawable/bg_track_switch"
+                android:thumb="@drawable/bg_thumb_switch_selector"
+                android:track="@drawable/bg_track_switch_selector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="4dp"/>

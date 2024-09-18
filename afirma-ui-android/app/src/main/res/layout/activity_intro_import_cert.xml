@@ -20,7 +20,7 @@
             app:popupTheme="@style/AppTheme"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ToolbarTheme"
-            app:navigationIcon="?attr/homeAsUpIndicator"/>
+            app:navigationIcon="@drawable/nav_back_selector"/>
 
         <LinearLayout
             android:id="@+id/contentInfo"

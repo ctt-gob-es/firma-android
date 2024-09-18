@@ -11,13 +11,12 @@ import android.nfc.tech.NfcF;
 import android.nfc.tech.NfcV;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
-import androidx.core.content.IntentCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
 import es.gob.afirma.android.crypto.DnieConnectionManager;
-import es.gob.afirma.android.gui.CanDialog;
 import es.gob.afirma.android.gui.CanResult;
 import es.gob.afirma.R;
 import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
@@ -27,6 +26,7 @@ import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 public class NFCDetectorActivity extends FragmentActivity {
 
     public static final String INTENT_EXTRA_CAN_VALUE = "canValue"; //$NON-NLS-1$
+
     static final String INTENT_EXTRA_PASSWORD_CALLBACK = "pc"; //$NON-NLS-1$
 
     private NfcAdapter mNfcAdapter;
@@ -53,6 +53,15 @@ public class NFCDetectorActivity extends FragmentActivity {
             this.canResult.setPasswordCallback(
                     new CachePasswordCallback(getIntent().getCharArrayExtra(INTENT_EXTRA_CAN_VALUE)));
         }
+
+        Button cancelSearch = findViewById(R.id.cancelSearchBtn);
+        cancelSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NFCDetectorActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         IntentFilter discovery = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);

@@ -40,13 +40,18 @@ public class TrustedDomainsActivity extends AppCompatActivity {
                 CheckConnectionsHelper.getTrustedDomains(this)
         );
 
+        final Switch switchValidateSSLConnections = TrustedDomainsActivity.this.findViewById(R.id.checkSSLSwitch);
+        switchValidateSSLConnections.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckConnectionsHelper.configureValidateSSLConnections(switchValidateSSLConnections.isChecked());
+            }
+        });
+
         Button saveChangesBtn = this.findViewById(R.id.saveChangesBtn);
         saveChangesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Switch switchValidateSSLConnections = TrustedDomainsActivity.this.findViewById(R.id.checkSSLSwitch);
-                CheckConnectionsHelper.configureValidateSSLConnections(switchValidateSSLConnections.isChecked());
-
                 final EditText editTextTrustedDomains = TrustedDomainsActivity.this.findViewById(R.id.editTextTrustedDomains);
                 String domains = editTextTrustedDomains.getText().toString().trim();
                 try {

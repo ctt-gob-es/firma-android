@@ -10,7 +10,10 @@
 
 package es.gob.afirma.android;
 
+import static es.gob.afirma.android.LocalSignResultActivity.DEFAULT_SIGNATURE_ALGORITHM;
+
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.security.KeyChainException;
@@ -24,6 +27,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.crypto.KeyStoreManagerListener;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager.SelectCertificateEvent;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
@@ -34,6 +38,8 @@ import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.PDFPasswordDialog;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.RuntimeConfigNeededException;
+import es.gob.afirma.core.misc.AOUtil;
+import es.gob.afirma.signers.cades.CAdESExtraParams;
 import es.gob.afirma.signers.pades.common.BadPdfPasswordException;
 import es.gob.afirma.signers.pades.common.PdfIsPasswordProtectedException;
 
@@ -42,18 +48,18 @@ import es.gob.afirma.signers.pades.common.PdfIsPasswordProtectedException;
  * utilizar DNIe 3.0 v&iacute;a NFC, DNIe 2.0/3.0 a trav&eacute;s de lector de tarjetas y el
  * almac&eacute;n de Android. */
 public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
-											implements  MobileKeyStoreManager.PrivateKeySelectionListener,
+											implements KeyStoreManagerListener, MobileKeyStoreManager.PrivateKeySelectionListener,
                                                         SignListener {
 
 	private final static String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 
 	private String signOperation;
-	private byte[] dataToSign;
+	protected byte[] dataToSign;
 	private String format = null;
 	private String algorithm = null;
 	private Properties extraParams = null;
 
-	private boolean signing = false;
+	boolean signing = false;
 
 	private PrivateKeyEntry keyEntry = null;
 
@@ -96,6 +102,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 		this.format = format;
 		this.algorithm = algorithm;
 		this.extraParams = extraParams;
+		this.ksmListener = this;
 
 		this.signing = true;
 
@@ -107,9 +114,10 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	public synchronized void keySelected(final SelectCertificateEvent kse) {
 
 		PrivateKeyEntry pke = null;
+		X509Certificate cert;
 		try {
 			pke = kse.getPrivateKeyEntry();
-			X509Certificate cert = (X509Certificate) pke.getCertificate();
+			cert = (X509Certificate) pke.getCertificate();
 			cert.checkValidity();
 		} catch (final CertificateExpiredException e) {
 			Logger.e(ES_GOB_AFIRMA, "El certificado seleccionado esta caducado: " + e); //$NON-NLS-1$
@@ -122,14 +130,14 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 					cd.setAcceptButtonClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							finalCd.hide();
-							startDoSign(kse, finalPke);
+							finalCd.cancel();
+							startDoSign(kse, finalPke, false);
 						}
 					});
 					cd.setCancelButtonClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							finalCd.hide();
+							finalCd.cancel();
 							Intent intent = new Intent(SignFragmentActivity.this, HomeActivity.class);
 							startActivity(intent);
 						}
@@ -166,10 +174,42 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			return;
 		}
 
-		startDoSign(kse, pke);
+		startDoSign(kse, pke, false);
 	}
 
-	private synchronized void startDoSign(final SelectCertificateEvent kse, final PrivateKeyEntry pke) {
+	private synchronized void startDoSign(final SelectCertificateEvent kse, final PrivateKeyEntry pke, boolean pseudonymChecked) {
+
+		X509Certificate cert = (X509Certificate) pke.getCertificate();
+
+		Context ctx = this;
+
+		// Comprobamos si es un certificado de seudonimo
+		if (cert != null && !pseudonymChecked && AOUtil.isPseudonymCert(cert)) {
+			PrivateKeyEntry finalPke = pke;
+
+			CustomDialog signFragmentCustomDialog = new CustomDialog(ctx, R.drawable.baseline_info_24, getString(R.string.pseudonym_cert),
+					getString(R.string.pseudonym_cert_desc), getString(R.string.ok), true, getString(R.string.change_cert));
+			signFragmentCustomDialog.setAcceptButtonClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					signFragmentCustomDialog.cancel();
+					startDoSign(kse, finalPke, true);
+				}
+			});
+			signFragmentCustomDialog.setCancelButtonClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					signFragmentCustomDialog.cancel();
+					Properties extraParams = new Properties();
+					extraParams.setProperty(CAdESExtraParams.MODE, "implicit");
+					sign("SIGN", dataToSign, format, DEFAULT_SIGNATURE_ALGORITHM, extraParams);
+				}
+			});
+			signFragmentCustomDialog.show();
+
+			return;
+		}
+
 		String providerName = null;
 		if (kse.getKeyStore() != null) {
 			providerName = kse.getKeyStore().getProvider().getName();

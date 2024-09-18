@@ -1,5 +1,6 @@
 package es.gob.afirma.android;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -51,6 +52,10 @@ public class HomeActivity extends AppCompatActivity {
                 .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)
                 .replace(R.id.home_content, mainFragment)
                 .commit();
+
+        if (getIntent().getBooleanExtra("CLOSE_ACTIVITY", false)) {
+            finishAffinity();
+        }
     }
 
     @Override
@@ -72,6 +77,11 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // No hace nada
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
 }

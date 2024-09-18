@@ -4,7 +4,6 @@
     android:id="@+id/languageGroupContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:listSelector="@drawable/language_list_selector"
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal">
 
@@ -16,7 +15,6 @@
         android:fontFamily="@font/nunitosansbold"
         android:textSize="15sp"
         android:textColor="@color/black"
-        android:focusable="false"
         android:padding="10dp"
         android:layout_marginLeft="10dp"
         />

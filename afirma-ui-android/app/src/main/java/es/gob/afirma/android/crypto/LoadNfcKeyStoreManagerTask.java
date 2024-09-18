@@ -97,7 +97,7 @@ public final class LoadNfcKeyStoreManagerTask extends AsyncTask {
 			//Se cargan los certificados del keystore
 			new LoadCertificatesTask((KeyStore) o, this.passwordCallback, this.kmListener, this.activity).execute();
 		}
-	}
+  	}
 
 	ProgressDialog getProgressDialog() {
 		return this.progressDialog;
