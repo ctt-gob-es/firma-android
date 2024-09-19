@@ -8,15 +8,18 @@ apply plugin: 'com.android.application'
 android {
 
 
+    buildFeatures {
+        buildConfig true
+    }
     lint {
         checkReleaseBuilds false
     }
     namespace 'es.gob.afirma'
-    compileSdk 33
+    compileSdk 34
     defaultConfig {
         applicationId "es.gob.afirma"
         minSdkVersion 19
-        targetSdkVersion 33
+        targetSdkVersion 34
         multiDexEnabled true
         versionCode 26
         versionName "1.8.4"
@@ -53,28 +56,28 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-	implementation 'com.google.android.material:material:1.9.0'
-	implementation ('es.gob.afirma.jmulticard:jmulticard-android:1.8') {
+	implementation 'com.google.android.material:material:1.12.0'
+	implementation ('es.gob.afirma.jmulticard:jmulticard-android:1.9-SNAPSHOT') {
         exclude(module: 'support-v4')
         exclude(module: 'android')
     }
-    implementation 'es.gob.afirma.jmulticard:jmulticard-jse:1.8'
+    implementation 'es.gob.afirma.jmulticard:jmulticard-jse:1.9'
 
-    implementation('es.gob.afirma:afirma-crypto-pdf:1.8.2') {
+    implementation('es.gob.afirma:afirma-crypto-pdf:1.9-SNAPSHOT') {
         exclude(module: 'afirma-lib-itext')
     }
     implementation 'es.gob.afirma.lib:afirma-lib-itext-android:1.6'
-    implementation 'es.gob.afirma:afirma-core:1.8.2'
-    implementation ('es.gob.afirma:afirma-core-keystores:1.8.2') {
+    implementation 'es.gob.afirma:afirma-core:1.9-SNAPSHOT'
+    implementation ('es.gob.afirma:afirma-core-keystores:1.9-SNAPSHOT') {
         exclude(group: 'es.gob.afirma.jmulticard')
     }
-    implementation 'es.gob.afirma:afirma-crypto-cades:1.8.2'
-    implementation 'es.gob.afirma:afirma-crypto-cadestri-client:1.8.2'
-    implementation 'es.gob.afirma:afirma-crypto-xadestri-client:1.8.2'
-    implementation 'es.gob.afirma:afirma-crypto-padestri-client:1.8.2'
-    implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.8.2'
-    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.8.2'
-    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.8.2'
+    implementation 'es.gob.afirma:afirma-crypto-cades:1.9-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-cadestri-client:1.9-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-xadestri-client:1.9-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-padestri-client:1.9-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.9-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.9-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.9-SNAPSHOT'
     implementation 'com.google.code.gson:gson:2.9.0'
 
     // Java language implementation
