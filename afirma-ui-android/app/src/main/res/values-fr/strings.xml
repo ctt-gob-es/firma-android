@@ -110,7 +110,7 @@
     <string name="title_activity_main_test">MainActivityTest</string>
     <string name="allow_dni3_0_NFC">Autoriser l\'utilisation de DNIe par NFC</string>
     <string name="validate_SSL_connections">Valider les connexions</string>
-    <string name="trusted_domains">Domaines de confiance:</string>
+    <string name="trusted_domains">Domaines de confiance</string>
     <string name="error_format_trusted_domains">Le domaine \"%s\" est mal format\u00e9</string>
     <string name="use_asterisk">Utilisez un ast\u00e9risque (*) au d\u00e9but ou \u00e0 la fin comme caract\u00e8re g\u00e9n\u00e9rique.</string>
     <string name="accesibility_dialog_can">Entrez votre code CAN pour \u00e9tablir une connexion NFC avec votre DNIe. Le code CAN contient six chiffres et se trouve dans le coin inf\u00e9rieur droit de votre DNI</string>
@@ -155,7 +155,7 @@
     <string name="how_to_install_certs">Comment installer des certificats</string>
     <string name="general_info">INFORMATION G\u00e9N\u00e9RALE</string>
     <string name="legal_announcement">Notification l\u00e9gale</string>
-    <string name="version">Version v1.0</string>
+    <string name="appversion">Version v%s</string>
     <string name="question_1">Comment peux r\u00e9aliser des signatures \u00e9lectroniques avec ce programme?</string>
     <string name="response_1"><p>AutoFirma App Android Permet signer avec son certifi\u00e9es formalit\u00e9s web compatibles avec l\'application.</p><p>Pour signer une formalit\u00e9, compl\u00e9tez-le normalement \u00e0 travers son navigateur web. Si la formalit\u00e9 est pr\u00e9par\u00e9 pour la signature avec AutoFirma App, ce se ex\u00e9cutera lors de la signature pour que l\'utilisateur s\u00e9lectionnez son certificat et il ex\u00e9cute l\'op\u00e9ration.</p><p>Rappelle qu\'avant de cr\u00e9er la formalit\u00e9 doit y avoir import\u00e9 son certificat de signature en AutoFirma App.</p></string>
     <string name="question_2">La signature de quelques formalit\u00e9s web faillent, alors que cette même formalit\u00e9 fonctionne dans autres dispositifs. Par qu\'est-ce que?</string>
@@ -164,11 +164,11 @@
     <string name="response_3">Les certificats se stockent dans son dispositif avec un puissant chiffr\u00e9 prot\u00e9g\u00e9 avec mot de passe, mais comme n\'importe quel syst\u00e8me criptogr\u00e1fico, dans le moment que celui-ci est en dehors du contrôle de propri\u00e9taire risque d\'être engag\u00e9. Si il perd le dispositif doit contacter l\'avant possible avec son fournisseur de services de certification pour r\u00e9voquer d\'imm\u00e9diat les certificats que celui-ci contenait.</string>
     <string name="question_4">Ai import\u00e9 les certificats correctement en AutoFirma App, mais quand même ne r\u00e9ussis pas m\'identifier avec ils dans les si\u00e8ges \u00e9lectroniques et autres pages Web qu\'ils le requi\u00e8rent Par qu\'est-ce que?</string>
     <string name="response_4">Les certificats import\u00e9s en AutoFirma App sont d\'usage exclusif pour signature \u00e9lectronique en des pages Web dessin\u00e9es \u00e0 cet effet. Pour user un certificat digital dans une authentification Web sûr doit suivre les instructions de son navigateur Web et d\'Android \u00e0 l\'\u00e9gard du proc\u00e8s d\'installation des certificats et ses clefs dans le syst\u00e8me op\u00e9rationnel Android et en le propre navigateur Web si fût pr\u00e9cis.</string>
-    <string name="version_desc_p1">\'AutoFirma App\' V.1.0 2023 Gouvernement de l\'Espagne</string>
+    <string name="version_desc_p1">\'AutoFirma App\' V.%s 2023 Gouvernement de l\'Espagne</string>
     <string name="version_desc_p2">AutoFirma App est Logiciel Libre; tu peux le redistribuer et/ou le modifier sous les termes de la suivante licence: \'European Logiciel License 1.1\', Curyo texte complet peut se consulter dans la suivante page Web:</string>
     <string name="version_desc_p3">Le code source de ce programme, ainsi que du reste des composants du projet se peuvent d\u00e9charger librement depuis: </string>
     <string name="version_desc_p4">Le projet AutoFirma App est un projet collaboratif, si il souhaite participer \u00e0 il, il ne doute pas en s\'unir \u00e0 la communaut\u00e9, accessible depuis la suivante page Web:</string>
-    <string name="version_desc_link1">http://ec.europa.eu/idabc/eupl.html</string>
+    <string name="version_desc_link1">https://eupl.eu/1.1/es</string>
     <string name="version_desc_link2">http://forja-ctt.administracionelectronica.gob.es</string>
     <string name="version_desc_link3">https://administracionelectronica.gob.Il est/ctt/clienteafirma/mais#.Xxp7T0I7mhc</string>
     <string name="acceptance_conditions">Acceptation de conditions</string>
@@ -192,12 +192,12 @@
     <string name="not_selected_cert">Certifi\u00e9 ne s\u00e9lectionn\u00e9</string>
     <string name="not_selected_cert_desc">Ne s\'est pas trouv\u00e9 aucun certificat install\u00e9 dans le syst\u00e8me ou il ne s\'est pas s\u00e9lectionn\u00e9 pour r\u00e9aliser la signature.</string>
     <string name="espanol">Espa\u00F1ol</string>
-    <string name="english">Anglais</string>
+    <string name="english">English</string>
     <string name="french">Français</string>
     <string name="catala">Catal\u00e1</string>
     <string name="galego">Galego</string>
     <string name="euskera">Euskera</string>
-    <string name="valenciano">Valencien</string>
+    <string name="valenciano">Valenciano</string>
     <string name="trusted_domains_desc">Introduise en le suivant \u00e9cart\u00e9 les dominations de confiance pour l\'application</string>
     <string name="save_changes">Garder des changements</string>
     <string name="enter_trusted_domains">Introduise un ou diverse dominations de confiance</string>
@@ -212,4 +212,5 @@
     <string name="enter_valid_pin">Introduise un pin valable</string>
     <string name="added_cert_title">Certifi\u00e9 ajout\u00e9</string>
     <string name="added_cert_message">Le certificat s\'est correctement ajout\u00e9</string>
+    <string name="sign_record">Historique des signatures</string>
 </resources>

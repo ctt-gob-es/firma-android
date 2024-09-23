@@ -185,8 +185,8 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 			// Si el usuario habilito el NFC, intentaremos leer una tarjeta NFC
 			// Si no, cargamos directamente los certificados
 			if(NfcHelper.isNfcServiceEnabled(this)) {
-				final Intent intentNFC = new Intent(this, NFCDetectorActivity.class);
-				startActivityForResult(intentNFC, REQUEST_CODE_DETECT_NFC_CARD);
+				final Intent stepsSignDNIe = new Intent(this, IntroSignDnieActivity.class);
+				startActivity(stepsSignDNIe);
 			}
 			else {
 				runOnUiThread(

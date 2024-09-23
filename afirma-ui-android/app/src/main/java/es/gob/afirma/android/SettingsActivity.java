@@ -14,6 +14,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 
 import junit.runner.Version;
 
+import es.gob.afirma.BuildConfig;
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
 import es.gob.afirma.android.gui.CertImportInstructionsActivity;
@@ -123,6 +124,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Version
         TextView versionTv = this.findViewById(R.id.versionTv);
+        versionTv.setText(getString(R.string.appversion, BuildConfig.VERSION_NAME));
         versionTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

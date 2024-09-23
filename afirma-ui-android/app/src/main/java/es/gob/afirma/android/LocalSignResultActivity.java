@@ -19,11 +19,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.OpenableColumns;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import androidx.core.view.ViewCompat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,7 +36,6 @@ import es.gob.afirma.android.crypto.SignResult;
 import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.core.signers.AOSignerFactory;
 import es.gob.afirma.signers.cades.CAdESExtraParams;
-import es.gob.jmulticard.card.BadPinException;
 
 /** Esta actividad permite firmar un fichero local. La firma se guarda en un fichero <i>.csig</i>.
  * Esta clase tiene mucho c&oacute;digo duplicado de la clase <code>LocalSignResultActivity</code>.
@@ -62,10 +56,6 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	private static final String PDF_FILE_SUFFIX = ".pdf"; //$NON-NLS-1$
 
 	private final static String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
-
-	private final static String SAVE_INSTANCE_KEY_TITLE_VISIBILITY = "titleVisibility"; //$NON-NLS-1$
-	private final static String SAVE_INSTANCE_KEY_OK_RESULT_VISIBILITY = "okVisibility"; //$NON-NLS-1$
-	private final static String SAVE_INSTANCE_KEY_ERROR_RESULT_VISIBILITY ="errorVisibility"; //$NON-NLS-1$
 	private final static String SIGNING_ERROR = "errorSigning"; //$NON-NLS-1$
 
 	private final static String SHOW_SIGNING_RESULT = "showSigningResult"; //$NON-NLS-1$
@@ -73,8 +63,6 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	private final static String ERROR_TITLE_PARAM = "errorTitle"; //$NON-NLS-1$
 
 	private final static String ERROR_MESSAGE_PARAM = "errorMessage"; //$NON-NLS-1$
-	private final static String SAVE_INSTANCE_KEY_PATH_FILE = "path_file"; //$NON-NLS-1$
-	private final static String SAVE_INSTANCE_KEY_ERROR_TEXT = "errorMessage"; //$NON-NLS-1$
 
 	String fileName; //Nombre del fichero seleccionado
 

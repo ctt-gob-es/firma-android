@@ -63,10 +63,7 @@
 	    <item name="android:textColor">#FEFEFE</item>
     	<item name="android:textSize">13sp</item>
     	<item name="android:gravity">center_vertical|center_horizontal</item>
-    	<item name="android:paddingLeft">7dp</item>
-    	<item name="android:paddingRight">7dp</item>
-    	<item name="android:paddingTop">0dp</item>
-    	<item name="android:paddingBottom">0dp</item>
+    	<item name="android:padding">10dp</item>
 		<item name="android:fontFamily">@font/nunitosansbold</item>
     	<item name="android:background">@drawable/red_button_selector</item>
 	</style>

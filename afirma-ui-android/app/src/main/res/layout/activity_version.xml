@@ -17,12 +17,12 @@
         android:theme="@style/ToolbarTheme"
         app:navigationIcon="@drawable/nav_back_selector"
         app:titleCentered="true"
-        app:title="@string/version"
+        app:title="@string/appversion"
         app:titleTextAppearance="@style/ToolbarTitle"
         app:titleTextColor="@color/black"
         />
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
@@ -53,14 +53,13 @@
 
             <TextView
                 android:id="@+id/l1Tv"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunitosans"
                 android:textColor="@drawable/external_link_textcolor_selector"
                 android:background="@drawable/external_link_selector"
                 android:text="@string/version_desc_link1"
-                android:drawableLeft="@drawable/baseline_open_in_new_24"
-                android:drawablePadding="10dp"
+                android:drawableEnd="@drawable/baseline_open_in_new_24"
                 android:paddingStart="8dp"/>
 
             <TextView
@@ -74,11 +73,10 @@
 
             <TextView
                 android:id="@+id/l2Tv"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunitosans"
-                android:drawableLeft="@drawable/baseline_open_in_new_24"
-                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/baseline_open_in_new_24"
                 android:textColor="@drawable/external_link_textcolor_selector"
                 android:background="@drawable/external_link_selector"
                 android:text="@string/version_desc_link2"
@@ -95,15 +93,15 @@
 
             <TextView
                 android:id="@+id/l3Tv"
-                android:layout_width="match_parent"
+                android:layout_width="310dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunitosans"
-                android:textColor="@drawable/external_link_textcolor_selector"
                 android:background="@drawable/external_link_selector"
+                android:drawableRight="@drawable/baseline_open_in_new_24"
+                android:drawablePadding="2dp"
+                android:fontFamily="@font/nunitosans"
+                android:gravity="left"
                 android:text="@string/version_desc_link3"
-                android:drawableLeft="@drawable/baseline_open_in_new_24"
-                android:drawablePadding="10dp"
-                android:paddingStart="8dp"/>
+                android:textColor="@drawable/external_link_textcolor_selector" />
 
         </LinearLayout>
 

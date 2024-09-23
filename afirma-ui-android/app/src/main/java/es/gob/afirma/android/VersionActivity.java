@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
+import es.gob.afirma.BuildConfig;
 import es.gob.afirma.R;
 
 public class VersionActivity extends AppCompatActivity {
@@ -22,12 +23,16 @@ public class VersionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_version);
 
         MaterialToolbar toolbar = this.findViewById(R.id.versionToolbar);
+        toolbar.setTitle(getString(R.string.appversion, BuildConfig.VERSION_NAME));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+
+        TextView question1Tv = this.findViewById(R.id.p1Tv);
+        question1Tv.setText(getString(R.string.version_desc_p1, BuildConfig.VERSION_NAME));
 
         TextView link1Tv = this.findViewById(R.id.l1Tv);
         link1Tv.setOnClickListener(new View.OnClickListener() {

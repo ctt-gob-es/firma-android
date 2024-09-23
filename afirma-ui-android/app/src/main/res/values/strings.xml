@@ -155,7 +155,7 @@
     <string name="how_to_install_certs">C\u00F3mo instalar certificados</string>
     <string name="general_info">INFORMACI\u00d3N GENERAL</string>
     <string name="legal_announcement">Aviso legal</string>
-    <string name="version">Versi\u00F3n v1.0</string>
+    <string name="appversion">Versi\u00F3n v%s</string>
     <string name="question_1">¿C\u00F3mo puedo realizar firmas electr\u00F3nicas con este programa?</string>
     <string name="response_1"><p>AutoFirma App permite firmar con su certificado tr\u00E1mites web compatibles con la aplicaci\u00F3n.</p><p>Para firmar un tr\u00E1mite, compl\u00E9telo normalmente a trav\u00E9s de su navegador web. Si el tr\u00E1mite est\u00E1 preparado para la firma con AutoFirma App, este se ejecutar\u00E1 en el momento de la firma para que el usuario seleccione su certificado y ejecute la operaci\u00F3n.</p><p>Recuerde que antes de iniciar el tr\u00E1mite debe haber importado su certificado de firma en AutoFirma App.</p></string>
     <string name="question_2">La firma de algunos tr\u00E1mites web fallan, mientras que ese mismo tr\u00E1mite funciona en otros dispositivos. ¿Por qu\u00E9?</string>
@@ -164,11 +164,11 @@
     <string name="response_3">Los certificados se almacenan en su dispositivo con un potente cifrado protegido con contrase\u00F1a, pero como cualquier sistema criptogr\u00E1fico, en el momento que este est\u00E1 fuera del control de propietario corre el riesgo de ser comprometido. Si pierde el dispositivo debe contactar lo antes posible con su proveedor de servicios de certificaci\u00F3n para revocar de inmediato los certificados que este conten\u00EDa.</string>
     <string name="question_4">He importado los certificados correctamente en AutoFirma App, pero aun as\u00ED no consigo identificarme con ellos en las sedes electr\u00F3nicas y dem\u00E1s p\u00E1ginas Web que lo requieren ¿Por qu\u00E9?</string>
     <string name="response_4">Los certificados importados en AutoFirma App son de uso exclusivo para firma electr\u00F3nica en p\u00E1ginas Web dise\u00F1adas a tal efecto. Para usar un certificado digital en una autenticaci\u00F3n Web segura debe seguir las instrucciones de su navegador Web y de Android respecto al proceso de instalaci\u00F3n de los certificados y sus claves en el sistema operativo Android y en el propio navegador Web si fuese preciso.</string>
-    <string name="version_desc_p1">“AutoFirma App” v.1.0 2023 Gobierno de Espa\u00F1a</string>
+    <string name="version_desc_p1">“AutoFirma App” v.%s 2023 Gobierno de Espa\u00F1a</string>
     <string name="version_desc_p2">AutoFirma App es Software Libre; puedes redistribuirlo y/o modificarlo bajo los t\u00E9rminos de la siguiente licencia: “European Software License 1.1”, Curyo texto completo puede consultarse en la siguiente p\u00E1gina Web:</string>
     <string name="version_desc_p3">El c\u00F3digo fuente de este programa, as\u00ED como del resto de los componentes del proyecto se pueden descargar libremente desde: </string>
     <string name="version_desc_p4">El proyecto AutoFirma App es un proyecto colaborativo, si desea participar en \u00E9l, no dude en unirse a la comunidad, accesible desde la siguiente p\u00E1gina Web:</string>
-    <string name="version_desc_link1">http://ec.europa.eu/idabc/eupl.html</string>
+    <string name="version_desc_link1">https://eupl.eu/1.1/es</string>
     <string name="version_desc_link2">http://forja-ctt.administracionelectronica.gob.es</string>
     <string name="version_desc_link3">https://administracionelectronica.gob.es/ctt/clienteafirma/mas#.Xxp7T0I7mhc</string>
     <string name="acceptance_conditions">Aceptaci\u00F3n de condiciones</string>
@@ -212,4 +212,5 @@
     <string name="enter_valid_pin">Introduzca un pin v\u00E1lido</string>
     <string name="added_cert_title">Certificado a\u00F1adido</string>
     <string name="added_cert_message">El certificado se ha a\u00F1adido correctamente</string>
+    <string name="sign_record">Registro de firmas</string>
 </resources>

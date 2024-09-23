@@ -11,16 +11,16 @@
 package es.gob.afirma.android.gui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Paint;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import es.gob.afirma.R;
@@ -37,6 +37,15 @@ public class CustomDialog extends BottomSheetDialog {
 						final boolean includeCancelButton, final String cancelButtonText) {
 		super(context, R.style.BottomSheetDialogTheme);
 		View layout = LayoutInflater.from(context).inflate(R.layout.custom_dialog, this.findViewById(R.id.customDialog));
+		this.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				BottomSheetDialog d = (BottomSheetDialog) dialog;
+
+				FrameLayout bottomSheet = d.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+				BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_EXPANDED);
+			}
+		});
 		this.setContentView(layout);
 		this.setCancelable(false);
 		this.setCanceledOnTouchOutside(true);
@@ -89,6 +98,5 @@ public class CustomDialog extends BottomSheetDialog {
 		Button cancelButton = this.findViewById(R.id.cancelButton);
 		cancelButton.setOnClickListener(onClickCancelButton);
 	}
-
 
 }

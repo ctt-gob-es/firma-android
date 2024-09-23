@@ -17,7 +17,6 @@
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_gravity="center"
-            android:layout_margin="15dp"
             android:contentDescription="@string/main_logo_content_desc"
             android:src="@drawable/ic_launcher_foreground" />
 

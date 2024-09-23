@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/radiusdialogbackground"
     app:behavior_hideable="true"
-    app:behavior_peekHeight="120dp"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
     android:orientation="vertical">
 
@@ -66,9 +65,8 @@
         android:text="@string/cancel_underline"
         android:onClick="onClick"
         android:textColor="#B44D3D"
-        android:textSize="10sp"
+        android:textSize="13sp"
         android:visibility="gone"
-        android:textStyle="bold"
         style="@style/ButtonNoBorder"/>
 
     <Button

@@ -155,7 +155,7 @@
     <string name="how_to_install_certs">How to install certificates</string>
     <string name="general_info">GENERAL INFORMATION</string>
     <string name="legal_announcement">Legal notice</string>
-    <string name="version">Version v1.0</string>
+    <string name="appversion">Version v%s</string>
     <string name="question_1"> How can I make electronic signatures with this program?</string>
     <string name="response_1"><p>AutoFirma App Android allows you to sign with your certified web formalities compatible with the application.</p><p>To sign a formality, please fill it normally through your web browser. If the procedure is ready for signature with AutoSigning App, it will be executed at the time of signature for the user to select their certificate and run the operation.</p><p>Remember that before starting the procedure you must have imported your signature certificate in AutoSigning App.</p></string>
     <string name="question_2">Signing some web formalities fail, while that same procedure works on other devices. Why?</string>
@@ -164,11 +164,11 @@
     <string name="response_3">The certificates are stored on your device with a powerful password protected encryption, but like any cryptographic system, at the time it is out of control of the owner is at risk of being compromised. If you lose the device you should contact your certification service provider as soon as possible to immediately revoke the certificates it contained.</string>
     <string name="question_4">I imported the certificates correctly in AutoFirm App, but I still can\'t identify with them in the electronic venues and other web pages that require it Why?</string>
     <string name="response_4">Certificates imported into AutoFirm App are for exclusive use for electronic signatures on web pages designed for that purpose. To use a digital certificate in a secure Web authentication you must follow the instructions of your Web browser and Android regarding the process of installing the certificates and their keys in the Android OS and in the Web browser itself if necessary.</string>
-    <string name="version_desc_p1">"AutoFirm App" v.1.0 2023 Government of Spain</string>
+    <string name="version_desc_p1">"AutoFirm App" v.%s 2023 Government of Spain</string>
     <string name="version_desc_p2">AutoFirma App is Free Software; you can redistribute it and/or modify it under the terms of the following license: "European Software License 1.1", Curyo full text can be found on the following website:</string>
     <string name="version_desc_p3">The source code of this program, as well as of the other project components, can be freely downloaded from: </string>
     <string name="version_desc_p4">The AutoFirm App project is a collaborative project, if you want to participate in it, feel free to join the community, accessible from the following website:</string>
-    <string name="version_desc_link1">http://ec.europa.eu/idabc/eupl.html</string>
+    <string name="version_desc_link1">https://eupl.eu/1.1/es</string>
     <string name="version_desc_link2">http://forja-ctt.administracionelectronica.gob.es</string>
     <string name="version_desc_link3">https://administracionelectronica.gob.es/ctt/clienteafirma/mas#.Xxp7T0I7mhc</string>
     <string name="acceptance_conditions">Acceptance of terms</string>
@@ -212,4 +212,5 @@
     <string name="enter_valid_pin">Enter a valid pin</string>
     <string name="added_cert_title">Certificate added</string>
     <string name="added_cert_message">The certificate was successfully added</string>
+    <string name="sign_record">Signature record</string>
 </resources>
