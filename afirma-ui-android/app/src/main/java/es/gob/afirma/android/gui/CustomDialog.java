@@ -48,7 +48,6 @@ public class CustomDialog extends BottomSheetDialog {
 		});
 		this.setContentView(layout);
 		this.setCancelable(false);
-		this.setCanceledOnTouchOutside(true);
 		if (iconID != null) {
 			ImageView iconImage = this.findViewById(R.id.iconImg);
 			iconImage.setBackgroundResource(iconID);

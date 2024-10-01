@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:src="http://schemas.android.com/tools"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -48,10 +49,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center|bottom"
         android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.50"
+            android:src="@drawable/can_example"
+            />
 
         <Button
             android:id="@+id/continueToStep2Btn"

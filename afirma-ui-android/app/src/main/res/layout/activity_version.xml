@@ -59,6 +59,7 @@
                 android:textColor="@drawable/external_link_textcolor_selector"
                 android:background="@drawable/external_link_selector"
                 android:text="@string/version_desc_link1"
+                android:drawablePadding="2dp"
                 android:drawableEnd="@drawable/baseline_open_in_new_24"
                 android:paddingStart="8dp"/>
 
@@ -77,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunitosans"
                 android:drawableRight="@drawable/baseline_open_in_new_24"
+                android:drawablePadding="2dp"
                 android:textColor="@drawable/external_link_textcolor_selector"
                 android:background="@drawable/external_link_selector"
                 android:text="@string/version_desc_link2"

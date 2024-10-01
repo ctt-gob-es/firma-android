@@ -14,15 +14,22 @@ import static es.gob.afirma.android.LocalSignResultActivity.DEFAULT_SIGNATURE_AL
 
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.security.KeyChainException;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -137,10 +144,9 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 					cd.setCancelButtonClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							finalCd.cancel();
-							Intent intent = new Intent(SignFragmentActivity.this, HomeActivity.class);
-							startActivity(intent);
-						}
+							Logger.e(ES_GOB_AFIRMA, "El usuario no selecciono un certificado: " + e); //$NON-NLS-1$
+							onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "El usuario no selecciono un certificado", new PendingIntent.CanceledException(e));
+                        }
 					});
 					cd.show();
 				}
@@ -314,4 +320,5 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	protected abstract void onSigningSuccess(final SignResult signature);
 
 	protected abstract void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t);
+
 }

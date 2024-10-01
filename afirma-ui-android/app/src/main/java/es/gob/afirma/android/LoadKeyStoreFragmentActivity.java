@@ -127,6 +127,7 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_load_ks);
 
 		String can = getIntent().getStringExtra(INTENT_EXTRA_CAN_VALUE);
 		String pin = getIntent().getStringExtra(INTENT_EXTRA_PIN_VALUE);

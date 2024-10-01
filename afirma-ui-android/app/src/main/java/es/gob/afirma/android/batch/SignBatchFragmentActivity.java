@@ -11,11 +11,15 @@
 package es.gob.afirma.android.batch;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.os.Build;
 import android.security.KeyChainException;
+import android.view.View;
 
 import java.security.KeyStore.PrivateKeyEntry;
 import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.X509Certificate;
 import java.util.Properties;
 
 import es.gob.afirma.R;
@@ -26,10 +30,13 @@ import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager.SelectCertificateEvent;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
+import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.AOException;
+import es.gob.afirma.core.misc.AOUtil;
 import es.gob.afirma.core.misc.http.HttpError;
 import es.gob.afirma.core.misc.protocol.UrlParametersForBatch;
+import es.gob.afirma.signers.cades.CAdESExtraParams;
 
 /** Esta actividad abstracta integra las funciones necesarias para la ejecuci&oacute;n de
  * operaciones de firma por lotes en una actividad. La actividad integra la l&oacute;gica necesaria para
@@ -64,8 +71,43 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 	@Override
 	public synchronized void keySelected(final SelectCertificateEvent kse) {
 
+		X509Certificate cert;
+
 		try {
 			pke = kse.getPrivateKeyEntry();
+			cert = (X509Certificate) pke.getCertificate();
+			cert.checkValidity();
+		}
+		catch (final CertificateExpiredException e) {
+			Logger.e(ES_GOB_AFIRMA, "El certificado seleccionado esta caducado: " + e); //$NON-NLS-1$
+			PrivateKeyEntry finalPke = pke;
+			SignBatchFragmentActivity.this.runOnUiThread(new Runnable() {
+				public void run() {
+					CustomDialog cd = new CustomDialog(SignBatchFragmentActivity.this, R.drawable.baseline_info_24, getString(R.string.expired_cert),
+							getString(R.string.not_valid_cert), getString(R.string.drag_on), true, getString(R.string.cancel_underline));
+					CustomDialog finalCd = cd;
+					cd.setAcceptButtonClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							finalCd.cancel();
+							String providerName = null;
+							if (kse.getKeyStore() != null) {
+								providerName = kse.getKeyStore().getProvider().getName();
+							}
+							startDoSign(kse, finalPke, providerName, false);
+						}
+					});
+					cd.setCancelButtonClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							Logger.e(ES_GOB_AFIRMA, "El usuario no selecciono un certificado: " + e); //$NON-NLS-1$
+							onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "El usuario no selecciono un certificado", new PendingIntent.CanceledException(new AOCancelledOperationException("Operacion cancelada")));
+						}
+					});
+					cd.show();
+				}
+			});
+			return;
 		}
 		catch (final KeyChainException e) {
 			if ("4.1.1".equals(Build.VERSION.RELEASE) || "4.1.0".equals(Build.VERSION.RELEASE) || "4.1".equals(Build.VERSION.RELEASE)) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -100,8 +142,44 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 			providerName = kse.getKeyStore().getProvider().getName();
 		}
 
+		startDoSign(kse, pke, providerName, false);
+
+	}
+
+	private void startDoSign(final SelectCertificateEvent kse, final PrivateKeyEntry keyEntry, final String providerName, final boolean pseudonymChecked) {
+
+		X509Certificate cert = (X509Certificate) pke.getCertificate();
+
+		Context ctx = this;
+
+		// Comprobamos si es un certificado de seudonimo
+		if (cert != null && !pseudonymChecked && AOUtil.isPseudonymCert(cert)) {
+			PrivateKeyEntry finalPke = pke;
+
+			CustomDialog signFragmentCustomDialog = new CustomDialog(ctx, R.drawable.baseline_info_24, getString(R.string.pseudonym_cert),
+					getString(R.string.pseudonym_cert_desc), getString(R.string.ok), true, getString(R.string.change_cert));
+			signFragmentCustomDialog.setAcceptButtonClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					signFragmentCustomDialog.cancel();
+					startDoSign(kse, finalPke, providerName, true);
+				}
+			});
+			signFragmentCustomDialog.setCancelButtonClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					signFragmentCustomDialog.cancel();
+					Properties extraParams = new Properties();
+					extraParams.setProperty(CAdESExtraParams.MODE, "implicit");
+					sign(batchParams);
+				}
+			});
+			signFragmentCustomDialog.show();
+			return;
+		}
+
 		try {
-			doSign(pke, providerName);
+			doSign(keyEntry, providerName);
 		}
 		catch (final Exception e) {
 			onSigningError(KeyStoreOperation.SIGN, "Error durante la operacion de firma de lote", e);

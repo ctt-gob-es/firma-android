@@ -213,4 +213,5 @@
     <string name="added_cert_title">Certifi\u00e9 ajout\u00e9</string>
     <string name="added_cert_message">Le certificat s\'est correctement ajout\u00e9</string>
     <string name="sign_record">Historique des signatures</string>
+    <string name="loading_cert">Certificat de chargament</string>
 </resources>

@@ -213,4 +213,5 @@
     <string name="added_cert_title">Certificate added</string>
     <string name="added_cert_message">The certificate was successfully added</string>
     <string name="sign_record">Signature record</string>
+    <string name="loading_cert">Loading certificate</string>
 </resources>

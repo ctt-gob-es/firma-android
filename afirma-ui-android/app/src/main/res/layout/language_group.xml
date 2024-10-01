@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/languageGroup"
         android:layout_gravity="center"
-        android:layout_width="325dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:fontFamily="@font/nunitosansbold"
         android:textSize="15sp"
@@ -21,10 +21,10 @@
 
     <ImageView
         android:id="@+id/languageIndicatorImg"
-        android:layout_gravity="center"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:paddingRight="25dp"
+        android:layout_gravity="left"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:paddingTop="10dp"
         android:focusable="false"
         android:visibility="gone"
         android:src="@mipmap/check_icon" />
