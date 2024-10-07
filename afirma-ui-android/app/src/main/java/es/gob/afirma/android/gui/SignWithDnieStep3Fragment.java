@@ -1,6 +1,5 @@
 package es.gob.afirma.android.gui;
 
-import static es.gob.afirma.android.LoadKeyStoreFragmentActivity.REQUEST_NFC_PARAMS;
 import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
 import static es.gob.afirma.android.gui.SignWithDnieStep2Fragment.INTENT_EXTRA_PIN_VALUE;
 
@@ -14,7 +13,6 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.IntroSignDnieActivity;
 import es.gob.afirma.android.LoadKeyStoreFragmentActivity;
 import es.gob.afirma.android.StepsSignDnieActivity;
 
@@ -50,7 +48,7 @@ public class SignWithDnieStep3Fragment extends Fragment{
             }
         });
 
-        IntroSignDnieActivity.actualStep = 3;
+        StepsSignDnieActivity.actualStep = 3;
 
         return contentLayout;
     }

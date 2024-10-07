@@ -1,7 +1,5 @@
 package es.gob.afirma.android;
 
-import static es.gob.afirma.android.LoadKeyStoreFragmentActivity.ERROR_LOADING_NFC_KEYSTORE;
-
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,18 +10,13 @@ import com.google.android.material.appbar.MaterialToolbar;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.CustomDialog;
-import es.gob.afirma.core.AOCancelledOperationException;
 
 public class IntroSignDnieActivity extends LoadKeyStoreFragmentActivity {
-
-    public static int actualStep = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_sign_dnie);
-
-        actualStep = 0;
 
         MaterialToolbar toolbar = this.findViewById(R.id.introSignDnieToolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -54,10 +47,7 @@ public class IntroSignDnieActivity extends LoadKeyStoreFragmentActivity {
 
     @Override
     public void onBackPressed() {
-        if (actualStep == 0) {
-            ksmListener.onLoadingKeyStoreError("Operacion cancelada",  new PendingIntent.CanceledException("Operacion cancelada"));
-        } else {
-            super.onBackPressed();
-        }
+        ksmListener.onLoadingKeyStoreError("Operacion cancelada",  new PendingIntent.CanceledException("Operacion cancelada"));
     }
+
 }

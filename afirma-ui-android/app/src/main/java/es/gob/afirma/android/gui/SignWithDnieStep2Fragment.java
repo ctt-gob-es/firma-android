@@ -2,7 +2,6 @@ package es.gob.afirma.android.gui;
 
 import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,8 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.HomeActivity;
-import es.gob.afirma.android.IntroSignDnieActivity;
+import es.gob.afirma.android.StepsSignDnieActivity;
 
 public class SignWithDnieStep2Fragment extends Fragment {
 
@@ -78,7 +76,7 @@ public class SignWithDnieStep2Fragment extends Fragment {
             }
         });
 
-        IntroSignDnieActivity.actualStep = 2;
+        StepsSignDnieActivity.actualStep = 2;
 
         return contentLayout;
     }

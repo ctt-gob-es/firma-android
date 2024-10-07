@@ -15,10 +15,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.IntroSignDnieActivity;
 import es.gob.afirma.android.NFCDetectorActivity;
+import es.gob.afirma.android.StepsSignDnieActivity;
 
 public class SignWithDnieStep1Fragment extends Fragment {
+
+    public static String canValue = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,26 +40,8 @@ public class SignWithDnieStep1Fragment extends Fragment {
                 TextInputEditText canText = getActivity().findViewById(R.id.canEtx);
 
                 if (isValidCan(canText)) {
-                    TextView stepTv = getActivity().findViewById(R.id.stepTv);
-                    stepTv.setText(getString(R.string.actual_step, "2"));
-
-                    TextView titleTv = getActivity().findViewById(R.id.titleTv);
-                    titleTv.setText(getString(R.string.enter_pin_dni));
-
-                    ProgressBar progressBar = getActivity().findViewById(R.id.signDnieStepsPb);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        progressBar.setProgress(2,true);
-                    }
-
-                    SignWithDnieStep2Fragment signWithDnieStep2Fragment = new SignWithDnieStep2Fragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE, canText.getText().toString());
-                    signWithDnieStep2Fragment.setArguments(bundle);
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.step_content, signWithDnieStep2Fragment)
-                            .commit();
+                    canValue = canText.getText().toString();
+                    loadStep2(canText.getText().toString());
                 } else {
                     TextInputLayout canInputLayout = getActivity().findViewById(R.id.canEtxLayout);
                     canInputLayout.setError(getString(R.string.enter_valid_can));
@@ -65,9 +50,32 @@ public class SignWithDnieStep1Fragment extends Fragment {
             }
         });
 
-        IntroSignDnieActivity.actualStep = 1;
+        StepsSignDnieActivity.actualStep = 1;
 
         return contentLayout;
+    }
+
+    private void loadStep2(String canText) {
+        TextView stepTv = getActivity().findViewById(R.id.stepTv);
+        stepTv.setText(getString(R.string.actual_step, "2"));
+
+        TextView titleTv = getActivity().findViewById(R.id.titleTv);
+        titleTv.setText(getString(R.string.enter_pin_dni));
+
+        ProgressBar progressBar = getActivity().findViewById(R.id.signDnieStepsPb);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            progressBar.setProgress(2,true);
+        }
+
+        SignWithDnieStep2Fragment signWithDnieStep2Fragment = new SignWithDnieStep2Fragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE, canText);
+        signWithDnieStep2Fragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.step_content, signWithDnieStep2Fragment)
+                .commit();
     }
 
     private boolean isValidCan(TextInputEditText canText) {
