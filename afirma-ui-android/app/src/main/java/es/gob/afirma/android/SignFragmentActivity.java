@@ -17,14 +17,12 @@ import android.content.Context;
 import android.os.Build;
 import android.security.KeyChainException;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.X509Certificate;
@@ -46,6 +44,7 @@ import es.gob.afirma.android.gui.PDFPasswordDialog;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.RuntimeConfigNeededException;
 import es.gob.afirma.core.misc.AOUtil;
+import es.gob.afirma.core.signers.CounterSignTarget;
 import es.gob.afirma.signers.cades.CAdESExtraParams;
 import es.gob.afirma.signers.pades.common.BadPdfPasswordException;
 import es.gob.afirma.signers.pades.common.PdfIsPasswordProtectedException;
@@ -69,6 +68,9 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 	boolean signing = false;
 
 	private PrivateKeyEntry keyEntry = null;
+
+	public static final String SIGN_TYPE_LOCAL = "LOCAL";
+	public static final String SIGN_TYPE_WEB = "WEB";
 
 	/**
 	 * Inicia el proceso de firma.
@@ -314,6 +316,41 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 		else {
 			this.signing = false;
 			onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
+		}
+	}
+
+	/**
+	 * Registra en un archivo datos sobre una firma que se haya realizado.
+	 * @param signType Tipo de firma: local, web o de lotes.
+	 * @param fileInfo Nombre de archivo, dominio o aplicaci;oacute;n desde la que se realiza la firma.
+	 */
+	protected void saveSignRecord(String signType, String fileInfo) {
+		File directory = getFilesDir();
+		String signsRecordFileName = "signsRecord.txt";
+		File signRecordFile = new File(directory, signsRecordFileName);
+		if (!signRecordFile.exists()) {
+            try {
+                signRecordFile.createNewFile();
+            } catch (IOException e) {
+				Logger.e(ES_GOB_AFIRMA, "Error al crear archivo para registrar firmas.", e); //$NON-NLS-1$
+				return;
+            }
+        }
+		try (FileOutputStream fileos = new FileOutputStream(signRecordFile, true)) {
+			PrintWriter pw = new PrintWriter(fileos, true);
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			StringBuilder sb = new StringBuilder(sdf.format(new Date()));
+			sb.append(";");
+			sb.append(signType);
+			sb.append(";");
+			sb.append(fileInfo);
+			sb.append(";");
+			sb.append(this.signOperation);
+			sb.append("\n");
+			pw.write(sb.toString());
+			pw.close();
+		} catch (IOException e) {
+			Logger.e(ES_GOB_AFIRMA, "Error al registrar firma.", e); //$NON-NLS-1$
 		}
 	}
 

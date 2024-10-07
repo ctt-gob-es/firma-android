@@ -88,6 +88,10 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".android.SignsRecordActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".android.FaqActivity"
             android:exported="true">
         </activity>

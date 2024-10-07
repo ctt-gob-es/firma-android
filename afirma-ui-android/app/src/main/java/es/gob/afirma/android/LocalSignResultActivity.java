@@ -140,8 +140,6 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 				Properties extraParams = new Properties();
 				extraParams.setProperty(CAdESExtraParams.MODE, "implicit");
 
-				//ELECCION DE TIPO DE ALMACEN
-
 				sign("SIGN", fileContent, format, DEFAULT_SIGNATURE_ALGORITHM, extraParams);
 			}
 			else if (resultCode == RESULT_CANCELED) {
@@ -241,6 +239,9 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 		}
 		this.signatureFilename = AOSignerFactory.getSigner(this.format).getSignedName(new File(this.fileName).getName(), inText);
 		this.signedDataContentType = "application/" + this.signatureFilename.substring(this.signatureFilename.lastIndexOf('.') + 1);
+
+		// Registramos los datos sobre la firma realizada
+		saveSignRecord(SIGN_TYPE_LOCAL, this.signatureFilename);
 
 		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
 			Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);

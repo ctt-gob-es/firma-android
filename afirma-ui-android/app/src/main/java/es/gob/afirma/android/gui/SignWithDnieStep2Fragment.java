@@ -2,6 +2,7 @@ package es.gob.afirma.android.gui;
 
 import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.HomeActivity;
+import es.gob.afirma.android.IntroSignDnieActivity;
 
 public class SignWithDnieStep2Fragment extends Fragment {
 
@@ -59,7 +62,6 @@ public class SignWithDnieStep2Fragment extends Fragment {
                     SignWithDnieStep3Fragment signWithDnieStep3Fragment = new SignWithDnieStep3Fragment();
                     Bundle bundle = new Bundle();
 
-
                     bundle.putString(INTENT_EXTRA_CAN_VALUE, canValue);
                     bundle.putString(INTENT_EXTRA_PIN_VALUE, pinText.getText().toString());
                     signWithDnieStep3Fragment.setArguments(bundle);
@@ -75,6 +77,8 @@ public class SignWithDnieStep2Fragment extends Fragment {
                 }
             }
         });
+
+        IntroSignDnieActivity.actualStep = 2;
 
         return contentLayout;
     }

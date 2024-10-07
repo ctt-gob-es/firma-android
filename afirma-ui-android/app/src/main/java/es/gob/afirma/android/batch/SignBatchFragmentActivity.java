@@ -16,10 +16,16 @@ import android.os.Build;
 import android.security.KeyChainException;
 import android.view.View;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import es.gob.afirma.R;
@@ -47,6 +53,8 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 														SignBatchTask.SignBatchListener {
 
 	private final static String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
+
+	public static final String SIGN_TYPE_BATCH = "BATCH";
 
 	private UrlParametersForBatch batchParams;
 	private PrivateKeyEntry pke;
@@ -250,6 +258,41 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 	protected abstract void onSigningSuccess(final byte[] batchResult);
 
 	protected abstract void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t);
+
+	/**
+	 * Registra en un archivo datos sobre una firma que se haya realizado.
+	 * @param signType Tipo de firma: local, web o de lotes.
+	 * @param fileInfo Nombre de archivo, dominio o aplicaci;oacute;n desde la que se realiza la firma.
+	 */
+	protected void saveSignRecord(String signType, String fileInfo) {
+		File directory = getFilesDir();
+		String signsRecordFileName = "signsRecord.txt";
+		File signRecordFile = new File(directory, signsRecordFileName);
+		if (!signRecordFile.exists()) {
+			try {
+				signRecordFile.createNewFile();
+			} catch (IOException e) {
+				Logger.e(ES_GOB_AFIRMA, "Error al crear archivo para registrar firmas.", e); //$NON-NLS-1$
+				return;
+			}
+		}
+		try (FileOutputStream fileos = new FileOutputStream(signRecordFile, true)) {
+			PrintWriter pw = new PrintWriter(fileos, true);
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			StringBuilder sb = new StringBuilder(sdf.format(new Date()));
+			sb.append(";");
+			sb.append(signType);
+			sb.append(";");
+			sb.append(fileInfo);
+			sb.append(";");
+			sb.append("sign");
+			sb.append("\n");
+			pw.write(sb.toString());
+			pw.close();
+		} catch (IOException e) {
+			Logger.e(ES_GOB_AFIRMA, "Error al registrar firma.", e); //$NON-NLS-1$
+		}
+	}
 
 	protected PrivateKeyEntry getPke() {
 		return this.pke;

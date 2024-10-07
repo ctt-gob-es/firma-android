@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.IntroSignDnieActivity;
 import es.gob.afirma.android.NFCDetectorActivity;
 
 public class SignWithDnieStep1Fragment extends Fragment {
@@ -63,6 +64,8 @@ public class SignWithDnieStep1Fragment extends Fragment {
                 }
             }
         });
+
+        IntroSignDnieActivity.actualStep = 1;
 
         return contentLayout;
     }

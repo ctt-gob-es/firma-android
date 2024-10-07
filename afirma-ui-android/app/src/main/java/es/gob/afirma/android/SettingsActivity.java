@@ -69,6 +69,16 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        // Registro de firmas
+        TextView signRecordTv = this.findViewById(R.id.signRecordTv);
+        signRecordTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), SignsRecordActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // FAQ
         TextView faqTv = this.findViewById(R.id.faqTv);
         faqTv.setOnClickListener(new View.OnClickListener() {

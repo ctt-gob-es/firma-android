@@ -556,6 +556,9 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			signingCert = null;
 		}
 
+		// Registramos los datos sobre la firma realizada
+		saveSignRecord(SIGN_TYPE_WEB, this.parameters.getAppName());
+
 		// Responderemos con el los datos o, si tambien lo tenemos, con el certificado de firma
 		// y los datos
 		String responseText = signingCert != null ? signingCert + CERT_SIGNATURE_SEPARATOR + data : data;

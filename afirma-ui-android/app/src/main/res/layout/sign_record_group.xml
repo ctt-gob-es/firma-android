@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/signRecordContent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/dateTv"
+        android:textAlignment="center"
+        android:layout_width="0dp"
+        android:layout_weight="0.4"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/nunitosansbold"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        />
+
+    <View
+        android:layout_height="fill_parent"
+        android:layout_width="2dp"
+        android:background="@color/gray"/>
+
+    <TextView
+        android:id="@+id/descTv"
+        android:textAlignment="textStart"
+        android:layout_width="0dp"
+        android:layout_weight="0.6"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:fontFamily="@font/nunitosans"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:layout_marginLeft="15dp"
+        />
+
+</LinearLayout>

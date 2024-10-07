@@ -214,4 +214,10 @@
     <string name="added_cert_message">The certificate was successfully added</string>
     <string name="sign_record">Signature record</string>
     <string name="loading_cert">Loading certificate</string>
+    <string name="local_sign_record">Local %1$s of file %2$s</string>
+    <string name="web_sign_record">Web %1$s requested by %2$s</string>
+    <string name="batch_sign_record">Web batch signature requested by %s</string>
+    <string name="sign">Sign</string>
+    <string name="cosign">Cosign</string>
+    <string name="countersign">Countersign</string>
 </resources>

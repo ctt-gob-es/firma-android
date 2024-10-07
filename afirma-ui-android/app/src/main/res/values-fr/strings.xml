@@ -214,4 +214,10 @@
     <string name="added_cert_message">Le certificat s\'est correctement ajout\u00e9</string>
     <string name="sign_record">Historique des signatures</string>
     <string name="loading_cert">Certificat de chargament</string>
+    <string name="local_sign_record">%1$s de fichier local %2$s</string>
+    <string name="web_sign_record">%1$s Web demand\u00E9e par %2$s</string>
+    <string name="batch_sign_record">Signature de lot Web demand\u00E9e par %s</string>
+    <string name="sign">Signature</string>
+    <string name="cosign">Cosigner</string>
+    <string name="countersign">Contreseign</string>
 </resources>

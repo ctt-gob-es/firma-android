@@ -50,6 +50,8 @@ public class SignWithDnieStep3Fragment extends Fragment{
             }
         });
 
+        IntroSignDnieActivity.actualStep = 3;
+
         return contentLayout;
     }
 

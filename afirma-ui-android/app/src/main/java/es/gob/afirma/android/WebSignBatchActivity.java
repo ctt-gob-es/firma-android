@@ -280,22 +280,6 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		});
 	}
 
-	/** Muestra un mensaje de advertencia al usuario.
-	 * @param message Mensaje que se desea mostrar. */
-	private void showErrorMessageOnToast(final String message) {
-		dismissProgressDialog();
-		dismissMessageDialog();
-
-		runOnUiThread(
-			new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(WebSignBatchActivity.this, message, Toast.LENGTH_LONG).show();
-				}
-			}
-		);
-	}
-
 	@Override
 	protected void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t) {
 		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
@@ -391,6 +375,8 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		Logger.i(ES_GOB_AFIRMA, "Firma de lote generada correctamente. Se cifra el resultado.");
 
 		final StringBuilder result = new StringBuilder();
+
+		saveSignRecord(SIGN_TYPE_BATCH, getBatchParams().getAppName());
 
 		// Si se nos ha indicado en la llamadada que devolvamos el certificado de firma, lo adjuntamos al resultado con un separador
 		byte[] signingCertEncoded = null;
