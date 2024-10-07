@@ -220,4 +220,5 @@
     <string name="sign">Signature</string>
     <string name="cosign">Cosigner</string>
     <string name="countersign">Contreseign</string>
+    <string name="no_records">Aucun enregistrement trouv\u00E9</string>
 </resources>

@@ -5,6 +5,7 @@
     android:id="@+id/sign_record_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -19,6 +20,20 @@
         app:titleCentered="true"
         app:titleTextAppearance="@style/ToolbarTitle"
         app:titleTextColor="@color/black" />
+
+
+    <TextView
+        android:id="@+id/noRecordsTitle"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:fontFamily="@font/nunitosansbold"
+        android:text="@string/no_records"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/signsRecordLV"

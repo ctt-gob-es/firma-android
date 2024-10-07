@@ -3,6 +3,7 @@ package es.gob.afirma.android;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,6 +40,12 @@ public class SignsRecordActivity extends AppCompatActivity {
         signRecordLV = this.findViewById(R.id.signsRecordLV);
         loadDataFromRecordsFile();
         loadDataToAdapter();
+
+        if (recordsList.isEmpty()) {
+            TextView noRecordsTv = findViewById(R.id.noRecordsTitle);
+            noRecordsTv.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void loadDataToAdapter() {

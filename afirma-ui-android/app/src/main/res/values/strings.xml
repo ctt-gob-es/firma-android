@@ -220,4 +220,5 @@
     <string name="sign">Firma</string>
     <string name="cosign">Cofirma</string>
     <string name="countersign">Contrafirma</string>
+    <string name="no_records">No se encuentran registros</string>
 </resources>
