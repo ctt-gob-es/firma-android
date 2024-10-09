@@ -12,6 +12,7 @@ package es.gob.afirma.android.gui;
 
 import static es.gob.afirma.android.LoadKeyStoreFragmentActivity.REQUEST_NFC_KEYSTORE;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.LocaleHelper;
 
 /** Di&aacute;logo modal con el que mostrar al usuario un mensaje y un bot&oacute;n para ocultar el
  * di&aacute;logo y, opcionalmente, realizar una acci&oacute;n. */
@@ -68,5 +70,9 @@ public class ChooseCertTypeDialog extends FragmentActivity {
 
 	}
 
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(LocaleHelper.onAttach(base));
+	}
 
 }

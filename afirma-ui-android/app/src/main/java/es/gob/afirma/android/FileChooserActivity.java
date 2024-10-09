@@ -12,6 +12,7 @@ package es.gob.afirma.android;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -184,5 +185,10 @@ public final class 	FileChooserActivity extends ListActivity {
 			this.currentDir = this.currentDir.getParentFile();
 			fill(this.currentDir);
 		}
+	}
+
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(LocaleHelper.onAttach(base));
 	}
 }

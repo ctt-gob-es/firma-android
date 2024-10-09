@@ -24,6 +24,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import java.util.HashMap;
@@ -43,7 +44,7 @@ import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
  * certificados del dispositivo. La actividad integra la l&oacute;gica necesaria para utilizar
  * DNIe 3.0 v&iacute;a NFC, DNIe 2.0/3.0 a trav&eacute;s de lector de tarjetas y el almac&eacute;n
  * de Android. */
-public class LoadKeyStoreFragmentActivity extends FragmentActivity {
+public class LoadKeyStoreFragmentActivity extends AppCompatActivity {
 
 	private final static String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
 

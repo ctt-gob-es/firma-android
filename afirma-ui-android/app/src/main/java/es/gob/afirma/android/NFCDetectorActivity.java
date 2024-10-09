@@ -14,7 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import es.gob.afirma.android.crypto.DnieConnectionManager;
 import es.gob.afirma.android.gui.CanResult;
@@ -23,7 +23,7 @@ import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 
 /** Indica al usuario que acerque el DNIe por NFC para obtener los certificados.
  * @author Sergio Mart&iacute;nez */
-public class NFCDetectorActivity extends FragmentActivity {
+public class NFCDetectorActivity extends AppCompatActivity {
 
     public static final String INTENT_EXTRA_CAN_VALUE = "canValue"; //$NON-NLS-1$
 

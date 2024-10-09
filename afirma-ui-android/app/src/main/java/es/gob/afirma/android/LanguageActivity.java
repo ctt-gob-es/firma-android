@@ -62,6 +62,18 @@ public class LanguageActivity extends AppCompatActivity {
                     case 2:
                         changeLang("fr");
                         break;
+                    case 3:
+                        changeLang("ca");
+                        break;
+                    case 4:
+                        changeLang("ga");
+                        break;
+                    case 5:
+                        changeLang("eu");
+                        break;
+                    case 6:
+                        changeLang("va");
+                        break;
                     default:
                         changeLang("es");
                 }

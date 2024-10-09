@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -38,7 +39,7 @@ import es.gob.afirma.android.IntroScreenActivity;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.MainFragment;
 
-public class CertImportInstructionsActivity extends FragmentActivity {
+public class CertImportInstructionsActivity extends AppCompatActivity {
 
     private static final int NUM_PAGES = 2;
 
@@ -97,10 +98,10 @@ public class CertImportInstructionsActivity extends FragmentActivity {
         });
 
         titleText = findViewById(R.id.titleText);
-        titleText.setText(R.string.locate_file_title);
+        titleText.setText(getResources().getString(R.string.locate_file_title));
 
         introText = findViewById(R.id.introText);
-        introText.setText(R.string.locate_file_message);
+        introText.setText(getResources().getString(R.string.locate_file_message));
 
         viewPager = findViewById(R.id.containerVp);
 
