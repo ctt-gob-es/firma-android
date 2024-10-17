@@ -10,8 +10,6 @@
 
 package es.gob.afirma.android;
 
-import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
-
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,7 +19,6 @@ import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
@@ -56,7 +53,8 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 
 	public final static int REQUEST_KEYSTORE = 2004;   // The request code
 
-	public final static int REQUEST_NFC_PARAMS = 2005;   // The request code
+	/** C&oacute;digo para la peticion del CAN y el PIN del DNIe. */
+	public final static int REQUEST_DNIE_PARAMS = 2005;   // The request code
 
 	public final static int REQUEST_NFC_KEYSTORE = 2006;   // The request code
 
@@ -125,21 +123,6 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_load_ks);
-
-		String can = getIntent().getStringExtra(INTENT_EXTRA_CAN_VALUE);
-		String pin = getIntent().getStringExtra(INTENT_EXTRA_PIN_VALUE);
-
-		if (can != null && pin != null) {
-			DnieConnectionManager.getInstance().setCanPasswordCallback(new CachePasswordCallback(can.toCharArray()));
-			DnieConnectionManager.getInstance().setPinPasswordCallback(new CachePasswordCallback(pin.toCharArray()));
-			searchNewNfcCard();
-		}
-	}
-
-	@Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 
 		// Si volvemos de la pantalla de insercion de CAN y deteccion de tarjeta NFC
@@ -187,7 +170,7 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 			// Si no, cargamos directamente los certificados
 			if(NfcHelper.isNfcServiceEnabled(this)) {
 				final Intent stepsSignDNIe = new Intent(this, IntroSignDnieActivity.class);
-				startActivity(stepsSignDNIe);
+				startActivityForResult(stepsSignDNIe, REQUEST_DNIE_PARAMS);
 			}
 			else {
 				runOnUiThread(
@@ -200,13 +183,29 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 				);
 				loadKeyStore();
 			}
-		} else if (requestCode == REQUEST_KEYSTORE) {
+		}
+		else if (requestCode == REQUEST_KEYSTORE) {
 			// Depende de la eleccion del usuario se solicitara el almacen de un tipo u otro
 			if (resultCode == REQUEST_NFC_KEYSTORE) {
 				requestNFCKeystore();
 			} else {
 				loadKeyStore();
 			}
+		}
+		else if (requestCode == REQUEST_DNIE_PARAMS) {
+			if (resultCode == RESULT_OK) {
+				String can = data.getStringExtra(getString(R.string.extra_can));
+				String pin = data.getStringExtra(getString(R.string.extra_pin));
+				if (can != null && pin != null) {
+					DnieConnectionManager.getInstance().setCanPasswordCallback(new CachePasswordCallback(can.toCharArray()));
+					DnieConnectionManager.getInstance().setPinPasswordCallback(new CachePasswordCallback(pin.toCharArray()));
+					searchNewNfcCard();
+				}
+			}
+			else {
+				ksmListener.onLoadingKeyStoreError("Operacion cancelada",  new PendingIntent.CanceledException("Operacion cancelada"));
+			}
+			return;
 		}
 
 		super.onActivityResult(requestCode, resultCode, data);
@@ -256,10 +255,10 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 
 	protected void requestNFCKeystore() {
 		// Comprobamos si se configuro el uso de NFC
-		// Si el NFC esta activado, lanzamos una actividad para detectar el DNIe 3.0
+		// Si el NFC esta activado, lanzamos una actividad para detectar el DNIe por NFC
 		if (NfcHelper.isNfcServiceEnabled(getApplicationContext())) {
 			final Intent stepsSignDNIe = new Intent(this, IntroSignDnieActivity.class);
-			startActivity(stepsSignDNIe);
+			startActivityForResult(stepsSignDNIe, REQUEST_DNIE_PARAMS);
 		}
 		// Si el NFC no esta activado, se le solicita al usuario activarlo
 		else {

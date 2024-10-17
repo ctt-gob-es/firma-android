@@ -18,6 +18,8 @@ import es.gob.afirma.android.gui.SignWithDnieStep2Fragment;
 
 public class StepsSignDnieActivity extends AppCompatActivity {
 
+    public static final int REQUEST_NFC_PARAMS = 2011;
+
     public static int actualStep;
 
     @Override
@@ -112,5 +114,6 @@ public class StepsSignDnieActivity extends AppCompatActivity {
             actualStep--;
             loadStep2(SignWithDnieStep1Fragment.canValue);
         }
+        super.onBackPressed();
     }
 }

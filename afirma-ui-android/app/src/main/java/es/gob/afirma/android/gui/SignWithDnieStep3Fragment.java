@@ -1,8 +1,5 @@
 package es.gob.afirma.android.gui;
 
-import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
-import static es.gob.afirma.android.gui.SignWithDnieStep2Fragment.INTENT_EXTRA_PIN_VALUE;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,13 +10,11 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.LoadKeyStoreFragmentActivity;
 import es.gob.afirma.android.StepsSignDnieActivity;
 
-public class SignWithDnieStep3Fragment extends Fragment{
+import static android.app.Activity.RESULT_OK;
 
-    String canValue;
-    String pinValue;
+public class SignWithDnieStep3Fragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,22 +24,20 @@ public class SignWithDnieStep3Fragment extends Fragment{
         super.onCreate(savedInstanceState);
         contentLayout = inflater.inflate(R.layout.fragment_signdnie_step3, container, false);
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            canValue = bundle.getString(INTENT_EXTRA_CAN_VALUE);
-            pinValue = bundle.getString(INTENT_EXTRA_PIN_VALUE);
-        }
-
         Button readDnieBtn = contentLayout.findViewById(R.id.readDnieBtn);
-        readDnieBtn.setOnClickListener(new View.OnClickListener()
-        {
+        readDnieBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                final Intent resultNFC = new Intent(getContext(), LoadKeyStoreFragmentActivity.class);
-                resultNFC.putExtra(INTENT_EXTRA_CAN_VALUE, canValue);
-                resultNFC.putExtra(INTENT_EXTRA_PIN_VALUE, pinValue);
-                startActivity(resultNFC);
+                final Intent resultNFC = new Intent();
+                Bundle bundle = SignWithDnieStep3Fragment.this.getArguments();
+                if (bundle != null) {
+                    resultNFC.putExtra(getString(R.string.extra_can), bundle.getString(getString(R.string.extra_can)));
+                    resultNFC.putExtra(getString(R.string.extra_pin), bundle.getString(getString(R.string.extra_pin)));
+                }
+
+                getActivity().setResult(RESULT_OK, resultNFC);
+                getActivity().finish();
             }
         });
 
