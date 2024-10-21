@@ -65,12 +65,17 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
      */
 	public void sign(final UrlParametersForBatch batchParams) {
 
+
+
 		if (batchParams == null) {
 			throw new IllegalArgumentException("No se han indicado el lote de firmas que procesar");
 		}
 
 		this.batchParams = batchParams;
 		this.ksmListener = this;
+
+		// Indicamos que las claves que se carguen no se usaran para autenticacion
+		setOnlyAuthenticationOperation(false);
 
 		// Iniciamos la carga del almacen
 		loadKeyStore(this);

@@ -96,20 +96,6 @@ public final class LoadKeyStoreManagerTask extends AsyncTask<Void, Void, KeyStor
 		}
 	}
 
-	/** <i>Callback</i> para el establecimiento de almac&eacute;n.
-	 * @param ks Almac&eacute;n de claves y certificados */
-	public void setKeyStore(final MobileKeyStoreManager ks) {
-		Logger.i(ES_GOB_AFIRMA, "Notificamos que se ha seleccionado un certificado"); //$NON-NLS-1$
-		this.kmListener.onLoadingKeyStoreSuccess(ks);
-	}
-
-	/** <i>Callback</i> para el error en el establecimiento de almac&eacute;n.
-	 * @param msg Mensaje de error
-	 * @param t Error */
-	public void onErrorLoadingKeyStore(final String msg, final Throwable t) {
-		this.kmListener.onLoadingKeyStoreError(msg, t);
-	}
-
 	private ProgressDialog getProgressDialog() {
 		return this.progressDialog;
 	}

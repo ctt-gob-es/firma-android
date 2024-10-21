@@ -353,63 +353,62 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 
 	@Override
 	protected void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t) {
+
+		Logger.i(ES_GOB_AFIRMA, " === Error de firma");
+		Logger.i(ES_GOB_AFIRMA, " == op=" + op);
+		Logger.i(ES_GOB_AFIRMA, " == msg=" + msg);
+		Logger.i(ES_GOB_AFIRMA, " == t=" + t);
+
 		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
 			Log.e(ES_GOB_AFIRMA, "Error al cargar el almacen de certificados: " + msg, t);
 			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, true);
 			return;
 		}
-		else if (op == KeyStoreOperation.SELECT_CERTIFICATE) {
+		if (op == KeyStoreOperation.SELECT_CERTIFICATE) {
 
 			if (t instanceof SelectKeyAndroid41BugException) {
 				Log.e(ES_GOB_AFIRMA, "Error al cargar el certificado, posiblemente relacionado por usar un alias de certificado no valido", t);
 				launchError(ErrorManager.ERROR_PKE_ANDROID_4_1, true);
-				return;
 			}
 			else if (t instanceof KeyChainException) {
 				Log.e(ES_GOB_AFIRMA, "Error al cargar la clave del certificado", t);
 				launchError(ErrorManager.ERROR_PKE, true);
-				return;
 			}
 			else if (t instanceof PendingIntent.CanceledException) {
 				Logger.e(ES_GOB_AFIRMA, "El usuario no selecciono un certificado", t); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_CANCELLED_OPERATION, false);
-				return;
 			}
 			else {
 				Logger.e(ES_GOB_AFIRMA, "Error inesperado al recuperar la clave del certificado de firma: " + msg, t); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_PKE, true);
-				return;
 			}
+			return;
 		}
-		else if (op == KeyStoreOperation.SIGN) {
+		if (op == KeyStoreOperation.SIGN) {
 			if (t instanceof MSCBadPinException) {
 				Logger.e(ES_GOB_AFIRMA, "PIN erroneo: " + t); //$NON-NLS-1$
 				showErrorMessage(getString(R.string.error_msc_pin));
 				launchError(ErrorManager.ERROR_MSC_PIN, false);
-				return;
 			}
 			else if (t instanceof AOUnsupportedSignFormatException) {
 				Logger.e(ES_GOB_AFIRMA, "Formato de firma no soportado: " + t); //$NON-NLS-1$
 				showErrorMessage(getString(R.string.error_format_not_supported));
 				launchError(ErrorManager.ERROR_NOT_SUPPORTED_FORMAT, true);
-				return;
 			}
 			else if (t instanceof ExtraParamsProcessor.IncompatiblePolicyException) {
 				Logger.e(ES_GOB_AFIRMA, "Los parametros configurados son incompatibles con la politica de firma: " + t); //$NON-NLS-1$
 				showErrorMessage(getString(R.string.error_signing_config));
 				launchError(ErrorManager.ERROR_BAD_PARAMETERS, true);
-				return;
 			}
 			else if (t instanceof AOException) {
 				Logger.e(ES_GOB_AFIRMA, "Error controlado al firmar", t); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_SIGNING, t.getMessage(), true);
-				return;
 			}
 			else {
 				Logger.e(ES_GOB_AFIRMA, "Error inesperado durante la firma: " + msg, t); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_SIGNING,true);
-				return;
 			}
+			return;
 		}
 		Logger.e(ES_GOB_AFIRMA, "Error inesperado: " + msg, t); //$NON-NLS-1$
 		launchError(ErrorManager.ERROR_SIGNING, true);
@@ -599,6 +598,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	@Override
 	public void onSendingDataSuccess(final byte[] result, final boolean critical) {
 		Logger.i(ES_GOB_AFIRMA, "Resultado del deposito de la firma: " + (result == null ? null : new String(result))); //$NON-NLS-1$
+		dismissProgressDialog();
 		closeActivity();
 	}
 

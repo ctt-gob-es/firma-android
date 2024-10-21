@@ -102,7 +102,7 @@
     <string name="cancel_nfc">No usar DNIe</string>
     <string name="enable_nfc">Por favor, active el NFC para usar DNIe y pulsa atr\u00E1s para volver</string>
     <string name="enable_nfc_question">Se ha detectado que su dispositivo dispone de NFC. \u00BFDesea habilitarlo para la firma con el DNIe por NFC?</string>
-    <string name="nfc_no_detected">No se ha habilitado NFC. Se usar\u00E1 el almac\u00E9n del sistema.</string>
+    <string name="nfc_no_detected">No se ha habilitado NFC.</string>
     <string name="nfc_cancelled">Se ha cancelado el uso de NFC. Se usar\u00E1 el almac\u00E9n del sistema.</string>
     <string name="settings">Ajustes</string>
     <string name="can_not_can_be_null">El CAN no puede ser vac\u00EDo o nulo</string>
@@ -128,7 +128,7 @@
     <string name="understood">Entendido</string>
     <string name="add_new_cert">A\u00F1adir nuevo certificado</string>
     <string name="add_cert">A\u00F1adir certificado</string>
-    <string name="cancel_underline">Cancelar</string>
+    <string name="cancel_underline"><u>Cancelar</u></string>
     <string name="locate_file_title">Localiza el archivo</string>
     <string name="locate_file_message">Localiza el archivo .p12 o .pfx. en tu tel\u00E9fono</string>
     <string name="send_to_device_title">Env\u00EDa al dispositivo</string>
@@ -138,7 +138,8 @@
     <string name="try_again">Intentar de nuevo</string>
     <string name="signed_file_title">Fichero firmado</string>
     <string name="signed_file_message">El fichero ha sido firmado correctamente.</string>
-    <string name="choose_cert_type_title">¿Con qu\u00E9 firmar\u00E1s el fichero?</string>
+    <string name="choose_cert_type_sign_title">¿Con qu\u00E9 firmar\u00E1s?</string>
+    <string name="choose_cert_type_auth_title">¿Con qu\u00E9 te identificar\u00E1s?</string>
     <string name="certificate">Certificado electr\u00F3nico</string>
     <string name="dnie">DNI electr\u00F3nico</string>
     <string name="what_is_autofirma_for_title">¿Para qu\u00E9 sirve AutoFirma?</string>

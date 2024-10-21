@@ -180,8 +180,15 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
         }
         catch (final AOCancelledOperationException e) {
             Logger.e(ES_GOB_AFIRMA, "El usuario no selecciono un certificado: " + e); //$NON-NLS-1$
-            onKeyStoreError(KeyStoreOperation.SELECT_CERTIFICATE, "El usuario no selecciono un certificado", new PendingIntent.CanceledException(e));
-            return;
+
+			// Si hay algun almacen alternativo, peromitimos seleccionar de nuevo. Si nom se lanza
+			// el error
+			if (NfcHelper.isNfcPreferredConnection(this)) {
+				loadKeyStore(this);
+			} else {
+				onKeyStoreError(KeyStoreOperation.SELECT_CERTIFICATE, "El usuario no selecciono un certificado", new PendingIntent.CanceledException(e));
+			}
+			return;
         }
         // Cuando se instala el certificado desde el dialogo de seleccion, Android da a elegir certificado
         // en 2 ocasiones y en la segunda se produce un "java.lang.AssertionError". Se ignorara este error.
@@ -213,6 +220,7 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	public void onKeyStoreError(KeyStoreOperation op, String msg, Throwable t) {
 		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
 			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, true);
+			return;
 		}
 		else if (op == KeyStoreOperation.SELECT_CERTIFICATE) {
 
@@ -230,6 +238,7 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 				Logger.e(ES_GOB_AFIRMA, "Error al recuperar el certificado", t); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_PKE, true);
 			}
+			return;
 		}
 		Logger.e(ES_GOB_AFIRMA, "Error desconocido", t); //$NON-NLS-1$
 		launchError(ErrorManager.ERROR_SELECTING_CERTIFICATE, true);

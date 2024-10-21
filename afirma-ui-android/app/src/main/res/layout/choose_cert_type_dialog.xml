@@ -3,18 +3,15 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chooseCertTypeDialog"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/toolbar">
+    android:background="@drawable/radiusdialogbackground">
 
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/chooseCertTypeDialog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:background="@drawable/radiusdialogbackground"
     app:behavior_hideable="true"
     app:behavior_peekHeight="120dp"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
@@ -27,12 +24,12 @@
         android:padding="20dp">
 
         <TextView
-            android:id="@+id/chooseFileTitle"
+            android:id="@+id/selectKeystoreTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:fontFamily="@font/nunitosansbold"
-            android:text="@string/choose_cert_type_title"
+            android:text="@string/choose_cert_type_sign_title"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />

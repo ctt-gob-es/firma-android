@@ -12,13 +12,10 @@ import es.gob.afirma.android.gui.AppConfig;
 
 public class IntroScreenActivity extends AppCompatActivity {
 
-    RelativeLayout bottomSheetRL;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_screen_file);
-        bottomSheetRL = this.findViewById(R.id.customDialog);
 
         Button startButton = this.findViewById(R.id.startButton);
         startButton.setOnClickListener(new View.OnClickListener()

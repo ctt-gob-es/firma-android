@@ -47,6 +47,10 @@ public class HomeActivity extends AppCompatActivity {
             mainFragment = new MainFragment();
         }
 
+        intent.removeExtra(SHOW_SIGNING_RESULT);
+        intent.removeExtra(SIGNING_ERROR);
+        intent.removeExtra(START_IMPORT_CERT);
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)

@@ -344,7 +344,7 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 	}
 
 	private void startLocalSign() {
-		Intent intent = new Intent(getContext(), LocalSignResultActivity.class);
+		Intent intent = new Intent(getContext(), LocalSignActivity.class);
 		startActivity(intent);
 	}
 

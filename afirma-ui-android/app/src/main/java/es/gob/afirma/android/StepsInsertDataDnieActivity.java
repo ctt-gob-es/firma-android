@@ -13,10 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.gui.SignWithDnieStep1Fragment;
-import es.gob.afirma.android.gui.SignWithDnieStep2Fragment;
+import es.gob.afirma.android.gui.InsertDataDnieStep1Fragment;
+import es.gob.afirma.android.gui.InsertDataDnieStep2Fragment;
 
-public class StepsSignDnieActivity extends AppCompatActivity {
+public class StepsInsertDataDnieActivity extends AppCompatActivity {
 
     public static final int REQUEST_NFC_PARAMS = 2011;
 
@@ -37,8 +37,7 @@ public class StepsSignDnieActivity extends AppCompatActivity {
             }
         });
 
-        loadStep1();
-
+        loadStep1(InsertDataDnieStep1Fragment.canValue);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class StepsSignDnieActivity extends AppCompatActivity {
         }
     }
 
-    public void loadStep1() {
+    public void loadStep1(String canText) {
 
         TextView titleTv = findViewById(R.id.titleTv);
         titleTv.setText(getString(R.string.enter_can_dni));
@@ -61,8 +60,11 @@ public class StepsSignDnieActivity extends AppCompatActivity {
         TextView stepTv = this.findViewById(R.id.stepTv);
         stepTv.setText(getString(R.string.actual_step, "1"));
 
-        SignWithDnieStep1Fragment step1Fragment;
-        step1Fragment = new SignWithDnieStep1Fragment();
+        InsertDataDnieStep1Fragment step1Fragment;
+        step1Fragment = new InsertDataDnieStep1Fragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE, canText);
+        step1Fragment.setArguments(bundle);
 
         ProgressBar progressBar = this.findViewById(R.id.signDnieStepsPb);
         progressBar.setMax(3);
@@ -89,30 +91,28 @@ public class StepsSignDnieActivity extends AppCompatActivity {
             progressBar.setProgress(2,true);
         }
 
-        SignWithDnieStep2Fragment signWithDnieStep2Fragment = new SignWithDnieStep2Fragment();
+        InsertDataDnieStep2Fragment insertDataDnieStep2Fragment = new InsertDataDnieStep2Fragment();
         Bundle bundle = new Bundle();
         bundle.putString(NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE, canText);
-        signWithDnieStep2Fragment.setArguments(bundle);
+        insertDataDnieStep2Fragment.setArguments(bundle);
         this.getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.step_content, signWithDnieStep2Fragment)
+                .replace(R.id.step_content, insertDataDnieStep2Fragment)
                 .commit();
     }
 
     @Override
     public void onBackPressed() {
         // Se intenta volver a la pantalla de introduccion
-        if (actualStep == 1){
-            final Intent stepsSignDNIe = new Intent(this, IntroSignDnieActivity.class);
-            startActivity(stepsSignDNIe);
-        // Se intenta volver de la pantalla de CAN
-        } else if (actualStep == 2) {
+        if (actualStep == 2) {
             actualStep--;
-            loadStep1();
+            loadStep1(InsertDataDnieStep1Fragment.canValue);
+            return;
         // Se intenta volver a la pantalla de PIN
         } else if (actualStep == 3) {
             actualStep--;
-            loadStep2(SignWithDnieStep1Fragment.canValue);
+            loadStep2(InsertDataDnieStep1Fragment.canValue);
+            return;
         }
         super.onBackPressed();
     }

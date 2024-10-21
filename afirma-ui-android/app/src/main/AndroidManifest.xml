@@ -100,15 +100,11 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".android.IntroSignDnieActivity"
+            android:name=".android.IntroUseDnieActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".android.StepsSignDnieActivity"
-            android:exported="true">
-        </activity>
-        <activity
-            android:name=".android.gui.ChooseCertTypeDialog"
+            android:name=".android.StepsInsertDataDnieActivity"
             android:exported="true">
         </activity>
         <activity
@@ -130,7 +126,8 @@
             android:name=".android.LoadKeyStoreFragmentActivity"
             android:exported="true" />
         <activity
-            android:name=".android.LocalSignResultActivity"
+            android:name=".android.LocalSignActivity"
+            android:theme="@style/Theme.Transparent"
             android:label="@string/title_activity_save_data"/>
         <activity
             android:name=".android.WebSignActivity"

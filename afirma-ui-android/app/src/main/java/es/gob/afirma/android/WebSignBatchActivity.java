@@ -288,67 +288,57 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 			return;
 		}
 		else if (op == KeyStoreOperation.SELECT_CERTIFICATE) {
-
 			if (t instanceof SelectKeyAndroid41BugException) {
 				Log.e(ES_GOB_AFIRMA, "Error al cargar el certificado, posiblemente relacionado por usar un alias de certificado no valido", t);
 				launchError(ErrorManager.ERROR_PKE_ANDROID_4_1, t.getMessage(), true);
-				return;
 			}
 			else if (t instanceof KeyChainException) {
 				Log.e(ES_GOB_AFIRMA, "Error al cargar la clave del certificado", t);
 				launchError(ErrorManager.ERROR_PKE, t.getMessage(), true);
-				return;
 			}
 			else if (t instanceof PendingIntent.CanceledException) {
 				Logger.e(ES_GOB_AFIRMA, "El usuario no selecciono un certificado", t);
 				launchError(ErrorManager.ERROR_CANCELLED_OPERATION, t.getMessage(), false);
-				return;
 			}
 			else {
 				Logger.e(ES_GOB_AFIRMA, "Error al recuperar la clave del certificado de firma", t);
 				launchError(ErrorManager.ERROR_PKE, t.getMessage(), true);
-				return;
 			}
+			return;
 		}
 		else if (op == KeyStoreOperation.SIGN) {
 			if (t instanceof MSCBadPinException) {
 				Logger.e(ES_GOB_AFIRMA, "PIN erroneo: " + t);
 				showErrorMessage(getString(R.string.error_msc_pin));
 				launchError(ErrorManager.ERROR_MSC_PIN, t.getMessage(), false);
-				return;
 			}
 			else if (t instanceof AOCancelledOperationException) {
 				Logger.i(ES_GOB_AFIRMA, "Operacion cancelada por el usuario: " + t);
 				launchError(ErrorManager.ERROR_CANCELLED_OPERATION, t.getMessage(), false);
-				return;
 			}
 			else if (t instanceof AOUnsupportedSignFormatException) {
 				Logger.e(ES_GOB_AFIRMA, "Formato de firma no soportado: " + t);
 				showErrorMessage(getString(R.string.error_format_not_supported));
 				launchError(ErrorManager.ERROR_NOT_SUPPORTED_FORMAT, t.getMessage(), true);
-				return;
 			}
 			else if (t instanceof ExtraParamsProcessor.IncompatiblePolicyException) {
 				Logger.e(ES_GOB_AFIRMA, "Los parametros configurados son incompatibles con la politica de firma: " + t);
 				showErrorMessage(getString(R.string.error_signing_config));
 				launchError(ErrorManager.ERROR_BAD_PARAMETERS, t.getMessage(), true);
-				return;
 			}
 			else if (t instanceof HttpError) {
 				Logger.e(ES_GOB_AFIRMA, "Error de comunicacion con el servicio", t);
 				launchError(ErrorManager.ERROR_COMMUNICATING_WITH_WEB, "Error de comunicacion con el servicio", true);
-				return;
 			}
 			else if (t instanceof AOException) {
 				Logger.e(ES_GOB_AFIRMA, "Error controlado al firmar", t);
 				launchError(ErrorManager.ERROR_SIGNING, t.getMessage(), true);
-				return;
 			}
 			else {
 				Logger.e(ES_GOB_AFIRMA, "Error desconocido durante la firma", t);
 				launchError(ErrorManager.ERROR_SIGNING, t.getMessage(), true);
-				return;
 			}
+			return;
 		}
 		Logger.e(ES_GOB_AFIRMA, "Error desconocido", t);
 		launchError(ErrorManager.ERROR_SIGNING, t.getMessage(), true);
@@ -451,9 +441,9 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	public void onKeyStoreError(KeyStoreOperation op, String msg, Throwable t) {
 		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
 			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, "Error cargando almacen", true);
+			return;
 		}
-		else if (op == KeyStoreOperation.SELECT_CERTIFICATE) {
-
+		if (op == KeyStoreOperation.SELECT_CERTIFICATE) {
 			if (t instanceof SelectKeyAndroid41BugException) {
 				launchError(ErrorManager.ERROR_PKE_ANDROID_4_1, "Error cargando PKE", true);
 			}
@@ -468,6 +458,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 				Logger.e(ES_GOB_AFIRMA, "Error al recuperar el certificado", t); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_PKE, "Error al recuperar el certificado", true);
 			}
+			return;
 		}
 		Logger.e(ES_GOB_AFIRMA, "Error desconocido", t); //$NON-NLS-1$
 		launchError(ErrorManager.ERROR_SELECTING_CERTIFICATE, "Error desconocido", true);

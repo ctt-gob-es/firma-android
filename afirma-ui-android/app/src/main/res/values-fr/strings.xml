@@ -97,7 +97,7 @@
     <string name="cancel_nfc">Ne pas utiliser DNIe</string>
     <string name="enable_nfc">Veuillez activer NFC pour utiliser DNIe et appuyez sur retour pour revenir</string>
     <string name="enable_nfc_question">Votre appareil a \u00e9t\u00e9 d\u00e9tect\u00e9 comme ayant NFC. Voulez-vous lui permettre de signer avec le DNIe 3.0 via NFC?</string>
-    <string name="nfc_no_detected">NFC n\'a pas \u00e9t\u00e9 activ\u00e9. Le magasin syst\u00e8me sera utilis\u00e9.</string>
+    <string name="nfc_no_detected">NFC n\'a pas \u00e9t\u00e9 activ\u00e9.</string>
     <string name="nfc_cancelled">L\'utilisation du NFC a \u00e9t\u00e9 annul\u00e9e. Le magasin syst\u00e8me sera utilis\u00e9.</string>
     <string name="accesibility_select_option">S\u00e9lectionnez une option</string>
     <string name="accesibility_back_parent_folder">Revenir au dossier parent</string>
@@ -128,7 +128,7 @@
     <string name="understood">Compris</string>
     <string name="add_new_cert">Ajouter nouveau certificat</string>
     <string name="add_cert">Ajouter certificat</string>
-    <string name="cancel_underline"><ou>Annuler</ou></string>
+    <string name="cancel_underline"><u>Annuler</u></string>
     <string name="locate_file_title">Localise les archives</string>
     <string name="locate_file_message">Localise les archives .p12 Ou .pfx. En ton tel\u00f3fono</string>
     <string name="send_to_device_title">Envoie au dispositif</string>
@@ -138,7 +138,8 @@
     <string name="try_again">Essayer de nouveau</string>
     <string name="signed_file_title">Fichier sign\u00e9</string>
     <string name="signed_file_message">Le fichier a \u00e9t\u00e9 sign\u00e9 correctement.</string>
-    <string name="choose_cert_type_title">Avec qu\'est-ce que signeras le fichier?</string>
+    <string name="choose_cert_type_sign_title">Avec qu\'est-ce que signeras?</string>
+    <string name="choose_cert_type_auth_title">Avec qu\'est-ce que tu t\'identifieras?</string>
     <string name="certificate">Certifi\u00e9 \u00e9lectronique</string>
     <string name="dnie">DNI \u00e9lectronique</string>
     <string name="what_is_autofirma_for_title">\u00e0 quoi sert AutoFirma?</string>

@@ -10,27 +10,55 @@
 
 package es.gob.afirma.android.gui;
 
-import static es.gob.afirma.android.LoadKeyStoreFragmentActivity.REQUEST_NFC_KEYSTORE;
-
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import es.gob.afirma.R;
 
 /** Di&aacute;logo modal con el que mostrar al usuario un mensaje y un bot&oacute;n para ocultar el
  * di&aacute;logo y, opcionalmente, realizar una acci&oacute;n. */
-public class ChooseCertTypeDialog extends FragmentActivity {
+public class ChooseCertTypeDialog extends BottomSheetDialog {
 
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
+	public static final int CERT_TYPE_LOCAL = 1;
+	public static final int CERT_TYPE_DNIE = 2;
 
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.choose_cert_type_dialog);
+	private TextView title;
+
+	private ChooseCertTypeListener listener;
+
+	public ChooseCertTypeDialog(final Context context, final ChooseCertTypeListener listener) {
+		super(context, R.style.BottomSheetDialogTheme);
+		View layout = LayoutInflater.from(context).inflate(R.layout.choose_cert_type_dialog, this.findViewById(R.id.customDialog));
+
+		this.listener = listener;
+
+		title = layout.findViewById(R.id.selectKeystoreTitle);
+
+		this.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				BottomSheetDialog d = (BottomSheetDialog) dialog;
+
+				FrameLayout bottomSheet = d.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+				BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+				behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+			}
+		});
+		this.setContentView(layout);
 
 		TextView certificateTv = this.findViewById(R.id.cert_option);
 		certificateTv.setOnClickListener(new View.OnClickListener()
@@ -38,9 +66,10 @@ public class ChooseCertTypeDialog extends FragmentActivity {
 			@Override
 			public void onClick(View v)
 			{
-				Intent dataIntent = new Intent();
-				setResult(RESULT_OK, dataIntent);
-				finish();
+				if (ChooseCertTypeDialog.this.listener != null) {
+					ChooseCertTypeDialog.this.listener.certTypeChoosed(CERT_TYPE_LOCAL);
+				}
+				dismiss();
 			}
 		});
 
@@ -50,9 +79,10 @@ public class ChooseCertTypeDialog extends FragmentActivity {
 			@Override
 			public void onClick(View v)
 			{
-				Intent dataIntent = new Intent();
-				setResult(REQUEST_NFC_KEYSTORE, dataIntent);
-				finish();
+				if (ChooseCertTypeDialog.this.listener != null) {
+					ChooseCertTypeDialog.this.listener.certTypeChoosed(CERT_TYPE_DNIE);
+				}
+				dismiss();
 			}
 		});
 
@@ -62,11 +92,30 @@ public class ChooseCertTypeDialog extends FragmentActivity {
 			@Override
 			public void onClick(View v)
 			{
-				finish();
+				if (ChooseCertTypeDialog.this.listener != null) {
+					ChooseCertTypeDialog.this.listener.certTypeChoosed(-1);
+				}
+				dismiss();
 			}
 		});
-
+	}
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		if (this.listener != null) {
+			this.listener.certTypeChoosed(-1);
+		}
+		dismiss();
 	}
 
+	public void setModeAuthentication(boolean modeAuthentication) {
+		title.setText(getContext().getString(modeAuthentication
+				? R.string.choose_cert_type_auth_title
+				: R.string.choose_cert_type_sign_title));
+	}
 
+	public static interface ChooseCertTypeListener {
+
+		void certTypeChoosed(int certType);
+	}
 }

@@ -2,4 +2,7 @@
 <resources>
     <string name="extra_can" translatable="false">canValue</string>
     <string name="extra_pin" translatable="false">pinValue</string>
+    <string name="extra_keystore" translatable="false">keystore</string>
+    <string name="extra_value_keystore_dnie" translatable="false">dnie</string>
+    <string name="extra_value_keystore_local" translatable="false">local</string>
 </resources>

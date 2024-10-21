@@ -10,7 +10,6 @@
 
 package es.gob.afirma.android.crypto;
 
-import android.content.ActivityNotFoundException;
 import android.os.AsyncTask;
 
 import java.io.IOException;
@@ -56,7 +55,6 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 	private final String algorithm;
 	private final PrivateKeyEntry pke;
 	private final Properties extraParams;
-
 	private final SignListener signListener;
 
 	private Throwable t;
@@ -85,11 +83,6 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 		this.extraParams = extraParams;
 		this.signListener = signListener;
 		this.t = null;
-	}
-
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
 	}
 
 	@Override
@@ -198,7 +191,6 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 	@Override
 	protected void onPostExecute(final SignResult result) {
 		super.onPostExecute(result);
-
 		if (result == null || result.getSignature() == null) {
 			this.signListener.onSignError(this.t);
 		} else {

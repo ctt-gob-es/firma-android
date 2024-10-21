@@ -2,6 +2,7 @@ package es.gob.afirma.android.gui;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +17,30 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.NFCDetectorActivity;
-import es.gob.afirma.android.StepsSignDnieActivity;
+import es.gob.afirma.android.StepsInsertDataDnieActivity;
 
-public class SignWithDnieStep1Fragment extends Fragment {
+import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
+
+public class InsertDataDnieStep1Fragment extends Fragment {
 
     public static String canValue = null;
+
+    private static final int CAN_LENGTH = 6;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View contentLayout;
-
         super.onCreate(savedInstanceState);
-        contentLayout = inflater.inflate(R.layout.fragment_signdnie_step1, container, false);
+        View contentLayout = inflater.inflate(R.layout.fragment_signdnie_step1, container, false);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            String previousCan = bundle.getString(INTENT_EXTRA_CAN_VALUE);
+            if (previousCan != null) {
+                TextInputEditText canText = contentLayout.findViewById(R.id.canEtx);
+                canText.setText(previousCan);
+            }
+        }
 
         Button continueToStep2Btn = contentLayout.findViewById(R.id.continueToStep2Btn);
         continueToStep2Btn.setOnClickListener(new View.OnClickListener()
@@ -50,7 +61,7 @@ public class SignWithDnieStep1Fragment extends Fragment {
             }
         });
 
-        StepsSignDnieActivity.actualStep = 1;
+        StepsInsertDataDnieActivity.actualStep = 1;
 
         return contentLayout;
     }
@@ -68,18 +79,19 @@ public class SignWithDnieStep1Fragment extends Fragment {
             progressBar.setProgress(2,true);
         }
 
-        SignWithDnieStep2Fragment signWithDnieStep2Fragment = new SignWithDnieStep2Fragment();
+        InsertDataDnieStep2Fragment insertDataDnieStep2Fragment = new InsertDataDnieStep2Fragment();
         Bundle bundle = new Bundle();
         bundle.putString(NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE, canText);
-        signWithDnieStep2Fragment.setArguments(bundle);
+        insertDataDnieStep2Fragment.setArguments(bundle);
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.step_content, signWithDnieStep2Fragment)
+                .replace(R.id.step_content, insertDataDnieStep2Fragment)
                 .commit();
     }
 
     private boolean isValidCan(TextInputEditText canText) {
-        if (canText.getText() != null && !canText.getText().toString().isEmpty()) {
+        Editable text = canText.getText();
+        if (text != null && !text.toString().isEmpty() && text.length() == CAN_LENGTH) {
             return true;
         }
         return false;

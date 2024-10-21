@@ -58,8 +58,8 @@ public class NFCDetectorActivity extends FragmentActivity {
         cancelSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NFCDetectorActivity.this, HomeActivity.class);
-                startActivity(intent);
+                setResult(RESULT_CANCELED);
+                finish();
             }
         });
 

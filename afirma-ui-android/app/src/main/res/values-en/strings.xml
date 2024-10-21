@@ -101,7 +101,7 @@
     <string name="cancel_nfc">Do not use DNIe</string>
     <string name="enable_nfc">Please activate NFC to use DNIe and press back to return</string>
     <string name="enable_nfc_question">Your device has been detected as having NFC. Do you want to enable it to sign with the DNIe via NFC?</string>
-    <string name="nfc_no_detected">NFC has not been enabled. The system store will be used.</string>
+    <string name="nfc_no_detected">NFC has not been enabled.</string>
     <string name="nfc_cancelled">The use of NFC has been cancelled. The system store will be used.</string>
     <string name="settings">Configuration</string>
     <string name="can_not_can_be_null">CAN cannot be empty or null</string>
@@ -138,6 +138,8 @@
     <string name="try_again">Try again</string>
     <string name="signed_file_title">Signed file</string>
     <string name="signed_file_message">The file has been signed correctly.</string>
+    <string name="choose_cert_type_sign_title">How will you sign?</string>
+    <string name="choose_cert_type_auth_title">What will you identify with?</string>
     <string name="choose_cert_type_title"> With what do you sign the file?</string>
     <string name="certificate">Electronic certificate</string>
     <string name="dnie">Electronic ID</string>

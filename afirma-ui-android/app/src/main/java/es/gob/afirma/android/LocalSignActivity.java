@@ -19,6 +19,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.OpenableColumns;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,7 +43,7 @@ import es.gob.afirma.signers.cades.CAdESExtraParams;
  * Esta clase tiene mucho c&oacute;digo duplicado de la clase <code>LocalSignResultActivity</code>.
  * Hay crear una nueva clase con los m&eacute;todos duplicados.
  * @author Astrid Idoate Gil. */
-public final class LocalSignResultActivity extends SignFragmentActivity {
+public final class LocalSignActivity extends SignFragmentActivity {
 
 	private final static String EXTRA_RESOURCE_TITLE = "es.gob.afirma.android.title"; //$NON-NLS-1$
 	private final static String EXTRA_RESOURCE_EXCLUDE_DIRS = "es.gob.afirma.android.excludedDirs"; //$NON-NLS-1$
@@ -77,7 +79,6 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_signed_file);
 
 		if (!isSigning()) {
 
@@ -100,12 +101,9 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	}
 
 	@Override
-	  public void onStop() {
-	    super.onStop();
-	}
-
-	@Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+
+		Logger.i(ES_GOB_AFIRMA, "=== LocalSignActivity Result: " + requestCode + " " + resultCode);
 
 		// El usuario ha seleccionado un fichero
 		if (requestCode == REQUEST_CODE_SELECT_FILE) {
@@ -132,7 +130,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 					return;
 				}
 
-				LocalSignResultActivity.this.format = this.fileName.toLowerCase(Locale.ENGLISH)
+				LocalSignActivity.this.format = this.fileName.toLowerCase(Locale.ENGLISH)
 						.endsWith(PDF_FILE_SUFFIX) ?
 						AOSignConstants.SIGN_FORMAT_PADES :
 						AOSignConstants.SIGN_FORMAT_CADES;
@@ -309,7 +307,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	 * @param title T&iacute;tulo que describe el error producido.
 	 * @param message Mensaje que describe el error producido. */
 	private void showErrorMessage(final String title, final String message) {
-		Intent intent = new Intent(LocalSignResultActivity.this, HomeActivity.class);
+		Intent intent = new Intent(this, HomeActivity.class);
 		intent.putExtra(SHOW_SIGNING_RESULT, true);
 		intent.putExtra(SIGNING_ERROR, true);
 		intent.putExtra(ERROR_TITLE_PARAM, title);
@@ -320,7 +318,7 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 	/** Muestra los elementos de pantalla informando de que la firma se ha generado correctamente y
 	 * donde se ha almacenado. */
 	private void showSuccessMessage() {
-		Intent intent = new Intent(LocalSignResultActivity.this, HomeActivity.class);
+		Intent intent = new Intent(LocalSignActivity.this, HomeActivity.class);
 		intent.putExtra(SHOW_SIGNING_RESULT, true);
 		intent.putExtra(SIGNING_ERROR, false);
 		startActivity(intent);
@@ -358,13 +356,12 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 
 	@Override
 	protected void onSigningError(KeyStoreOperation op, String msg, Throwable t) {
-
-		if (KeyStoreOperation.SELECT_CERTIFICATE == op && t instanceof PendingIntent.CanceledException) {
-			Logger.w(ES_GOB_AFIRMA, "Operacion de seleccion de certificados cancelada por el usuario");
-			showErrorMessage(getString(R.string.not_selected_cert), getString(R.string.not_selected_cert_desc));
+		if (t instanceof PendingIntent.CanceledException) {
+			Logger.i(ES_GOB_AFIRMA, "Operacion cancelada por el usuario");
 			finish();
 		}
 		else {
+			Logger.e(ES_GOB_AFIRMA, "Error durante la firma: " + t);
 			if (KeyStoreOperation.SIGN == op) {
 				if (t instanceof MSCBadPinException) {
 					showErrorMessage(getString(R.string.incorrect_pin), t.getMessage());
@@ -376,8 +373,6 @@ public final class LocalSignResultActivity extends SignFragmentActivity {
 			else {
 				showErrorMessage(getString(R.string.error), msg);
 			}
-
-			Logger.e(ES_GOB_AFIRMA, "Error durante la firma: " + t);
 		}
 	}
 

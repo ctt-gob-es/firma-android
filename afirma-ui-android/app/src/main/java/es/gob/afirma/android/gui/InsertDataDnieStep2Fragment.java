@@ -4,6 +4,7 @@ import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,20 +18,20 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.StepsSignDnieActivity;
+import es.gob.afirma.android.StepsInsertDataDnieActivity;
 
-public class SignWithDnieStep2Fragment extends Fragment {
+public class InsertDataDnieStep2Fragment extends Fragment {
 
     public static final String INTENT_EXTRA_PIN_VALUE = "pinValue"; //$NON-NLS-1$
+
+    private static final int MIN_PIN_LENGTH = 4;
 
     String canValue;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View contentLayout;
-
         super.onCreate(savedInstanceState);
-        contentLayout = inflater.inflate(R.layout.fragment_signdnie_step2, container, false);
+        View contentLayout = inflater.inflate(R.layout.fragment_signdnie_step2, container, false);
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -57,16 +58,16 @@ public class SignWithDnieStep2Fragment extends Fragment {
                         progressBar.setProgress(3,true);
                     }
 
-                    SignWithDnieStep3Fragment signWithDnieStep3Fragment = new SignWithDnieStep3Fragment();
+                    InsertDataDnieStep3Fragment insertDataDnieStep3Fragment = new InsertDataDnieStep3Fragment();
                     Bundle bundle = new Bundle();
 
                     bundle.putString(INTENT_EXTRA_CAN_VALUE, canValue);
                     bundle.putString(INTENT_EXTRA_PIN_VALUE, pinText.getText().toString());
-                    signWithDnieStep3Fragment.setArguments(bundle);
+                    insertDataDnieStep3Fragment.setArguments(bundle);
 
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.step_content, signWithDnieStep3Fragment)
+                            .replace(R.id.step_content, insertDataDnieStep3Fragment)
                             .commit();
                 } else {
                     TextInputLayout pinInputLayout = getActivity().findViewById(R.id.pinEtxLayout);
@@ -76,13 +77,14 @@ public class SignWithDnieStep2Fragment extends Fragment {
             }
         });
 
-        StepsSignDnieActivity.actualStep = 2;
+        StepsInsertDataDnieActivity.actualStep = 2;
 
         return contentLayout;
     }
 
     private boolean isValidPin(TextInputEditText pinText) {
-        if (pinText.getText() != null && !pinText.getText().toString().isEmpty()) {
+        Editable text = pinText.getText();
+        if (text != null && !text.toString().isEmpty() && text.length() >= MIN_PIN_LENGTH) {
             return true;
         }
         return false;

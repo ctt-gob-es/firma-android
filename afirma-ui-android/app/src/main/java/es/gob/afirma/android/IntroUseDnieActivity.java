@@ -12,7 +12,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 
 import es.gob.afirma.R;
 
-public class IntroSignDnieActivity extends FragmentActivity {
+public class IntroUseDnieActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +33,10 @@ public class IntroSignDnieActivity extends FragmentActivity {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(getBaseContext(), StepsSignDnieActivity.class);
-                startActivityForResult(intent, StepsSignDnieActivity.REQUEST_NFC_PARAMS);
+                Intent intent = new Intent(getBaseContext(), StepsInsertDataDnieActivity.class);
+                startActivityForResult(intent, StepsInsertDataDnieActivity.REQUEST_NFC_PARAMS);
             }
         });
-
-/*        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(ERROR_LOADING_NFC_KEYSTORE)) {
-            CustomDialog cd = new CustomDialog(this, R.mipmap.error_icon,
-                    getString(R.string.error), getIntent().getStringExtra(ERROR_LOADING_NFC_KEYSTORE), getString(R.string.understood));
-            cd.show();
-        }*/
-
     }
 
     @Override
@@ -51,14 +44,20 @@ public class IntroSignDnieActivity extends FragmentActivity {
 
         // Volvemos del proceso de insercion de CAN y PIN del DNIe y se lo devolvemos a la
         // clase de carga de almacenes
-		if (requestCode == StepsSignDnieActivity.REQUEST_NFC_PARAMS) {
-            if (resultCode == RESULT_OK) {
-                setResult(RESULT_OK, data);
-            } else {
-                setResult(RESULT_CANCELED);
-            }
+		if (requestCode == StepsInsertDataDnieActivity.REQUEST_NFC_PARAMS && resultCode == RESULT_OK) {
+            setResult(RESULT_OK, data);
             finish();
+            return;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        setResult(RESULT_CANCELED);
+        finish();
+
+        super.onBackPressed();
     }
 }

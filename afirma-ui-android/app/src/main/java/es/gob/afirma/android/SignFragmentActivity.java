@@ -10,9 +10,10 @@
 
 package es.gob.afirma.android;
 
-import static es.gob.afirma.android.LocalSignResultActivity.DEFAULT_SIGNATURE_ALGORITHM;
+import static es.gob.afirma.android.LocalSignActivity.DEFAULT_SIGNATURE_ALGORITHM;
 
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
 import android.security.KeyChainException;
@@ -44,7 +45,6 @@ import es.gob.afirma.android.gui.PDFPasswordDialog;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.RuntimeConfigNeededException;
 import es.gob.afirma.core.misc.AOUtil;
-import es.gob.afirma.core.signers.CounterSignTarget;
 import es.gob.afirma.signers.cades.CAdESExtraParams;
 import es.gob.afirma.signers.pades.common.BadPdfPasswordException;
 import es.gob.afirma.signers.pades.common.PdfIsPasswordProtectedException;
@@ -58,19 +58,16 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
                                                         SignListener {
 
 	private final static String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
+	public static final String SIGN_TYPE_LOCAL = "LOCAL";
+	public static final String SIGN_TYPE_WEB = "WEB";
 
 	private String signOperation;
 	protected byte[] dataToSign;
 	private String format = null;
 	private String algorithm = null;
 	private Properties extraParams = null;
-
 	boolean signing = false;
-
 	private PrivateKeyEntry keyEntry = null;
-
-	public static final String SIGN_TYPE_LOCAL = "LOCAL";
-	public static final String SIGN_TYPE_WEB = "WEB";
 
 	/**
 	 * Inicia el proceso de firma.
@@ -82,6 +79,9 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
      */
 	public void sign(String signOperation, final byte[] data, final String format,
 						final String algorithm, final Properties extraParams) {
+
+		// Indicamos que las claves que se carguen no se usaran para autenticacion
+		setOnlyAuthenticationOperation(false);
 
 		if (signOperation == null) {
 			throw new IllegalArgumentException("No se han indicado la operacion de firma");
@@ -167,7 +167,14 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 		}
 		catch (final AOCancelledOperationException e) {
 			Logger.e(ES_GOB_AFIRMA, "El usuario no selecciono un certificado: " + e); //$NON-NLS-1$
-			onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "El usuario no selecciono un certificado", new PendingIntent.CanceledException(e));
+
+			// Si se ha cancelado la operacion y esta disponible el uso de mas de un almacen, permitimos
+			// seleccionar almacen. Si no, damos por hecho que el usuario quiere cancelar.
+			if (NfcHelper.isNfcPreferredConnection(this)) {
+				loadKeyStore(this);
+			} else {
+				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "El usuario no selecciono un certificado", new PendingIntent.CanceledException(e));
+			}
 			return;
 		}
 		// Cuando se instala el certificado desde el dialogo de seleccion, Android da a elegir certificado

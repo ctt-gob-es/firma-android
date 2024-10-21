@@ -10,19 +10,17 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.StepsSignDnieActivity;
+import es.gob.afirma.android.StepsInsertDataDnieActivity;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SignWithDnieStep3Fragment extends Fragment{
+public class InsertDataDnieStep3Fragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View contentLayout;
-
         super.onCreate(savedInstanceState);
-        contentLayout = inflater.inflate(R.layout.fragment_signdnie_step3, container, false);
+        View contentLayout = inflater.inflate(R.layout.fragment_signdnie_step3, container, false);
 
         Button readDnieBtn = contentLayout.findViewById(R.id.readDnieBtn);
         readDnieBtn.setOnClickListener(new View.OnClickListener() {
@@ -30,7 +28,7 @@ public class SignWithDnieStep3Fragment extends Fragment{
             public void onClick(View v)
             {
                 final Intent resultNFC = new Intent();
-                Bundle bundle = SignWithDnieStep3Fragment.this.getArguments();
+                Bundle bundle = InsertDataDnieStep3Fragment.this.getArguments();
                 if (bundle != null) {
                     resultNFC.putExtra(getString(R.string.extra_can), bundle.getString(getString(R.string.extra_can)));
                     resultNFC.putExtra(getString(R.string.extra_pin), bundle.getString(getString(R.string.extra_pin)));
@@ -41,7 +39,7 @@ public class SignWithDnieStep3Fragment extends Fragment{
             }
         });
 
-        StepsSignDnieActivity.actualStep = 3;
+        StepsInsertDataDnieActivity.actualStep = 3;
 
         return contentLayout;
     }
