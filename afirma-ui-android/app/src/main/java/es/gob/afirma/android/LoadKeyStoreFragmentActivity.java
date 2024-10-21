@@ -21,6 +21,7 @@ import android.hardware.usb.UsbManager;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import java.util.HashMap;
