@@ -32,7 +32,6 @@ import es.gob.afirma.android.crypto.SignTask;
 import es.gob.afirma.core.AOException;
 import es.gob.afirma.core.RuntimePasswordNeededException;
 import es.gob.afirma.signers.pades.common.BadPdfPasswordException;
-import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 
 /** Di&acute;logo para introducir la contrasena de un PDF protegido.
  * @author Jose Montero */

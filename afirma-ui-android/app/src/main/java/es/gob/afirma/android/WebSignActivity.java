@@ -354,11 +354,6 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	@Override
 	protected void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t) {
 
-		Logger.i(ES_GOB_AFIRMA, " === Error de firma");
-		Logger.i(ES_GOB_AFIRMA, " == op=" + op);
-		Logger.i(ES_GOB_AFIRMA, " == msg=" + msg);
-		Logger.i(ES_GOB_AFIRMA, " == t=" + t);
-
 		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
 			Log.e(ES_GOB_AFIRMA, "Error al cargar el almacen de certificados: " + msg, t);
 			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, true);

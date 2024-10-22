@@ -23,21 +23,16 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Enumeration;
-
 import es.gob.afirma.R;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.crypto.KeyStoreManagerListener;
 import es.gob.afirma.android.crypto.LoadDeviceKeystoreAsyncTask;
 
-/** Di&acute;logo para introducir el PIN.
+/**
+ * Di&acute;logo para introducir el PIN.
  * Se usa en almacenes distintos al del propio sistema operativo Android.
- * @author Astrid Idoate */
-
+ * @author Astrid Idoate
+ */
 public class PinDialog extends DialogFragment {
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma"; //$NON-NLS-1$
@@ -56,11 +51,6 @@ public class PinDialog extends DialogFragment {
 	KeyStoreManagerListener getKsmListener() {
 		return this.ksmListener;
 	}
-
-//	private LoadKeyStoreManagerTask ksmTask = null;
-//	LoadKeyStoreManagerTask getKsmTask() {
-//		return this.ksmTask;
-//	}
 
 	/** Construye un di&acute;logo para introducir el PIN. */
 	public PinDialog() {

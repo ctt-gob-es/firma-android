@@ -1,8 +1,6 @@
 package es.gob.afirma.android;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

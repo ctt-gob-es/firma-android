@@ -1,7 +1,5 @@
 package es.gob.afirma.android.gui;
 
-import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +17,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.StepsInsertDataDnieActivity;
+
+import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
 
 public class InsertDataDnieStep2Fragment extends Fragment {
 

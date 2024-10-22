@@ -6,11 +6,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
-import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
 
 public class LocaleHelper {

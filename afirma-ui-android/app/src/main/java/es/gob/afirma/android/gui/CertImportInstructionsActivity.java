@@ -1,25 +1,11 @@
 package es.gob.afirma.android.gui;
 
-import static android.app.PendingIntent.getActivity;
-
-import static es.gob.afirma.android.MainFragment.CERTIFICATE_EXTS;
-import static es.gob.afirma.android.MainFragment.EXTRA_RESOURCE_EXT;
-import static es.gob.afirma.android.MainFragment.EXTRA_RESOURCE_TITLE;
-import static es.gob.afirma.android.MainFragment.SELECT_CERT_REQUEST_CODE;
-
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.security.KeyChain;
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,15 +15,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import java.io.File;
-import java.io.IOException;
-
 import es.gob.afirma.R;
-import es.gob.afirma.android.FileChooserActivity;
 import es.gob.afirma.android.HomeActivity;
-import es.gob.afirma.android.IntroScreenActivity;
-import es.gob.afirma.android.Logger;
-import es.gob.afirma.android.MainFragment;
 
 public class CertImportInstructionsActivity extends AppCompatActivity {
 

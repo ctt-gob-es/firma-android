@@ -215,6 +215,7 @@
     <string name="added_cert_message">El certificado se ha a\u00F1adido correctamente</string>
     <string name="sign_record">Registro de firmas</string>
     <string name="loading_cert">Cargando certificado</string>
+    <string name="loading_certs">Cargando certificados</string>
     <string name="local_sign_record">%1$s local del fichero %2$s</string>
     <string name="web_sign_record">%1$s web solicitada por %2$s</string>
     <string name="batch_sign_record">Firma de lote web solicitada por %s</string>

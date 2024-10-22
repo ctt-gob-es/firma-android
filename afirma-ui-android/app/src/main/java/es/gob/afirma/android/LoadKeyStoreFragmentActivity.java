@@ -21,12 +21,12 @@ import android.hardware.usb.UsbManager;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import java.util.HashMap;
 
 import es.gob.afirma.R;
+import es.gob.afirma.android.crypto.CachePasswordCallback;
 import es.gob.afirma.android.crypto.DnieConnectionManager;
 import es.gob.afirma.android.crypto.InitializingNfcCardException;
 import es.gob.afirma.android.crypto.KeyStoreManagerListener;
@@ -35,7 +35,6 @@ import es.gob.afirma.android.crypto.LoadNfcKeyStoreManagerTask;
 import es.gob.afirma.android.crypto.LoadingCertificateException;
 import es.gob.afirma.android.crypto.UnsupportedNfcCardException;
 import es.gob.afirma.android.gui.ChooseCertTypeDialog;
-import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 
 /** Esta actividad abstracta integra las funciones necesarias para la cargar de un almacen de
  * certificados del dispositivo. La actividad integra la l&oacute;gica necesaria para utilizar
@@ -130,10 +129,6 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 
 	@Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-
-		Logger.i(ES_GOB_AFIRMA, " ============ requestCode: " + requestCode);
-		Logger.i(ES_GOB_AFIRMA, " ============ resultCode: " + resultCode);
-
 
 		// Si volvemos de la pantalla de insercion de CAN y deteccion de tarjeta NFC
 		if (requestCode == REQUEST_CODE_DETECT_NFC_CARD) {
@@ -239,8 +234,6 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 		// Si tenemos habilitado el uso de NFC, se pregunta al usuario si firmar con DNIe o el almacen de certificados; si no, cargamos directamente
 		// el almacen en cuestion (que puede ser una tarjeta previamente buscada)
 		if (NfcHelper.isNfcPreferredConnection(context)) {
-
-			Logger.i(ES_GOB_AFIRMA, " === Creamos dialogo");
 			LoadKeyStoreFragmentActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
 					ChooseCertTypeDialog certTypeDialog = new ChooseCertTypeDialog(
@@ -261,7 +254,6 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 								}
 							});
 					certTypeDialog.setModeAuthentication(LoadKeyStoreFragmentActivity.this.isOnlyAuthenticationOperation());
-					Logger.i(ES_GOB_AFIRMA, "---- Mostramos el dialogo");
 					certTypeDialog.show();
 				}
 			});

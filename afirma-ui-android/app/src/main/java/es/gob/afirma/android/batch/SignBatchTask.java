@@ -13,13 +13,11 @@ package es.gob.afirma.android.batch;
 import android.content.ActivityNotFoundException;
 import android.os.AsyncTask;
 
-import java.nio.charset.StandardCharsets;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.security.cert.CertificateEncodingException;
 import java.util.Properties;
 
 import es.gob.afirma.android.Logger;
-import es.gob.afirma.android.batch.client.BatchDataResult;
 import es.gob.afirma.android.batch.client.BatchSigner;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.core.AOCancelledOperationException;

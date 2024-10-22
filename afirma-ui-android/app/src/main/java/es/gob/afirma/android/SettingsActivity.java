@@ -3,16 +3,12 @@ package es.gob.afirma.android;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
-
-import junit.runner.Version;
 
 import es.gob.afirma.BuildConfig;
 import es.gob.afirma.R;

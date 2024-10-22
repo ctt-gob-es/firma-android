@@ -9,7 +9,6 @@ import android.widget.CheckBox;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
 

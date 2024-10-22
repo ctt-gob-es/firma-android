@@ -1,6 +1,6 @@
 package es.gob.afirma.android.gui;
 
-import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
+import es.gob.afirma.android.crypto.CachePasswordCallback;
 
 /**
  * Created by carlos on 11/07/2016.

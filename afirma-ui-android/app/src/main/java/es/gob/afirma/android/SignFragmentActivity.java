@@ -10,10 +10,7 @@
 
 package es.gob.afirma.android;
 
-import static es.gob.afirma.android.LocalSignActivity.DEFAULT_SIGNATURE_ALGORITHM;
-
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
 import android.security.KeyChainException;
@@ -48,6 +45,8 @@ import es.gob.afirma.core.misc.AOUtil;
 import es.gob.afirma.signers.cades.CAdESExtraParams;
 import es.gob.afirma.signers.pades.common.BadPdfPasswordException;
 import es.gob.afirma.signers.pades.common.PdfIsPasswordProtectedException;
+
+import static es.gob.afirma.android.LocalSignActivity.DEFAULT_SIGNATURE_ALGORITHM;
 
 /** Esta actividad abstracta integra las funciones necesarias para la ejecuci&oacute;n de
  * operaciones de firma en una actividad. La actividad integra la l&oacute;gica necesaria para

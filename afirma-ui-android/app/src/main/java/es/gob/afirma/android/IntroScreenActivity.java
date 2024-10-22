@@ -1,12 +1,12 @@
 package es.gob.afirma.android;
 
-import android.widget.RelativeLayout;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
 

@@ -19,8 +19,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.OpenableColumns;
-import android.widget.Button;
-import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -102,8 +100,6 @@ public final class LocalSignActivity extends SignFragmentActivity {
 
 	@Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-
-		Logger.i(ES_GOB_AFIRMA, "=== LocalSignActivity Result: " + requestCode + " " + resultCode);
 
 		// El usuario ha seleccionado un fichero
 		if (requestCode == REQUEST_CODE_SELECT_FILE) {

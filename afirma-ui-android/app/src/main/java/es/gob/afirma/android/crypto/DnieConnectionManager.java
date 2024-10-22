@@ -3,7 +3,6 @@ package es.gob.afirma.android.crypto;
 import android.nfc.Tag;
 
 import es.gob.afirma.android.Logger;
-import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 import es.gob.jmulticard.connection.ApduConnection;
 
 /**
@@ -26,7 +25,6 @@ public class DnieConnectionManager {
     private CachePasswordCallback canPasswordCallback;
     private CachePasswordCallback pinPasswordCallback;
     private AndroidDnieNFCCallbackHandler callbackHandler;
-    private MobileKeyStoreManager keyStoreManager;
     private ApduConnection nfcConnection;
     private Tag discoveredTag;
 
@@ -34,7 +32,6 @@ public class DnieConnectionManager {
         this.canPasswordCallback = null;
         this.pinPasswordCallback = null;
         this.callbackHandler = null;
-        this.keyStoreManager = null;
         this.nfcConnection = null;
         this.discoveredTag = null;
     }
@@ -53,30 +50,6 @@ public class DnieConnectionManager {
      */
     public void setCallbackHandler(AndroidDnieNFCCallbackHandler callbackHandler) {
         this.callbackHandler = callbackHandler;
-    }
-
-    /**
-     * Recupera el gestor del almac&eacute;n de claves del DNIe.
-     * @return Gestor del almac&eacute;n del DNIe.
-     */
-    public MobileKeyStoreManager getKeyStoreManager() {
-        return this.keyStoreManager;
-    }
-
-    /**
-     * Establece el gestor del almac&eacute;n de claves del DNIe.
-     * @param keyStoreManager Gestor del almac&eacute;n del DNIe.
-     */
-    public void setKeyStoreManager(MobileKeyStoreManager keyStoreManager) {
-        this.keyStoreManager = keyStoreManager;
-    }
-
-    /**
-     * Recupera la conexi&oacute;n NFC establecida con el DNIe.
-     * @return Conexi&oacute;n con la tarjeta.
-     */
-    public ApduConnection getNfcConnection() {
-        return this.nfcConnection;
     }
 
     /**
@@ -138,7 +111,6 @@ public class DnieConnectionManager {
      */
     public void reset() {
         this.callbackHandler = null;
-        this.keyStoreManager = null;
         if (this.nfcConnection != null) {
             try {
                 this.nfcConnection.close();

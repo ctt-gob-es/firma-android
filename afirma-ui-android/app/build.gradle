@@ -57,11 +57,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 	implementation 'com.google.android.material:material:1.12.0'
-	implementation ('es.gob.afirma.jmulticard:jmulticard-android:1.9-SNAPSHOT') {
+	implementation ('es.gob.afirma.jmulticard:jmulticard-android:3.0.3') {
         exclude(module: 'support-v4')
         exclude(module: 'android')
     }
-    implementation 'es.gob.afirma.jmulticard:jmulticard-jse:1.9'
+    implementation 'es.gob.afirma.jmulticard:jmulticard-jse:3.0.3'
 
     implementation('es.gob.afirma:afirma-crypto-pdf:1.9-SNAPSHOT') {
         exclude(module: 'afirma-lib-itext')
@@ -78,7 +78,7 @@ dependencies {
     implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.9-SNAPSHOT'
     implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.9-SNAPSHOT'
     implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.9-SNAPSHOT'
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10'
 
     // Java language implementation
     implementation "androidx.fragment:fragment:1.6.1"

@@ -16,10 +16,10 @@ import android.widget.Button;
 
 import androidx.fragment.app.FragmentActivity;
 
+import es.gob.afirma.R;
+import es.gob.afirma.android.crypto.CachePasswordCallback;
 import es.gob.afirma.android.crypto.DnieConnectionManager;
 import es.gob.afirma.android.gui.CanResult;
-import es.gob.afirma.R;
-import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
 
 /** Indica al usuario que acerque el DNIe por NFC para obtener los certificados.
  * @author Sergio Mart&iacute;nez */

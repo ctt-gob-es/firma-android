@@ -2,18 +2,12 @@ package es.gob.afirma.android.crypto;
 
 import android.app.Activity;
 
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
-
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
 import es.gob.afirma.android.Logger;
-import es.gob.jmulticard.android.callbacks.CachePasswordCallback;
-import es.gob.jmulticard.android.callbacks.DialogDoneChecker;
-import es.gob.jmulticard.callback.CustomAuthorizeCallback;
 import es.gob.jmulticard.callback.CustomTextInputCallback;
 
 /** CallbackHandler que gestiona los Callbacks de petici&oacute;n de informaci&oacute;n al usuario.
@@ -22,8 +16,6 @@ public class AndroidDnieNFCCallbackHandler implements CallbackHandler {
 
 	private static final String ES_GOB_AFIRMA = "es.gob.afirma";
 
-	private final Activity activity;
-	private final DialogDoneChecker dialogDone;
 	private CachePasswordCallback canPasswordCallback;
 	private CachePasswordCallback pinPasswordCallback;
 
@@ -34,14 +26,10 @@ public class AndroidDnieNFCCallbackHandler implements CallbackHandler {
 	 * CallbackHandler, siempre se debe proporcionar de forma externa, mientras que el PIN si se
 	 * pedir&aacute; a trav&eacute;s del di&aacute;logo interno.
 	 *
-	 * @param ac               Handler de la actividad desde la que se llama.
-	 * @param ddc              Instancia de la clase utilizada para utilizar wait() y notify() al esperar el PIN.
 	 * @param passwordCallback Instancia que contiene el CAN pedido antes a la lectura NFC.
 	 * @param pinPasswordCallback Instancia que contiene el PIN pedido antes a la lectura NFC.
 	 */
-	public AndroidDnieNFCCallbackHandler(final Activity ac, final DialogDoneChecker ddc, final CachePasswordCallback passwordCallback, CachePasswordCallback pinPasswordCallback) {
-		this.activity = ac;
-		this.dialogDone = ddc;
+	public AndroidDnieNFCCallbackHandler(final CachePasswordCallback passwordCallback, CachePasswordCallback pinPasswordCallback) {
 		this.canPasswordCallback = passwordCallback;
 		this.pinPasswordCallback = pinPasswordCallback;
 	}
