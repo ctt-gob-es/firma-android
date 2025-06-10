@@ -208,7 +208,7 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 				}
 			}
 			else {
-				ksmListener.onLoadingKeyStoreError("Operacion cancelada",  new PendingIntent.CanceledException("Operacion cancelada"));
+				ksmListener.onLoadingKeyStoreError(new PendingIntent.CanceledException("Operacion cancelada"));
 			}
 			return;
 		}
@@ -270,7 +270,6 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 										} else {
 											LoadKeyStoreFragmentActivity.this.ksmListener.onKeyStoreError(
 													KeyStoreOperation.SELECT_CERTIFICATE,
-													"Dialogo seleccion de almacen cancelado",
 													new PendingIntent.CanceledException());
 										}
 									}
@@ -341,7 +340,7 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 		new LoadNfcKeyStoreManagerTask(ksmListener, this, canPasswordCallback).execute(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
-	public void onLoadingKeyStoreError(final String msg, final Throwable t) {
+	public void onLoadingKeyStoreError(final Throwable t) {
 
 		// Si el error de carga es un error de conexion NFC, volvemos a mostrar el dialogo,
 		// si no, indicamos un error en la firma.
@@ -372,11 +371,11 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity {
 			if (NfcHelper.isNfcPreferredConnection(this)) {
 				loadKeyStore(this, null);
 			} else {
-				ksmListener.onKeyStoreError(KeyStoreOperation.SELECT_CERTIFICATE, msg, t);
+				ksmListener.onKeyStoreError(KeyStoreOperation.SELECT_CERTIFICATE, t);
 			}
 		}
 		else {
-            ksmListener.onKeyStoreError(KeyStoreOperation.LOAD_KEYSTORE, msg, t);
+            ksmListener.onKeyStoreError(KeyStoreOperation.LOAD_KEYSTORE, t);
 		}
 	}
 

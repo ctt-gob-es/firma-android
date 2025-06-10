@@ -25,8 +25,7 @@ import java.security.Security;
 import java.util.Properties;
 
 import es.gob.afirma.android.Logger;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.ThirdPartyErrors;
+import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.android.gui.PinDialog;
 import es.gob.jmulticard.android.nfc.AndroidNfcConnection;
 import es.gob.jmulticard.connection.ApduConnection;
@@ -209,13 +208,9 @@ public final class KeyStoreManagerFactory {
 				// Obtenemos el almacen unicamente para ver si falla
 				ks = KeyStore.getInstance("DNI", p); //$NON-NLS-1$
 			} catch (final KeyStoreException e) {
-				ErrorCategory errorCat = ThirdPartyErrors.JMULTICARD.get(ThirdPartyErrors.UNKNOWN_OR_NOT_SUPPORTED_CARD);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText() + e); //$NON-NLS-1$ //$NON-NLS-2$
-				throw new UnsupportedNfcCardException(errorCat.getCode() + " - " + errorCat.getAdminText(), e);
+				throw new UnsupportedNfcCardException(AppErrorCode.ThirdParty.UNKNOWN_OR_NOT_SUPPORTED_CARD.toString(), e);
 			} catch (final Exception e) {
-				ErrorCategory errorCat = ThirdPartyErrors.JMULTICARD.get(ThirdPartyErrors.CANT_CONNECT_CARD);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText() + e);
-				throw new InitializingNfcCardException(errorCat.getCode() + " - " + errorCat.getAdminText(), e);
+				throw new InitializingNfcCardException(AppErrorCode.ThirdParty.CANT_CONNECT_CARD.toString(), e);
 			}
 		}
 

@@ -15,8 +15,8 @@ import androidx.fragment.app.Fragment;
 import es.gob.afirma.R;
 import es.gob.afirma.android.NFCDetectorActivity;
 import es.gob.afirma.android.StepsInsertDataDnieActivity;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.ThirdPartyErrors;
+import es.gob.afirma.android.errors.AppErrorCode;
+import es.gob.afirma.android.errors.ErrorMapper;
 
 public class InsertDataDnieStep3Fragment extends Fragment{
 
@@ -47,8 +47,8 @@ public class InsertDataDnieStep3Fragment extends Fragment{
         StepsInsertDataDnieActivity.actualStep = 3;
 
         if (bundle != null && bundle.getBoolean(NFCDetectorActivity.INTENT_EXTRA_ERROR_READING_CARD))  {
-            ErrorCategory errorCat = ThirdPartyErrors.JMULTICARD.get(ThirdPartyErrors.ERROR_INITIALIZING_CARD);
-            CustomDialog cd = new CustomDialog(getActivity(), R.drawable.warn_icon, getString(R.string.error_reading_dnie), errorCat.getUserMsg(),
+            CustomDialog cd = new CustomDialog(getActivity(), R.drawable.warn_icon, getString(R.string.error_reading_dnie),
+                    ErrorMapper.getErrorMsgFormatted(this.getContext(), AppErrorCode.ThirdParty.ERROR_INITIALIZING_CARD),
                     getString(R.string.try_again), true, getString(R.string.cancel_underline));
             CustomDialog finalCd = cd;
             cd.setAcceptButtonClickListener(new View.OnClickListener() {

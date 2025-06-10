@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Hardware Errors -->
+    <string name="error_102000">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <!-- Internal Software Errors -->
+    <string name="error_200000">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_200001">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_200002">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_200100">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_200101">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_200102">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_200105">El fichero seleccionado es demasiado grande y no hay memoria suficiente para completar la operaci\u00F3n de lectura</string>
+    <string name="error_200106">Para poder realizar esta operaci\u00f3n es necesario seleccionar un fichero PDF</string>
+    <string name="error_200107">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_200200">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_200301">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_200302">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_200303">Ocurri\u00F3 un error al guardar la firma</string>
+    <string name="error_200304">El Cliente de firma no tiene permisos de escritura en disco.</string>
+    <string name="error_200305">El Cliente de firma no tiene permisos de escritura en disco.</string>
+    <string name="error_200400">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_200401">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_200700">El dominio \"%s\" tiene un formato incorrecto.</string>
+    <string name="error_201100">No hemos podido a\u00F1adir tu certificado a la aplicaci\u00F3n de Autofirma de manera correcta. Int\u00E9ntalo de nuevo m\u00E1s tarde</string>
+    <string name="error_201101">Error al cargar el almacen de certificados</string>
+    <string name="error_201102">Error al cargar el certificado</string>
+    <string name="error_201103">Error al cargar el certificado</string>
+    <string name="error_201104">Certificado no seleccionado</string>
+    <string name="error_201105">Error al cargar el certificado</string>
+    <string name="error_201106">Error al cargar el certificado</string>
+    <!-- Third Party Errors -->
+    <string name="error_300100">La tarjeta que has proporcionado no parece ser un DNIe. Por favor int\u00E9ntalo de nuevo</string>
+    <string name="error_300102">La tarjeta que has proporcionado no parece ser un DNIe. Por favor int\u00E9ntalo de nuevo</string>
+    <string name="error_300103">Se ha producido un error al intentar leer tu DNIe. Por favor, vuelve a intentarlo. Recuerda mantenerlo en una superficie lisa y mantener tu tel\u00E9fono móvil unos segundos fijo sobre la tarjeta para su correcta lectura.</string>
+    <string name="error_300104">Se ha producido un error al intentar leer tu DNIe. Por favor, vuelve a intentarlo. Recuerda mantenerlo en una superficie lisa y mantener tu tel\u00E9fono móvil unos segundos fijo sobre la tarjeta para su correcta lectura.</string>
+    <string name="error_300105">El PIN del dispositivo criptogr\u00E1fico es incorrecto. Tenga en cuenta que varios intentos fallidos consecutivos podr\u00EDan bloquearlo.</string>
+    <string name="error_300106">El DNIe tiene el PIN bloqueado. Puedes acudir a una comisar\u00EDa de Polic\u00EDa Nacional a un Punto de Actualizaci\u00F3n del DNIe (PAD) para desbloquearlo.</string>
+    <string name="error_300108">Error al iniciar la conexi\u00F3n con la tarjeta. Es posible que el CAN sea incorrecto. Int\u00E9ntelo de nuevo.</string>
+    <string name="error_300110">El DNIe que has aproximado no tiene certificado de firma o el certificado est\u00E1 caducado. Puedes acudir a una comisar\u00EDa de Polic\u00EDa Nacional a un Punto de Actualizaci\u00F3n del DNIe (PAD), para solucionarlo.</string>
+    <string name="error_300400">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_300404">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <!-- Communication Errors -->
+    <string name="error_400000">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_400001">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_401100">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_401101">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_401200">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <!-- Functional Errors -->
+    <string name="error_500001">Operaci\u00f3n cancelada</string>
+    <string name="error_501001">Para firmar necesitas registrar un certificado digital</string>
+    <!-- Request Errors -->
+    <string name="error_600002">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600006">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600007">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600008">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600100">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600105">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600106">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600108">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600109">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600400">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600401">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600403">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600405">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600406">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600407">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_600408">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+</resources>

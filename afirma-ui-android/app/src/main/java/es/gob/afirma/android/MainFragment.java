@@ -43,8 +43,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.InternalSoftwareErrors;
+import es.gob.afirma.android.errors.AppKeyStoreErrorCode;
+import es.gob.afirma.android.errors.ErrorMapper;
 import es.gob.afirma.android.gui.AppConfig;
 import es.gob.afirma.android.gui.ConfigNfcDialog;
 import es.gob.afirma.android.gui.CustomDialog;
@@ -288,8 +288,8 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 					fileContent = readDataFromUri(dataUri);
 				}
 			} catch (final IOException e) {
-				ErrorCategory errorCat = InternalSoftwareErrors.LOAD_CERTS.get(InternalSoftwareErrors.LOAD_CERT_TO_IMPORT);
-				CustomDialog cd = new CustomDialog(this.getContext(), R.drawable.warn_icon, getString(R.string.cant_add_cert_title), errorCat.getUserMsg(),
+				CustomDialog cd = new CustomDialog(this.getContext(), R.drawable.warn_icon, getString(R.string.cant_add_cert_title),
+						ErrorMapper.getErrorMsgFormatted(this.getContext(), AppKeyStoreErrorCode.Internal.LOAD_CERT_TO_IMPORT),
 						getString(R.string.try_again), true, getString(R.string.cancel_underline));
 				CustomDialog finalCd = cd;
 				cd.setAcceptButtonClickListener(new View.OnClickListener() {

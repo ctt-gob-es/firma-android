@@ -3,8 +3,7 @@ package es.gob.afirma.android.crypto;
 import android.nfc.Tag;
 
 import es.gob.afirma.android.Logger;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.NFCErrors;
+import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.jmulticard.connection.ApduConnection;
 
 /**
@@ -118,8 +117,7 @@ public class DnieConnectionManager {
                 this.nfcConnection.close();
             }
             catch (Exception e) {
-                ErrorCategory errorCat = NFCErrors.NFC_CARDS.get(NFCErrors.RESET_NFC);
-                Logger.w(ES_GOB_AFIRMA, errorCat.getAdminMsg(), e);
+                Logger.w(ES_GOB_AFIRMA, AppErrorCode.Hardware.RESET_NFC.toString(), e);
             }
             this.nfcConnection = null;
         }

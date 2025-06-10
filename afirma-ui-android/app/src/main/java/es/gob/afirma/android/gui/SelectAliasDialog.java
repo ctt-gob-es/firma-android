@@ -135,8 +135,7 @@ public final class SelectAliasDialog extends DialogFragment {
 				@Override
 				public void onClick(final DialogInterface dialog, final int id) {
 					if (SelectAliasDialog.this.getKsmListener() != null) {
-						SelectAliasDialog.this.getKsmListener().onLoadingKeyStoreError(
-								getString(R.string.error_no_certs), null
+						SelectAliasDialog.this.getKsmListener().onLoadingKeyStoreError(null
 						);
 					}
 					dialog.dismiss();
@@ -171,7 +170,7 @@ public final class SelectAliasDialog extends DialogFragment {
 					//Cancelamos el proceso
 					if (SelectAliasDialog.this.getKsmListener() != null) {
 						SelectAliasDialog.this.getKsmListener().onLoadingKeyStoreSuccess(null);
-						SelectAliasDialog.this.getKsmListener().onLoadingKeyStoreError("No se ha seleccionado un certificado", new Exception());
+						SelectAliasDialog.this.getKsmListener().onLoadingKeyStoreError(new Exception());
 					}
 					dlg.dismiss();
 				}

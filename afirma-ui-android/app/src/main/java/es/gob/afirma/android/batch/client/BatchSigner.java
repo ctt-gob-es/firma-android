@@ -14,11 +14,9 @@ import java.util.Properties;
 
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.batch.TriphaseDataParser;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.FunctionalErrors;
-import es.gob.afirma.android.errors.RequestErrors;
-import es.gob.afirma.android.errors.ThirdPartyErrors;
+import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.core.AOException;
+import es.gob.afirma.core.ErrorCode;
 import es.gob.afirma.core.misc.Base64;
 import es.gob.afirma.core.misc.http.HttpError;
 import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
@@ -87,20 +85,16 @@ public class BatchSigner {
                                   final Properties pkcs1ExtraParams) throws CertificateEncodingException,
             IOException, AOException, JSONException {
         if (batchB64 == null || batchB64.isEmpty()) {
-            ErrorCategory errorCat = RequestErrors.JSON_REQUEST.get(RequestErrors.NO_DATA_NO_ID_BATCH);
-            throw new IllegalArgumentException(errorCat.getCode() + " - " + errorCat.getAdminText()); //$NON-NLS-1$
+            throw new AOException(AppErrorCode.Request.NO_DATA_NO_ID_BATCH); //$NON-NLS-1$
         }
         if (batchPresignerUrl == null || batchPresignerUrl.isEmpty()) {
-            ErrorCategory errorCat = RequestErrors.JSON_REQUEST.get(RequestErrors.BATCHPRESIGNERURL_NOT_FOUND_BATCH);
-            throw new IllegalArgumentException(errorCat.getCode() + " - " + errorCat.getAdminText()); //$NON-NLS-1$
+            throw new AOException(ErrorCode.Request.PRESIGN_BATCH_URL_NOT_FOUND); //$NON-NLS-1$
         }
         if (batchPostSignerUrl == null || batchPostSignerUrl.isEmpty()) {
-            ErrorCategory errorCat = RequestErrors.JSON_REQUEST.get(RequestErrors.BATCHPOSTSIGNERURL_NOT_FOUND_BATCH);
-            throw new IllegalArgumentException(errorCat.getCode() + " - " + errorCat.getAdminText());
+            throw new AOException(ErrorCode.Request.POSTSIGN_BATCH_URL_NOT_FOUND);
         }
         if (certificates == null || certificates.length < 1) {
-            ErrorCategory errorCat = FunctionalErrors.SIGN_OPERATION.get(FunctionalErrors.NO_CERTIFICATES);
-            throw new IllegalArgumentException(errorCat.getCode() + " - " + errorCat.getAdminText());
+            throw new AOException(ErrorCode.Functional.CERTIFICATE_NEEDED);
         }
 
         String batchUrlSafe = batchB64.replace("+", "-").replace("/", "_");  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
@@ -114,8 +108,7 @@ public class BatchSigner {
                     UrlHttpMethod.POST
             );
         } catch (final HttpError e) {
-            ErrorCategory errorCat = ThirdPartyErrors.TRIPHASE_SERVER.get(ThirdPartyErrors.HTTP_PRESIGN);
-            Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText(), e); //$NON-NLS-1$
+            Logger.e(ES_GOB_AFIRMA, ErrorCode.ThirdParty.PRESIGN_HTTP_ERROR.toString(), e); //$NON-NLS-1$
             throw e;
         }
 
@@ -166,8 +159,7 @@ public class BatchSigner {
                     UrlHttpMethod.POST
             );
         } catch (final HttpError e) {
-            ErrorCategory errorCat = ThirdPartyErrors.TRIPHASE_SERVER.get(ThirdPartyErrors.HTTP_POSTSIGN);
-            Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText(), e); //$NON-NLS-1$
+            Logger.e(ES_GOB_AFIRMA, ErrorCode.ThirdParty.POSTSIGN_HTTP_ERROR.toString(), e); //$NON-NLS-1$
             throw e;
         }
 
@@ -192,27 +184,21 @@ public class BatchSigner {
      * @return algoritmo a usar
      * @throws IOException error en caso de que no se lea correctamente la petici&oacute;n
      */
-    private static String getAlgorithmForJSON(final String batch) throws IOException, JSONException {
+    private static String getAlgorithmForJSON(final String batch) throws IOException, JSONException, AOException {
 
         JSONObject jsonObject;
         final String convertedJson = new String(Base64.decode(batch), DEFAULT_CHARSET);
         try {
             jsonObject = new JSONObject(convertedJson);
         }catch (final JSONException jsonEx){
-            ErrorCategory errorCat = RequestErrors.JSON_REQUEST.get(RequestErrors.JSON_NOT_FORMED_CORRECTLY);
-            Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText(), jsonEx); //$NON-NLS-1$
-            throw new JSONException(
-                    errorCat.getCode() + " - " + errorCat.getAdminText() //$NON-NLS-1$
-            );
+            Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.JSON_NOT_FORMED_CORRECTLY.toString(), jsonEx); //$NON-NLS-1$
+            throw new JSONException(AppErrorCode.Request.JSON_NOT_FORMED_CORRECTLY.toString());
         }
 
         if (jsonObject.has("algorithm")){ //$NON-NLS-1$
             return jsonObject.getString("algorithm"); //$NON-NLS-1$
         }
 
-        ErrorCategory errorCat = RequestErrors.JSON_REQUEST.get(RequestErrors.ALGORITHM_NOT_FOUND_BATCH);
-        throw new IllegalArgumentException(
-                errorCat.getCode() + " - " + errorCat.getAdminText() //$NON-NLS-1$
-        );
+        throw new AOException(AppErrorCode.Request.ALGORITHM_NOT_FOUND_BATCH);
     }
 }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Hardware Errors -->
+    <string name="error_102000">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <!-- Internal Software Errors -->
+    <string name="error_200000">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_200001">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_200002">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_200100">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_200101">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_200102">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_200105">The selected file is too large and there is no enough memory to load it</string>
+    <string name="error_200106">In order to perform this operation it is necessary to select a PDF file</string>
+    <string name="error_200107">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_200200">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_200301">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_200302">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_200303">Error trying to save the signature</string>
+    <string name="error_200304">Autofirma does not have disk write permissions.</string>
+    <string name="error_200305">Error while saving data</string>
+    <string name="error_200400">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_200401">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_200700">The domain \"%s\" has an incorrect format.</string>
+    <string name="error_201100">We haven\'t been able to add your certificate to the Autofirma app correctly. Try again later</string>
+    <string name="error_201101">Error when loading the certificate store</string>
+    <string name="error_201102">Error loading certificate</string>
+    <string name="error_201103">Error loading certificate</string>
+    <string name="error_201104">Unselected certificate</string>
+    <string name="error_201105">Error loading certificate</string>
+    <string name="error_201106">Error loading certificate</string>
+    <!-- Third Party Errors -->
+    <string name="error_300100">The card you provided does not appear to be a DNIe. Please try again.</string>
+    <string name="error_300102">The card you provided does not appear to be a DNIe. Please try again.</string>
+    <string name="error_300103">There has been a mistake in trying to read your DNIe. Please try again. Remember to keep it on a smooth surface and keep your mobile phone a few seconds fixed on the card for proper reading.</string>
+    <string name="error_300104">There has been a mistake in trying to read your DNIe. Please try again. Remember to keep it on a smooth surface and keep your mobile phone a few seconds fixed on the card for proper reading.</string>
+    <string name="error_300105">Wrong PIN. Please, beware that invalid PIN entering can lock your smart card.</string>
+    <string name="error_300106">The DNIe has the PIN locked. You can go to a National Police Station at a DNIe Update Point (PAD) to unblock it. The card you provided doesn\'t appear to be a DNIe. Please try again</string>
+    <string name="error_300108">Error starting connection to card. Please try again.</string>
+    <string name="error_300110">The DNIe you approximated has no signature certificate or the certificate is expired. You can go to a National Police Station to a DNIe Update Point (PAD), to fix it.</string>
+    <string name="error_300400">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_300404">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <!-- Communication Errors -->
+    <string name="error_400000">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_400001">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_401100">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_401101">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_401200">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <!-- Functional Errors -->
+    <string name="error_500001">Cancelled operation</string>
+    <string name="error_501001">To sign you need to register a digital certificate.</string>
+    <!-- Request Errors -->
+    <string name="error_600002">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600006">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600007">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600008">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600100">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600105">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600106">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600108">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600109">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600400">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600401">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600403">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600405">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600406">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600407">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_600408">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+</resources>

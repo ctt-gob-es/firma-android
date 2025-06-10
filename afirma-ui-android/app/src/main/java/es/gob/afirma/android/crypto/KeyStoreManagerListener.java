@@ -11,9 +11,8 @@ public interface KeyStoreManagerListener {
     void onLoadingKeyStoreSuccess(MobileKeyStoreManager msm);
 
     /** Establece el error que hizo fallar la carga del almac&eacute;n de certificados.
-     * @param msg Texto con la descripci&oacute;n del error.
      * @param t Error capturado. */
-    void onLoadingKeyStoreError(String msg, Throwable t);
+    void onLoadingKeyStoreError(Throwable t);
 
-    void onKeyStoreError(LoadKeyStoreFragmentActivity.KeyStoreOperation op, String msg, Throwable t);
+    void onKeyStoreError(LoadKeyStoreFragmentActivity.KeyStoreOperation op, Throwable t);
 }

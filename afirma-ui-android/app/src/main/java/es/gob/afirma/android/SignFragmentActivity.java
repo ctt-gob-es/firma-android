@@ -38,12 +38,13 @@ import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
 import es.gob.afirma.android.crypto.SignResult;
 import es.gob.afirma.android.crypto.SignTask;
 import es.gob.afirma.android.crypto.SignTask.SignListener;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.InternalSoftwareErrors;
+import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.PDFPasswordDialog;
 import es.gob.afirma.android.util.CertificateUtil;
 import es.gob.afirma.core.AOCancelledOperationException;
+import es.gob.afirma.core.AOException;
+import es.gob.afirma.core.ErrorCode;
 import es.gob.afirma.core.RuntimeConfigNeededException;
 import es.gob.afirma.core.misc.AOUtil;
 import es.gob.afirma.core.signers.AOSignConstants;
@@ -186,11 +187,11 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 		} catch (final KeyChainException e) {
 			if ("4.1.1".equals(Build.VERSION.RELEASE) || "4.1.0".equals(Build.VERSION.RELEASE) || "4.1".equals(Build.VERSION.RELEASE)) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				Logger.e(ES_GOB_AFIRMA, "Error al extraer la clave en Android " + Build.VERSION.RELEASE + ": " + e); //$NON-NLS-1$ //$NON-NLS-2$
-				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, getString(R.string.error_android_4_1), new SelectKeyAndroid41BugException(e));
+				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, new SelectKeyAndroid41BugException(e));
 			}
 			else {
 				Logger.e(ES_GOB_AFIRMA, "No se pudo extraer la clave privada del certificado: " + e); //$NON-NLS-1$
-				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "No se pudo extraer la clave privada del certificado", e);
+				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, e);
 			}
 			return;
 		}
@@ -202,7 +203,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			if (NfcHelper.isNfcPreferredConnection(this)) {
 				loadKeyStore(this, null);
 			} else {
-				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "El usuario no selecciono un certificado", new PendingIntent.CanceledException(e));
+				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, new PendingIntent.CanceledException(e));
 			}
 			return;
 		}
@@ -214,7 +215,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 		}
 		catch (final Throwable e) {
 			Logger.e(ES_GOB_AFIRMA, "Error al recuperar la clave del certificado de firma", e); //$NON-NLS-1$
-			onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "Error al recuperar la clave del certificado de firma", e); //$NON-NLS-1$
+			onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, new AOException(ErrorCode.Internal.SIGNING_KEY_AUTHENTICATION_ERROR)); //$NON-NLS-1$
 			return;
 		}
 
@@ -252,7 +253,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			doSign(pke);
 		}
 		catch (final Exception e) {
-			onSigningError(KeyStoreOperation.SIGN, "Error durante la operacion de firma", e);
+			onSigningError(KeyStoreOperation.SIGN, e);
 		}
 	}
 
@@ -276,7 +277,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 		try {
 			signatureAlgorithm = AOSignConstants.composeSignatureAlgorithmName(this.algorithm, keyType);
 		} catch (final Exception e) {
-			onSigningError(KeyStoreOperation.SIGN, "Tipo de clave de firma no soportado", e);
+			onSigningError(KeyStoreOperation.SIGN, new AOException(ErrorCode.Internal.INVALID_SIGNING_KEY));
 			return;
 		}
 
@@ -301,16 +302,16 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 
 		// Si el usuario cancelo la insercion de PIN o cualquier otro dialogo del almacen
 		if(msm == null){
-			onSigningError(KeyStoreOperation.LOAD_KEYSTORE, "El usuario cancelo la operacion durante la carga del almacen", new PendingIntent.CanceledException("Se cancela la seleccion del almacen"));
+			onSigningError(KeyStoreOperation.LOAD_KEYSTORE, new PendingIntent.CanceledException("Se cancela la seleccion del almacen"));
 			return;
 		}
 		msm.getPrivateKeyEntryAsynchronously(this);
 	}
 
 	@Override
-	public void onKeyStoreError(KeyStoreOperation op, String msg, Throwable t) {
+	public void onKeyStoreError(KeyStoreOperation op, Throwable t) {
 		this.signing = false;
-		onSigningError(op, msg, t);
+		onSigningError(op, t);
 	}
 
 	@Override
@@ -346,7 +347,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 				// se mostrara en un toast
 				Toast.makeText(getApplicationContext(), R.string.pdf_password_protected, Toast.LENGTH_SHORT).show();
 				this.signing = false;
-				onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
+				onSigningError(KeyStoreOperation.SIGN, t);
 			}
 		}
 		else if (t instanceof MSCBadPinException) {
@@ -354,7 +355,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			loadKeyStore(this, t);
 		} else {
 			this.signing = false;
-			onSigningError(KeyStoreOperation.SIGN, "Error en el proceso de firma", t);
+			onSigningError(KeyStoreOperation.SIGN, t);
 		}
 	}
 
@@ -372,8 +373,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
             try {
                 signRecordFile.createNewFile();
             } catch (IOException e) {
-				ErrorCategory errorCat = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.CANT_SAVE_SIGN_RECORD);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText(), e);
+				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.CANT_SAVE_SIGN_RECORD.toString(), e);
 				return;
             }
         }
@@ -393,8 +393,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			pw.write(sb.toString());
 			pw.close();
 		} catch (IOException e) {
-			ErrorCategory errorCat = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.CANT_SAVE_SIGN_RECORD);
-			Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText(), e);
+			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.CANT_SAVE_SIGN_RECORD.toString(), e);
 		}
 	}
 
@@ -441,6 +440,6 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 
 	protected abstract void onSigningSuccess(final SignResult signature);
 
-	protected abstract void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t);
+	protected abstract void onSigningError(final KeyStoreOperation op, final Throwable t);
 
 }

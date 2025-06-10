@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Hardware Errors -->
+    <string name="error_102000">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <!-- Internal Software Errors -->
+    <string name="error_200000">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_200001">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_200002">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_200100">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_200101">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_200102">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_200105">>El fitxer seleccionat \u00e9s massa gran i no hi ha mem\u00f2ria suficient per completar l\'operaci\u00F3 de lectura</string>
+    <string name="error_200106">Per a poder realitzar aquesta operaci\u00F3 \u00E9s necessari seleccionar un fitxer PDF</string>
+    <string name="error_200107">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_200200">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_200301">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_200302">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_200303">Va oc\u00F3rrer un error en desar la signatura</string>
+    <string name="error_200304">El Client de signatura no t\u00e9 permisos d\'escriptura en disc.</string>
+    <string name="error_200305">Va oc\u00F3rrer un error en desar les dades</string>
+    <string name="error_200400">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_200401">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_200700">El domini \"%s\" t\u00e9 un format incorrecte.</string>
+    <string name="error_201100">No hem pogut afegir el teu certificat a l\'aplicaci\u00F3 d\'Autofirma de manera correcta. Intenta-ho de nou m\u00e9s tard</string>
+    <string name="error_201101">Error en carregar l\'almacen de certificats</string>
+    <string name="error_201102">Error en carregar el certificat</string>
+    <string name="error_201103">Error en carregar el certificat</string>
+    <string name="error_201104">Certificat no seleccionat</string>
+    <string name="error_201105">Error en carregar el certificat</string>
+    <string name="error_201106">Error en carregar el certificat</string>
+    <!-- Third Party Errors -->
+    <string name="error_300100">La targeta que has proporcionat no sembla ser un DNIe. Si us plau intenta-ho de nou</string>
+    <string name="error_300102">La targeta que has proporcionat no sembla ser un DNIe. Si us plau intenta-ho de nou</string>
+    <string name="error_300103">S\'ha produït un error en intentar llegir el teu DNIe. Si us plau, torna a intentar-ho. Recorda mantenir-ho en una superf\u00EDcie llisa i mantenir el teu tel\u00E8fon m\u00F2bil uns segons fix sobre la targeta per a la seva correcta lectura.</string>
+    <string name="error_300104">S\'ha produït un error en intentar llegir el teu DNIe. Si us plau, torna a intentar-ho. Recorda mantenir-ho en una superf\u00EDcie llisa i mantenir el teu tel\u00E8fon m\u00F2bil uns segons fix sobre la targeta per a la seva correcta lectura.</string>
+    <string name="error_300105">El PIN del dispositiu criptogr\u00e0fic \u00e9s incorrecte. Tingui en compte que diversos intents fallits consecutius podrien bloquejar-ho.</string>
+    <string name="error_300106">El DNIe t\u00E9 el PIN bloquejat. Pots acudir a una comissaria de Policia Nacional a un Punt d\'Actualitzaci\u00F3 del DNIe (PAD) per a desbloquejar-lo.</string>
+    <string name="error_300108">Error en iniciar la connexi\u00F3 amb la targeta. \u00e9s possible que el CA sigui incorrecte. Intenti-ho de nou.</string>
+    <string name="error_300110">El DNIe que has aproximat no t\u00E9 certificat de signatura o el certificat est\u00E0 caducat. Pots acudir a una comissaria de Policia Nacional a un Punt d\'Actualitzaci\u00F3 del DNIe (PAD), per a solucionar-lo.</string>
+    <string name="error_300400">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_300404">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <!-- Communication Errors -->
+    <string name="error_400000">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_400001">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_401100">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_401101">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_401200">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <!-- Functional Errors -->
+    <string name="error_500001">Operacion cancel·lada</string>
+    <string name="error_501001">Per a signar necessites registrar un certificat digital</string>
+    <!-- Request Errors -->
+    <string name="error_600002">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600006">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600007">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600008">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600100">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600105">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600106">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600108">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600109">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600400">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600401">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600403">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600405">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600406">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600407">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+    <string name="error_600408">Hem intentat processar la teva sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Si us plau revisa la documentaci\u00F3.</string>
+</resources>

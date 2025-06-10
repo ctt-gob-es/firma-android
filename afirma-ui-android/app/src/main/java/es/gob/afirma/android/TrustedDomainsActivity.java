@@ -16,8 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.InternalSoftwareErrors;
+import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.util.Utils;
 
@@ -68,9 +67,8 @@ public class TrustedDomainsActivity extends AppCompatActivity {
                     cd.show();
                 }
                 catch (DomainFormatException e) {
-                    ErrorCategory errorCat = InternalSoftwareErrors.APP_CONFIGURATION.get(InternalSoftwareErrors.DOMAIN_FORMAT_INCORRECT);
-                    Log.w("es.gob.afirma", errorCat.getAdminMsg(), e);
-                    CustomDialog cd = new CustomDialog(TrustedDomainsActivity.this, R.drawable.warn_icon, getString(R.string.error_ocurred), "AA" + errorCat.getCode() + " - " + getString(R.string.error_format_trusted_domains, e.getMessage()), getString(R.string.understood));
+                    Log.w("es.gob.afirma", AppErrorCode.Internal.DOMAIN_FORMAT_INCORRECT.toString(), e);
+                    CustomDialog cd = new CustomDialog(TrustedDomainsActivity.this, R.drawable.warn_icon, getString(R.string.error_ocurred), "AA" + AppErrorCode.Internal.DOMAIN_FORMAT_INCORRECT.getCode() + " - " + getString(R.string.error_format_trusted_domains, e.getMessage()), getString(R.string.understood));
                     cd.show();
                 }
             }
