@@ -295,7 +295,7 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	 */
 	private void launchError(final String errorId, final boolean critical, final ErrorCode errorCode) {
 		try {
-			sendData(URLEncoder.encode(ErrorManager.genError(errorId, errorCode, this), DEFAULT_URL_ENCODING), critical);
+			sendData(URLEncoder.encode(ErrorManager.genError(errorId, errorCode), DEFAULT_URL_ENCODING), critical);
 		}
 		catch (final UnsupportedEncodingException e) {
 			// No puede darse, el soporte de UTF-8 es obligatorio

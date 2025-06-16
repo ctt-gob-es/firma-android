@@ -48,6 +48,7 @@
     <!-- Functional Errors -->
     <string name="error_500001">Cancelled operation</string>
     <string name="error_501001">To sign you need to register a digital certificate.</string>
+    <string name="error_510005">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
     <!-- Request Errors -->
     <string name="error_600002">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
     <string name="error_600006">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>

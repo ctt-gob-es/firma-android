@@ -254,10 +254,10 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		try {
 			if (INTENT_ENTRY_ACTION.equals(getIntent().getAction())){
 				Logger.i(ES_GOB_AFIRMA, "Devolvemos el error a la app solicitante");
-				sendErrorByIntent(errorId, ErrorManager.genError(errorId, errorCode, this));
+				sendErrorByIntent(errorId, ErrorManager.genError(errorId, errorCode));
 			}
 			else {
-				sendData(URLEncoder.encode(ErrorManager.genError(errorId, errorCode, this), DEFAULT_URL_ENCODING), critical);
+				sendData(URLEncoder.encode(ErrorManager.genError(errorId, errorCode), DEFAULT_URL_ENCODING), critical);
 			}
 		}
 		catch (final Throwable e) {

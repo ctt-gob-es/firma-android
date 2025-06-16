@@ -272,7 +272,7 @@ public final class WebSaveDataActivity extends FragmentActivity
 
 	private void sendError(String errorId, ErrorCode errorCode) {
 
-		String errorData = ErrorManager.genError(errorId, errorCode, this);
+		String errorData = ErrorManager.genError(errorId, errorCode);
 		String msgEncoded;
 		try {
 			msgEncoded = URLEncoder.encode(errorData, DEFAULT_URL_ENCODING);

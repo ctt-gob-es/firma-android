@@ -355,10 +355,10 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 			// llamo desde una App o no
 			if (INTENT_ENTRY_ACTION.equals(getIntent().getAction())){
 				Logger.i(ES_GOB_AFIRMA, "Devolvemos el error a la app solicitante"); //$NON-NLS-1$
-				sendErrorByIntent(errorId, ErrorManager.genError(errorId, errorCode, this));
+				sendErrorByIntent(errorId, ErrorManager.genError(errorId, errorCode));
 			}
 			else {
-				sendData(URLEncoder.encode(ErrorManager.genError(errorId, errorCode, this), DEFAULT_URL_ENCODING), critical);
+				sendData(URLEncoder.encode(ErrorManager.genError(errorId, errorCode), DEFAULT_URL_ENCODING), critical);
 			}
 		}
 		catch (final UnsupportedEncodingException e) {

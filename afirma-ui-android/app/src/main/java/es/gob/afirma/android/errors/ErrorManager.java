@@ -11,8 +11,6 @@
 package es.gob.afirma.android.errors;
 
 
-import android.content.Context;
-
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -87,21 +85,9 @@ public final class ErrorManager {
 		// No instanciable
 	}
 
-	public static String genError(final String number, final int errorCatCode) {
-		return genError(number, errorCatCode,null);
-	}
-
-	public static String genError(final String number, final int errorCatCode, final String msg) {
-		return
-				ERROR_TEMPLATE.replace(ERROR_NUMBER, number).replace(ERROR_CAT_CODE, String.valueOf(errorCatCode)).replace(
-						ERROR_MESSAGE,
-						msg != null ? msg : ERRORS.get(number) != null ? ERRORS.get(number) : GENERIC_ERROR
-						);
-	}
-
-	public static String genError(final String number, final ErrorCode errorCode, final Context ctx) {
+	public static String genError(final String number, final ErrorCode errorCode) {
 		return
 				ERROR_TEMPLATE.replace(ERROR_NUMBER, number).replace(ERROR_CAT_CODE, String.valueOf(errorCode.getCode())).replace(
-						ERROR_MESSAGE, ErrorMapper.getErrorMessageByCode(ctx,errorCode.getCode()));
+						ERROR_MESSAGE, errorCode.getDescription());
 	}
 }

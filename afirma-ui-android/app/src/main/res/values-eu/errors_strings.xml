@@ -48,6 +48,7 @@
     <!-- Functional Errors -->
     <string name="error_500001">Eragiketa bertan behera geratu da</string>
     <string name="error_501001">Sinatzeko, ziurtagiri digital bat erregistratu behar duzu</string>
+    <string name="error_510005">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
     <!-- Request Errors -->
     <string name="error_600002">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
     <string name="error_600006">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>

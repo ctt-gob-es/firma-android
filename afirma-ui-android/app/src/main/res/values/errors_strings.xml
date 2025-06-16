@@ -48,6 +48,7 @@
     <!-- Functional Errors -->
     <string name="error_500001">Operaci\u00f3n cancelada</string>
     <string name="error_501001">Para firmar necesitas registrar un certificado digital</string>
+    <string name="error_510005">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
     <!-- Request Errors -->
     <string name="error_600002">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
     <string name="error_600006">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>

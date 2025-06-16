@@ -48,6 +48,7 @@
     <!-- Functional Errors -->
     <string name="error_500001">Operacion cancelada</string>
     <string name="error_501001">Para asinar necesitas rexistrar un certificado dixital</string>
+    <string name="error_510005">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
     <!-- Request Errors -->
     <string name="error_600002">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
     <string name="error_600006">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
