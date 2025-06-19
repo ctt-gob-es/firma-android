@@ -245,7 +245,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 
 		if (kse.getKeyStore() != null) {
 			String providerName = kse.getKeyStore().getProvider().getName();
-			this.extraParams.setProperty("Provider." + keyEntry.getPrivateKey().getClass().getName(), providerName);
+			this.extraParams.setProperty("Provider." + pke.getPrivateKey().getClass().getName(), providerName);
 		}
 
 		try {
@@ -256,13 +256,13 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 		}
 	}
 
-	private void doSign(final PrivateKeyEntry keyEntry) {
+	private void doSign(final PrivateKeyEntry pke) {
 
 		if (this.isLocalSign && this.isPseudonymCert && this.extraParams.containsKey(PdfExtraParams.LAYER2_TEXT)) {
 			this.extraParams.setProperty(PdfExtraParams.LAYER2_TEXT , getString(R.string.pdf_visible_sign_pseudonym_template));
 		}
 
-		this.keyEntry = keyEntry;
+		this.keyEntry = pke;
 
 		if (this.isSticky && !isDNIeCert) {
 			KeyEntryCache.setStickyKeyEntry(this.keyEntry, this);
@@ -271,7 +271,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 		}
 
 		// Seleccionamos el algoritmo de firma
-		final String keyType = keyEntry.getPrivateKey().getAlgorithm();
+		final String keyType = this.keyEntry.getPrivateKey().getAlgorithm();
 		String signatureAlgorithm;
 		try {
 			signatureAlgorithm = AOSignConstants.composeSignatureAlgorithmName(this.algorithm, keyType);

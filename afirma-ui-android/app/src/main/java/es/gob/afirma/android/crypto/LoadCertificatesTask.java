@@ -79,7 +79,7 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
         catch (NullPointerException e) {
             // Esto ocurrira cuando no se haya definido un KeyStore especifico, por lo que se usara
             // el almacen del sistema
-            Logger.i(ES_GOB_AFIRMA, "No se ha definido un almacen de claves. Se usara el del sistema");
+            Logger.w(ES_GOB_AFIRMA, "No se ha definido un almacen de claves. Se usara el del sistema", e);
         }
         catch (Exception e) {
             Logger.e(ES_GOB_AFIRMA, "No se pudieron cargar los certificados del almacen: " + e);
