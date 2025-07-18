@@ -14,11 +14,11 @@ android {
         checkReleaseBuilds false
     }
     namespace 'es.gob.afirma'
-    compileSdk 34
+    compileSdk 35
     defaultConfig {
         applicationId "es.gob.afirma"
         minSdkVersion 23
-        targetSdkVersion 34
+        targetSdkVersion 35
         multiDexEnabled true
         versionCode 27
         versionName "1.9"

@@ -17,7 +17,7 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Accessibility Statement</string>
-    <string name="accessibility_statement_url"> http://estaticos.redsara.es/comunes/clientefirmaandroid/1/8/0/translated(en)_declaracion_accesibilidad.pdf</string>
+    <string name="accessibility_statement_url">http://estaticos.redsara.es/comunes/clientefirmaandroid/1/8/0/translated(en)_declaracion_accesibilidad.pdf</string>
     <string name="main_logo_content_desc">Autofirma App</string>
     <string name="ok">OK</string>
     <string name="close">Close</string>
