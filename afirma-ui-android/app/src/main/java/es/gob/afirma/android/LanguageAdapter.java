@@ -32,7 +32,7 @@ public class LanguageAdapter extends BaseAdapter {
         localeMap.put("ca", context.getString(R.string.catala));
         localeMap.put("gl", context.getString(R.string.galego));
         localeMap.put("eu", context.getString(R.string.euskera));
-        localeMap.put("va", context.getString(R.string.valenciano));
+        localeMap.put("ca-ES-valencia", context.getString(R.string.valenciano));
     }
 
     @Override

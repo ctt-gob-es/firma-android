@@ -69,7 +69,7 @@ public class ConditionsActivity extends AppCompatActivity {
                         changeLang("eu");
                         break;
                     case 5:
-                        changeLang("va");
+                        changeLang("ca-ES-valencia");
                         break;
                 }
             }
@@ -193,7 +193,7 @@ public class ConditionsActivity extends AppCompatActivity {
     }
 
     private Resources getLocalizedResources(Context context, String lang) {
-        Locale locale = new Locale(lang);
+        Locale locale = Locale.forLanguageTag(lang);
         Configuration conf = context.getResources().getConfiguration();
         conf = new Configuration(conf);
         conf.setLocale(locale);

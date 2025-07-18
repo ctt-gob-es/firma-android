@@ -97,7 +97,7 @@
     <string name="nfc_instructions">Col·loqui el dispositiu sobre el DNIe i no ho mogui durant l\'operaci\u00F3 de signatura</string>
     <string name="cancel_nfc">No usar DNIe</string>
     <string name="enable_nfc">Per favor, activi el NFC per usar DNIe i prem enrere per tornar</string>
-    <string name="enable_nfc_question">S\'ha detectat que el seu dispositiu disposa de NFC. \o00BFDesea habilitar-ho per a la signatura amb el DNIe per NFC?</string>
+    <string name="enable_nfc_question">S\'ha detectat que el seu dispositiu disposa de NFC. Desitja habilitar-ho per a la signatura amb el DNIe per NFC?</string>
     <string name="nfc_no_detected">No s\'ha habilitat NFC. S\'usar\u00e0 el magatzem del sistema.</string>
     <string name="nfc_cancelled">S\'ha cancel·lat l\'\u00fas de NFC. S\'usar\u00e0 el magatzem del sistema.</string>
     <string name="settings">Ajustos</string>

@@ -45,7 +45,8 @@ public class SettingsActivity extends AppCompatActivity {
         // Abreviatura de idioma seleccionado
         TextView selectLangTv = this.findViewById(R.id.languageSelectedTv);
         String lang = AppConfig.getLocaleConfig(this);
-        selectLangTv.setText(lang.toUpperCase());
+        String langAbbrevation = LocaleHelper.langAbbrevationMap.get(lang);
+        selectLangTv.setText(langAbbrevation.toUpperCase());
 
         // Dominios de confianza
         TextView trustedDomainsTv = this.findViewById(R.id.trustedDomainsTv);

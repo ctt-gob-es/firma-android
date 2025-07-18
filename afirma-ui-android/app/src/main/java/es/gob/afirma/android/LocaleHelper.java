@@ -6,7 +6,9 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import es.gob.afirma.android.errors.CommunicationErrors;
 import es.gob.afirma.android.errors.FunctionalErrors;
@@ -17,6 +19,19 @@ import es.gob.afirma.android.errors.ThirdPartyErrors;
 import es.gob.afirma.android.gui.AppConfig;
 
 public class LocaleHelper {
+
+    public static Map<String, String> langAbbrevationMap;
+
+    static {
+        langAbbrevationMap = new HashMap<>();
+        langAbbrevationMap.put("es", "es");
+        langAbbrevationMap.put("en", "en");
+        langAbbrevationMap.put("fr", "fr");
+        langAbbrevationMap.put("ca", "ca");
+        langAbbrevationMap.put("gl", "gl");
+        langAbbrevationMap.put("eu", "eu");
+        langAbbrevationMap.put("ca-ES-valencia", "va");
+    }
 
     public static Context onAttach(Context context) {
         String lang = getPersistedData(context);
@@ -43,7 +58,7 @@ public class LocaleHelper {
 
     @TargetApi(Build.VERSION_CODES.N)
     private static Context updateResources(Context context, String language) {
-        Locale locale = new Locale(language);
+        Locale locale = Locale.forLanguageTag(language);
         Locale.setDefault(locale);
 
         Configuration configuration = context.getResources().getConfiguration();
@@ -59,7 +74,7 @@ public class LocaleHelper {
 
     @SuppressWarnings("deprecation")
     private static Context updateResourcesLegacy(Context context, String language) {
-        Locale locale = new Locale(language);
+        Locale locale = Locale.forLanguageTag(language);
         Locale.setDefault(locale);
 
         Resources resources = context.getResources();

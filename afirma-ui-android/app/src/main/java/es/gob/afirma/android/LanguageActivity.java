@@ -70,7 +70,7 @@ public class LanguageActivity extends AppCompatActivity {
                         changeLang("eu");
                         break;
                     case 5:
-                        changeLang("va");
+                        changeLang("ca-ES-valencia");
                         break;
                     default:
                         changeLang("es");
