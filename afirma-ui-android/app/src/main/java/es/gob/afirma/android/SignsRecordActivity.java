@@ -25,8 +25,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.InternalSoftwareErrors;
+import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.util.Utils;
 
@@ -151,8 +150,7 @@ public class SignsRecordActivity extends AppCompatActivity {
             try {
                 signRecordFile.createNewFile();
             } catch (IOException e) {
-                ErrorCategory errorCat = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.CANT_SAVE_SIGN_RECORD);
-                Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText(), e);
+                Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.CANT_SAVE_SIGN_RECORD.toString(), e);
                 return;
             }
         }
@@ -161,8 +159,7 @@ public class SignsRecordActivity extends AppCompatActivity {
             pw.write("");
             pw.close();
         } catch (IOException e) {
-            ErrorCategory errorCat = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.CANT_SAVE_SIGN_RECORD);
-            Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText(), e);
+            Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.CANT_SAVE_SIGN_RECORD.toString(), e);
         }
     }
 

@@ -14,6 +14,8 @@ package es.gob.afirma.android.errors;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import es.gob.afirma.core.ErrorCode;
+
 public final class ErrorManager {
 
 	private static final String ERROR_NUMBER = "%#%"; //$NON-NLS-1$
@@ -83,15 +85,9 @@ public final class ErrorManager {
 		// No instanciable
 	}
 
-	public static String genError(final String number, final int errorCatCode) {
-		return genError(number, errorCatCode,null);
-	}
-
-	public static String genError(final String number, final int errorCatCode, final String msg) {
+	public static String genError(final String number, final ErrorCode errorCode) {
 		return
-				ERROR_TEMPLATE.replace(ERROR_NUMBER, number).replace(ERROR_CAT_CODE, String.valueOf(errorCatCode)).replace(
-						ERROR_MESSAGE,
-						msg != null ? msg : ERRORS.get(number) != null ? ERRORS.get(number) : GENERIC_ERROR
-						);
+				ERROR_TEMPLATE.replace(ERROR_NUMBER, number).replace(ERROR_CAT_CODE, String.valueOf(errorCode.getCode())).replace(
+						ERROR_MESSAGE, errorCode.getDescription());
 	}
 }

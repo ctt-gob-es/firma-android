@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Hardware Errors -->
+    <string name="error_102000">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <!-- Internal Software Errors -->
+    <string name="error_200000">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_200001">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_200002">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_200100">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_200101">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_200102">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_200105">O ficheiro seleccionado \u00E9 demasiado grande e non hai memoria suficiente para completar a operaci\u00F3n de lectura</string>
+    <string name="error_200106">Para poder realizar esta operaci\u00f3n \u00E9 necesario seleccionar un ficheiro PDF</string>
+    <string name="error_200107">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_200200">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_200301">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_200302">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_200303">Ocorreu un erro ao gardar a firma</string>
+    <string name="error_200304">O Cliente de firma non ten permisos de escritura en disco.</string>
+    <string name="error_200305">Ocorreu un erro ao gardar os datos</string>
+    <string name="error_200400">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_200401">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_200700">O dominio \"%s\" ten un formato incorrecto.</string>
+    <string name="error_201100">Non puidemos engadir o teu certificado \u00E1 aplicaci\u00F3n de Autofirma de maneira correcta. T\u00E9ntao de novo m\u00E1is tarde</string>
+    <string name="error_201101">Erro ao cargar o almacen de certificados</string>
+    <string name="error_201102">Erro ao cargar o certificado</string>
+    <string name="error_201103">Erro ao cargar o certificado</string>
+    <string name="error_201104">Certificado non seleccionado</string>
+    <string name="error_201105">Erro ao cargar o certificado</string>
+    <string name="error_201106">Erro ao cargar o certificado</string>
+    <!-- Third Party Errors -->
+    <string name="error_300100">O cart\u00F3n que proporcionaches non parece ser un DNIe. Por favor t\u00E9ntao de novo</string>
+    <string name="error_300102">O cart\u00F3n que proporcionaches non parece ser un DNIe. Por favor t\u00E9ntao de novo</string>
+    <string name="error_300103">Produciuse un erro ao tentar ler o teu DNIe. Por favor, volve tentar. Lembra manter nunha superficie lisa e manter o teu tel\u00E9fono m\u00F3bil uns segundos fixo sobre o cart\u00F3n para a s\u00FAa correcta lectura.</string>
+    <string name="error_300104">Produciuse un erro ao tentar ler o teu DNIe. Por favor, volve tentar. Lembra manter nunha superficie lisa e manter o teu tel\u00E9fono m\u00F3bil uns segundos fixo sobre o cart\u00F3n para a s\u00FAa correcta lectura.</string>
+    <string name="error_300105">O PIN do dispositivo criptogr\u00E1fico \u00E9 incorrecto. Te\u00F1a en conta que varios intentos errados consecutivos poder\u00edan bloquealo.</string>
+    <string name="error_300106">O DNIe ten o PIN bloqueado. Podes acudir a unha comisar\u00EDa de Polic\u00EDa Nacional a un Punto de Actualizaci\u00F3n do DNIe (PAD) para desbloquealo.</string>
+    <string name="error_300108">Erro ao iniciar a conexi\u00F3n co cart\u00F3n. \u00C9 posible que o CAN sexa incorrecto. T\u00E9nteo de novo.</string>
+    <string name="error_300110">O DNIe que aproximaches non ten certificado de firma ou o certificado est\u00E1 caducado. Podes acudir a unha comisar\u00EDa de Polic\u00EDa Nacional a un Punto de Actualizaci\u00F3n do DNIe (PAD), para solucionalo.</string>
+    <string name="error_300400">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_300404">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <!-- Communication Errors -->
+    <string name="error_400000">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_400001">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_401100">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_401101">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_401200">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <!-- Functional Errors -->
+    <string name="error_500001">Operacion cancelada</string>
+    <string name="error_501001">Para asinar necesitas rexistrar un certificado dixital</string>
+    <string name="error_510005">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <!-- Request Errors -->
+    <string name="error_600002">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600006">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600007">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600008">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600100">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600105">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600106">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600108">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600109">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600400">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600401">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600403">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600405">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600406">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600407">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_600408">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+</resources>

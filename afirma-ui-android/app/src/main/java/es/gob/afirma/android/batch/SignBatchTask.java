@@ -20,9 +20,7 @@ import java.util.Properties;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.batch.client.BatchSigner;
 import es.gob.afirma.android.crypto.MSCBadPinException;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.InternalSoftwareErrors;
-import es.gob.afirma.android.errors.RequestErrors;
+import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.AOException;
 import es.gob.afirma.core.misc.Base64;
@@ -81,35 +79,30 @@ public class SignBatchTask extends AsyncTask<Void, Void, byte[]>{
 						this.pkcs1ExtraParams
 				);
 			} else {
-				ErrorCategory errorCat = RequestErrors.JSON_REQUEST.get(RequestErrors.JSON_NOT_FORMED_CORRECTLY);
-				throw new IllegalStateException(errorCat.getCode() + " - " + errorCat.getAdminText()); //$NON-NLS-1$
+				throw new IllegalStateException(AppErrorCode.Request.JSON_NOT_FORMED_CORRECTLY.toString()); //$NON-NLS-1$
 			}
 		}
 		catch (final AOCancelledOperationException e) {
 			this.t = e;
 		}
 		catch (final IllegalArgumentException e) {
-			ErrorCategory errorCat = RequestErrors.GENERAL.get(RequestErrors.REQUEST_PARAM_NOT_VALID);
-			Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText() + e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString() + e); //$NON-NLS-1$
 			this.t = e;
 		}
 		catch (final CertificateEncodingException e) {
-			ErrorCategory errorCat = RequestErrors.GENERAL.get(RequestErrors.ENCODING_CERT);
-			Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText() + e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.ENCODING_CERT.toString() + e); //$NON-NLS-1$
 			this.t = e;
 		}
 		catch (final HttpError e) {
 			Logger.e(ES_GOB_AFIRMA, "El servicio devolvio un error: " + e); //$NON-NLS-1$
 			if (e.getResponseCode() == 400) {
-				ErrorCategory errorCat = RequestErrors.GENERAL.get(RequestErrors.REQUEST_PARAM_NOT_VALID);
-				this.t = new IllegalArgumentException(errorCat.getCode() + " - " + errorCat.getAdminText(), e);
+				this.t = new IllegalArgumentException(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString(), e);
 			}
 			else if (e.getResponseCode() / 100 == 4) {
 				this.t = e;
 			}
 			else {
-				ErrorCategory errorSigning = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.ERROR_SIGNING);
-				this.t = new AOException(errorSigning.getCode() + " - " + errorSigning.getAdminText(), e);
+				this.t = new AOException(e, AppErrorCode.Internal.GENERAL_ERROR);
 			}
 		}
 		catch (final AOException e) {
@@ -124,14 +117,12 @@ public class SignBatchTask extends AsyncTask<Void, Void, byte[]>{
 				this.t = new MSCBadPinException(e.getCause().getCause().getMessage(), e); //$NON-NLS-1$
 			}
 			else {
-				ErrorCategory errorSigning = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.ERROR_SIGNING);
-				Logger.e(ES_GOB_AFIRMA, errorSigning.getCode() + " - " + errorSigning.getAdminText(), e); //$NON-NLS-1$
+				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.GENERAL_ERROR.toString(), e); //$NON-NLS-1$
 				this.t = e;
 			}
 		}
 		catch (final Exception e) {
-			ErrorCategory errorSigning = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.ERROR_SIGNING);
-			Logger.e(ES_GOB_AFIRMA, errorSigning.getCode() + " - " + errorSigning.getAdminText(), e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.GENERAL_ERROR.toString(), e); //$NON-NLS-1$
 			this.t = e;
 		}
 		return batchResult;

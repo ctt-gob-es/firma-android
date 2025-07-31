@@ -1,18 +1,18 @@
 package es.gob.afirma.android.exceptions;
 
-import es.gob.afirma.android.errors.ErrorCategory;
+import es.gob.afirma.core.ErrorCode;
 
 public final class IncompatibleFormatException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    private ErrorCategory errorCat;
+    private ErrorCode errorCode;
 
-    public IncompatibleFormatException(ErrorCategory errorCat) {
-        this.errorCat = errorCat;
+    public IncompatibleFormatException(ErrorCode errorCode) {
+        this.errorCode = errorCode;
     }
 
-    public ErrorCategory getErrorCat() {
-        return errorCat;
+    public ErrorCode getErrorCode() {
+        return errorCode;
     }
 }

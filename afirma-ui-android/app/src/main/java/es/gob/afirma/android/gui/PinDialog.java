@@ -135,8 +135,7 @@ public class PinDialog extends DialogFragment {
 							//TODO: Gestionar este caso
 							Logger.e(ES_GOB_AFIRMA, "El pin no puede ser vacio o nulo"); //$NON-NLS-1$
 							if (PinDialog.this.getKsmListener() != null) {
-								PinDialog.this.getKsmListener().onLoadingKeyStoreError(
-										getActivity().getString(R.string.error_pin_nulo), null
+								PinDialog.this.getKsmListener().onLoadingKeyStoreError( null
 								);
 							}
 						}

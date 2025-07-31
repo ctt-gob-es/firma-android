@@ -31,11 +31,12 @@ import java.util.Properties;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.crypto.SignResult;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.FunctionalErrors;
-import es.gob.afirma.android.errors.InternalSoftwareErrors;
+import es.gob.afirma.android.errors.AppErrorCode;
+import es.gob.afirma.android.errors.ErrorMapper;
 import es.gob.afirma.android.gui.AppConfig;
 import es.gob.afirma.android.util.FileUtil;
+import es.gob.afirma.core.AOControlledException;
+import es.gob.afirma.core.ErrorCode;
 import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.core.signers.AOSignerFactory;
 import es.gob.afirma.signers.cades.CAdESExtraParams;
@@ -134,14 +135,12 @@ public final class LocalSignActivity extends SignFragmentActivity {
 						this.fileContent = FileUtil.readDataFromFile(dataFile);
 					}
 				} catch (final OutOfMemoryError e) {
-					ErrorCategory errorCat = InternalSoftwareErrors.OPERATION_SIGN.get(InternalSoftwareErrors.OUT_OF_MEMORY);
-					showErrorMessage(getString(R.string.error_ocurred), errorCat);
-					Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText(), e); //$NON-NLS-1$
+					showErrorMessage(getString(R.string.error_ocurred), AppErrorCode.Internal.FILE_READ_OUT_OF_MEMORY);
+					Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.FILE_READ_OUT_OF_MEMORY.toString(), e); //$NON-NLS-1$
 					return;
 				} catch (final IOException e) {
-					ErrorCategory errorCat = InternalSoftwareErrors.OPERATION_SIGN.get(InternalSoftwareErrors.LOADING_LOCAL_FILE);
-					showErrorMessage(getString(R.string.error_ocurred), errorCat);
-					Logger.e(ES_GOB_AFIRMA, errorCat.getAdminText()); //$NON-NLS-1$ //$NON-NLS-1$
+					showErrorMessage(getString(R.string.error_ocurred), ErrorCode.Internal.LOADING_LOCAL_FILE_ERROR);
+					Logger.e(ES_GOB_AFIRMA, ErrorCode.Internal.LOADING_LOCAL_FILE_ERROR.toString(), e); //$NON-NLS-1$
 					return;
 				}
 
@@ -200,9 +199,8 @@ public final class LocalSignActivity extends SignFragmentActivity {
 					finish();
 					return;
 				} else if (resultCode == ERROR_REQUEST_VISIBLE_SIGN) {
-					ErrorCategory errorCat = InternalSoftwareErrors.OPERATION_SIGN.get(InternalSoftwareErrors.LOADING_LOCAL_FILE);
-					showErrorMessage(getString(R.string.error_ocurred), errorCat);
-					Logger.e(ES_GOB_AFIRMA, errorCat.getAdminText()); //$NON-NLS-1$
+					showErrorMessage(getString(R.string.error_ocurred), ErrorCode.Internal.LOADING_LOCAL_FILE_ERROR);
+					Logger.e(ES_GOB_AFIRMA, ErrorCode.Internal.LOADING_LOCAL_FILE_ERROR.toString()); //$NON-NLS-1$
 					return;
 				}
 			}
@@ -217,15 +215,13 @@ public final class LocalSignActivity extends SignFragmentActivity {
 						outputStream.close();
 					}
 					else {
-						ErrorCategory errorCat = InternalSoftwareErrors.SAVING_DATA.get(InternalSoftwareErrors.SAVING_DATA_DISK);
-						showErrorMessage(getString(R.string.error_ocurred), errorCat);
-						Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText()); //$NON-NLS-1$
+						showErrorMessage(getString(R.string.error_ocurred), AppErrorCode.Internal.SAVING_DATA_DISK);
+						Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.SAVING_DATA_DISK.toString()); //$NON-NLS-1$
 						return;
 					}
 				} catch (final IOException e) {
-					ErrorCategory errorCat = InternalSoftwareErrors.SAVING_DATA.get(InternalSoftwareErrors.SAVING_DATA_DISK);
-					showErrorMessage(getString(R.string.error_ocurred), errorCat);
-					Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText(), e); //$NON-NLS-1$
+					showErrorMessage(getString(R.string.error_ocurred), AppErrorCode.Internal.SAVING_DATA_DISK);
+					Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.SAVING_DATA_DISK.toString(), e); //$NON-NLS-1$
 					return;
 				}
 
@@ -314,9 +310,8 @@ public final class LocalSignActivity extends SignFragmentActivity {
 				outDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 				originalDirectory = false;
 			} else {
-				ErrorCategory errorCat = InternalSoftwareErrors.SAVING_DATA.get(InternalSoftwareErrors.NO_DEVICE_STORE);
-				Logger.w(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText()); //$NON-NLS-1$
-				showErrorMessage(getString(R.string.error_ocurred), errorCat);
+				Logger.w(ES_GOB_AFIRMA, AppErrorCode.Internal.NO_DEVICE_STORE.toString()); //$NON-NLS-1$
+				showErrorMessage(getString(R.string.error_ocurred), AppErrorCode.Internal.NO_DEVICE_STORE);
 				return;
 			}
 
@@ -332,9 +327,8 @@ public final class LocalSignActivity extends SignFragmentActivity {
 				fos.flush();
 				fos.close();
 			} catch (final Exception e) {
-				ErrorCategory errorCat = InternalSoftwareErrors.SAVING_DATA.get(InternalSoftwareErrors.SAVING_DATA_DISK);
-				showErrorMessage(getString(R.string.error_ocurred), errorCat);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText() + e); //$NON-NLS-1$
+				showErrorMessage(getString(R.string.error_ocurred), AppErrorCode.Internal.SAVING_DATA_DISK);
+				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.SAVING_DATA_DISK.toString(), e); //$NON-NLS-1$
 				return;
 			}
 
@@ -350,9 +344,8 @@ public final class LocalSignActivity extends SignFragmentActivity {
 						null
 				);
 			} catch (final Exception e) {
-				ErrorCategory errorCat = InternalSoftwareErrors.SAVING_DATA.get(InternalSoftwareErrors.SAVING_DATA_DISK);
-				showErrorMessage(getString(R.string.error_ocurred), errorCat);
-				Logger.w(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText() + e); //$NON-NLS-1$
+				showErrorMessage(getString(R.string.error_ocurred), AppErrorCode.Internal.SAVING_DATA_DISK);
+				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.SAVING_DATA_DISK.toString(), e); //$NON-NLS-1$
 			}
 		}
 	}
@@ -360,13 +353,32 @@ public final class LocalSignActivity extends SignFragmentActivity {
 	/** Muestra los elementos de pantalla informando de un error ocurrido durante la operaci&oacute;n de
 	 * firma.
 	 * @param title T&iacute;tulo que describe el error producido.
-	 * @param errorCategory Informacion sobre el error producido. */
-	private void showErrorMessage(final String title, final ErrorCategory errorCategory) {
+	 * @param errorThrowable Informacion sobre el error producido. */
+	private void showErrorMessage(final String title, final Throwable errorThrowable) {
 		Intent intent = new Intent(this, HomeActivity.class);
 		intent.putExtra(SHOW_SIGNING_RESULT, true);
 		intent.putExtra(SIGNING_ERROR, true);
 		intent.putExtra(ERROR_TITLE_PARAM, title);
-		String msgWithCode = errorCategory.getUserMsg();
+		String msg;
+		if (errorThrowable instanceof AOControlledException) {
+			msg = ErrorMapper.getErrorMsgFormatted(this, ((AOControlledException) errorThrowable).getErrorCode()); //$NON-NLS-1$ //$NON-NLS-2$
+		} else {
+			msg = getString(R.string.not_completed_request);
+		}
+		intent.putExtra(ERROR_MESSAGE_PARAM, msg);
+		startActivity(intent);
+	}
+
+	/** Muestra los elementos de pantalla informando de un error ocurrido durante la operaci&oacute;n de
+	 * firma.
+	 * @param title T&iacute;tulo que describe el error producido.
+	 * @param error Informacion sobre el error producido. */
+	private void showErrorMessage(final String title, final ErrorCode error) {
+		Intent intent = new Intent(this, HomeActivity.class);
+		intent.putExtra(SHOW_SIGNING_RESULT, true);
+		intent.putExtra(SIGNING_ERROR, true);
+		intent.putExtra(ERROR_TITLE_PARAM, title);
+		String msgWithCode = ErrorMapper.getErrorMsgFormatted(this, error);
 		intent.putExtra(ERROR_MESSAGE_PARAM, msgWithCode);
 		startActivity(intent);
 	}
@@ -411,21 +423,18 @@ public final class LocalSignActivity extends SignFragmentActivity {
 	}
 
 	@Override
-	protected void onSigningError(KeyStoreOperation op, String msg, Throwable t) {
+	protected void onSigningError(KeyStoreOperation op, Throwable t) {
 		if (t instanceof PendingIntent.CanceledException) {
-			ErrorCategory errorCat = FunctionalErrors.GENERAL.get(FunctionalErrors.CANCELED_BY_USER);
-			Logger.i(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText());
+			Logger.i(ES_GOB_AFIRMA, ErrorCode.Functional.CANCELLED_OPERATION.toString());
 			finish();
 		}
 		else {
 			Logger.e(ES_GOB_AFIRMA, "Error durante la firma: " + t);
 			if (KeyStoreOperation.SIGN == op) {
-				ErrorCategory errorSigning = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.ERROR_SIGNING);
-				showErrorMessage(getString(R.string.error_ocurred), errorSigning);
+				showErrorMessage(getString(R.string.error_ocurred), t);
 			}
 			else {
-				ErrorCategory errorCat = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.SOFTWARE_GENERAL);
-				showErrorMessage(getString(R.string.error_ocurred), errorCat);
+				showErrorMessage(getString(R.string.error_ocurred), t);
 			}
 		}
 	}

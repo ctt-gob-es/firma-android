@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Hardware Errors -->
+    <string name="error_102000">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <!-- Internal Software Errors -->
+    <string name="error_200000">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_200001">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_200002">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_200100">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_200101">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_200102">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_200105">Hautatutako fitxategia handiegia da, eta ez dago behar adina memoriarik irakurketa-eragiketa osatzeko</string>
+    <string name="error_200106">Eragiketa hau egiteko PDF fitxategi bat hautatu behar da</string>
+    <string name="error_200107">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_200200">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_200301">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_200302">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_200303">Errorea gertatu da sinadura gordetzean</string>
+    <string name="error_200304">Bezeroak ez du diskoan idazteko baimenik.</string>
+    <string name="error_200305">Errorea gertatu da datuak gordetzean</string>
+    <string name="error_200400">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_200401">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_200700">\"%s\" domeinuak formatu okerra du.</string>
+    <string name="error_201100">Ezin izan dugu zure ziurtagiria Autofirma aplikaziora behar bezala gehitu. Saiatu berriro geroago</string>
+    <string name="error_201101">Errorea gertatu da ziurtagiri-biltegia kargatzean</string>
+    <string name="error_201102">Errorea gertatu da ziurtagiria kargatzean</string>
+    <string name="error_201103">Errorea gertatu da ziurtagiria kargatzean</string>
+    <string name="error_201104">Ez da hautatu ziurtagiria</string>
+    <string name="error_201105">Errorea gertatu da ziurtagiria kargatzean</string>
+    <string name="error_201106">Errorea gertatu da ziurtagiria kargatzean</string>
+    <!-- Third Party Errors -->
+    <string name="error_300100">Eman duzun txartelak ez dirudi NANa denik. Saiatu berriro</string>
+    <string name="error_300102">Eman duzun txartelak ez dirudi NANa denik. Saiatu berriro</string>
+    <string name="error_300103">Errore bat gertatu da zure NANa irakurtzen saiatzean. Mesedez, saiatu berriro. Gogoan izan gainazal lauan eduki eta telefono mugikorra segundo batzuetan txartelaren gainean eduki, behar bezala irakurtzeko.</string>
+    <string name="error_300104">Errore bat gertatu da zure NANa irakurtzen saiatzean. Mesedez, saiatu berriro. Gogoan izan gainazal lauan eduki eta telefono mugikorra segundo batzuetan txartelaren gainean eduki, behar bezala irakurtzeko.</string>
+    <string name="error_300105">Gailu kriptografikoaren PINa ez da zuzena. Kontuan izan elkarren segidako zenbait huts egindako saiakerek blokeatu egin dezaketela.</string>
+    <string name="error_300106">NANak blokeatuta du PINa. Polizia Nazionalaren komisaldegi batera joan zaitezke NANaren eguneratze-puntu batera (PAD) desblokeatzeko.</string>
+    <string name="error_300108">Errorea gertatu da txartelarekin konektatzen hastean. Baliteke CANa okerra izatea. Saiatu berriro.</string>
+    <string name="error_300110">Hurbildu duzun NANak ez du sinadura-ziurtagiririk edo ziurtagiria iraungita dago. Polizia Nazionalaren komisaldegi batera joan zaitezke NANaren eguneratze-puntu batera (PAD), arazoa konpontzeko.</string>
+    <string name="error_300400">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_300404">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <!-- Communication Errors -->
+    <string name="error_400000">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_400001">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_401100">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_401101">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_401200">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <!-- Functional Errors -->
+    <string name="error_500001">Eragiketa bertan behera geratu da</string>
+    <string name="error_501001">Sinatzeko, ziurtagiri digital bat erregistratu behar duzu</string>
+    <string name="error_510005">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <!-- Request Errors -->
+    <string name="error_600002">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600006">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600007">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600008">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600100">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600105">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600106">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600108">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600109">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600400">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600401">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600403">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600405">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600406">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600407">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_600408">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+</resources>

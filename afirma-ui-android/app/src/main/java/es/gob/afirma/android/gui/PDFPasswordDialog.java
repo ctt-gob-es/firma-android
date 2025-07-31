@@ -27,7 +27,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import es.gob.afirma.R;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.crypto.SignTask;
-import es.gob.afirma.core.AOException;
 import es.gob.afirma.core.RuntimePasswordNeededException;
 import es.gob.afirma.signers.pades.common.BadPdfPasswordException;
 
@@ -88,7 +87,7 @@ public class PDFPasswordDialog extends BottomSheetDialog {
 						signTask.execute();
 					} catch (Exception e) {
 						Logger.w(ES_GOB_AFIRMA, "Error en la firma: " + e); //$NON-NLS-1$
-						signListener.onSignError(new AOException("Error en la firma: " + e));
+						signListener.onSignError(e);
 					}
 				}
 			}

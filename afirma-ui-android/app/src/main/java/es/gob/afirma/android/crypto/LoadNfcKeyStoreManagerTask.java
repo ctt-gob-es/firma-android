@@ -90,7 +90,7 @@ public final class LoadNfcKeyStoreManagerTask extends AsyncTask {
 		// Si es una excepcion, se notifica un problema en la carga del almacen
 		if (o instanceof Exception) {
 			Exception e = (Exception) o;
-			this.kmListener.onLoadingKeyStoreError("Error en la carga de la tarjeta NFC", e);
+			this.kmListener.onLoadingKeyStoreError(e);
 		}
 		else {
 			//Se cargan los certificados del keystore

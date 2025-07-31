@@ -36,14 +36,12 @@ import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager.SelectCertificateEvent;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.FunctionalErrors;
-import es.gob.afirma.android.errors.InternalSoftwareErrors;
-import es.gob.afirma.android.errors.RequestErrors;
+import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.util.CertificateUtil;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.AOException;
+import es.gob.afirma.core.ErrorCode;
 import es.gob.afirma.core.misc.AOUtil;
 import es.gob.afirma.core.misc.http.HttpError;
 import es.gob.afirma.core.misc.protocol.UrlParametersForBatch;
@@ -71,8 +69,7 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 	public void sign(final UrlParametersForBatch batchParams) {
 
 		if (batchParams == null) {
-			ErrorCategory errorCat = RequestErrors.JSON_REQUEST.get(RequestErrors.NO_DATA_NO_ID_BATCH);
-			throw new IllegalArgumentException(errorCat.getCode() + " - " + errorCat.getAdminText());
+			throw new IllegalArgumentException(ErrorCode.Request.DATA_NOT_FOUND.toString());
 		}
 
 		this.batchParams = batchParams;
@@ -123,17 +120,17 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 		catch (final KeyChainException e) {
 			if ("4.1.1".equals(Build.VERSION.RELEASE) || "4.1.0".equals(Build.VERSION.RELEASE) || "4.1".equals(Build.VERSION.RELEASE)) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				Logger.e(ES_GOB_AFIRMA, "Error al extraer la clave en Android " + Build.VERSION.RELEASE + ": " + e); //$NON-NLS-1$ //$NON-NLS-2$
-				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, getString(R.string.error_android_4_1), new SelectKeyAndroid41BugException(e));
+				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, new SelectKeyAndroid41BugException(e));
 			}
 			else {
 				Logger.e(ES_GOB_AFIRMA, "No se pudo extraer la clave privada del certificado: " + e); //$NON-NLS-1$
-				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "No se pudo extraer la clave privada del certificado", e);
+				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, e);
 			}
 			return;
 		}
 		catch (final AOCancelledOperationException e) {
 			Logger.e(ES_GOB_AFIRMA, "El usuario no selecciono un certificado: " + e); //$NON-NLS-1$
-			onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "El usuario no selecciono un certificado", new PendingIntent.CanceledException(e));
+			onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, new PendingIntent.CanceledException(e));
 			return;
 		}
 		// Cuando se instala el certificado desde el dialogo de seleccion, Android da a elegir certificado
@@ -144,7 +141,7 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 		}
 		catch (final Throwable e) {
 			Logger.e(ES_GOB_AFIRMA, "Error al recuperar la clave del certificado de firma", e); //$NON-NLS-1$
-			onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, "Error al recuperar la clave del certificado de firma", e); //$NON-NLS-1$
+			onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, e); //$NON-NLS-1$
 			return;
 		}
 
@@ -177,7 +174,7 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 			doSign(keyEntry, providerName);
 		}
 		catch (final Exception e) {
-			onSigningError(KeyStoreOperation.SIGN, "Error durante la operacion de firma de lote", e);
+			onSigningError(KeyStoreOperation.SIGN, e);
 		}
 	}
 
@@ -208,8 +205,7 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 
 		// Si el usuario cancelo la insercion de PIN o cualquier otro dialogo del almacen
 		if(msm == null){
-			ErrorCategory errorCat = FunctionalErrors.GENERAL.get(FunctionalErrors.CANCELED_BY_USER);
-			onSigningError(KeyStoreOperation.LOAD_KEYSTORE, errorCat.getCode() + " - " + errorCat.getUserText(), new PendingIntent.CanceledException("Se cancela la seleccion del almacen"));
+			onSigningError(KeyStoreOperation.LOAD_KEYSTORE, new PendingIntent.CanceledException("Se cancela la seleccion del almacen"));
 			return;
 		}
 		msm.getPrivateKeyEntryAsynchronously(this);
@@ -223,34 +219,33 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 	@Override
 	public void onSignError(final Throwable t) {
 		if (t instanceof AOCancelledOperationException) {
-			ErrorCategory errorCat = FunctionalErrors.GENERAL.get(FunctionalErrors.CANCELED_BY_USER);
-			onSigningError(KeyStoreOperation.SIGN, errorCat.getCode() + " - " + errorCat.getUserText(), t);
+			onSigningError(KeyStoreOperation.SIGN, t);
 		}
 		else if (t instanceof IllegalArgumentException) {
-			onSigningError(KeyStoreOperation.SIGN, "Los datos proporcionados al servicio no son validos", t);
+			onSigningError(KeyStoreOperation.SIGN, t);
 		}
 		else if (t instanceof CertificateEncodingException) {
-			onSigningError(KeyStoreOperation.SIGN, "Error al codificar el certificado", t);
+			onSigningError(KeyStoreOperation.SIGN, t);
 		}
 		else if (t instanceof HttpError) {
-			onSigningError(KeyStoreOperation.SIGN, "No se pudo conectar con el servicio de firma de lotes", t);
+			onSigningError(KeyStoreOperation.SIGN, t);
 		}
 		else if (t instanceof MSCBadPinException) {
 			// Se reintenta la operacion de lectura de DNI indicando que el PIN es incorrecto
 			loadKeyStore(this, t);
 		}
 		else if (t instanceof AOException) {
-			onSigningError(KeyStoreOperation.SIGN, "El servicio de firma de lotes devolvio un error", t);
-		}else {
-			ErrorCategory errorCat = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.SOFTWARE_GENERAL);
-			Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg(), t);
-			onSigningError(KeyStoreOperation.SIGN, errorCat.getCode() + " - " + errorCat.getAdminText(), t);
+			onSigningError(KeyStoreOperation.SIGN, t);
+		} else {
+			// Se introduce este error por si llegara alguno no controlado
+			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.GENERAL_ERROR.toString(), t); //$NON-NLS-1$
+			onSigningError(KeyStoreOperation.SIGN, t);
 		}
 	}
 
 	protected abstract void onSigningSuccess(final byte[] batchResult);
 
-	protected abstract void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t);
+	protected abstract void onSigningError(final KeyStoreOperation op, final Throwable t);
 
 	/**
 	 * Registra en un archivo datos sobre una firma que se haya realizado.
@@ -265,8 +260,7 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 			try {
 				signRecordFile.createNewFile();
 			} catch (IOException e) {
-				ErrorCategory errorCat = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.CANT_SAVE_SIGN_RECORD);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText(), e);
+				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.CANT_SAVE_SIGN_RECORD.toString(), e);
 				return;
 			}
 		}
@@ -287,8 +281,7 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 			pw.write(sb.toString());
 			pw.close();
 		} catch (IOException e) {
-			ErrorCategory errorCat = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.CANT_SAVE_SIGN_RECORD);
-			Logger.e(ES_GOB_AFIRMA, errorCat.getCode() + " - " + errorCat.getAdminText(), e); //$NON-NLS-1$
+			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.CANT_SAVE_SIGN_RECORD.toString(), e); //$NON-NLS-1$
 		}
 	}
 

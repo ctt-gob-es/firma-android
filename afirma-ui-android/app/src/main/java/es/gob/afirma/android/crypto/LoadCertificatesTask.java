@@ -2,6 +2,7 @@ package es.gob.afirma.android.crypto;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -16,8 +17,8 @@ import javax.security.auth.callback.CallbackHandler;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.Logger;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.ThirdPartyErrors;
+import es.gob.afirma.android.errors.AppErrorCode;
+import es.gob.afirma.android.errors.ErrorMapper;
 import es.gob.afirma.android.gui.CertificateInfoForAliasSelect;
 import es.gob.afirma.android.gui.SelectAliasDialog;
 import es.gob.afirma.core.misc.AOUtil;
@@ -177,7 +178,7 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
         }
 
         if (isCancelled()) {
-            this.ksmListener.onLoadingKeyStoreError("Operacion cancelada", null);
+            this.ksmListener.onLoadingKeyStoreError(new PendingIntent.CanceledException("Operacion cancelada"));
             return;
         }
 
@@ -188,7 +189,7 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
         selectAlias.setKeyStore(ks);
 
         if (isCancelled()) {
-            this.ksmListener.onLoadingKeyStoreError("Operacion cancelada", null);
+            this.ksmListener.onLoadingKeyStoreError(new PendingIntent.CanceledException("Operacion cancelada"));
             return;
         }
 
@@ -203,9 +204,8 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
 
                 final AlertDialog.Builder dniBloqueado = new AlertDialog.Builder(activity);
 
-                ErrorCategory errorCat = ThirdPartyErrors.JMULTICARD.get(ThirdPartyErrors.BLOCKED_CARD);
                 dniBloqueado.setTitle(activity.getString(R.string.error_reading_dnie));
-                dniBloqueado.setMessage(errorCat.getUserMsg());
+                dniBloqueado.setMessage(ErrorMapper.getErrorMsgFormatted(activity.getBaseContext(), AppErrorCode.ThirdParty.BLOCKED_CARD));
                 dniBloqueado.setPositiveButton(
                         activity.getString(R.string.ok),
                         new DialogInterface.OnClickListener() {
@@ -219,8 +219,7 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
                 dniBloqueado.show();
 
                 if (ksListener != null) {
-                    ksListener.onLoadingKeyStoreError(
-                            errorCat.getCode() + " - " + activity.getString(R.string.error_dni_blocked), e
+                    ksListener.onLoadingKeyStoreError(e
                     );
                 }
             }
@@ -238,10 +237,9 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
         if (getProgressDialog().isShowing()) {
             getProgressDialog().dismiss();
         }
-        //Si se pierde la conexion reininciamos el proceso
+        //Si se pierde la conexion reiniciamos el proceso
         if(e != null) {
-
-            this.ksmListener.onLoadingKeyStoreError("Error cargando los certificados. Se reintentara la conexion", e);
+            this.ksmListener.onLoadingKeyStoreError(e);
         }
     }
 

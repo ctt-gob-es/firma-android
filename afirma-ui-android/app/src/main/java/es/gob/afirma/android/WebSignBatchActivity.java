@@ -37,20 +37,20 @@ import es.gob.afirma.android.crypto.AndroidHttpManager;
 import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.crypto.KeyStoreManagerListener;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
-import es.gob.afirma.android.errors.CommunicationErrors;
-import es.gob.afirma.android.errors.ErrorCategory;
+import es.gob.afirma.android.errors.AppErrorCode;
+import es.gob.afirma.android.errors.AppKeyStoreErrorCode;
 import es.gob.afirma.android.errors.ErrorManager;
-import es.gob.afirma.android.errors.FunctionalErrors;
-import es.gob.afirma.android.errors.InternalSoftwareErrors;
-import es.gob.afirma.android.errors.RequestErrors;
+import es.gob.afirma.android.errors.ErrorMapper;
 import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
 import es.gob.afirma.android.util.Utils;
 import es.gob.afirma.core.AOCancelledOperationException;
+import es.gob.afirma.core.AOControlledException;
 import es.gob.afirma.core.AOException;
 import es.gob.afirma.core.AOUnsupportedSignFormatException;
+import es.gob.afirma.core.ErrorCode;
 import es.gob.afirma.core.misc.Base64;
 import es.gob.afirma.core.misc.http.HttpError;
 import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
@@ -58,6 +58,7 @@ import es.gob.afirma.core.misc.protocol.ParameterException;
 import es.gob.afirma.core.misc.protocol.ProtocolInvocationUriParser;
 import es.gob.afirma.core.misc.protocol.ProtocolInvocationUriParserUtil;
 import es.gob.afirma.core.signers.ExtraParamsProcessor;
+import es.gob.afirma.keystores.KeyStoreErrorCode;
 
 /** Actividad dedicada a la firma por lotes de los datos recibidos en la entrada mediante un certificado
  * del almac&eacute;n central seleccionado por el usuario. */
@@ -104,8 +105,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		Utils.setPortraitSmartphone(this);
 
 		if (getIntent() == null || getIntent().getData() == null) {
-			ErrorCategory errorCat = RequestErrors.GENERAL.get(RequestErrors.REQUEST_PARAM_NOT_VALID);
-			Logger.w(ES_GOB_AFIRMA, errorCat.getAdminMsg());  //$NON-NLS-1$
+			Logger.w(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString());  //$NON-NLS-1$
 			closeActivity();
 			return;
 		}
@@ -130,8 +130,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		Logger.d(ES_GOB_AFIRMA, "URI de invocacion: " + getIntent().getDataString()); //$NON-NLS-1$
 
 		if (getIntent().getDataString() == null) {
-			ErrorCategory errorCat = RequestErrors.GENERAL.get(RequestErrors.INVOCATION_WITHOUT_URL);
-			Logger.w(ES_GOB_AFIRMA, errorCat.getAdminMsg());
+			Logger.w(ES_GOB_AFIRMA, AppErrorCode.Request.INVOCATION_WITHOUT_URL.toString());
 			closeActivity();
 			return;
 		}
@@ -141,10 +140,9 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		try {
 			setBatchParams(ProtocolInvocationUriParserUtil.getParametersToBatch(urlParams, true));
 		} catch (ParameterException e) {
-			ErrorCategory errorCat = RequestErrors.GENERAL.get(RequestErrors.REQUEST_PARAM_NOT_VALID);
-			Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg() + e, e); //$NON-NLS-1$
-			showErrorMessage(errorCat);
-			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, errorCat);
+			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString() + e, e); //$NON-NLS-1$
+			showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
 			return;
 		}
 
@@ -159,9 +157,8 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 			if (getBatchParams().getRetrieveServletUrl() != null) {
 				new DownloadFileTask(getBatchParams().getFileId(), getBatchParams().getRetrieveServletUrl(), this).execute();
 			} else {
-				ErrorCategory errorCat = RequestErrors.JSON_REQUEST.get(RequestErrors.URL_DOWNLOAD_NOT_FOUND_BATCH);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg());
-				launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, errorCat);
+				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.URL_DOWNLOAD_NOT_FOUND_BATCH.toString());
+				launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.URL_DOWNLOAD_NOT_FOUND_BATCH);
 			}
 			return;
 		}
@@ -181,41 +178,36 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 			batchDefinition = CipherDataManager.decipherData(cipheredBatchDefinition, getBatchParams().getDesKey());
 		}
 		catch (final IOException e) {
-			ErrorCategory errorCat = RequestErrors.GENERAL.get(RequestErrors.REQUEST_PARAM_NOT_VALID);
-			Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg() + " - Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
-			showErrorMessage(errorCat);
-			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, errorCat);
+			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
+			showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
 			return;
 		}
 		catch (final GeneralSecurityException e) {
-			ErrorCategory errorCat = RequestErrors.GENERAL.get(RequestErrors.REQUEST_PARAM_NOT_VALID);
-			Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg() + " - Error al descifrar los datos recuperados del servidor para la firma", e); //$NON-NLS-1$
-			showErrorMessage(errorCat);
-			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, errorCat);
+			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Error al descifrar los datos recuperados del servidor para la firma", e); //$NON-NLS-1$
+			showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
 			return;
 		}
 		catch (final IllegalArgumentException e) {
-			ErrorCategory errorCat = RequestErrors.GENERAL.get(RequestErrors.REQUEST_PARAM_NOT_VALID);
-			Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg() + " - Los datos recuperados no son un base64 valido", e); //$NON-NLS-1$
-			showErrorMessage(errorCat);
-			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, errorCat);
+			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Los datos recuperados no son un base64 valido", e); //$NON-NLS-1$
+			showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
 			return;
 		}
 		catch (final Throwable e) {
-			ErrorCategory errorCat = RequestErrors.GENERAL.get(RequestErrors.REQUEST_PARAM_NOT_VALID);
-			Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg() + " - Error desconocido durante el descifrado de los datos", e); //$NON-NLS-1$
-			showErrorMessage(errorCat);
-			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, errorCat);
+			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Error desconocido durante el descifrado de los datos", e); //$NON-NLS-1$
+			showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
 			return;
 		}
 
 		try {
 			setBatchParams(ProtocolInvocationUriParser.getParametersToBatch(batchDefinition, true));
-		} catch (ParameterException e) {
-			ErrorCategory errorCat = RequestErrors.GENERAL.get(RequestErrors.REQUEST_PARAM_NOT_VALID);
-			Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg() + " - Error con el parametro utilizado", e);
-			showErrorMessage(errorCat);
-			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, errorCat);
+		} catch (AOException e) {
+			Logger.e(ES_GOB_AFIRMA, e.getErrorCode() + " - Error con el parametro utilizado", e);
+			showErrorMessage(e.getErrorCode());
+			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, e.getErrorCode());
 			return;
 		}
 
@@ -233,10 +225,9 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	 */
 	@Override
 	public void onDownloadingDataError(String msg, Throwable t) {
-		ErrorCategory errorCat = CommunicationErrors.DOWNLOAD_SERVER.get(CommunicationErrors.DOWNLOAD_SIGN);
-		Logger.e(ES_GOB_AFIRMA,errorCat.getAdminMsg() + " - Error durante la descarga del lote de firmas del servidor intermedio", t);
-		showErrorMessage(errorCat);
-		launchError(ErrorManager.ERROR_SIGNING, true, errorCat);
+		Logger.e(ES_GOB_AFIRMA,AppErrorCode.Communication.DOWNLOAD_SIGN + " - Error durante la descarga del lote de firmas del servidor intermedio", t);
+		showErrorMessage(AppErrorCode.Communication.DOWNLOAD_SIGN);
+		launchError(ErrorManager.ERROR_SIGNING, true, AppErrorCode.Communication.DOWNLOAD_SIGN);
 	}
 
 	/** Inicia el proceso de firma con los parametros previamente configurados. */
@@ -256,17 +247,17 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	 * tenga constancia de &eacute;l.
 	 * @param errorId Identificador del error.
 	 * @param critical Error critico que obliga a cerrar la aplicaci&oacute;n.
-	 * @param errorCat Categor&iacute;a del error
+	 * @param errorCode Categor&iacute;a del error
 	 */
-	private void launchError(final String errorId, final boolean critical, final ErrorCategory errorCat) {
+	private void launchError(final String errorId, final boolean critical, final ErrorCode errorCode) {
 
 		try {
 			if (INTENT_ENTRY_ACTION.equals(getIntent().getAction())){
 				Logger.i(ES_GOB_AFIRMA, "Devolvemos el error a la app solicitante");
-				sendErrorByIntent(errorId, ErrorManager.genError(errorId, errorCat.getCode(), errorCat.getUserText()));
+				sendErrorByIntent(errorId, ErrorManager.genError(errorId, errorCode));
 			}
 			else {
-				sendData(URLEncoder.encode(ErrorManager.genError(errorId, errorCat.getCode(), errorCat.getUserText()), DEFAULT_URL_ENCODING), critical);
+				sendData(URLEncoder.encode(ErrorManager.genError(errorId, errorCode), DEFAULT_URL_ENCODING), critical);
 			}
 		}
 		catch (final Throwable e) {
@@ -277,16 +268,16 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	}
 
 	/** Muestra un mensaje de advertencia al usuario.
-	 * @param errorCat Error que se desea mostrar. */
-	private void showErrorMessage(final ErrorCategory errorCat) {
+	 * @param errorCode Error que se desea mostrar. */
+	private void showErrorMessage(final ErrorCode errorCode) {
 
-		showErrorMessage(null, errorCat);
+		showErrorMessage(null, errorCode);
 	}
 
 	/** Muestra un mensaje de advertencia al usuario.
 	 * @param title T&iacute;tulo para el di&aacute;logo de error.
-	 * @param errorCat Error que se desea mostrar. */
-	private void showErrorMessage(final String title, final ErrorCategory errorCat) {
+	 * @param errorCode Error que se desea mostrar. */
+	private void showErrorMessage(final String title, final ErrorCode errorCode) {
 		dismissProgressDialog();
 
 		String dlgTitle;
@@ -296,7 +287,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 			dlgTitle = getString(R.string.error_ocurred);
 		}
 
-		String message = errorCat.getUserMsg();
+		String message = ErrorMapper.getErrorMsgFormatted(this, errorCode);
 
 		if (this.messageDialog == null) {
 			this.messageDialog = new CustomDialog(this, R.drawable.warn_icon, dlgTitle, message,
@@ -318,74 +309,72 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	}
 
 	@Override
-	protected void onSigningError(final KeyStoreOperation op, final String msg, final Throwable t) {
+	protected void onSigningError(final KeyStoreOperation op,  final Throwable t) {
 		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
-			ErrorCategory errorCat = InternalSoftwareErrors.LOAD_CERTS.get(InternalSoftwareErrors.LOAD_KEYSTORE);
-			Log.e(ES_GOB_AFIRMA, errorCat.getAdminMsg() + msg, t);
-			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, true, errorCat);
+			ErrorCode errorCode = KeyStoreErrorCode.Internal.LOADING_KEYSTORE_INTERNAL_ERROR;
+			Log.e(ES_GOB_AFIRMA, errorCode.toString(), t);
+			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, true, errorCode);
 			return;
 		}
 		else if (op == KeyStoreOperation.SELECT_CERTIFICATE) {
 			if (t instanceof SelectKeyAndroid41BugException) {
-				ErrorCategory errorCat = InternalSoftwareErrors.LOAD_CERTS.get(InternalSoftwareErrors.ALIAS_NOT_VALID);
-				Log.e(ES_GOB_AFIRMA, errorCat.getAdminMsg(), t);
-				launchError(ErrorManager.ERROR_PKE_ANDROID_4_1, true, errorCat);
+				Log.e(ES_GOB_AFIRMA, AppKeyStoreErrorCode.Internal.ALIAS_NOT_VALID.toString(), t);
+				launchError(ErrorManager.ERROR_PKE_ANDROID_4_1, true, AppKeyStoreErrorCode.Internal.ALIAS_NOT_VALID);
 			}
 			else if (t instanceof KeyChainException) {
-				ErrorCategory errorCat = InternalSoftwareErrors.LOAD_CERTS.get(InternalSoftwareErrors.LOAD_KEY);
-				Log.e(ES_GOB_AFIRMA, errorCat.getAdminMsg(), t);
-				launchError(ErrorManager.ERROR_PKE, true, errorCat);
+				Log.e(ES_GOB_AFIRMA, KeyStoreErrorCode.Internal.LOADING_PRIVATE_KEY_ERROR.toString(), t);
+				launchError(ErrorManager.ERROR_PKE, true, KeyStoreErrorCode.Internal.LOADING_PRIVATE_KEY_ERROR);
 			}
 			else if (t instanceof PendingIntent.CanceledException) {
-				ErrorCategory errorCat = FunctionalErrors.GENERAL.get(FunctionalErrors.CANCELED_BY_USER);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg(), t);
-				launchError(ErrorManager.ERROR_CANCELLED_OPERATION, false, errorCat);
+				Logger.e(ES_GOB_AFIRMA, ErrorCode.Functional.CANCELLED_OPERATION.toString(), t); //$NON-NLS-1$
+				launchError(ErrorManager.ERROR_CANCELLED_OPERATION, false, ErrorCode.Functional.CANCELLED_OPERATION);
 			}
 			else {
-				ErrorCategory errorCat = InternalSoftwareErrors.LOAD_CERTS.get(InternalSoftwareErrors.UNEXPECTED_RECOVERING_KEY);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg() + msg, t);
-				launchError(ErrorManager.ERROR_PKE, true, errorCat);
+				Logger.e(ES_GOB_AFIRMA, AppKeyStoreErrorCode.Internal.UNEXPECTED_RECOVERING_KEY.toString(), t); //$NON-NLS-1$
+				launchError(ErrorManager.ERROR_PKE, true, AppKeyStoreErrorCode.Internal.UNEXPECTED_RECOVERING_KEY);
 			}
 			return;
 		}
 		else if (op == KeyStoreOperation.SIGN) {
 			if (t instanceof AOCancelledOperationException) {
-				ErrorCategory errorCat = FunctionalErrors.GENERAL.get(FunctionalErrors.CANCELED_BY_USER);
-				Logger.i(ES_GOB_AFIRMA, errorCat.getAdminMsg() + t);
-				launchError(ErrorManager.ERROR_CANCELLED_OPERATION, false, errorCat);
+				Logger.i(ES_GOB_AFIRMA, ErrorCode.Functional.CANCELLED_OPERATION.toString() + t);
+				launchError(ErrorManager.ERROR_CANCELLED_OPERATION, false, ErrorCode.Functional.CANCELLED_OPERATION);
 			}
 			else if (t instanceof AOUnsupportedSignFormatException) {
-				ErrorCategory errorCat = RequestErrors.SIGN_REQUEST.get(RequestErrors.FORMAT_NOT_VALID);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg() + t); //$NON-NLS-1$
-				showErrorMessage(errorCat);
-				launchError(ErrorManager.ERROR_NOT_SUPPORTED_FORMAT, true, errorCat);
+				Logger.e(ES_GOB_AFIRMA, ErrorCode.Request.UNSUPPORTED_SIGNATURE_FORMAT.toString() + t); //$NON-NLS-1$
+				showErrorMessage(ErrorCode.Request.UNSUPPORTED_SIGNATURE_FORMAT);
+				launchError(ErrorManager.ERROR_NOT_SUPPORTED_FORMAT, true, ErrorCode.Request.UNSUPPORTED_SIGNATURE_FORMAT);
+			}
+			else if (t instanceof IllegalArgumentException) {
+				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString(), t); //$NON-NLS-1$
+				showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+				launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+				return;
+			}
+			else if (t instanceof CertificateEncodingException) {
+				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.ENCODING_CERT.toString()); //$NON-NLS-1$
+				showErrorMessage(AppErrorCode.Request.ENCODING_CERT);
+				launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.ENCODING_CERT);
+				return;
 			}
 			else if (t instanceof ExtraParamsProcessor.IncompatiblePolicyException) {
-				ErrorCategory errorCat = RequestErrors.SIGN_REQUEST.get(RequestErrors.PARAM_NOT_COMPATIBLE_POLICY);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg() + t); //$NON-NLS-1$
-				showErrorMessage(errorCat);
-				launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, errorCat);
+				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.PARAM_NOT_COMPATIBLE_POLICY.toString() + t); //$NON-NLS-1$
+				showErrorMessage(AppErrorCode.Request.PARAM_NOT_COMPATIBLE_POLICY);
+				launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.PARAM_NOT_COMPATIBLE_POLICY);
 			}
 			else if (t instanceof HttpError) {
-				ErrorCategory errorCat = CommunicationErrors.GENERAL.get(CommunicationErrors.COMMUNICATION_WITH_SERVICE);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg(), t);
-				launchError(ErrorManager.ERROR_COMMUNICATING_WITH_WEB, true, errorCat);
+				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Communication.COMMUNICATION_WITH_SERVICE.toString(), t);
+				launchError(ErrorManager.ERROR_COMMUNICATING_WITH_WEB, true, AppErrorCode.Communication.COMMUNICATION_WITH_SERVICE);
 			}
-			else if (t instanceof AOException) {
-				ErrorCategory errorSigning = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.ERROR_SIGNING);
-				Logger.e(ES_GOB_AFIRMA, errorSigning.getAdminMsg() + msg, t);
+			else if (t instanceof AOControlledException) {
+				ErrorCode errorSigning = ((AOControlledException) t).getErrorCode();
+				Logger.e(ES_GOB_AFIRMA, errorSigning.toString(), t); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_SIGNING, true, errorSigning);
 			}
-			else {
-				ErrorCategory errorSigning = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.ERROR_SIGNING);
-				Logger.e(ES_GOB_AFIRMA, errorSigning.getAdminMsg() + msg, t);
-				launchError(ErrorManager.ERROR_SIGNING, true, errorSigning);
-			}
-			return;
 		}
-		ErrorCategory errorSigning = InternalSoftwareErrors.GENERAL.get(InternalSoftwareErrors.ERROR_SIGNING);
-		Logger.e(ES_GOB_AFIRMA, errorSigning.getAdminMsg() + msg, t);
-		launchError(ErrorManager.ERROR_SIGNING, true, errorSigning);
+		// Se introduce este error por si llegara alguno no controlado
+		Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.GENERAL_ERROR.toString(), t); //$NON-NLS-1$
+		launchError(ErrorManager.ERROR_SIGNING, true, AppErrorCode.Internal.GENERAL_ERROR);
 	}
 
 	private void showProgressDialog(final String message) {
@@ -416,9 +405,8 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 			try {
 				signingCertEncoded = getPke().getCertificate().getEncoded();
 			} catch (final CertificateEncodingException e) {
-				ErrorCategory errorCat = InternalSoftwareErrors.BATCH_JSON.get(InternalSoftwareErrors.CYPHERING_CERT_TO_SEND);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg(), e); //$NON-NLS-1$
-				launchError(ErrorManager.ERROR_SIGNING, true, errorCat);
+				Logger.e(ES_GOB_AFIRMA, AppKeyStoreErrorCode.Internal.CYPHERING_CERT_TO_SEND.toString(), e); //$NON-NLS-1$
+				launchError(ErrorManager.ERROR_SIGNING, true, AppKeyStoreErrorCode.Internal.CYPHERING_CERT_TO_SEND);
 				return;
 			}
 		}
@@ -433,9 +421,8 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 				}
 			}
 			catch (final Exception e) {
-				ErrorCategory errorCat = InternalSoftwareErrors.BATCH_JSON.get(InternalSoftwareErrors.CYPHERING_SIGN_INFO_TO_SEND);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg(), e); //$NON-NLS-1$
-				launchError(ErrorManager.ERROR_SIGNING, true, errorCat);
+				Logger.e(ES_GOB_AFIRMA, AppKeyStoreErrorCode.Internal.CYPHERING_CERT_TO_SEND.toString(), e); //$NON-NLS-1$
+				launchError(ErrorManager.ERROR_SIGNING, true, AppKeyStoreErrorCode.Internal.CYPHERING_CERT_TO_SEND);
 				return;
 			}
 		}
@@ -491,36 +478,30 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	}
 
 	@Override
-	public void onKeyStoreError(KeyStoreOperation op, String msg, Throwable t) {
+	public void onKeyStoreError(KeyStoreOperation op, Throwable t) {
 		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
-			ErrorCategory errorCat = InternalSoftwareErrors.LOAD_CERTS.get(InternalSoftwareErrors.LOAD_KEYSTORE);
-			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, true, errorCat);
+			launchError(ErrorManager.ERROR_ESTABLISHING_KEYSTORE, true, KeyStoreErrorCode.Internal.LOADING_KEYSTORE_INTERNAL_ERROR);
 			return;
 		}
 		if (op == KeyStoreOperation.SELECT_CERTIFICATE) {
 			if (t instanceof SelectKeyAndroid41BugException) {
-				ErrorCategory errorCat = InternalSoftwareErrors.LOAD_CERTS.get(InternalSoftwareErrors.LOAD_KEY);
-				launchError(ErrorManager.ERROR_PKE_ANDROID_4_1, true, errorCat);
+				launchError(ErrorManager.ERROR_PKE_ANDROID_4_1, true, KeyStoreErrorCode.Internal.LOADING_PRIVATE_KEY_ERROR);
 			}
 			else if (t instanceof KeyChainException) {
-				ErrorCategory errorCat = InternalSoftwareErrors.LOAD_CERTS.get(InternalSoftwareErrors.LOAD_KEY);
-				launchError(ErrorManager.ERROR_PKE, true, errorCat);
+				launchError(ErrorManager.ERROR_PKE, true, KeyStoreErrorCode.Internal.LOADING_PRIVATE_KEY_ERROR);
 			}
 			else if (t instanceof PendingIntent.CanceledException) {
-				ErrorCategory errorCat = FunctionalErrors.GENERAL.get(FunctionalErrors.CANCELED_BY_USER);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg(), t); //$NON-NLS-1$
-				launchError(ErrorManager.ERROR_CANCELLED_OPERATION, false, errorCat);
+				Logger.e(ES_GOB_AFIRMA, ErrorCode.Functional.CANCELLED_OPERATION.toString(), t); //$NON-NLS-1$
+				launchError(ErrorManager.ERROR_CANCELLED_OPERATION, false, ErrorCode.Functional.CANCELLED_OPERATION);
 			}
 			else {
-				ErrorCategory errorCat = InternalSoftwareErrors.LOAD_CERTS.get(InternalSoftwareErrors.LOAD_CERT);
-				Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg(), t); //$NON-NLS-1$
-				launchError(ErrorManager.ERROR_PKE, true, errorCat);
+				Logger.e(ES_GOB_AFIRMA, KeyStoreErrorCode.Internal.LOADING_CERTIFICATE_ERROR.toString(), t); //$NON-NLS-1$
+				launchError(ErrorManager.ERROR_PKE, true, KeyStoreErrorCode.Internal.LOADING_CERTIFICATE_ERROR);
 			}
 			return;
 		}
-		ErrorCategory errorCat = InternalSoftwareErrors.LOAD_CERTS.get(InternalSoftwareErrors.LOAD_CERT);
-		Logger.e(ES_GOB_AFIRMA, errorCat.getAdminMsg(), t); //$NON-NLS-1$
-		launchError(ErrorManager.ERROR_SELECTING_CERTIFICATE, true, errorCat);
+		Logger.e(ES_GOB_AFIRMA, KeyStoreErrorCode.Internal.LOADING_CERTIFICATE_ERROR.toString(), t); //$NON-NLS-1$
+		launchError(ErrorManager.ERROR_SELECTING_CERTIFICATE, true, KeyStoreErrorCode.Internal.LOADING_CERTIFICATE_ERROR);
 	}
 
 	/**
@@ -625,8 +606,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	public void onSendingDataError(Throwable e, boolean critical) {
 		Logger.e(ES_GOB_AFIRMA, "No se pudo enviar el resultado al navegador: " + e, e); //$NON-NLS-1$
 		if (critical) {
-			ErrorCategory errorCat = CommunicationErrors.UPLOAD_SERVER.get(CommunicationErrors.UPLOAD_DATA);
-			showErrorMessage(errorCat);
+			showErrorMessage(AppErrorCode.Communication.UPLOAD_DATA);
 		}
 	}
 
@@ -640,16 +620,14 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_HOME) {
-			ErrorCategory errorCat = FunctionalErrors.GENERAL.get(FunctionalErrors.CANCELED_BY_USER);
-			launchError(ErrorManager.ERROR_CANCELLED_OPERATION, false, errorCat);
+			launchError(ErrorManager.ERROR_CANCELLED_OPERATION, false, ErrorCode.Functional.CANCELLED_OPERATION);
 		}
 		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
 	public void onBackPressed() {
-		ErrorCategory errorCat = FunctionalErrors.GENERAL.get(FunctionalErrors.CANCELED_BY_USER);
-		launchError(ErrorManager.ERROR_CANCELLED_OPERATION, false, errorCat);
+		launchError(ErrorManager.ERROR_CANCELLED_OPERATION, false, ErrorCode.Functional.CANCELLED_OPERATION);
 		super.onBackPressed();
 	}
 

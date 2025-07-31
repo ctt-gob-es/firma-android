@@ -25,8 +25,8 @@ import java.util.Enumeration;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.Logger;
-import es.gob.afirma.android.errors.ErrorCategory;
-import es.gob.afirma.android.errors.ThirdPartyErrors;
+import es.gob.afirma.android.errors.AppErrorCode;
+import es.gob.afirma.android.errors.ErrorMapper;
 import es.gob.afirma.android.gui.CertificateInfoForAliasSelect;
 import es.gob.afirma.android.gui.SelectAliasDialog;
 import es.gob.afirma.core.misc.AOUtil;
@@ -110,8 +110,7 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
         catch(final Exception e) {
             Logger.e(ES_GOB_AFIRMA, "Error al cargar el almacen de claves del dispositivo: " + e); //$NON-NLS-1$
             if (getKsmListener() != null) {
-                getKsmListener().onLoadingKeyStoreError(
-                        "Error al cargar el almacen de claves del dispositivo", e); //$NON-NLS-1$
+                getKsmListener().onLoadingKeyStoreError(e); //$NON-NLS-1$
             }
             return null;
         }
@@ -124,8 +123,7 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
         catch(final Exception e) {
             Logger.e(ES_GOB_AFIRMA, "Error extrayendo los alias de los certificados del almacen: " + e); //$NON-NLS-1$
             if (getKsmListener() != null) {
-                getKsmListener().onLoadingKeyStoreError(
-                        "Error extrayendo los alias de los certificados del almacen: ", e); //$NON-NLS-1$
+                getKsmListener().onLoadingKeyStoreError(e); //$NON-NLS-1$
             }
             return null;
         }
@@ -214,9 +212,8 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
 
                 final AlertDialog.Builder dniBloqueado = new AlertDialog.Builder(getActivity());
 
-                ErrorCategory errorCat = ThirdPartyErrors.JMULTICARD.get(ThirdPartyErrors.BLOCKED_CARD);
                 dniBloqueado.setTitle(getActivity().getString(R.string.error_reading_dnie));
-                dniBloqueado.setMessage(errorCat.getUserMsg());
+                dniBloqueado.setMessage(ErrorMapper.getErrorMsgFormatted(getActivity().getBaseContext(), AppErrorCode.ThirdParty.BLOCKED_CARD));
                 dniBloqueado.setPositiveButton(
                         getActivity().getString(R.string.ok),
                         new DialogInterface.OnClickListener() {
@@ -230,9 +227,7 @@ public class LoadDeviceKeystoreAsyncTask extends AsyncTask<Void, Void, Void> {
                 dniBloqueado.show();
 
                 if (getKsmListener() != null) {
-                    getKsmListener().onLoadingKeyStoreError(
-                            getActivity().getString(R.string.error_dni_blocked), e
-                    );
+                    getKsmListener().onLoadingKeyStoreError(e);
                 }
             }
         });

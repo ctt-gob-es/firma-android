@@ -37,26 +37,16 @@
     <string name="error_loading_selected_undefined_file">Ocurri\u00F3 un error cargando el fichero</string>
     <string name="error_no_valid_p12">El fichero \"%s\" no es un PKCS#12 v\u00E1lido. Seleccione un nuevo almac\u00E9n para importar.</string>
     <string name="error">Error</string>
-    <string name="error_loading_keystore">Error al cargar el almacen de certificados</string>
-    <string name="error_loading_cert">Error al cargar el certificado</string>
     <string name="error_ocurred">¡Algo sali\u00F3 mal!</string>
-    <string name="operation_cancelled">Operacion cancelada</string>
     <string name="error_reading_dnie">Error en la lectura de tu DNIe</string>
-    <string name="error_reading_dnie_no_cert">El DNIe que has aproximado no tiene certificado de firma o el certificado est\u00E1 caducado. Puedes acudir a una comisar\u00EDa de Polic\u00EDa Nacional a un Punto de Actualizaci\u00F3n del DNIe (PAD), para solucionarlo.</string>
-    <string name="error_reading_dnie_try_again">Se ha producido un error al intentar leer tu DNIe. Por favor, vuelve a intentarlo. Recuerda mantenerlo en una superficie lisa y mantener tu tel\u00E9fono móvil unos segundos fijo sobre la tarjeta para su correcta lectura.</string>
     <string name="title_activity_save_data">Guardar datos</string>
     <string name="saveData">Guardar</string>
     <string name="cancel">Cancelar</string>
     <string name="allow">Permitir</string>
     <string name="default_saved_filename">datos</string>
-    <string name="error_saving_data">Ocurri\u00F3 un error al guardar los datos</string>
-    <string name="error_saving_signature">Ocurri\u00F3 un error al guardar la firma</string>
     <string name="error_signing">Error durante la operaci\u00F3n de firma</string>
-    <string name="error_no_storage_permissions">El Cliente de firma no tiene permisos de escritura en disco.</string>
     <string name="error_no_certs">No se han encontrado certificados instalados en su dispositivo.</string>
     <string name="error_title_keystore_empty">No existe ning\u00FAn certificado</string>
-    <string name="error_desc_keystore_empty">Para firmar necesitas registrar un certificado digital</string>
-    <string name="error_dni_blocked_dlg">El DNIe tiene el PIN bloqueado. Puedes acudir a una comisar\u00EDa de Polic\u00EDa Nacional a un Punto de Actualizaci\u00F3n del DNIe (PAD) para desbloquearlo.</string>
     <string name="error_dni_blocked">Su DNI est\u00E1 bloquedado, deber\u00E1 acudir a los Puntos de Actualizaci\u00F3n de las Oficinas de Expedici\u00F3n para poder desbloquearlo. </string>
     <string name="error_title_dni_blocked">DNI bloqueado</string>
     <string name="error_empty_pdf_password">La contrase\u00F1a del PDF no puede estar vac\u00EDa:</string>
@@ -83,7 +73,6 @@
     <string name="signedfile_original_location">La firma "%1$s" se ha almacenado en el mismo directorio que el fichero original.</string>
     <string name="signedfile_downloads_location">La firma "%1$s" se ha almacenado en su directorio de descargas.</string>
     <string name="incorrect_pin">PIN incorrecto</string>
-    <string name="error_msc_pin">El PIN del dispositivo criptogr\u00E1fico es incorrecto. Tenga en cuenta que varios intentos fallidos consecutivos podr\u00EDan bloquearlo.</string>
     <string name="dialog_alias_cert_text">%1$s\nV\u00E1lido: %2$s\nHasta: %3$s\nEmisor: %4$s</string>
     <string name="accesibility_icon_filetype">Icono del tipo de archivo</string>
     <string name="accesibility_icon_sign_ko">Error en la firma</string>
@@ -92,7 +81,6 @@
     <string name="accesibility_back_parent_folder">Volver a directorio padre</string>
     <string name="accesibility_open_folder">Directorio %1$s</string>
     <string name="accesibility_select_file">Fichero %1$s</string>
-    <string name="file_read_out_of_memory">El fichero seleccionado es demasiado grande y no hay memoria suficiente para completar la operaci\u00F3n de lectura</string>
     <string name="nfc_approach">Acerque su dispositivo al DNIe</string>
     <string name="nfc_instructions">Coloque el dispositivo sobre el DNIe y no lo mueva durante la operaci\u00F3n de firma</string>
     <string name="cancel_nfc">No usar DNIe</string>
@@ -103,8 +91,6 @@
     <string name="settings">Ajustes</string>
     <string name="can_not_can_be_null">El CAN no puede ser vac\u00EDo o nulo</string>
     <string name="incorrect_can">CAN incorrecto</string>
-    <string name="unsupported_card">La tarjeta que has proporcionado no parece ser un DNIe. Por favor int\u00E9ntalo de nuevo</string>
-    <string name="nfc_card_initializing_error">Error al iniciar la conexi\u00F3n con la tarjeta. Es posible que el CAN sea incorrecto. Int\u00E9ntelo de nuevo.</string>
     <string name="title_activity_main_test">MainActivityTest</string>
     <string name="allow_dni3_0_NFC">Permitir firmar con DNIe por NFC</string>
     <string name="do_visible_sign">Hacer firma visible</string>
@@ -135,7 +121,6 @@
     <string name="send_to_device_title">Env\u00EDa al dispositivo</string>
     <string name="send_to_device_message">Si no lo encuentras, env\u00EDalo a tu m\u00F3vil desde otro dispositivo mediante correo electr\u00F3nico u otras aplicaciones en la nube.</string>
     <string name="cant_add_cert_title">No hemos podido a\u00F1adir tu certificado</string>
-    <string name="cant_add_cert_message">No hemos podido a\u00F1adir tu certificado a la aplicaci\u00F3n de Autofirma de manera correcta. Int\u00E9ntalo de nuevo m\u00E1s tarde</string>
     <string name="try_again">Volver a intentarlo</string>
     <string name="signed_file_title">Fichero firmado</string>
     <string name="signed_file_message">El fichero ha sido firmado correctamente.</string>
@@ -192,7 +177,6 @@
     <string name="actual_step">Paso %s de 3</string>
     <string name="searching_dnie">Buscando DNIe</string>
     <string name="put_dnie_near_nfc">Pon tu m\u00F3vil sobre el DNIe lo m\u00E1s cerca posible del lector NFC.</string>
-    <string name="not_selected_cert">Certificado no seleccionado</string>
     <string name="not_selected_cert_desc">No se ha encontrado ning\u00FAn certificado instalado en el sistema o no se ha seleccionado para realizar la firma.</string>
     <string name="espanol">Espa\u00F1ol</string>
     <string name="english">English</string>
@@ -265,7 +249,6 @@
     <string name="encrypted_document">El documento est\u00e1 encriptado</string>
     <string name="encrypted_document_desc">Por favor, introduce la contrase\u00F1a del documento para poder continuar con el proceso de firma</string>
     <string name="password">Contrase\u00F1a</string>
-    <string name="necessary_pdf_file">Para poder realizar esta operaci\u00f3n es necesario seleccionar un fichero PDF</string>
     <string name="eliminate_history">Eliminar hist\u00F3rico</string>
     <string name="eliminate_history_desc">Si eliminas el hist\u00F3rico no podr\u00e1s recuperarlo.</string>
     <string name="delete_cache_minutes">Minutos para la eliminaci\u00F3n de cach\u00e9 de certificado</string>

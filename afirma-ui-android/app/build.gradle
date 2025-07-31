@@ -64,21 +64,21 @@ dependencies {
     }
     implementation 'es.gob.afirma.jmulticard:jmulticard-jse:2.0'
 
-    implementation('es.gob.afirma:afirma-crypto-pdf:1.9') {
+    implementation('es.gob.afirma:afirma-crypto-pdf:1.10-SNAPSHOT') {
         exclude(module: 'afirma-lib-itext')
     }
     implementation 'es.gob.afirma.lib:afirma-lib-itext-android:1.6'
-    implementation 'es.gob.afirma:afirma-core:1.9'
-    implementation ('es.gob.afirma:afirma-core-keystores:1.9') {
+    implementation 'es.gob.afirma:afirma-core:1.10-SNAPSHOT'
+    implementation ('es.gob.afirma:afirma-core-keystores:1.10-SNAPSHOT') {
         exclude(group: 'es.gob.afirma.jmulticard')
     }
-    implementation 'es.gob.afirma:afirma-crypto-cades:1.9'
-    implementation 'es.gob.afirma:afirma-crypto-cadestri-client:1.9'
-    implementation 'es.gob.afirma:afirma-crypto-xadestri-client:1.9'
-    implementation 'es.gob.afirma:afirma-crypto-padestri-client:1.9'
-    implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.9'
-    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.9'
-    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.9'
+    implementation 'es.gob.afirma:afirma-crypto-cades:1.10-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-cadestri-client:1.10-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-xadestri-client:1.10-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-padestri-client:1.10-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.10-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.10-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.10-SNAPSHOT'
     implementation 'com.google.code.gson:gson:2.10'
 
     implementation 'com.github.mhiew:android-pdf-viewer:3.2.0-beta.3'

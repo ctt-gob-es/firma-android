@@ -37,26 +37,16 @@
     <string name="error_loading_selected_undefined_file">Errorea gertatu da fitxategia kargatzean</string>
     <string name="error_no_valid_p12">\"%s\" fitxategia ez da baliozko PKCS#12. Hautatu biltegi berri bat inportatzeko.</string>
     <string name="error">Errorea</string>
-    <string name="error_loading_keystore">Errorea gertatu da ziurtagiri-biltegia kargatzean</string>
-    <string name="error_loading_cert">Errorea gertatu da ziurtagiria kargatzean</string>
     <string name="error_ocurred">Zerbait gaizki atera zen!</string>
-    <string name="operation_cancelled">Eragiketa bertan behera geratu da</string>
     <string name="error_reading_dnie">Errorea NANa irakurtzean</string>
-    <string name="error_reading_dnie_try_again">Errore bat gertatu da zure NANa irakurtzen saiatzean. Mesedez, saiatu berriro. Gogoan izan gainazal lauan eduki eta telefono mugikorra segundo batzuetan txartelaren gainean eduki, behar bezala irakurtzeko.</string>
-    <string name="error_reading_dnie_no_cert">Hurbildu duzun NANak ez du sinadura-ziurtagiririk edo ziurtagiria iraungita dago. Polizia Nazionalaren komisaldegi batera joan zaitezke NANaren eguneratze-puntu batera (PAD), arazoa konpontzeko.</string>
     <string name="title_activity_save_data">Gorde datuak</string>
     <string name="saveData">Gorde</string>
     <string name="cancel">Utzi</string>
     <string name="allow">Onartu</string>
     <string name="default_saved_filename">datuak</string>
-    <string name="error_saving_data">Errorea gertatu da datuak gordetzean</string>
-    <string name="error_saving_signature">Errorea gertatu da sinadura gordetzean</string>
     <string name="error_signing">Errorea gertatu da sinatze-eragiketan</string>
-    <string name="error_no_storage_permissions">Bezeroak ez du diskoan idazteko baimenik.</string>
     <string name="error_no_certs">Ez da ziurtagiririk aurkitu zure gailuan instalatuta.</string>
     <string name="error_title_keystore_empty">Ez dago ziurtagiririk</string>
-    <string name="error_desc_keystore_empty">Sinatzeko, ziurtagiri digital bat erregistratu behar duzu</string>
-    <string name="error_dni_blocked_dlg">NANak blokeatuta du PINa. Polizia Nazionalaren komisaldegi batera joan zaitezke NANaren eguneratze-puntu batera (PAD) desblokeatzeko.</string>
     <string name="error_dni_blocked">Zure NANa blokeatuta dago, eta bidalketa-bulegoetako eguneratze-puntuetara joan beharko duzu desblokeatu ahal izateko. </string>
     <string name="error_title_dni_blocked">NANa blokeatuta</string>
     <string name="error_empty_pdf_password">PDFko pasahitza ezin da hutsik egon:</string>
@@ -83,7 +73,6 @@
     <string name="signedfile_original_location">"%1$s" sinadura jatorrizko fitxategiaren direktorio berean gorde da.</string>
     <string name="signedfile_downloads_location">"%1$s" sinadura deskarga-direktorioan gorde da.</string>
     <string name="incorrect_pin">PIN okerra</string>
-    <string name="error_msc_pin">Gailu kriptografikoaren PINa ez da zuzena. Kontuan izan elkarren segidako zenbait huts egindako saiakerek blokeatu egin dezaketela.</string>
     <string name="dialog_alias_cert_text">%1$s\nBaliozkoa: %2$s\nNoiz arte: %3$s\nIgorlea: %4$s</string>
     <string name="accesibility_icon_filetype">Fitxategi-motaren ikonoa</string>
     <string name="accesibility_icon_sign_ko">Errorea sinaduran</string>
@@ -92,7 +81,6 @@
     <string name="accesibility_back_parent_folder">Itzuli direktorio gurasora</string>
     <string name="accesibility_open_folder">%1$s direktorioa</string>
     <string name="accesibility_select_file">%1$s fitxategia</string>
-    <string name="file_read_out_of_memory">Hautatutako fitxategia handiegia da, eta ez dago behar adina memoriarik irakurketa-eragiketa osatzeko</string>
     <string name="nfc_approach">Hurbildu zure gailua NANera</string>
     <string name="nfc_instructions">Jarri gailua NAN-aren gainean, eta ez mugitu sinadura-eragiketan</string>
     <string name="cancel_nfc">Ez erabili NANe</string>
@@ -103,8 +91,6 @@
     <string name="settings">Doikuntzak</string>
     <string name="can_not_can_be_null">CANa ezin da hutsa edo nulua izan</string>
     <string name="incorrect_can">CAN okerra</string>
-    <string name="unsupported_card">Eman duzun txartelak ez dirudi NANa denik. Saiatu berriro</string>
-    <string name="nfc_card_initializing_error">Errorea gertatu da txartelarekin konektatzen hastean. Baliteke CANa okerra izatea. Saiatu berriro.</string>
     <string name="title_activity_main_test">MainActivityTest</string>
     <string name="allow_dni3_0_NFC">Baimendu NFC bidez NANarekin sinatzea</string>
     <string name="do_visible_sign">Egin sinadura ikusgai</string>
@@ -135,7 +121,6 @@
     <string name="send_to_device_title">Bidali gailura</string>
     <string name="send_to_device_message">Aurkitzen ez baduzu, bidali zure mugikorrera beste gailu batetik, posta elektronikoz edo hodeiko beste aplikazio batzuen bidez.</string>
     <string name="cant_add_cert_title">Ezin izan dugu zure ziurtagiria gehitu</string>
-    <string name="cant_add_cert_message">Ezin izan dugu zure ziurtagiria Autofirma aplikaziora behar bezala gehitu. Saiatu berriro geroago</string>
     <string name="try_again">Saiatu berriro</string>
     <string name="signed_file_title">Fitxategia sinatuta</string>
     <string name="signed_file_message">Fitxategia behar bezala sinatu da.</string>
@@ -192,7 +177,6 @@
     <string name="actual_step">3ko %s urratsa</string>
     <string name="searching_dnie">NANe bilatzen</string>
     <string name="put_dnie_near_nfc">Jarri zure mugikorra NANaren gainean, NFC irakurgailutik ahalik eta gertuen.</string>
-    <string name="not_selected_cert">Ez da hautatu ziurtagiria</string>
     <string name="not_selected_cert_desc">Ez da aurkitu sisteman instalatutako ziurtagiririk edo ez da hautatu sinadura egiteko.</string>
     <string name="espanol">Espa\u00f1ol</string>
     <string name="english">English</string>
@@ -265,7 +249,6 @@
     <string name="encrypted_document">Dokumentu enkriptatua</string>
     <string name="encrypted_document_desc">Mesedez, sartu dokumentuaren pasahitza sinatze-prozesuarekin jarraitu ahal izateko</string>
     <string name="password">Pasahitza</string>
-    <string name="necessary_pdf_file">Eragiketa hau egiteko PDF fitxategi bat hautatu behar da</string>
     <string name="eliminate_history">Ezabatu historia</string>
     <string name="eliminate_history_desc">Historia ezabatzen baduzu, ezingo dituzu berreskuratu.</string>
     <string name="delete_cache_minutes">Ziurtagiriaren cachea ezabatzeko minutuak</string>
