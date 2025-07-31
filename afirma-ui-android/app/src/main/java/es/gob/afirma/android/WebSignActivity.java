@@ -69,12 +69,12 @@ import es.gob.afirma.android.util.Utils;
 import es.gob.afirma.core.AOControlledException;
 import es.gob.afirma.core.AOUnsupportedSignFormatException;
 import es.gob.afirma.core.ErrorCode;
+import es.gob.afirma.core.SignaturePolicyIncompatibilityException;
 import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
 import es.gob.afirma.core.misc.protocol.ParameterException;
 import es.gob.afirma.core.misc.protocol.ProtocolInvocationUriParser;
 import es.gob.afirma.core.misc.protocol.UrlParametersToSign;
 import es.gob.afirma.core.signers.AOSignConstants;
-import es.gob.afirma.core.signers.ExtraParamsProcessor;
 import es.gob.afirma.keystores.KeyStoreErrorCode;
 import es.gob.afirma.signers.pades.common.PdfExtraParams;
 
@@ -219,7 +219,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
     }
 
 	/** Inicia el proceso de firma con los parametros previamente configurados. */
-	private void processSignRequest() throws ExtraParamsProcessor.IncompatiblePolicyException {
+	private void processSignRequest() throws SignaturePolicyIncompatibilityException {
 
 		// Si no tenemos datos ni un fichero de descargar, cargaremos un fichero del dispositivo
 		if (this.parameters.getData() == null && this.parameters.getFileId() == null) {
@@ -473,7 +473,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 				launchError(ErrorManager.ERROR_NOT_SUPPORTED_FORMAT, true, ErrorCode.Request.UNSUPPORTED_SIGNATURE_FORMAT);
 				return;
 			}
-			else if (t instanceof ExtraParamsProcessor.IncompatiblePolicyException) {
+			else if (t instanceof SignaturePolicyIncompatibilityException) {
 				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.PARAM_NOT_COMPATIBLE_POLICY.toString() + t); //$NON-NLS-1$
 				showErrorMessage(AppErrorCode.Request.PARAM_NOT_COMPATIBLE_POLICY);
 				launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.PARAM_NOT_COMPATIBLE_POLICY);

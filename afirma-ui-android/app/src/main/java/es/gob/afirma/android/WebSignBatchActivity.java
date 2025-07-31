@@ -51,13 +51,13 @@ import es.gob.afirma.core.AOControlledException;
 import es.gob.afirma.core.AOException;
 import es.gob.afirma.core.AOUnsupportedSignFormatException;
 import es.gob.afirma.core.ErrorCode;
+import es.gob.afirma.core.SignaturePolicyIncompatibilityException;
 import es.gob.afirma.core.misc.Base64;
 import es.gob.afirma.core.misc.http.HttpError;
 import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
 import es.gob.afirma.core.misc.protocol.ParameterException;
 import es.gob.afirma.core.misc.protocol.ProtocolInvocationUriParser;
 import es.gob.afirma.core.misc.protocol.ProtocolInvocationUriParserUtil;
-import es.gob.afirma.core.signers.ExtraParamsProcessor;
 import es.gob.afirma.keystores.KeyStoreErrorCode;
 
 /** Actividad dedicada a la firma por lotes de los datos recibidos en la entrada mediante un certificado
@@ -357,7 +357,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 				launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.ENCODING_CERT);
 				return;
 			}
-			else if (t instanceof ExtraParamsProcessor.IncompatiblePolicyException) {
+			else if (t instanceof SignaturePolicyIncompatibilityException) {
 				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.PARAM_NOT_COMPATIBLE_POLICY.toString() + t); //$NON-NLS-1$
 				showErrorMessage(AppErrorCode.Request.PARAM_NOT_COMPATIBLE_POLICY);
 				launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.PARAM_NOT_COMPATIBLE_POLICY);
