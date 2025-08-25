@@ -87,7 +87,6 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Utils.setPortraitSmartphone(this);
 
 		ksmListener = this;
 

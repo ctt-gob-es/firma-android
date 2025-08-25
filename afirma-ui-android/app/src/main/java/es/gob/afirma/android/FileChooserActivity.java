@@ -54,7 +54,6 @@ public final class 	FileChooserActivity extends ListActivity {
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Utils.setPortraitSmartphone(this);
 		setContentView(R.layout.activity_file_chooser);
 
 		// Establecemos los filtros por extension de fichero

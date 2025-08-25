@@ -23,7 +23,6 @@ public class SignConfigurationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.activity_sign_configuration);
 
         MaterialToolbar toolbar = findViewById(R.id.signConfigToolbar);

@@ -24,7 +24,6 @@ public class LanguageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.activity_language);
 
         MaterialToolbar toolbar = findViewById(R.id.languageToolbar);

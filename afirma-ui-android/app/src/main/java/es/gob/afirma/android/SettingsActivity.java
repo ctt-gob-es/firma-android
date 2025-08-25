@@ -21,7 +21,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.activity_settings);
 
         MaterialToolbar toolbar = findViewById(R.id.settingsToolbar);

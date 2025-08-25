@@ -74,7 +74,6 @@ public final class WebSaveDataActivity extends FragmentActivity
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Utils.setPortraitSmartphone(this);
 
 		// Si cargamos la actividad desde el carrusel de aplicaciones, redirigimos a la
 		// pantalla principal

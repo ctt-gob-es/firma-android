@@ -16,7 +16,6 @@ public class IntroScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.intro_screen_file);
 
         Button startButton = this.findViewById(R.id.startButton);

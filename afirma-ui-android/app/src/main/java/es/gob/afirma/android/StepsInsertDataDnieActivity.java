@@ -31,7 +31,6 @@ public class StepsInsertDataDnieActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.activity_steps_sign_dnie);
 
         actualStep = 0;

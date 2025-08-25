@@ -18,7 +18,6 @@ public class ImportCertsHelpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.activity_import_certs_help);
 
         MaterialToolbar toolbar = this.findViewById(R.id.importCertsHelpToolbar);

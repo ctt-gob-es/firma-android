@@ -18,7 +18,6 @@ public class TrustedDomainsHelpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.activity_trusted_domains_help);
 
         MaterialToolbar toolbar = this.findViewById(R.id.trustedDomainsHelpToolbar);
