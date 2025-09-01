@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/toolbar"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/pdfViewToolbar"
+        android:layout_width="match_parent"
+        android:touchscreenBlocksFocus="false"
+        app:popupTheme="@style/AppTheme"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme"
+        app:navigationIcon="@drawable/nav_back_selector"
+        app:titleCentered="true"
+        app:title="@string/select_sign_area"
+        app:titleTextAppearance="@style/ToolbarTitle"
+        app:titleTextColor="@color/black"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/toolbar"
+        android:layout_weight="0.80"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/loadingPdfBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/red"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            />
+
+        <com.github.barteksc.pdfviewer.PDFView
+            android:id="@+id/pdfView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_weight="0.18"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/firstPageBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/chevrons_left_selector"/>
+
+        <Button
+            android:id="@+id/prevPageBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/chevron_left_selector"
+            app:strokeColor="@color/red"
+            app:strokeWidth="50dp"/>
+
+        <TextView
+            android:id="@+id/pageNumberTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/nunitosans" />
+
+        <Button
+            android:id="@+id/nextPageBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/chevron_right_selector" />
+
+        <Button
+            android:id="@+id/lastPageBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/chevrons_right_selector" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginBottom="11dp"
+        android:text="@string/drag_on"
+        style="@style/ButtonRedLarge" />
+
+</LinearLayout>

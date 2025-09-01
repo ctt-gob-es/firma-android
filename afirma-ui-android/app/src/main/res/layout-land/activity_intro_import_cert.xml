@@ -36,7 +36,7 @@
         <TextView
             android:id="@+id/introText"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/nunitosans"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -44,7 +44,7 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/containerVp"
-            android:layout_width="300dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="20dp"

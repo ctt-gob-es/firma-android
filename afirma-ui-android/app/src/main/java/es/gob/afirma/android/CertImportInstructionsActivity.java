@@ -19,7 +19,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.ImportCertStep1Fragment;
 import es.gob.afirma.android.gui.ImportCertStep2Fragment;
-import es.gob.afirma.android.util.Utils;
 
 public class CertImportInstructionsActivity extends AppCompatActivity {
 

@@ -54,10 +54,7 @@ public final class EdgeToEdgeScrimHelper {
             statusScrim = new View(activity);
             statusScrim.setTag(TAG_STATUS);
             statusScrim.setBackgroundColor(statusScrimColor);
-            FrameLayout.LayoutParams lpTop = new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, 0);
-            lpTop.gravity = android.view.Gravity.TOP;
-            content.addView(statusScrim, lpTop);
+            content.addView(statusScrim, new FrameLayout.LayoutParams(0, 0));
         } else {
             statusScrim.setBackgroundColor(statusScrimColor);
         }
@@ -66,10 +63,7 @@ public final class EdgeToEdgeScrimHelper {
             navScrim = new View(activity);
             navScrim.setTag(TAG_NAV);
             navScrim.setBackgroundColor(navScrimColor);
-            FrameLayout.LayoutParams lpBottom = new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, 0);
-            lpBottom.gravity = android.view.Gravity.BOTTOM;
-            content.addView(navScrim, lpBottom);
+            content.addView(navScrim, new FrameLayout.LayoutParams(0, 0));
         } else {
             navScrim.setBackgroundColor(navScrimColor);
         }
@@ -81,16 +75,36 @@ public final class EdgeToEdgeScrimHelper {
             Insets statusInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars());
             Insets navInsets = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
 
-            // Empuja el contenido
-            v.setPadding(statusInsets.left, statusInsets.top, navInsets.right, navInsets.bottom);
+            v.setPadding(
+                    Math.max(statusInsets.left, navInsets.left),
+                    statusInsets.top,
+                    navInsets.right,
+                    navInsets.bottom
+            );
 
-            // Ajusta alturas de scrims
-            ViewGroup.LayoutParams lpS = finalStatusScrim.getLayoutParams();
+            FrameLayout.LayoutParams lpS = (FrameLayout.LayoutParams) finalStatusScrim.getLayoutParams();
+            lpS.width = ViewGroup.LayoutParams.MATCH_PARENT;
             lpS.height = statusInsets.top;
+            lpS.gravity = android.view.Gravity.TOP;
             finalStatusScrim.setLayoutParams(lpS);
 
-            ViewGroup.LayoutParams lpN = finalNavScrim.getLayoutParams();
-            lpN.height = navInsets.bottom;
+            FrameLayout.LayoutParams lpN = (FrameLayout.LayoutParams) finalNavScrim.getLayoutParams();
+            if (navInsets.bottom > 0) {
+                lpN.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                lpN.height = navInsets.bottom;
+                lpN.gravity = android.view.Gravity.BOTTOM;
+            } else if (navInsets.right > 0) {
+                lpN.width = navInsets.right;
+                lpN.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                lpN.gravity = android.view.Gravity.END;
+            } else if (navInsets.left > 0) {
+                lpN.width = navInsets.left;
+                lpN.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                lpN.gravity = android.view.Gravity.START;
+            } else {
+                lpN.width = 0;
+                lpN.height = 0;
+            }
             finalNavScrim.setLayoutParams(lpN);
 
             return insets;

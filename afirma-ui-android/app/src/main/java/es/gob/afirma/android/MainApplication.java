@@ -26,7 +26,7 @@ public class MainApplication extends Application {
                 tryInstallWhenReady(activity);
             }
 
-            // Fallback para <29: esperamos al primer layout real
+            // Fallback para <29
             @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                     tryInstallWhenReady(activity);

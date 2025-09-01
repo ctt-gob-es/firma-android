@@ -26,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -125,9 +124,6 @@ public final class MainFragment extends Fragment implements DialogInterface.OnCl
 
 		super.onCreate(savedInstanceState);
 		contentLayout = inflater.inflate(R.layout.fragment_main, container, false);
-
-		ImageView logo = contentLayout.findViewById(R.id.imageView1);
-		ViewCompat.setAccessibilityHeading(logo, true);
 
 		if (!nfcAvailableChecked) {
 			nfcAvailable = NfcHelper.isNfcServiceAvailable(getActivity());
