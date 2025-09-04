@@ -40,7 +40,6 @@ public class SignsRecordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.activity_signs_record);
 
         MaterialToolbar toolbar = findViewById(R.id.signRecordToolbar);

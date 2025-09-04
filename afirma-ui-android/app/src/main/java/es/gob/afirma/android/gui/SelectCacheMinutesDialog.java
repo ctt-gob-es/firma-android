@@ -11,12 +11,17 @@
 package es.gob.afirma.android.gui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
@@ -62,6 +67,33 @@ public class SelectCacheMinutesDialog extends BottomSheetDialog {
 				hide();
 			}
 		});
+
+		this.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(final DialogInterface dialog) {
+				BottomSheetDialog d = (BottomSheetDialog) dialog;
+				FrameLayout bottomSheet = d.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+				BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+
+				behavior.setHideable(false);
+				behavior.setSkipCollapsed(true);
+				behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+				behavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+					@Override
+					public void onStateChanged(@NonNull View bottomSheet, int newState) {
+						if (newState != BottomSheetBehavior.STATE_EXPANDED) {
+							behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+						}
+					}
+
+					@Override
+					public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+					}
+				});
+			}
+		});
+
 
 		minutesLV = this.findViewById(R.id.minutesLV);
 		minutesList = new ArrayList<>();

@@ -15,7 +15,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.afirma_splash_screen_file);
 
         new Handler().postDelayed(new Runnable() {

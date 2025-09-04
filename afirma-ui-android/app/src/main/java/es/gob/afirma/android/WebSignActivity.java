@@ -140,7 +140,6 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Utils.setPortraitSmartphone(this);
 
 		if (getIntent() == null || getIntent().getData() == null) {
 			Logger.w(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString());  //$NON-NLS-1$

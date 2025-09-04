@@ -102,7 +102,6 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Utils.setPortraitSmartphone(this);
 
 		if (getIntent() == null || getIntent().getData() == null) {
 			Logger.w(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString());  //$NON-NLS-1$

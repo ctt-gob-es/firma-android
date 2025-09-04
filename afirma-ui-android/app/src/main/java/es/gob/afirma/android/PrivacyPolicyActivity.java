@@ -18,7 +18,6 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.activity_policy);
 
         MaterialToolbar toolbar = this.findViewById(R.id.privatyPolicyToolbar);

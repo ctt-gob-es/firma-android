@@ -24,6 +24,7 @@
     <uses-feature android:name="android.hardware.usb.accessory" />
 
     <application
+        android:name=".android.MainApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

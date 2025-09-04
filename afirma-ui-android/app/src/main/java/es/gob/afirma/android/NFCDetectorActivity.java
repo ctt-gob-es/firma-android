@@ -45,7 +45,6 @@ public class NFCDetectorActivity extends FragmentActivity {
     public void onCreate(final Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.activity_detect_nfc);
 
         // Si buscamos la tarjeta, borramos los datos que ya tuviesemos

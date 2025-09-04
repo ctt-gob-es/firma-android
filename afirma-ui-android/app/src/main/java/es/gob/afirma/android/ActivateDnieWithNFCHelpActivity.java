@@ -17,7 +17,6 @@ public class ActivateDnieWithNFCHelpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.activity_use_dnie_nfc_help);
 
         MaterialToolbar toolbar = this.findViewById(R.id.dnieWithNFCHelpToolbar);

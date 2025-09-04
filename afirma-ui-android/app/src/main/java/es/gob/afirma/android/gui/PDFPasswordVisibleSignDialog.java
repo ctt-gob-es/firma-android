@@ -22,6 +22,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -111,7 +113,24 @@ public class PDFPasswordVisibleSignDialog extends BottomSheetDialog {
 			public void onShow(final DialogInterface dialog) {
 				BottomSheetDialog d = (BottomSheetDialog) dialog;
 				FrameLayout bottomSheet = d.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-				BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_EXPANDED);
+				BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+
+				behavior.setHideable(false);
+				behavior.setSkipCollapsed(true);
+				behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+				behavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+					@Override
+					public void onStateChanged(@NonNull View bottomSheet, int newState) {
+						if (newState != BottomSheetBehavior.STATE_EXPANDED) {
+							behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+						}
+					}
+
+					@Override
+					public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+					}
+				});
 			}
 		});
 	}

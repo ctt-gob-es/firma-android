@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,6 @@ import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
 import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.SelectCacheMinutesDialog;
-import es.gob.afirma.android.util.Utils;
 
 public class SignConfigurationActivity extends AppCompatActivity {
 
@@ -23,7 +23,6 @@ public class SignConfigurationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.activity_sign_configuration);
 
         MaterialToolbar toolbar = findViewById(R.id.signConfigToolbar);
@@ -36,6 +35,10 @@ public class SignConfigurationActivity extends AppCompatActivity {
 
         if (!NfcHelper.isNfcServiceAvailable(this)) {
             this.findViewById(R.id.allowDnieWithNFCSwitch).setEnabled(false);
+            LinearLayout allowNFCLayout = findViewById(R.id.allowNFCLayout);
+            View allowNFCSeparator = findViewById(R.id.allowNFCSeparator);
+            allowNFCLayout.setVisibility(View.GONE);
+            allowNFCSeparator.setVisibility(View.GONE);
         } else {
             ((Switch) this.findViewById(R.id.allowDnieWithNFCSwitch)).setChecked(
                     NfcHelper.isNfcPreferredConnection(this)

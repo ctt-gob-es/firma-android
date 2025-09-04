@@ -26,7 +26,6 @@ public class IntroUseDnieActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setPortraitSmartphone(this);
         setContentView(R.layout.activity_intro_sign_dnie);
 
         MaterialToolbar toolbar = this.findViewById(R.id.introSignDnieToolbar);
