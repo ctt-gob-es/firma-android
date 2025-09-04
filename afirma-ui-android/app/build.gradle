@@ -14,11 +14,11 @@ android {
         checkReleaseBuilds false
     }
     namespace 'es.gob.afirma'
-    compileSdk 35
+    compileSdk 36
     defaultConfig {
         applicationId "es.gob.afirma"
         minSdkVersion 23
-        targetSdkVersion 35
+        targetSdkVersion 36
         multiDexEnabled true
         versionCode 27
         versionName "1.9"
@@ -31,8 +31,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility 17
+        sourceCompatibility 17
     }
     packagingOptions {
         resources {
@@ -85,6 +85,7 @@ dependencies {
 
     // Java language implementation
     implementation "androidx.fragment:fragment:1.8.6"
+
 
     // Restricciones para evitar clases duplicadas debido a dependencias
     constraints {

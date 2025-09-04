@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.util.Utils;
 
 public class ActivateDnieWithNFCHelpActivity extends AppCompatActivity {
 
