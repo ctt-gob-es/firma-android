@@ -40,7 +40,6 @@ import es.gob.afirma.android.errors.ErrorMapper;
 import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.SendDataTask;
-import es.gob.afirma.android.util.Utils;
 import es.gob.afirma.core.ErrorCode;
 import es.gob.afirma.core.misc.MimeHelper;
 import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
