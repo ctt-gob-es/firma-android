@@ -13,15 +13,26 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/faqToolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:theme="@style/ToolbarTheme"
-        android:touchscreenBlocksFocus="false"
         app:navigationIcon="@drawable/nav_back_selector"
-        app:popupTheme="@style/AppTheme"
-        app:title="@string/faq"
-        app:titleCentered="true"
-        app:titleTextAppearance="@style/ToolbarTitle"
-        app:titleTextColor="@color/black" />
+        app:popupTheme="@style/AppTheme">
+
+        <TextView
+            android:id="@+id/faqToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/faq"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:ellipsize="none"
+            android:singleLine="false"
+            android:theme="@style/ToolbarTitle"
+            android:maxLines="3"
+            />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <ExpandableListView
         android:id="@+id/faqLV"
@@ -29,6 +40,8 @@
         android:layout_height="match_parent"
         android:divider="@color/toolbar"
         android:listSelector="@drawable/option_selector"
+        android:choiceMode="none"
+        android:importantForAccessibility="yes"
         android:dividerHeight="1dp" />
 
 </LinearLayout>

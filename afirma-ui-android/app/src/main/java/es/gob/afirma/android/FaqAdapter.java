@@ -5,7 +5,9 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,17 +66,35 @@ public class FaqAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         String question = (String) getGroup(groupPosition);
-        convertView = LayoutInflater.from(context).inflate(R.layout.faq_group, null);
-        TextView tvGroup = convertView.findViewById(R.id.faqGroup);
-        tvGroup.setText(question);
 
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.faq_group, parent, false);
+        }
+
+        TextView tvGroup = convertView.findViewById(R.id.faqGroup);
         ImageView imgExpandCollapse = convertView.findViewById(R.id.groupIndicatorImg);
 
-        // check if GroupView is expanded and set imageview for expand/collapse-action
-        if(isExpanded){
+        tvGroup.setText(question);
+
+        View groupContainer = convertView.findViewById(R.id.faqGroupContent);
+
+        String stateDescription = isExpanded ? ", expandido" : ", contraído";
+        groupContainer.setContentDescription(question + stateDescription);
+
+        groupContainer.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+            @Override
+            public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfo info) {
+                super.onInitializeAccessibilityNodeInfo(host, info);
+                info.setClassName(Button.class.getName()); // rol de botón
+                info.setCheckable(true);
+                info.setChecked(isExpanded);
+                info.setSelected(false);
+            }
+        });
+
+        if (isExpanded) {
             imgExpandCollapse.setImageResource(R.drawable.chevron_up);
-        }
-        else{
+        } else {
             imgExpandCollapse.setImageResource(R.drawable.chevron_down);
         }
 

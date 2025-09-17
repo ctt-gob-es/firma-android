@@ -26,6 +26,7 @@ public class SignConfigurationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_configuration);
 
         MaterialToolbar toolbar = findViewById(R.id.signConfigToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

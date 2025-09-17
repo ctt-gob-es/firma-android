@@ -36,6 +36,7 @@ public class StepsInsertDataDnieActivity extends AppCompatActivity {
         actualStep = 0;
 
         MaterialToolbar toolbar = this.findViewById(R.id.stepsSignDnieToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

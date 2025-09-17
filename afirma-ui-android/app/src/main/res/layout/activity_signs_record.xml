@@ -11,17 +11,26 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/signRecordToolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:theme="@style/ToolbarTheme"
-        android:touchscreenBlocksFocus="false"
         app:navigationIcon="@drawable/nav_back_selector"
-        app:popupTheme="@style/AppTheme"
-        app:menu="@menu/sign_records_toolbar"
-        app:title="@string/sign_record"
-        app:titleCentered="true"
-        app:titleTextAppearance="@style/ToolbarTitle"
-        app:titleTextColor="@color/black" />
+        app:popupTheme="@style/AppTheme">
 
+        <TextView
+            android:id="@+id/signRecordToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sign_record"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:ellipsize="none"
+            android:singleLine="false"
+            android:theme="@style/ToolbarTitle"
+            android:maxLines="3"
+            />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <TextView
         android:id="@+id/noRecordsTitle"

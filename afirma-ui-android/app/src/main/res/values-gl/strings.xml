@@ -17,6 +17,7 @@
     <string name="privacy_policy">Pol\u00edtica de privacidade</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Declaraci\u00F3n de accesibilidade</string>
+    <string name="accessibility_statement_desc">Declaraci\u00F3n de accesibilidade. Ligaz\u00F3n externa. \u00E1brese no navegador</string>
     <string name="accessibility_statement_url">http://estaticos.redsara.es/comunes/clientefirmaandroid/1/8/0/translated(gl)_declaracion_accesibilidad.pdf</string>
     <string name="main_logo_content_desc">Autofirma App</string>
     <string name="ok">Aceptar</string>
@@ -163,7 +164,8 @@
     <string name="dnie_identification_desc">Para identificarche mediante DNIe \u00E9 necesario que te\u00F1as un DNI electr\u00F3nico con certificados <b>vixentes</b> e co\u00F1ezas o <b>c\u00F3digo PIN</b>.</string>
     <string name="is_my_dnie_suitable">\u00C9 o meu DNI compatible?</string>
     <string name="is_my_dnie_suitable_desc">O DNIe compatibles con este proceso son o  &lt;b>DNI 3.0 e 4.0&lt;/b>. Se tes d\u00FAbidas de cal \u00e9 o teu, podes consultar na seguinte ligaz\u00F3n:</string>
-    <string name="dni_portal_text">&lt;u>Portal do DNI electr\u00F3nico. Corpo Nacional de Policía&lt;/u></string>
+    <string name="dni_portal_text">&lt;u>Portal do DNI electr\u00F3nico. Corpo Nacional de Polic\00EDa&lt;/u></string>
+    <string name="dni_portal_text_desc">Portal do DNI electr\u00F3nico. Corpo Nacional de Polic\00EDa. Ligaz\u00F3n externa. \u00E1brese no navegador</string>
     <string name="dni_portal_url">https://www.dnielectronico.es/PortalDNIe/</string>
     <string name="enter_can_dni">Introduza o CAN do DNI</string>
     <string name="enter_can_dni_desc">O CAN \u00E9 un n\u00famero situado na parte inferior dereita do DNI. \u00C9 necesario para a lectura do DNI con NFC.</string>
@@ -219,6 +221,10 @@
     <string name="no_records">Non se atopan rexistros</string>
     <string name="no_records_desc">Non hai firmas rexistradas que eliminar.</string>
     <string name="page_number">P\u00E1xina %1$s de %2$s</string>
+    <string name="first_page">Primeira p\u00E1xina</string>
+    <string name="previous_page">P\u00E1xina anterior</string>
+    <string name="next_page">Seguinte p\u00E1xina</string>
+    <string name="last_page">\u00FCltima p\u00E1xina</string>
     <string name="pdf_visible_sign_template">Asinado por $$SUBJECTCN$$ o d\u00eda $$SIGNDATE=dd/MM/yyyy$$ con certificado expedido por $$ISSUERCN$$</string>
     <string name="pdf_visible_sign_pseudonym_template">Asinado por $$PSEUDONYM$$ - $$OUS$$ o d\u00eda $$SIGNDATE=dd/MM/yyyy$$ con certificado expedido por $$ISSUERCN$$</string>
     <string name="visible_sign_small">A sinatura visible \u00e9 demasiado pequena</string>
@@ -255,4 +261,6 @@
     <string name="select_minutes_value">Selecciona un valor en minutos</string>
     <string name="select">Seleccionar</string>
     <string name="by_default">Por defecto</string>
+    <string name="go_back">Volver atr\u00e1s</string>
+    <string name="information">Informaci\u00F3n</string>
 </resources>

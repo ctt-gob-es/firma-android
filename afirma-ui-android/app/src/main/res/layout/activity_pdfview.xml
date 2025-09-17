@@ -71,6 +71,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
+            android:contentDescription="@string/first_page"
             android:background="@drawable/chevrons_left_selector"/>
 
         <Button
@@ -80,6 +81,7 @@
             android:layout_margin="5dp"
             android:background="@drawable/chevron_left_selector"
             app:strokeColor="@color/red"
+            android:contentDescription="@string/previous_page"
             app:strokeWidth="50dp"/>
 
         <TextView
@@ -96,6 +98,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
+            android:contentDescription="@string/next_page"
             android:background="@drawable/chevron_right_selector" />
 
         <Button
@@ -103,6 +106,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
+            android:contentDescription="@string/last_page"
             android:background="@drawable/chevrons_right_selector" />
 
     </LinearLayout>

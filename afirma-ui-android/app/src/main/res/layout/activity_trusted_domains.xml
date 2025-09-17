@@ -11,15 +11,26 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/trustedDomainsToolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:theme="@style/ToolbarTheme"
-        android:touchscreenBlocksFocus="false"
         app:navigationIcon="@drawable/nav_back_selector"
-        app:popupTheme="@style/AppTheme"
-        app:title="@string/trusted_domains"
-        app:titleCentered="true"
-        app:titleTextAppearance="@style/ToolbarTitle"
-        app:titleTextColor="@color/black" />
+        app:popupTheme="@style/AppTheme">
+
+        <TextView
+            android:id="@+id/trustedDomainsToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/trusted_domains"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:ellipsize="none"
+            android:singleLine="false"
+            android:theme="@style/ToolbarTitle"
+            android:maxLines="3"
+            />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,6 +49,7 @@
             android:textSize="15sp"
             android:textColor="@color/black"
             android:fontFamily="@font/nunitosansbold"
+            android:labelFor="@+id/checkSSLSwitch"
             android:text="@string/validate_SSL_connections"/>
 
         <Switch
@@ -96,6 +108,7 @@
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
             android:textColor="@color/black"
+            android:contentDescription="@string/trusted_domains"
             android:padding="10dp"
             />
 

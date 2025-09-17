@@ -27,6 +27,7 @@ public class LanguageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_language);
 
         MaterialToolbar toolbar = findViewById(R.id.languageToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

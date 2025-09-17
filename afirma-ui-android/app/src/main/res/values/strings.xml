@@ -17,6 +17,7 @@
     <string name="privacy_policy">Pol\u00EDtica de privacidad</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Declaraci\u00F3n de accesibilidad</string>
+    <string name="accessibility_statement_desc">Declaraci\u00F3n de accesibilidad. Enlace externo. Se abre en el navegador</string>
     <string name="accessibility_statement_url">http://estaticos.redsara.es/comunes/clientefirmaandroid/1/8/0/declaracion_accesibilidad.pdf</string>
     <string name="main_logo_content_desc">Autofirma App</string>
     <string name="ok">Aceptar</string>
@@ -164,6 +165,7 @@
     <string name="is_my_dnie_suitable"><u>¿Es mi DNI compatible?</u></string>
     <string name="is_my_dnie_suitable_desc">Los DNIe compatibles con este proceso son los &lt;b>DNI 3.0 y 4.0&lt;/b>. Si tienes dudas de cu\u00E1l es el tuyo, puedes consultarlo en el siguiente enlace:</string>
     <string name="dni_portal_text">&lt;u>Portal del DNI electr\u00F3nico. Cuerpo Nacional de Polic\u00EDa&lt;/u></string>
+    <string name="dni_portal_text_desc">Portal del DNI electr\u00F3nico. Cuerpo Nacional de Polic\u00EDa. Enlace externo. Se abre en el navegador</string>
     <string name="dni_portal_url">https://www.dnielectronico.es/PortalDNIe/</string>
     <string name="enter_can_dni">Introduzca el CAN del DNI</string>
     <string name="enter_can_dni_desc">El CAN es un n\u00FAmero situado en la parte inferior derecha del DNI. Es necesario para la lectura del DNI con NFC.</string>
@@ -219,6 +221,10 @@
     <string name="no_records">No se encuentran registros</string>
     <string name="no_records_desc">No hay firmas registradas que eliminar.</string>
     <string name="page_number">P\u00E1gina %1$s de %2$s</string>
+    <string name="first_page">Primera p\u00E1gina</string>
+    <string name="previous_page">P\u00E1gina anterior</string>
+    <string name="next_page">Siguiente p\u00E1gina</string>
+    <string name="last_page">\u00FAltima p\u00E1gina</string>
     <string name="pdf_visible_sign_template">Firmado por $$SUBJECTCN$$ el d\u00EDa $$SIGNDATE=dd/MM/yyyy$$ con un certificado emitido por $$ISSUERCN$$</string>
     <string name="pdf_visible_sign_pseudonym_template">Firmado por $$PSEUDONYM$$ - $$OUS$$ el d\u00EDa $$SIGNDATE=dd/MM/yyyy$$ con un certificado emitido por $$ISSUERCN$$</string>
     <string name="visible_sign_small">Firma visible demasiado peque\u00F1a</string>
@@ -255,4 +261,6 @@
     <string name="select_minutes_value">Selecciona un valor en minutos</string>
     <string name="select">Seleccionar</string>
     <string name="by_default">Por defecto</string>
+    <string name="go_back">Volver atr\u00e1s</string>
+    <string name="information">Informaci\u00F3n</string>
 </resources>

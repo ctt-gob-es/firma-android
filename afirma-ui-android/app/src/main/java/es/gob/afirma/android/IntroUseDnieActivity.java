@@ -29,6 +29,7 @@ public class IntroUseDnieActivity extends FragmentActivity {
         setContentView(R.layout.activity_intro_sign_dnie);
 
         MaterialToolbar toolbar = this.findViewById(R.id.introSignDnieToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

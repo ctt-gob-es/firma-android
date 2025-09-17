@@ -1,22 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/faqGroupContent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:importantForAccessibility="yes"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/faqGroup"
-        android:layout_gravity="center"
-        android:layout_width="325dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:fontFamily="@font/nunitosansbold"
         android:textSize="15sp"
         android:textColor="@color/black"
         android:padding="10dp"
-        android:layout_marginLeft="10dp"
-        />
+        android:layout_marginLeft="10dp" />
 
     <ImageView
         android:id="@+id/groupIndicatorImg"

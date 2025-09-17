@@ -21,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="20dp">
+        android:padding="20dp"
+        android:weightSum="10">
 
         <TextView
             android:id="@+id/selectKeystoreTitle"
@@ -29,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:fontFamily="@font/nunitosansbold"
+            android:layout_weight="9"
             android:text="@string/choose_cert_type_sign_title"
             android:textColor="@color/black"
             android:textSize="18sp"
@@ -44,6 +46,11 @@
             android:id="@+id/iconCloseDialogButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:minWidth="40dp"
+            android:minHeight="40dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="15dp"
+            android:contentDescription="@string/close"
             android:background="@drawable/bt_close_dialog_selector" />
 
     </LinearLayout>

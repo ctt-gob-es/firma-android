@@ -65,7 +65,6 @@ import es.gob.afirma.android.gui.DownloadFileTask.DownloadDataListener;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
 import es.gob.afirma.android.util.FileUtil;
-import es.gob.afirma.android.util.Utils;
 import es.gob.afirma.core.AOControlledException;
 import es.gob.afirma.core.AOUnsupportedSignFormatException;
 import es.gob.afirma.core.ErrorCode;

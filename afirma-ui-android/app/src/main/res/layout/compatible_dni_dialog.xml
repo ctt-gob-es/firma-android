@@ -70,6 +70,7 @@
             android:textAlignment="textStart"
             android:fontFamily="@font/nunitosans"
             android:text="@string/dni_portal_text"
+            android:contentDescription="@string/dni_portal_text_desc"
             android:onClick="onClick"
             android:textColor="#B44D3D"
             android:textSize="13sp"

@@ -27,7 +27,6 @@ import java.util.Date;
 import es.gob.afirma.R;
 import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.android.gui.CustomDialog;
-import es.gob.afirma.android.util.Utils;
 
 public class SignsRecordActivity extends AppCompatActivity {
 
@@ -43,6 +42,7 @@ public class SignsRecordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signs_record);
 
         MaterialToolbar toolbar = findViewById(R.id.signRecordToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -38,7 +38,6 @@ import es.gob.afirma.R;
 import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.PDFPasswordVisibleSignDialog;
 import es.gob.afirma.android.util.FileUtil;
-import es.gob.afirma.android.util.Utils;
 import es.gob.afirma.signers.pades.common.PdfExtraParams;
 
 public class PdfSelectPreviewActivity extends AppCompatActivity {
@@ -74,6 +73,7 @@ public class PdfSelectPreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pdfview);
 
         MaterialToolbar toolbar = findViewById(R.id.pdfViewToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,12 +186,7 @@ public class PdfSelectPreviewActivity extends AppCompatActivity {
                     pdfHeight = rect.getHeight();
                     pdfWidth = rect.getWidth();
                 }
-                catch (OutOfMemoryError oome) {
-                    final Intent resultIntent = new Intent();
-                    setResult(ERROR_REQUEST_VISIBLE_SIGN, resultIntent);
-                    finish();
-                }
-                catch (Exception e) {
+                catch (OutOfMemoryError | Exception oome) {
                     final Intent resultIntent = new Intent();
                     setResult(ERROR_REQUEST_VISIBLE_SIGN, resultIntent);
                     finish();

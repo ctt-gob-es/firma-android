@@ -21,6 +21,9 @@
         app:title="@string/legal_announcement"
         app:titleTextAppearance="@style/ToolbarTitle"
         app:titleTextColor="@color/black"
+        android:focusable="true"
+        android:importantForAccessibility="yes"
+        android:contentDescription="@string/legal_announcement"
         />
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,7 +37,8 @@
         android:padding="5dp"
         android:layout_margin="15dp"
         android:layout_weight="0.30"
-        android:background="@drawable/rounded_black_borders">
+        android:background="@drawable/rounded_black_borders"
+        android:accessibilityTraversalAfter="@id/legalToolbar">
 
         <WebView
             android:id="@+id/contentLegalWv"
@@ -42,6 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:fontFamily="@font/nunitosans"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:textColor="@color/black" />
 
     </ScrollView>

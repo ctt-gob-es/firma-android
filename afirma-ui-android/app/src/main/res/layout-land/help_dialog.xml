@@ -39,6 +39,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginRight="15dp"
+            android:contentDescription="@string/close"
             android:background="@drawable/bt_close_dialog_selector" />
 
     </LinearLayout>

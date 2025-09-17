@@ -17,6 +17,7 @@
     <string name="privacy_policy">Pol\u00edtica de privacitat</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_home/politicadeprivacidad.html</string>
     <string name="accessibility_statement">Declaraci\u00f3 d\'accessibilitat</string>
+    <string name="accessibility_statement_desc">Declaraci\u00f3 d\'accessibilitat. Enllaç extern. S\'obri en el navegador</string>
     <string name="accessibility_statement_url">http://estaticos.redsara.es/comunes/clientefirmaandroid/1/8/0/translated(val)_declaracion_accesibilidad.pdf</string>
     <string name="main_logo_content_desc">Autofirma App</string>
     <string name="ok">D\'acord</string>
@@ -164,6 +165,7 @@
     <string name="is_my_dnie_suitable">\u00c9s el meu DNI compatible?</string>
     <string name="is_my_dnie_suitable_desc">Els DNIe compatibles amb este proc\u00e9s s\u00F3n els &lt;b>DNI 3.0 e 4.0&lt;/b>. Si tens dubtes de quin \u00e9s el teu, pots consultar-ho en el següent enllaç:</string>
     <string name="dni_portal_text">&lt;u>Portal del DNI electr\u00F2nic. Cos Nacional de Policia&lt;/u></string>
+    <string name="dni_portal_text_desc">Portal del DNI electr\u00F3nic. Cos Nacional de Policia. Enllaç extern. S\'obri en el navegador</string>
     <string name="dni_portal_url">https://www.dnielectronico.es/PortalDNIe/</string>
     <string name="enter_can_dni">Introduïsca el CA del DNI</string>
     <string name="enter_can_dni_desc">El CA \u00e9s un nombre situat en la part inferior dreta del DNI. \u00c9s necessari per a la lectura del DNI amb NFC.</string>
@@ -219,6 +221,10 @@
     <string name="no_records">No es troben registres</string>
     <string name="no_records_desc">No hi ha signatures registrades que eliminar.</string>
     <string name="page_number">P\u00e0gina %1$s de %2$s</string>
+    <string name="first_page">Primera p\u00E0gina</string>
+    <string name="previous_page">P\u00E0gina anterior</string>
+    <string name="next_page">Seg\u00FCnt p\u00E1gina</string>
+    <string name="last_page">\u00FAltima p\u00E0gina</string>
     <string name="pdf_visible_sign_template">Firmat per $$SUBJECTCN$$ el dia $$SIGNDATE=dd/MM/yyyy$$ amb un certificat em\u00e8s per $$ISSUERCN$$</string>
     <string name="pdf_visible_sign_pseudonym_template">Firmat per $$PSEUDONYM$$ - $$OUS$$ el dia $$SIGNDATE=dd/MM/yyyy$$ amb un certificat em\u00e8s per $$ISSUERCN$$</string>
     <string name="visible_sign_small">Firma visible massa xicoteta</string>
@@ -255,4 +261,6 @@
     <string name="select_minutes_value">Selecciona un valor en minuts</string>
     <string name="select">Seleccionar</string>
     <string name="by_default">Per defecte</string>
+    <string name="go_back">Tornar enrere</string>
+    <string name="information">Informaci\u00F3</string>
 </resources>

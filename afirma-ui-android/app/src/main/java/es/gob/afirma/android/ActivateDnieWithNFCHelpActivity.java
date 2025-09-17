@@ -20,6 +20,7 @@ public class ActivateDnieWithNFCHelpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_use_dnie_nfc_help);
 
         MaterialToolbar toolbar = this.findViewById(R.id.dnieWithNFCHelpToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.util.Utils;
 
 public class FaqActivity extends AppCompatActivity {
 
@@ -29,6 +28,7 @@ public class FaqActivity extends AppCompatActivity {
         setContentView(R.layout.activity_faq);
 
         MaterialToolbar toolbar = findViewById(R.id.faqToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

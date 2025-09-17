@@ -14,7 +14,6 @@ import com.google.android.material.appbar.MaterialToolbar;
 import es.gob.afirma.BuildConfig;
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
-import es.gob.afirma.android.util.Utils;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -24,6 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         MaterialToolbar toolbar = findViewById(R.id.settingsToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

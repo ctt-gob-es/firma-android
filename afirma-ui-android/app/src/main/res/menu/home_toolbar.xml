@@ -4,14 +4,14 @@
     <item
         android:id="@+id/info"
         android:icon="@drawable/item_help_selector"
-        android:title="Informacion"
+        android:title="@string/information"
         android:onClick="onOptionsItemSelected"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/settings"
         android:icon="@drawable/item_settings_selector"
-        android:title="Ajustes"
+        android:title="@string/settings"
         android:onClick="onOptionsItemSelected"
         app:showAsAction="ifRoom" />
 

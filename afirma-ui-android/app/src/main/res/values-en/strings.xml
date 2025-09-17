@@ -17,6 +17,7 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Accessibility Statement</string>
+    <string name="accessibility_statement_desc">Accessibility Statement. External link. Opens in the browser</string>
     <string name="accessibility_statement_url">http://estaticos.redsara.es/comunes/clientefirmaandroid/1/8/0/translated(en)_declaracion_accesibilidad.pdf</string>
     <string name="main_logo_content_desc">Autofirma App</string>
     <string name="ok">OK</string>
@@ -164,6 +165,7 @@
     <string name="is_my_dnie_suitable">Is my ID compatible?</string>
     <string name="is_my_dnie_suitable_desc">The DNIe supported by this process are &lt;b>DNI 3.0 y 4.0&lt;/b>. If you have any questions about what your own is, you can see it at the following link:</string>
     <string name="dni_portal_text">&lt;u>Electronic ID portal. National Police Corps&lt;/u></string>
+    <string name="dni_portal_text_desc">Electronic ID portal. National Police Corps. External link. Opens in the browser</string>
     <string name="dni_portal_url">https://www.dnielectronico.es/PortalDNIe/</string>
     <string name="enter_can_dni">Enter the CAN of the DNI</string>
     <string name="enter_can_dni_desc">The CAN is a number located at the bottom right of the ID. It is necessary for ID reading with NFC.</string>
@@ -219,6 +221,10 @@
     <string name="no_records">No records found</string>
     <string name="no_records_desc">There are no registered signatures to be removed.</string>
     <string name="page_number">Page %1$s of %2$s</string>
+    <string name="first_page">First page</string>
+    <string name="previous_page">Previous page</string>
+    <string name="next_page">Next page</string>
+    <string name="last_page">Last page</string>
     <string name="pdf_visible_sign_template">Signed by $$SUBJECTCN$$ on $$SIGNDATE=dd/MM/yyyy$$ with a certificate issued by $$ISSUERCN$$</string>
     <string name="pdf_visible_sign_pseudonym_template">Signed by $$PSEUDONYM$$ - $$OUS$$ on $$SIGNDATE=dd/MM/yyyy$$ with a certificate issued by $$ISSUERCN$$</string>
     <string name="visible_sign_small">Visible signature too small</string>
@@ -255,4 +261,6 @@
     <string name="select_minutes_value">Select a value in minutes</string>
     <string name="select">Select</string>
     <string name="by_default">By default</string>
+    <string name="go_back">Go back</string>
+    <string name="information">Information</string>
 </resources>

@@ -17,6 +17,7 @@
     <string name="privacy_policy">Pribatutasun-politika</string>
     <string name="privacy_policy_url">https://administracion.gob.es/pag_Home/politicaDePrivacidad.html</string>
     <string name="accessibility_statement">Irisgarritasun-deklarazioa</string>
+    <string name="accessibility_statement_desc">Irisgarritasun-deklarazioa. Kanpoko esteka nabigatzailean irekitzen da</string>
     <string name="accessibility_statement_url">http://estaticos.redsara.es/comunes/clientefirmaandroid/1/8/0/translated(eu)_declaracion_accesibilidad.pdf</string>
     <string name="main_logo_content_desc">Aplikazio automatikoa</string>
     <string name="ok">Onartu</string>
@@ -164,6 +165,7 @@
     <string name="is_my_dnie_suitable">Bateragarria da nire NANa?</string>
     <string name="is_my_dnie_suitable_desc">Prozesu honekin bateragarriak diren NANak &lt;b>DNI 3.0 eta 4.0&lt;/b> NANak dira. Ez badakizu zein den zurea, esteka honetan kontsulta dezakezu:</string>
     <string name="dni_portal_text">&lt;u>NAN elektronikoaren ataria. Polizia Nazionalaren Kidegoa&lt;/u></string>
+    <string name="dni_portal_text_desc">NAN elektronikoaren ataria. Polizia Nazionalaren Kidegoa. Kanpoko esteka nabigatzailean irekitzen da</string>
     <string name="dni_portal_url">https://www.dnielectronico.es/PortalDNIe/</string>
     <string name="enter_can_dni">Sartu NANaren CANa</string>
     <string name="enter_can_dni_desc">CANa NANaren beheko eskuineko aldean dagoen zenbaki bat da. NANa NFCrekin irakurtzeko beharrezkoa da.</string>
@@ -219,6 +221,10 @@
     <string name="no_records">Ez dago erregistrorik</string>
     <string name="no_records_desc">Ez dago sinadura erregistraturik ezabatzeko.</string>
     <string name="page_number">%2$s etik %1$s. orrialdea</string>
+    <string name="first_page">Lehenengo orrialdea</string>
+    <string name="previous_page">Aurreko orrialdea</string>
+    <string name="next_page">Hurrengo orrialdea</string>
+    <string name="last_page">Azken orrialdea</string>
     <string name="pdf_visible_sign_template">$$SUBJECTCN$$ k sinatuzuen $$SIGNDATE=dd/MM/yyyy$$ an $$ISSUERCN$$ ek emandako ziurtagiriarekin</string>
     <string name="pdf_visible_sign_pseudonym_template">$$PSEUDONYM$$ - $$OUS$$k sinatuzuen $$SIGNDATE=dd/MM/yyyy$$ an $$ISSUERCN$$ ek emandako ziurtagiriarekin</string>
     <string name="visible_sign_small">Sinadura ikusgarria txikiegia</string>
@@ -255,4 +261,6 @@
     <string name="select_minutes_value">Hautatu balio bat minututan</string>
     <string name="select">Hautatu</string>
     <string name="by_default">Lehenespenez</string>
+    <string name="go_back">Atzera itzuli</string>
+    <string name="information">Informazioa</string>
 </resources>

@@ -11,7 +11,6 @@ import com.google.android.material.appbar.MaterialToolbar;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.util.FileUtil;
-import es.gob.afirma.android.util.Utils;
 
 public class PrivacyPolicyActivity extends AppCompatActivity {
 
@@ -21,6 +20,7 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_policy);
 
         MaterialToolbar toolbar = this.findViewById(R.id.privatyPolicyToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

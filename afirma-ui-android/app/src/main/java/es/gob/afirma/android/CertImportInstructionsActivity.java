@@ -2,7 +2,6 @@ package es.gob.afirma.android;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,8 +31,6 @@ public class CertImportInstructionsActivity extends AppCompatActivity {
 
     private FragmentStateAdapter pagerAdapter;
 
-    private Drawable navIcon;
-
     private Button continueButton;
 
     private Button addCertButton;
@@ -44,13 +41,13 @@ public class CertImportInstructionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_intro_import_cert);
 
         Toolbar toolbar = findViewById(R.id.importCertToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-        navIcon = toolbar.getNavigationIcon();
 
         continueButton = findViewById(R.id.continueButton);
 

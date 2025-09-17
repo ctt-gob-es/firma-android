@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.util.Utils;
 
 public class TrustedDomainsHelpActivity extends AppCompatActivity {
 
@@ -21,6 +20,7 @@ public class TrustedDomainsHelpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trusted_domains_help);
 
         MaterialToolbar toolbar = this.findViewById(R.id.trustedDomainsHelpToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

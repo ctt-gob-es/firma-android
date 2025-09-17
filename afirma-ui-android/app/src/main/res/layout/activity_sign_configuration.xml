@@ -11,15 +11,26 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/signConfigToolbar"
         android:layout_width="match_parent"
-        android:touchscreenBlocksFocus="false"
-        app:popupTheme="@style/AppTheme"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:theme="@style/ToolbarTheme"
         app:navigationIcon="@drawable/nav_back_selector"
-        app:titleCentered="true"
-        app:title="@string/sign_configuration"
-        app:titleTextAppearance="@style/ToolbarTitle"
-        app:titleTextColor="@color/black"/>
+        app:popupTheme="@style/AppTheme">
+
+        <TextView
+            android:id="@+id/signConfigToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sign_configuration"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:ellipsize="none"
+            android:singleLine="false"
+            android:theme="@style/ToolbarTitle"
+            android:maxLines="3"
+            />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -48,6 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/allow_dni3_0_NFC"
+                    android:labelFor="@+id/allowDnieWithNFCSwitch"
                     android:paddingStart="8dp"/>
 
                 <Switch
@@ -81,6 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/do_visible_sign"
+                    android:labelFor="@+id/padesVisibleSignatureSwitch"
                     android:paddingStart="8dp"/>
 
                 <Switch
@@ -113,6 +126,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/hide_user_id"
+                    android:labelFor="@+id/obfuscateUserCertInfoSwitch"
                     android:paddingStart="8dp"/>
 
                 <Switch
@@ -146,6 +160,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/delete_cache_minutes"
+                    android:labelFor="@+id/timeoutButton"
                     android:paddingStart="8dp"/>
 
                 <Button

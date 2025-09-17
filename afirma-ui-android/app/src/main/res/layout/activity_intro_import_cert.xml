@@ -33,7 +33,7 @@
     <TextView
         android:id="@+id/introText"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/nunitosans"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"

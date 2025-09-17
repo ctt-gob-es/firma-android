@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 import es.gob.afirma.R;
 import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.android.gui.CustomDialog;
-import es.gob.afirma.android.util.Utils;
 
 public class TrustedDomainsActivity extends AppCompatActivity {
 
@@ -28,6 +27,7 @@ public class TrustedDomainsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trusted_domains);
 
         MaterialToolbar toolbar = findViewById(R.id.trustedDomainsToolbar);
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

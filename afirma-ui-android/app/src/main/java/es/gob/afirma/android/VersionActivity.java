@@ -13,7 +13,6 @@ import com.google.android.material.appbar.MaterialToolbar;
 
 import es.gob.afirma.BuildConfig;
 import es.gob.afirma.R;
-import es.gob.afirma.android.util.Utils;
 
 public class VersionActivity extends AppCompatActivity {
 
@@ -24,6 +23,7 @@ public class VersionActivity extends AppCompatActivity {
 
         MaterialToolbar toolbar = this.findViewById(R.id.versionToolbar);
         toolbar.setTitle(getString(R.string.appversion, BuildConfig.VERSION_NAME));
+        toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
