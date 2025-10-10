@@ -172,7 +172,7 @@
     <string name="enter_can_dni_hint">Escribe tu c\u00F3digo CAN del DNI</string>
     <string name="enter_pin_dni">Introduce el PIN</string>
     <string name="enter_pin_dni_desc">Al hacerte el DNIe recibiste un c\u00F3digo PIN que puedes recuperar o cambiar en comisar\u00EDas sin cita previa.</string>
-    <string name="enter_your_pin_code">Escribe tu c\u00F3digo PIN</string>
+    <string name="enter_your_pin_code">Escribe tu c\u00F3digo PIN (campo obligatorio)</string>
     <string name="read_dnie_with_smartphone">Lee tu DNIe con el m\u00F3vil</string>
     <string name="read_dnie_with_smartphone_desc">Coloca tu DNIe en una superficie lisa y sit\u00FAa tu m\u00F3vil <b>sin funda</b> sobre \u00E9l hasta que detecte el chip.</string>
     <string name="read_dnie">Leer DNIe</string>
