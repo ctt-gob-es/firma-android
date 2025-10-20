@@ -38,6 +38,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import org.json.JSONException;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -65,6 +67,7 @@ import es.gob.afirma.android.gui.DownloadFileTask.DownloadDataListener;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
 import es.gob.afirma.android.util.FileUtil;
+import es.gob.afirma.android.util.WebSignUtil;
 import es.gob.afirma.core.AOControlledException;
 import es.gob.afirma.core.AOUnsupportedSignFormatException;
 import es.gob.afirma.core.ErrorCode;
@@ -531,7 +534,8 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
         // al dialogo de seleccion de certificados para la firma
         final byte[] decipheredData;
         try {
-            decipheredData = CipherDataManager.decipherData(data, this.parameters.getDesKey());
+			byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(this.parameters.getCipherConfig());
+			decipheredData = CipherDataManager.decipherData(data, desKey);
         }
         catch (final IOException e) {
             Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
@@ -620,11 +624,12 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 
 		// Ciframos si nos dieron clave privada, si no subimos los datos sin cifrar
 		String data;
-		if (this.parameters.getDesKey() != null && this.parameters.getDesKey().length > 0) {
+		if (this.parameters.getCipherConfig() != null && this.parameters.getCipherConfig().length > 0) {
 			try {
+				byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(this.parameters.getCipherConfig());
 				data = CipherDataManager.cipherData(
 						signature.getSignature(),
-						this.parameters.getDesKey()
+						desKey
 				);
 			} catch (final Throwable e) {
 				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.CYPHERING_SIGN.toString() , e); //$NON-NLS-1$
@@ -639,17 +644,18 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		String signingCert;
 		try {
 			encodedCert = signature.getSigningCertificate().getEncoded();
-			if (this.parameters.getDesKey() != null && this.parameters.getDesKey().length > 0) {
+			if (this.parameters.getCipherConfig() != null && this.parameters.getCipherConfig().length > 0) {
+				byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(this.parameters.getCipherConfig());
 				signingCert = CipherDataManager.cipherData(
 						encodedCert,
-						this.parameters.getDesKey()
+						desKey
 				);
 			}
 			else {
 				signingCert = Base64.encodeToString(encodedCert, Base64.URL_SAFE);
 			}
 		}
-		catch (final GeneralSecurityException e) {
+		catch (final GeneralSecurityException | JSONException e) {
 			Logger.e(ES_GOB_AFIRMA, AppKeyStoreErrorCode.Internal.CYPHERING_CERT.toString() , e);
 			signingCert = null;
 		}

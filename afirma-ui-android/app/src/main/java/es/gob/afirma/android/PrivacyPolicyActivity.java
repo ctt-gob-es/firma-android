@@ -1,7 +1,6 @@
 package es.gob.afirma.android;
 
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.webkit.WebView;
 
@@ -28,11 +27,10 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
             }
         });
 
-        WebView wvPolicy =  this.findViewById(R.id.contentprivatyPolicyWv);
+        WebView wvPolicy = this.findViewById(R.id.contentprivatyPolicyWv);
         String privacyHtml = FileUtil.readPolicyFile(this, LocaleHelper.getPersistedData(this));
-        String encodedHtml = Base64.encodeToString(privacyHtml.getBytes(),
-                Base64.NO_PADDING);
-        wvPolicy.loadData(encodedHtml, "text/html", "base64");
+        String baseUrl = "file:///android_asset/";
+        wvPolicy.loadDataWithBaseURL(baseUrl, privacyHtml, "text/html", "utf-8", null);
 
     }
 

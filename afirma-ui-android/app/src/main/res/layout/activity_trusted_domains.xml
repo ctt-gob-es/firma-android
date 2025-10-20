@@ -89,20 +89,11 @@
         android:background="@drawable/rounded_black_borders"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunitosans"
-            android:gravity="left"
-            android:padding="10dp"
-            android:text="@string/trusted_domains"
-            android:textColor="@color/gray"
-            android:textSize="15sp" />
-
         <EditText
             android:id="@+id/editTextTrustedDomains"
             android:inputType="textMultiLine"
             android:maxLines="15"
+            android:minLines="4"
             android:gravity="top|start"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

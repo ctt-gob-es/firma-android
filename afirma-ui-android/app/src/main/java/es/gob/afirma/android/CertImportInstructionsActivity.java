@@ -56,7 +56,11 @@ public class CertImportInstructionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                viewPager.setCurrentItem(1);
+                if (viewPager != null) {
+                    viewPager.setCurrentItem(1);
+                } else {
+                    activateStep2();
+                }
             }
         });
 
@@ -83,17 +87,23 @@ public class CertImportInstructionsActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.containerVp);
 
-        pagerAdapter = new ScreenSlidePagerAdapter(this);
-        viewPager.setAdapter(pagerAdapter);
+        if (viewPager != null) {
+            pagerAdapter = new ScreenSlidePagerAdapter(this);
+            viewPager.setAdapter(pagerAdapter);
+        }
 
     }
 
     @Override
     public void onBackPressed() {
-        if (viewPager.getCurrentItem() == 0) {
-            super.onBackPressed();
+        if (viewPager != null) {
+            if (viewPager.getCurrentItem() == 0) {
+                super.onBackPressed();
+            } else {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            }
         } else {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            activateStep1();
         }
     }
 

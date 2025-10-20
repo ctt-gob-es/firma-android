@@ -151,7 +151,7 @@
     <string name="question_3">Arriskuan daude nire ziurtagiriak, gailua galtzen badut?</string>
     <string name="response_3">Ziurtagiriak zifratze ahaltsu batekin biltegiratzen dira zure gailuan, baina, edozein sistema kriptografiko bezala, jabearen kontroletik kanpo dagoenean, konpromisoa hartzeko arriskua dago. Gailua galtzen baduzu, lehenbailehen jarri behar duzu harremanetan ziurtatze-zerbitzuen hornitzailearekin, hark zituen ziurtagiriak berehala ezeztatzeko.</string>
     <string name="version_desc_p1">“Autofirma App” v.%s 2025 Espainiako Gobernua</string>
-    <string name="version_desc_p2">Autofirma App Software Librea da; birbanatu eta/edo aldatu egin dezakezu lizentzia honen arabera: “European Software License 1.1”. Testu osoa web orri honetan kontsulta dezakezu:</string>
+    <string name="version_desc_p2">Autofirma App Software Librea da; birbanatu eta/edo aldatu egin dezakezu lizentzia honen arabera: “European Software License 1.1”. Horren testu osoa honako web orri honetan kontsulta daiteke:</string>
     <string name="version_desc_p3">Programa honen eta proiektuaren gainerako osagaien iturburu-kodea hemendik deskarga daiteke: </string>
     <string name="version_desc_p4">Autofirma App proiektua lankidetza-proiektu bat da. Parte hartu nahi baduzu, ez izan zalantzarik komunitatearekin bat egiteko, eta web orri honetatik sar zaitezke:</string>
     <string name="version_desc_link1">https://eupl.eu/1.1/es</string>

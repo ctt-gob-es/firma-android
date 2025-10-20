@@ -22,18 +22,28 @@
             android:text="@string/read_dnie_with_smartphone_desc"
             android:textColor="@color/black" />
 
-        <ImageView
-            android:id="@+id/readDnieImg"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="30dp"
-            app:srcCompat="@drawable/read_dni_screen" />
+            android:layout_weight="0.8"
+            android:layout_gravity="center"
+            android:foregroundGravity="center">
+
+            <ImageView
+                android:id="@+id/tutorialImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center"
+                android:src="@drawable/read_dni_screen" />
+        </FrameLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="1"
+            android:layout_weight="0.2"
             android:gravity="center|bottom"
             android:orientation="vertical">
 

@@ -42,6 +42,7 @@ import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
+import es.gob.afirma.android.util.WebSignUtil;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.ErrorCode;
 import es.gob.afirma.core.misc.Base64;
@@ -361,7 +362,8 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
         // al dialogo de seleccion de certificados para la firma
         byte[] decipheredData;
         try {
-            decipheredData = CipherDataManager.decipherData(data, this.parameters.getDesKey());
+			byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(this.parameters.getCipherConfig());
+            decipheredData = CipherDataManager.decipherData(data, desKey);
         } catch (final IOException e) {
 			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
 			showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
@@ -409,9 +411,10 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 
 		// Ciframos si nos dieron clave privada, si no subimos los datos sin cifrar
 		final String data;
-		if (this.parameters.getDesKey() != null) {
+		if (this.parameters.getCipherConfig() != null) {
 			try {
-				data = CipherDataManager.cipherData(certificate, this.parameters.getDesKey());
+				byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(this.parameters.getCipherConfig());
+				data = CipherDataManager.cipherData(certificate, desKey);
 			}
 			catch (final GeneralSecurityException e) {
 				Logger.e(ES_GOB_AFIRMA, AppKeyStoreErrorCode.Internal.CYPHERING_CERT.toString(), e);

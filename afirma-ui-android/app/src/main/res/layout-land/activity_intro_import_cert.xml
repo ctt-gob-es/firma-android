@@ -1,85 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/home_content"
+    android:id="@+id/scroll_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_above="@+id/bottom_container"
+    android:fillViewport="true">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/importCertToolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ToolbarTheme"
-        android:touchscreenBlocksFocus="false"
-        app:navigationIcon="@drawable/nav_back_selector"
-        app:popupTheme="@style/AppTheme" />
-
-    <LinearLayout
-        android:id="@+id/contentInfo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/merriweatherbold"
-            android:paddingLeft="20dp"
-            android:paddingTop="20dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp"
-            android:textColor="#000000" />
-
-        <TextView
-            android:id="@+id/introText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunitosans"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:textColor="#56636D" />
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/containerVp"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <LinearLayout
+            android:id="@+id/contentInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/importCertToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ToolbarTheme"
+                app:navigationIcon="@drawable/nav_back_selector"
+                app:popupTheme="@style/AppTheme" />
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/merriweatherbold"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/introText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunitosans"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textColor="#56636D" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/bottom_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_weight="0"
-            android:gravity="bottom"
-            android:orientation="vertical">
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/page1Indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="10dp"
-                    android:layout_margin="5dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_margin="6dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
                     android:src="@drawable/selectedpageindicator" />
 
                 <ImageView
                     android:id="@+id/page2Indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="10dp"
-                    android:layout_margin="5dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_margin="6dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
                     android:src="@drawable/unselectedpageindicator" />
 
             </LinearLayout>
@@ -89,8 +89,8 @@
                 style="@style/ButtonRedLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="11dp"
-                android:nextFocusForward="@+id/drawer_layout"
+                android:layout_marginHorizontal="11dp"
+                android:layout_marginTop="8dp"
                 android:onClick="onClick"
                 android:text="@string/drag_on" />
 
@@ -99,14 +99,14 @@
                 style="@style/ButtonRedLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="11dp"
-                android:nextFocusForward="@+id/drawer_layout"
+                android:layout_marginHorizontal="11dp"
+                android:layout_marginTop="4dp"
                 android:onClick="onClick"
                 android:text="@string/add_cert"
                 android:visibility="gone" />
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-</LinearLayout>
+</ScrollView>

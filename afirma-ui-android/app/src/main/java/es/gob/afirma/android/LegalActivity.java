@@ -1,7 +1,6 @@
 package es.gob.afirma.android;
 
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.webkit.WebView;
 
@@ -28,11 +27,10 @@ public class LegalActivity extends AppCompatActivity {
             }
         });
 
-        WebView wvLegal =  this.findViewById(R.id.contentLegalWv);
+        WebView wvLegal = this.findViewById(R.id.contentLegalWv);
         String legalHtml = FileUtil.readLegalFile(this, LocaleHelper.getPersistedData(this));
-        String encodedHtml = Base64.encodeToString(legalHtml.getBytes(),
-                Base64.NO_PADDING);
-        wvLegal.loadData(encodedHtml, "text/html", "base64");
+        String baseUrl = "file:///android_asset/";
+        wvLegal.loadDataWithBaseURL(baseUrl, legalHtml, "text/html", "utf-8", null);
 
     }
 

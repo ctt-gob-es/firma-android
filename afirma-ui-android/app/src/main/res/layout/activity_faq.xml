@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/permissions_content"
+    android:id="@+id/faq_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:touchscreenBlocksFocus="false"
+    android:orientation="vertical"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:descendantFocusability="afterDescendants"
+    android:importantForAccessibility="yes"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/faqToolbar"
@@ -16,7 +17,9 @@
         android:layout_height="wrap_content"
         android:theme="@style/ToolbarTheme"
         app:navigationIcon="@drawable/nav_back_selector"
-        app:popupTheme="@style/AppTheme">
+        app:popupTheme="@style/AppTheme"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <TextView
             android:id="@+id/faqToolbarTitle"
@@ -28,20 +31,24 @@
             android:textSize="18sp"
             android:ellipsize="none"
             android:singleLine="false"
-            android:theme="@style/ToolbarTitle"
             android:maxLines="3"
-            />
-
+            android:theme="@style/ToolbarTitle"
+            android:importantForAccessibility="yes"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:nextFocusDown="@id/faqRecycler" />
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <ExpandableListView
-        android:id="@+id/faqLV"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/faqRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/toolbar"
         android:listSelector="@drawable/option_selector"
-        android:choiceMode="none"
         android:importantForAccessibility="yes"
-        android:dividerHeight="1dp" />
-
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:descendantFocusability="afterDescendants"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"/>
 </LinearLayout>

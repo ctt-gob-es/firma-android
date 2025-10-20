@@ -40,6 +40,7 @@ import es.gob.afirma.android.errors.ErrorMapper;
 import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.SendDataTask;
+import es.gob.afirma.android.util.WebSignUtil;
 import es.gob.afirma.core.ErrorCode;
 import es.gob.afirma.core.misc.MimeHelper;
 import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
@@ -290,7 +291,8 @@ public final class WebSaveDataActivity extends FragmentActivity
 		// actualizamos los datos que teniamos y  continuamos con la operacion
 		final byte[] decipheredData;
 		try {
-			decipheredData = CipherDataManager.decipherData(data, this.parameters.getDesKey());
+			byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(this.parameters.getCipherConfig());
+			decipheredData = CipherDataManager.decipherData(data, desKey);
 		}
 		catch (final IOException e) {
 			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$

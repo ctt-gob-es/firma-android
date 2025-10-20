@@ -376,7 +376,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
-                android:src="@drawable/baseline_open_in_new_24"/>
+                android:src="@drawable/baseline_open_in_new_24" />
 
         </LinearLayout>
 

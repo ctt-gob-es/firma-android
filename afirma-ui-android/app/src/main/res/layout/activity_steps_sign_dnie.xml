@@ -32,7 +32,7 @@
             android:paddingTop="15dp"
             android:text="@string/dnie_identification"
             android:textColor="#000000"
-            android:textSize="10dp" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/titleTv"
@@ -43,7 +43,7 @@
             android:paddingTop="5dp"
             android:text="@string/enter_can_dni"
             android:textColor="#000000"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/stepTv"
@@ -55,7 +55,7 @@
             android:paddingTop="5dp"
             android:text="@string/actual_step"
             android:textColor="#000000"
-            android:textSize="10dp" />
+            android:textSize="10sp" />
 
         <ProgressBar
             android:id="@+id/signDnieStepsPb"

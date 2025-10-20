@@ -151,7 +151,7 @@
     <string name="question_3">Corren perigo os meus certificados se perdo o dispositivo?</string>
     <string name="response_3">Os certificados almac\u00E9nanse no seu dispositivo cun potente cifrado, pero como calquera sistema criptogr\u00E1fico, no momento que este est\u00E1 f\u00F3ra do control de propietario corre o risco de ser comprometido. Se perde o dispositivo debe contactar canto antes co seu provedor de servizos de certificaci\u00F3n para revogar de inmediato os certificados que este conti\u00F1a.</string>
     <string name="version_desc_p1">"Autofirma App" v.%s 2025 Goberno de Espa\u00F1a</string>
-    <string name="version_desc_p2">Autofirma App \u00E9 Software Libre; podes redistribu\u00edlo e/ou modificalo baixo os termos da seguinte licenza: “European Software License 1.1”, Curyo texto completo pode consultarse na seguinte p\u00E1xina Web:</string>
+    <string name="version_desc_p2">Autofirma App \u00E9 Software Libre; podes redistribu\u00edlo e/ou modificalo baixo os termos da seguinte licenza: “European Software License 1.1”, Cuxo texto completo pode consultarse na seguinte p\u00E1xina web:</string>
     <string name="version_desc_p3">O c\u00F3digo fonte deste programa, as\u00ed como do resto dos compo\u00F1entes do proxecto p\u00F3dense descargar libremente desde: </string>
     <string name="version_desc_p4">O proxecto Autofirma App \u00E9 un proxecto colaborativo, se desexa participar nel, non dubide en unirse \u00E1 comunidade, accesible desde a seguinte p\u00E1xina Web:</string>
     <string name="version_desc_link1">https://eupl.eu/1.1/es</string>

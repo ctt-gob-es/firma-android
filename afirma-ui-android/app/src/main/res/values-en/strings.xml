@@ -151,7 +151,7 @@
     <string name="question_3"> Are my certificates at risk if I lose the device?</string>
     <string name="response_3">The certificates are stored on your device with powerful encryption, but like any cryptographic system, at the time it is out of control of the owner is at risk of being compromised. If you lose the device you should contact your certification service provider as soon as possible to immediately revoke the certificates it contained.</string>
     <string name="version_desc_p1">"Autofirma App" v.%s 2025 Government of Spain</string>
-    <string name="version_desc_p2">Autofirma App is Free Software; you can redistribute it and/or modify it under the terms of the following license: "European Software License 1.1", Curyo full text can be found on the following website:</string>
+    <string name="version_desc_p2">Autofirma App is Free Software; you can redistribute it and/or modify it under the terms of the following license: "European Software License 1.1", The full text of which can be consulted on the following website:</string>
     <string name="version_desc_p3">The source code of this program, as well as of the other project components, can be freely downloaded from: </string>
     <string name="version_desc_p4">The Autofirma App project is a collaborative project, if you want to participate in it, feel free to join the community, accessible from the following website:</string>
     <string name="version_desc_link1">https://eupl.eu/1.1/es</string>

@@ -8,9 +8,7 @@
         android:id="@+id/imageStep1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/step_2_import_cert"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
+        android:src="@drawable/step_1_import_cert_land"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -1,5 +1,8 @@
 package es.gob.afirma.android.util;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -37,11 +40,22 @@ public class WebSignUtil {
         // Si no ha ocurrido un error, debemos haber recibido los datos cifrados
         final byte[] data;
         try {
-            data = CipherDataManager.decipherData(recoveredData, params.getDesKey());
+            byte [] desKey = getDesKeyFromCipherConfig(params.getCipherConfig());
+            data = CipherDataManager.decipherData(recoveredData, desKey);
         }
         catch (final Exception e) {
             throw new DecryptionException("Error en el descifrado de los datos", e); //$NON-NLS-1$
         }
-        return data;
+        return null;
     }
+
+    public static byte [] getDesKeyFromCipherConfig (byte [] jsonB64) throws JSONException {
+
+        final String jsonString = new String(jsonB64, java.nio.charset.StandardCharsets.UTF_8);
+        final JSONObject json = new JSONObject(jsonString);
+        final String key = json.getString("key"); //$NON-NLS-1$
+
+        return key.getBytes();
+    }
+
 }

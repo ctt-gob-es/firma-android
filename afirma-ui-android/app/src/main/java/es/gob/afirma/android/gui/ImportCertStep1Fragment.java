@@ -1,5 +1,6 @@
 package es.gob.afirma.android.gui;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,15 @@ public class ImportCertStep1Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return (ViewGroup) inflater.inflate(
-                R.layout.import_cert_instructions_step1, container, false);
+
+        int orientation = getResources().getConfiguration().orientation;
+
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            return inflater.inflate(
+                    R.layout.import_cert_instructions_step1_land, container, false);
+        } else  {
+            return inflater.inflate(
+                    R.layout.import_cert_instructions_step1, container, false);
+        }
     }
 }

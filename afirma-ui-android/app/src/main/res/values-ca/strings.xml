@@ -151,7 +151,7 @@
     <string name="question_3">Corren perill els meus certificats si perdo el dispositiu?</string>
     <string name="response_3">Els certificats s\'emmagatzemen en el seu dispositiu amb un potent xifrat, per\u00F2 com qualsevol sistema criptogr\u00E1fic, al moment que aquest est\u00E1 fora del control de propietari corre el risc de ser compromès. Si perd el dispositiu ha de contactar al m\u00E9s aviat possible amb el seu proveïdor de serveis de certificaci\u00F3 per revocar immediatament els certificats que aquest contenia.</string>
     <string name="version_desc_p1">“Autofirma App” v.%s 2025 Govern d\'Espanya</string>
-    <string name="version_desc_p2">Autofirma App \u00e9s Programari Lliure; pots redistribuir-ho i/o modificar-ho sota els termes de la seg\u00fcent llic\u00e8ncia: “European Programari License 1.1”, Curyo text complet pot consultar-se a la seg\u00fcent p\u00e0gina Web:</string>
+    <string name="version_desc_p2">Autofirma App \u00e9s Programari Lliure; pots redistribuir-ho i/o modificar-ho sota els termes de la seg\u00fcent llic\u00e8ncia: “European Programari License 1.1”, El text complet del qual pot consultar-se en la seg\u00FCent p\u00E0gina web:</string>
     <string name="version_desc_p3">El codi font d\'aquest programa, aix\u00ed com de la resta dels components del projecte es poden descarregar lliurement des de: </string>
     <string name="version_desc_p4">El projecte Autofirma App \u00e9s un projecte col·laboratiu, si desitja participar en ell, no dubti a unir-se a la comunitat, accessible des de la seg\u00fcent p\u00e0gina Web:</string>
     <string name="version_desc_link1">https://eupl.eu/1.1/es</string>

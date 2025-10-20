@@ -45,6 +45,7 @@ import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
+import es.gob.afirma.android.util.WebSignUtil;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.AOControlledException;
 import es.gob.afirma.core.AOException;
@@ -173,7 +174,8 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 
 		byte[] batchDefinition;
 		try {
-			batchDefinition = CipherDataManager.decipherData(cipheredBatchDefinition, getBatchParams().getDesKey());
+			byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(getBatchParams().getCipherConfig());
+			batchDefinition = CipherDataManager.decipherData(cipheredBatchDefinition, desKey);
 		}
 		catch (final IOException e) {
 			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
@@ -410,12 +412,13 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		}
 
 		// Si hay clave de cifrado, ciframos
-		if (getBatchParams().getDesKey() != null) {
+		if (getBatchParams().getCipherConfig() != null) {
 			try {
-				result.append(CipherDataManager.cipherData(batchResult, getBatchParams().getDesKey()));
+				byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(getBatchParams().getCipherConfig());
+				result.append(CipherDataManager.cipherData(batchResult, desKey));
 				if (signingCertEncoded != null) {
-					result.append(RESULT_SEPARATOR)
-							.append(CipherDataManager.cipherData(signingCertEncoded, getBatchParams().getDesKey()));
+						result.append(RESULT_SEPARATOR)
+							.append(CipherDataManager.cipherData(signingCertEncoded, desKey));
 				}
 			}
 			catch (final Exception e) {

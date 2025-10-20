@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
@@ -26,7 +25,6 @@ import java.util.Locale;
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
 import es.gob.afirma.android.util.FileUtil;
-import es.gob.afirma.android.util.Utils;
 
 public class ConditionsActivity extends AppCompatActivity {
 
@@ -172,10 +170,11 @@ public class ConditionsActivity extends AppCompatActivity {
         String policyHtml = FileUtil.readPolicyFile(this, lang);
         String legalHtml = FileUtil.readLegalFile(this, lang);
         String htmlText = policyHtml + legalHtml;
-        String encodedHtml = Base64.encodeToString(htmlText.getBytes(),
-                Base64.NO_PADDING);
+
         WebView wvChild =  this.findViewById(R.id.contentConditionsWv);
-        wvChild.loadData(encodedHtml, "text/html", "base64");
+
+        String baseUrl = "file:///android_asset/";
+        wvChild.loadDataWithBaseURL(baseUrl, htmlText, "text/html", "utf-8", null);
     }
 
     private void refreshComponents(String lang) {
