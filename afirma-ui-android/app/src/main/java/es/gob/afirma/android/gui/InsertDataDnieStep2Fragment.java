@@ -1,5 +1,7 @@
 package es.gob.afirma.android.gui;
 
+import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,8 +20,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import es.gob.afirma.R;
 import es.gob.afirma.android.StepsInsertDataDnieActivity;
 
-import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
-
 public class InsertDataDnieStep2Fragment extends Fragment {
 
     public static final String INTENT_EXTRA_PIN_VALUE = "pinValue"; //$NON-NLS-1$
@@ -27,6 +27,9 @@ public class InsertDataDnieStep2Fragment extends Fragment {
     private static final int MIN_PIN_LENGTH = 4;
 
     String canValue;
+
+    public static String pinValue = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,7 +65,8 @@ public class InsertDataDnieStep2Fragment extends Fragment {
                     Bundle bundle = new Bundle();
 
                     bundle.putString(INTENT_EXTRA_CAN_VALUE, canValue);
-                    bundle.putString(INTENT_EXTRA_PIN_VALUE, pinText.getText().toString());
+                    pinValue = pinText.getText().toString();
+                    bundle.putString(INTENT_EXTRA_PIN_VALUE, pinValue);
                     insertDataDnieStep3Fragment.setArguments(bundle);
 
                     getActivity().getSupportFragmentManager()

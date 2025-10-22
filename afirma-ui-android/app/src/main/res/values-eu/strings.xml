@@ -140,6 +140,8 @@
     <string name="sign_configuration">Sinadura ezarpenak</string>
     <string name="help">LAGUNTZA</string>
     <string name="faq">Ohiko galderak</string>
+    <string name="faq_deployed">hedatua</string>
+    <string name="faq_collapsed">kolapsatu</string>
     <string name="how_to_install_certs">Nola instalatu ziurtagiriak</string>
     <string name="general_info">INFORMAZIO OROKORRA</string>
     <string name="legal_announcement">Lege-oharra</string>
@@ -160,8 +162,8 @@
     <string name="acceptance_conditions">Lege-testuak onartzea</string>
     <string name="read_and_accept_privacy">Irakurri dut eta ados nago pribatutasun-politikarekin</string>
     <string name="read_and_accept_legal">Irakurri dut eta ados nago Legezko Oharrarekin eta Erabiltzeko Termino eta Baldintzekin</string>
-    <string name="dnie_identification">NANe-rekin identifikatzea</string>
-    <string name="dnie_identification_desc">NAN elektronikoaren bidez identifikatzeko, <b>indarrean dauden ziurtagiriak</b> dituen NAN elektronikoa izan behar duzu, eta <b>PIN kodea</b> jakin.</string>
+    <string name="sign_with_dnie">Sinadura NAN elektronikoarekin</string>
+    <string name="sign_with_dnie_desc">NANe bidez sinatzeko, <b>indarrean dauden ziurtagiriak</b> dituen NAN elektronikoa izan eta <b>PIN kodea</b> ezagutu behar duzu.</string>
     <string name="is_my_dnie_suitable">Bateragarria da nire NANa?</string>
     <string name="is_my_dnie_suitable_desc">Prozesu honekin bateragarriak diren NANak &lt;b>DNI 3.0 eta 4.0&lt;/b> NANak dira. Ez badakizu zein den zurea, esteka honetan kontsulta dezakezu:</string>
     <string name="dni_portal_text">&lt;u>NAN elektronikoaren ataria. Polizia Nazionalaren Kidegoa&lt;/u></string>
@@ -169,10 +171,10 @@
     <string name="dni_portal_url">https://www.dnielectronico.es/PortalDNIe/</string>
     <string name="enter_can_dni">Sartu NANaren CANa</string>
     <string name="enter_can_dni_desc">CANa NANaren beheko eskuineko aldean dagoen zenbaki bat da. NANa NFCrekin irakurtzeko beharrezkoa da.</string>
-    <string name="enter_can_dni_hint">Idatzi NANaren CAN kodea</string>
+    <string name="enter_can_dni_hint">Idatzi NANaren CAN kodea (Nahitaezkoa)</string>
     <string name="enter_pin_dni">Sartu PINa</string>
     <string name="enter_pin_dni_desc">NANa egitean, PIN kode bat jaso zenuen, eta komisarietan berreskuratu edo alda dezakezu, aurrez hitzordurik eman gabe.</string>
-    <string name="enter_your_pin_code">Idatzi zure PIN kodea</string>
+    <string name="enter_your_pin_code">Idatzi zure PIN kodea (Nahitaezkoa)</string>
     <string name="read_dnie_with_smartphone">Irakurri zure NANa mugikorrarekin</string>
     <string name="read_dnie_with_smartphone_desc">Jarri zure NANa gainazal lau batean, eta jarri zure mugikorra gainean <b>zorrorik gabe</b>, txipa detektatu arte.</string>
     <string name="read_dnie">Irakurri NANe</string>

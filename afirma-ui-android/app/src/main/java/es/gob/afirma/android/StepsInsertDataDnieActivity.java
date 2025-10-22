@@ -5,7 +5,6 @@ import static es.gob.afirma.android.gui.InsertDataDnieStep2Fragment.INTENT_EXTRA
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +19,6 @@ import es.gob.afirma.R;
 import es.gob.afirma.android.gui.InsertDataDnieStep1Fragment;
 import es.gob.afirma.android.gui.InsertDataDnieStep2Fragment;
 import es.gob.afirma.android.gui.InsertDataDnieStep3Fragment;
-import es.gob.afirma.android.util.Utils;
 
 public class StepsInsertDataDnieActivity extends AppCompatActivity {
 
@@ -33,8 +31,6 @@ public class StepsInsertDataDnieActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_steps_sign_dnie);
 
-        actualStep = 0;
-
         MaterialToolbar toolbar = this.findViewById(R.id.stepsSignDnieToolbar);
         toolbar.setNavigationContentDescription(getString(R.string.go_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -46,9 +42,15 @@ public class StepsInsertDataDnieActivity extends AppCompatActivity {
         if (getIntent() != null && getIntent().hasExtra(NFCDetectorActivity.INTENT_EXTRA_ERROR_READING_CARD) && getIntent().getBooleanExtra(NFCDetectorActivity.INTENT_EXTRA_ERROR_READING_CARD, false)) {
             char [] can = getIntent().getCharArrayExtra(getString(R.string.extra_can));
             char [] pin = getIntent().getCharArrayExtra(getString(R.string.extra_pin));
-            loadStep3(String.valueOf(can), String.valueOf(pin));
+            loadStep3(String.valueOf(can), String.valueOf(pin), true);
         } else {
-            loadStep1(InsertDataDnieStep1Fragment.canValue);
+            switch (actualStep) {
+                case 0:
+                case 1: loadStep1(InsertDataDnieStep1Fragment.canValue); break;
+                case 2: loadStep2(InsertDataDnieStep1Fragment.canValue); break;
+                case 3: loadStep3(InsertDataDnieStep1Fragment.canValue, InsertDataDnieStep2Fragment.pinValue, false); break;
+            }
+
         }
 
     }
@@ -81,9 +83,7 @@ public class StepsInsertDataDnieActivity extends AppCompatActivity {
 
         ProgressBar progressBar = this.findViewById(R.id.signDnieStepsPb);
         progressBar.setMax(3);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            progressBar.setProgress(1,true);
-        }
+        progressBar.setProgress(1, true);
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -99,10 +99,9 @@ public class StepsInsertDataDnieActivity extends AppCompatActivity {
         titleTv.setText(getString(R.string.enter_pin_dni));
 
         ProgressBar progressBar = this.findViewById(R.id.signDnieStepsPb);
+        progressBar.setMax(3);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            progressBar.setProgress(2,true);
-        }
+        progressBar.setProgress(2, true);
 
         InsertDataDnieStep2Fragment insertDataDnieStep2Fragment = new InsertDataDnieStep2Fragment();
         Bundle bundle = new Bundle();
@@ -114,7 +113,7 @@ public class StepsInsertDataDnieActivity extends AppCompatActivity {
                 .commit();
     }
 
-    private void loadStep3(String can, String pin) {
+    private void loadStep3(String can, String pin, boolean errorReadingCard) {
         TextView stepTv = this.findViewById(R.id.stepTv);
         stepTv.setText(getString(R.string.actual_step, "3"));
 
@@ -123,14 +122,14 @@ public class StepsInsertDataDnieActivity extends AppCompatActivity {
 
         ProgressBar progressBar = this.findViewById(R.id.signDnieStepsPb);
         progressBar.setMax(3);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            progressBar.setProgress(3,true);
-        }
+        progressBar.setProgress(3, true);
 
         InsertDataDnieStep3Fragment insertDataDnieStep3Fragment = new InsertDataDnieStep3Fragment();
         Bundle bundle = new Bundle();
 
-        bundle.putBoolean(NFCDetectorActivity.INTENT_EXTRA_ERROR_READING_CARD, true);
+        if (errorReadingCard) {
+            bundle.putBoolean(NFCDetectorActivity.INTENT_EXTRA_ERROR_READING_CARD, true);
+        }
         bundle.putString(INTENT_EXTRA_CAN_VALUE, can);
         bundle.putString(INTENT_EXTRA_PIN_VALUE, pin);
         insertDataDnieStep3Fragment.setArguments(bundle);

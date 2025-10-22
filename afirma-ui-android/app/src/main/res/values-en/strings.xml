@@ -140,6 +140,8 @@
     <string name="sign_configuration">Sign configuration</string>
     <string name="help">HELP</string>
     <string name="faq">FAQ</string>
+    <string name="faq_deployed">deployed</string>
+    <string name="faq_collapsed">collapsed</string>
     <string name="how_to_install_certs">How to install certificates</string>
     <string name="general_info">GENERAL INFORMATION</string>
     <string name="legal_announcement">Legal notice</string>
@@ -160,8 +162,8 @@
     <string name="acceptance_conditions">Acceptance of legal texts</string>
     <string name="read_and_accept_privacy">I have read and agree to the Privacy Policy</string>
     <string name="read_and_accept_legal">I have read and agree with the Legal Notice and the Terms and Conditions of Use</string>
-    <string name="dnie_identification">Identification with DNIe</string>
-    <string name="dnie_identification_desc">To identify yourself using DNIe, you need to have an electronic ID with <b>certificates in effect</b> and know the <b>PIN code</b>.</string>
+    <string name="sign_with_dnie">Sign with DNIe</string>
+    <string name="sign_with_dnie_desc">To sign with DNIe, you need to have an electronic ID with <b>certificates in effect</b> and know the <b>PIN code</b>.</string>
     <string name="is_my_dnie_suitable">Is my ID compatible?</string>
     <string name="is_my_dnie_suitable_desc">The DNIe supported by this process are &lt;b>DNI 3.0 y 4.0&lt;/b>. If you have any questions about what your own is, you can see it at the following link:</string>
     <string name="dni_portal_text">&lt;u>Electronic ID portal. National Police Corps&lt;/u></string>
@@ -171,8 +173,8 @@
     <string name="enter_can_dni_desc">The CAN is a number located at the bottom right of the ID. It is necessary for ID reading with NFC.</string>
     <string name="enter_pin_dni">Enter the PIN</string>
     <string name="enter_pin_dni_desc">When you get the DNIe you received a PIN code that you can retrieve or change in police stations without appointment.</string>
-    <string name="enter_can_dni_hint">Enter your ID CAN code</string>
-    <string name="enter_your_pin_code">Enter your PIN code</string>
+    <string name="enter_can_dni_hint">Enter your ID CAN code (Required)</string>
+    <string name="enter_your_pin_code">Enter your PIN code (Required)</string>
     <string name="read_dnie_with_smartphone">Read your DNIe with mobile</string>
     <string name="read_dnie_with_smartphone_desc">Place your DNIe on a smooth surface and place your mobile without cover on it until it detects the chip.</string>
     <string name="read_dnie">Read DNIe</string>

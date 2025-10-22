@@ -140,6 +140,8 @@
     <string name="sign_configuration">Configuraci\u00f3n do asinado</string>
     <string name="help">AXUDA</string>
     <string name="faq">Preguntas frecuentes</string>
+    <string name="faq_deployed">despregado</string>
+    <string name="faq_collapsed">colapsado</string>
     <string name="how_to_install_certs">Como instalar certificados</string>
     <string name="general_info">INFORMACI\u00D3N XERAL</string>
     <string name="legal_announcement">Aviso legal</string>
@@ -160,8 +162,8 @@
     <string name="acceptance_conditions">Aceptaci\u00F3n de textos legais</string>
     <string name="read_and_accept_privacy">Lin e estou de acordo con a Pol\u00edtica de Privacidade</string>
     <string name="read_and_accept_legal">Lin e estou de acordo con o Aviso Legal e os Termos e Condici\u00F3ns de Uso</string>
-    <string name="dnie_identification">Identificaci\u00F3n con DNIe</string>
-    <string name="dnie_identification_desc">Para identificarche mediante DNIe \u00E9 necesario que te\u00F1as un DNI electr\u00F3nico con certificados <b>vixentes</b> e co\u00F1ezas o <b>c\u00F3digo PIN</b>.</string>
+    <string name="sign_with_dnie">Firma con DNIe</string>
+    <string name="sign_with_dnie_desc">Para asinar mediante DNIe \u00E9 necesario que te\u00F1as un DNI electr\u00F3nico con certificados <b>vixentes</b> e co\u00F1ezas o <b>c\u00F3digo PIN</b>.</string>
     <string name="is_my_dnie_suitable">\u00C9 o meu DNI compatible?</string>
     <string name="is_my_dnie_suitable_desc">O DNIe compatibles con este proceso son o  &lt;b>DNI 3.0 e 4.0&lt;/b>. Se tes d\u00FAbidas de cal \u00e9 o teu, podes consultar na seguinte ligaz\u00F3n:</string>
     <string name="dni_portal_text">&lt;u>Portal do DNI electr\u00F3nico. Corpo Nacional de Polic\00EDa&lt;/u></string>
@@ -169,10 +171,10 @@
     <string name="dni_portal_url">https://www.dnielectronico.es/PortalDNIe/</string>
     <string name="enter_can_dni">Introduza o CAN do DNI</string>
     <string name="enter_can_dni_desc">O CAN \u00E9 un n\u00famero situado na parte inferior dereita do DNI. \u00C9 necesario para a lectura do DNI con NFC.</string>
-    <string name="enter_can_dni_hint">Escribe o teu c\u00F3digo CAN do DNI</string>
+    <string name="enter_can_dni_hint">Escribe o teu c\u00F3digo CAN do DNI (Obrigatorio)</string>
     <string name="enter_pin_dni">Introduce o PIN</string>
     <string name="enter_pin_dni_desc">Ao facerche o DNIe recibiches un c\u00F3digo PIN que podes recuperar ou cambiar en comisar\u00edas sen cita previa.</string>
-    <string name="enter_your_pin_code">Escribe o teu c\u00F3digo PIN</string>
+    <string name="enter_your_pin_code">Escribe o teu c\u00F3digo PIN (Obrigatorio)</string>
     <string name="read_dnie_with_smartphone">Le o teu DNIe co m\u00F3bil</string>
     <string name="read_dnie_with_smartphone_desc">Coloca o teu DNIe nunha superficie lisa e sit\u00faa o teu m\u00F3bil <b>sen funda</b> sobre el ata que detecte o chip.</string>
     <string name="read_dnie">Ler DNIe</string>

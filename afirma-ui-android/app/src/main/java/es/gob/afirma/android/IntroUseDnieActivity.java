@@ -57,6 +57,7 @@ public class IntroUseDnieActivity extends FragmentActivity {
             @Override
             public void onClick(View v)
             {
+                StepsInsertDataDnieActivity.actualStep = 0;
                 Intent intent = new Intent(getBaseContext(), StepsInsertDataDnieActivity.class);
                 startActivityForResult(intent, StepsInsertDataDnieActivity.REQUEST_NFC_PARAMS);
             }

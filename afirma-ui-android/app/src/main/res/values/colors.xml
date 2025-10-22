@@ -8,4 +8,5 @@
         <color name="blue">#0000FF</color>
         <color name="gray">#b5a19f</color>
         <color name="lightGray">#f9fafb</color>
+        <color name="progressBarColor">#2b784e</color>
 </resources>
