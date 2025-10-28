@@ -35,10 +35,17 @@ public class CertImportInstructionsActivity extends AppCompatActivity {
 
     private Button addCertButton;
 
+    private int activeStep;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_import_cert);
+
+        // Recuperamos el paso actual en caso de que gire la pantalla
+        if (savedInstanceState != null) {
+            activeStep = savedInstanceState.getInt("activeStep", 0);
+        }
 
         Toolbar toolbar = findViewById(R.id.importCertToolbar);
         toolbar.setNavigationContentDescription(getString(R.string.go_back));
@@ -71,6 +78,7 @@ public class CertImportInstructionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                activeStep = 0;
                 Intent replyIntent = new Intent(getBaseContext(), HomeActivity.class);
                 replyIntent.putExtra("startImportCert", true);
                 setResult(RESULT_OK, replyIntent);
@@ -80,10 +88,8 @@ public class CertImportInstructionsActivity extends AppCompatActivity {
         });
 
         titleText = findViewById(R.id.titleText);
-        titleText.setText(getResources().getString(R.string.locate_file_title));
 
         introText = findViewById(R.id.introText);
-        introText.setText(getResources().getString(R.string.locate_file_message));
 
         viewPager = findViewById(R.id.containerVp);
 
@@ -92,6 +98,19 @@ public class CertImportInstructionsActivity extends AppCompatActivity {
             viewPager.setAdapter(pagerAdapter);
         }
 
+        if (activeStep == 1) {
+            activateStep2();
+        } else {
+            activateStep1();
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // Guardamos el paso actual antes de que la Activity se destruya
+        super.onSaveInstanceState(outState);
+        outState.putInt("activeStep", activeStep);
     }
 
     @Override
@@ -103,7 +122,14 @@ public class CertImportInstructionsActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
             }
         } else {
-            activateStep1();
+            switch (activeStep) {
+                case 0:
+                    super.onBackPressed();
+                    break;
+                case 1:
+                    activateStep1();
+                    break;
+            }
         }
     }
 
@@ -116,6 +142,7 @@ public class CertImportInstructionsActivity extends AppCompatActivity {
         page1Indicator.setImageResource(R.drawable.selectedpageindicator);
         ImageView page2Indicator = findViewById(R.id.page2Indicator);
         page2Indicator.setImageResource(R.drawable.unselectedpageindicator);
+        activeStep = 0;
     }
 
     private void activateStep2() {
@@ -127,6 +154,7 @@ public class CertImportInstructionsActivity extends AppCompatActivity {
         page1Indicator.setImageResource(R.drawable.unselectedpageindicator);
         ImageView page2Indicator = findViewById(R.id.page2Indicator);
         page2Indicator.setImageResource(R.drawable.selectedpageindicator);
+        activeStep = 1;
     }
 
     @Override
