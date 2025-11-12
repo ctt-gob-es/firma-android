@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=PdfiumAndroid-2.0.0.aar -DpomFile=PdfiumAndroid-2.0.0.pom
