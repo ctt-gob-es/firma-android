@@ -181,6 +181,7 @@ public class FileUtil {
 
     public static boolean isPdfFile(final byte[] data) {
         if (data == null || data.length < PDF_MIN_FILE_SIZE) {
+            Log.w("es.gob.afirma", "Datos a firmar: " + new String(data));
             return false;
         }
         final byte[] buffer = new byte[PDF_FILE_HEADER.length()];

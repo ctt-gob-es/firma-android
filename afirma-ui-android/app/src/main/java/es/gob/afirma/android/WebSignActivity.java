@@ -264,16 +264,15 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 
 			// Expandimos los parametros extra si se utiliza uno de los formatos de firma
 			// monofasicos compatibles. Si no, sera el servidor trifasico el que debera expandirlos
-			if (AOSignConstants.SIGN_FORMAT_CADES.equals(this.parameters.getSignatureFormat()) ||
-					AOSignConstants.SIGN_FORMAT_PADES.equals(this.parameters.getSignatureFormat())) {
+			if (AOSignConstants.SIGN_FORMAT_CADES.equals(this.parameters.getSignatureFormat())
+					|| AOSignConstants.SIGN_FORMAT_PADES.equals(this.parameters.getSignatureFormat())
+					|| AOSignConstants.SIGN_FORMAT_PDF.equals(this.parameters.getSignatureFormat())) {
 				this.parameters.expandExtraParams();
 			}
 
 			// Si se indica el formato PAdES y no se trata de un PDF se lanzara un error
 			if ((AOSignConstants.SIGN_FORMAT_PADES.equals(this.parameters.getSignatureFormat())
-				|| AOSignConstants.SIGN_FORMAT_PADES_TRI.equals(this.parameters.getSignatureFormat())
-				|| AOSignConstants.SIGN_FORMAT_PDF.equals(this.parameters.getSignatureFormat())
-				|| AOSignConstants.SIGN_FORMAT_PDF_TRI.equals(this.parameters.getSignatureFormat()))
+				|| AOSignConstants.SIGN_FORMAT_PDF.equals(this.parameters.getSignatureFormat()))
 				&& !FileUtil.isPdfFile(this.parameters.getData())) {
 					ErrorCode errorCode;
 					if (this.dataSelectedByUser) {

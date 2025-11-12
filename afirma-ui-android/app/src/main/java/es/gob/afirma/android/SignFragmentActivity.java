@@ -175,7 +175,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 				}
 			}
 		} catch (final CertificateExpiredException e) {
-			Logger.e(ES_GOB_AFIRMA, "El certificado seleccionado esta caducado: " + e); //$NON-NLS-1$
+			Logger.w(ES_GOB_AFIRMA, "El certificado seleccionado esta caducado: " + e); //$NON-NLS-1$
 			// Usamos una variable final para su uso desde el listener
 			final PrivateKeyEntry finalPke = pke;
 			SignFragmentActivity.this.runOnUiThread(new Runnable() {
@@ -196,7 +196,7 @@ public abstract class SignFragmentActivity	extends LoadKeyStoreFragmentActivity
 			return;
 		}
 		catch (final AOCancelledOperationException e) {
-			Logger.e(ES_GOB_AFIRMA, "El usuario no selecciono un certificado: " + e); //$NON-NLS-1$
+			Logger.w(ES_GOB_AFIRMA, "El usuario no selecciono un certificado: " + e); //$NON-NLS-1$
 
 			// Si se ha cancelado la operacion y esta disponible el uso de mas de un almacen, permitimos
 			// seleccionar almacen. Si no, damos por hecho que el usuario quiere cancelar.

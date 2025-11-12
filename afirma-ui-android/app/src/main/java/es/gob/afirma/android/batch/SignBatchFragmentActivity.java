@@ -31,6 +31,7 @@ import es.gob.afirma.R;
 import es.gob.afirma.android.KeyEntryCache;
 import es.gob.afirma.android.LoadKeyStoreFragmentActivity;
 import es.gob.afirma.android.Logger;
+import es.gob.afirma.android.NfcHelper;
 import es.gob.afirma.android.crypto.KeyStoreManagerListener;
 import es.gob.afirma.android.crypto.MSCBadPinException;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager;
@@ -109,7 +110,7 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 			}
 		}
 		catch (final CertificateExpiredException e) {
-			Logger.e(ES_GOB_AFIRMA, "El certificado seleccionado esta caducado: " + e); //$NON-NLS-1$
+			Logger.w(ES_GOB_AFIRMA, "El certificado seleccionado esta caducado: " + e); //$NON-NLS-1$
 			SignBatchFragmentActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
 					showExpiredCertDialog(kse, pke);
@@ -129,8 +130,14 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 			return;
 		}
 		catch (final AOCancelledOperationException e) {
-			Logger.e(ES_GOB_AFIRMA, "El usuario no selecciono un certificado: " + e); //$NON-NLS-1$
-			onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, new PendingIntent.CanceledException(e));
+			Logger.w(ES_GOB_AFIRMA, "El usuario no selecciono un certificado: " + e); //$NON-NLS-1$
+			// Si se ha cancelado la operacion y esta disponible el uso de mas de un almacen, permitimos
+			// seleccionar almacen. Si no, damos por hecho que el usuario quiere cancelar.
+			if (NfcHelper.isNfcPreferredConnection(this)) {
+				loadKeyStore(this, null);
+			} else {
+				onSigningError(KeyStoreOperation.SELECT_CERTIFICATE, new PendingIntent.CanceledException(e));
+			}
 			return;
 		}
 		// Cuando se instala el certificado desde el dialogo de seleccion, Android da a elegir certificado
