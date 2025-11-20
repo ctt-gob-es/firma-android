@@ -33,14 +33,14 @@ import java.security.GeneralSecurityException;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.crypto.AndroidHttpManager;
-import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.android.errors.ErrorManager;
 import es.gob.afirma.android.errors.ErrorMapper;
 import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.SendDataTask;
-import es.gob.afirma.android.util.WebSignUtil;
+import es.gob.afirma.ciphers.ServerCipher;
+import es.gob.afirma.ciphers.ServerCipherFactory;
 import es.gob.afirma.core.ErrorCode;
 import es.gob.afirma.core.misc.MimeHelper;
 import es.gob.afirma.core.misc.http.UrlHttpManagerFactory;
@@ -64,6 +64,8 @@ public final class WebSaveDataActivity extends FragmentActivity
 	private UrlParametersToSave parameters = null;
 
 	private DownloadFileTask downloadFileTask = null;
+
+    private ServerCipher serverCipher;
 
 	static {
 		// Instalamos el gestor de descargas que deseamos utilizar en las invocaciones por
@@ -124,6 +126,16 @@ public final class WebSaveDataActivity extends FragmentActivity
 			finish();
 			return;
 		}
+
+        if (this.parameters.getCipherConfig() != null) {
+            try {
+                serverCipher = ServerCipherFactory.newServerCipher(this.parameters.getCipherConfig());
+            } catch (final Exception e) {
+                Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString() , e); //$NON-NLS-1$
+                finish();
+                return;
+            }
+        }
 
 		// Si no tenemos datos, los podamos descargar y no hemos empezado todavia la descarga, empezamos a descargarlos
 		if (this.parameters.getData() == null && this.parameters.getFileId() != null && this.downloadFileTask == null) {
@@ -291,8 +303,7 @@ public final class WebSaveDataActivity extends FragmentActivity
 		// actualizamos los datos que teniamos y  continuamos con la operacion
 		final byte[] decipheredData;
 		try {
-			byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(this.parameters.getCipherConfig());
-			decipheredData = CipherDataManager.decipherData(data, desKey);
+			decipheredData = serverCipher.decipherData(data);
 		}
 		catch (final IOException e) {
 			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
@@ -302,12 +313,6 @@ public final class WebSaveDataActivity extends FragmentActivity
 		}
 		catch (final GeneralSecurityException e) {
 			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Error al descifrar los datos recuperados del servidor para la firma", e); //$NON-NLS-1$
-			showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
-			sendError(ErrorManager.ERROR_BAD_PARAMETERS, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
-			return;
-		}
-		catch (final IllegalArgumentException e) {
-			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Los datos recuperados no son un base64 valido", e); //$NON-NLS-1$
 			showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
 			sendError(ErrorManager.ERROR_BAD_PARAMETERS, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
 			return;

@@ -34,7 +34,6 @@ import java.util.Map;
 import es.gob.afirma.R;
 import es.gob.afirma.android.batch.SignBatchFragmentActivity;
 import es.gob.afirma.android.crypto.AndroidHttpManager;
-import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.crypto.KeyStoreManagerListener;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
 import es.gob.afirma.android.errors.AppErrorCode;
@@ -45,7 +44,8 @@ import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
-import es.gob.afirma.android.util.WebSignUtil;
+import es.gob.afirma.ciphers.ServerCipher;
+import es.gob.afirma.ciphers.ServerCipherFactory;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.AOControlledException;
 import es.gob.afirma.core.AOException;
@@ -92,6 +92,11 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	 * Versi&oacute;n del protocolo de comunicaci&oacute;n solicitada.
 	 */
 	private static int requestedProtocolVersion = -1;
+
+    /**
+     * Objeto encargado de cifrar o descifrar datos.
+     */
+    private ServerCipher serverCipher;
 
 	static {
 		// Instalamos el gestor de descargas que deseamos utilizar en las invocaciones por
@@ -149,6 +154,17 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 			requestedProtocolVersion = parseProtocolVersion(getBatchParams().getMinimumProtocolVersion());
 		}
 
+        if (getBatchParams().getCipherConfig() != null) {
+            try {
+                serverCipher = ServerCipherFactory.newServerCipher(getBatchParams().getCipherConfig());
+            } catch (final Exception e) {
+                Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString() + e, e); //$NON-NLS-1$
+                showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+                launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+                return;
+            }
+        }
+
 		// Si se indica un identificador de fichero, es que el JSON de definicion de lote
 		// se tiene que descargar previamente desde el servidor intermedio
 		if (getBatchParams().getFileId() != null) {
@@ -174,8 +190,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 
 		byte[] batchDefinition;
 		try {
-			byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(getBatchParams().getCipherConfig());
-			batchDefinition = CipherDataManager.decipherData(cipheredBatchDefinition, desKey);
+			batchDefinition = serverCipher.decipherData(cipheredBatchDefinition);
 		}
 		catch (final IOException e) {
 			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
@@ -414,11 +429,10 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		// Si hay clave de cifrado, ciframos
 		if (getBatchParams().getCipherConfig() != null) {
 			try {
-				byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(getBatchParams().getCipherConfig());
-				result.append(CipherDataManager.cipherData(batchResult, desKey));
+				result.append(serverCipher.cipherData(batchResult));
 				if (signingCertEncoded != null) {
 						result.append(RESULT_SEPARATOR)
-							.append(CipherDataManager.cipherData(signingCertEncoded, desKey));
+							.append(serverCipher.cipherData(signingCertEncoded));
 				}
 			}
 			catch (final Exception e) {

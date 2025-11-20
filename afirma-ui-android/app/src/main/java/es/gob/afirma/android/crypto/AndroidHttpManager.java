@@ -215,6 +215,16 @@ public class AndroidHttpManager implements UrlHttpManager {
         return data;
     }
 
+    @Override
+    public void setReadTimeout(int i) {
+        //No hace nada
+    }
+
+    @Override
+    public int getReadTimeout() {
+        return -1;
+    }
+
     /** Habilita las comprobaciones de certificados en conexiones SSL dej&aacute;ndolas con su
      * comportamiento por defecto. */
     private static void enableSslChecks() {
