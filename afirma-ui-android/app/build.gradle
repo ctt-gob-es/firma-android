@@ -80,6 +80,7 @@ dependencies {
     implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.10-SNAPSHOT'
     implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.10-SNAPSHOT'
     implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.10-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-cipher2:1.10-SNAPSHOT'
     implementation 'com.google.code.gson:gson:2.13.2'
 
     // Agregamos la dependencia necesaria para la previsualizacion de PDFs,

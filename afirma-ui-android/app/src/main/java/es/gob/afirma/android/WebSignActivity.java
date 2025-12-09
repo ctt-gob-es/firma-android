@@ -38,8 +38,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import org.json.JSONException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,7 +50,6 @@ import java.util.Properties;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.crypto.AndroidHttpManager;
-import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
 import es.gob.afirma.android.crypto.SignResult;
 import es.gob.afirma.android.errors.AppErrorCode;
@@ -67,7 +64,8 @@ import es.gob.afirma.android.gui.DownloadFileTask.DownloadDataListener;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
 import es.gob.afirma.android.util.FileUtil;
-import es.gob.afirma.android.util.WebSignUtil;
+import es.gob.afirma.ciphers.ServerCipher;
+import es.gob.afirma.ciphers.ServerCipherFactory;
 import es.gob.afirma.core.AOControlledException;
 import es.gob.afirma.core.AOUnsupportedSignFormatException;
 import es.gob.afirma.core.ErrorCode;
@@ -121,6 +119,8 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	private boolean isRequiredVisibleSignature;
 
 	private boolean dataSelectedByUser;
+
+    private ServerCipher serverCipher;
 
 	CustomDialog getMessageDialog() {
 		return this.messageDialog;
@@ -177,18 +177,23 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		try {
 			this.parameters = ProtocolInvocationUriParser.getParametersToSign(getIntent().getDataString(), true);
 		}
-		catch (final ParameterException e) {
-			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString(), e); //$NON-NLS-1$
-			showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
-			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
-			return;
-		}
 		catch (final Throwable e) {
 			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString(), e); //$NON-NLS-1$
 			showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
 			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
 			return;
 		}
+
+        if (this.parameters.getCipherConfig() != null) {
+            try {
+                serverCipher = ServerCipherFactory.newServerCipher(this.parameters.getCipherConfig());
+            } catch (final Exception e) {
+                Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString(), e); //$NON-NLS-1$
+                showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+                launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+                return;
+            }
+        }
 
 		try {
 			processSignRequest();
@@ -533,8 +538,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
         // al dialogo de seleccion de certificados para la firma
         final byte[] decipheredData;
         try {
-			byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(this.parameters.getCipherConfig());
-			decipheredData = CipherDataManager.decipherData(data, desKey);
+			decipheredData = serverCipher.decipherData(data);
         }
         catch (final IOException e) {
             Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
@@ -625,11 +629,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		String data;
 		if (this.parameters.getCipherConfig() != null && this.parameters.getCipherConfig().length > 0) {
 			try {
-				byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(this.parameters.getCipherConfig());
-				data = CipherDataManager.cipherData(
-						signature.getSignature(),
-						desKey
-				);
+                data = serverCipher.cipherData(signature.getSignature());
 			} catch (final Throwable e) {
 				Logger.e(ES_GOB_AFIRMA, AppErrorCode.Internal.CYPHERING_SIGN.toString() , e); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_CIPHERING, true, AppErrorCode.Internal.CYPHERING_SIGN);
@@ -644,17 +644,13 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 		try {
 			encodedCert = signature.getSigningCertificate().getEncoded();
 			if (this.parameters.getCipherConfig() != null && this.parameters.getCipherConfig().length > 0) {
-				byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(this.parameters.getCipherConfig());
-				signingCert = CipherDataManager.cipherData(
-						encodedCert,
-						desKey
-				);
+                signingCert = serverCipher.cipherData(encodedCert);
 			}
 			else {
 				signingCert = Base64.encodeToString(encodedCert, Base64.URL_SAFE);
 			}
 		}
-		catch (final GeneralSecurityException | JSONException e) {
+		catch (final Exception e) {
 			Logger.e(ES_GOB_AFIRMA, AppKeyStoreErrorCode.Internal.CYPHERING_CERT.toString() , e);
 			signingCert = null;
 		}

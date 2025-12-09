@@ -30,7 +30,6 @@ import java.security.cert.Certificate;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.crypto.AndroidHttpManager;
-import es.gob.afirma.android.crypto.CipherDataManager;
 import es.gob.afirma.android.crypto.KeyStoreManagerListener;
 import es.gob.afirma.android.crypto.MobileKeyStoreManager;
 import es.gob.afirma.android.crypto.SelectKeyAndroid41BugException;
@@ -42,7 +41,8 @@ import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.DownloadFileTask;
 import es.gob.afirma.android.gui.SendDataTask;
 import es.gob.afirma.android.gui.SendDataTask.SendDataListener;
-import es.gob.afirma.android.util.WebSignUtil;
+import es.gob.afirma.ciphers.ServerCipher;
+import es.gob.afirma.ciphers.ServerCipherFactory;
 import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.ErrorCode;
 import es.gob.afirma.core.misc.Base64;
@@ -69,6 +69,9 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
     private DownloadFileTask downloadFileTask = null;
 
 	private CustomDialog messageDialog;
+
+    private ServerCipher serverCipher;
+
 	CustomDialog getMessageDialog() {
 		return this.messageDialog;
 	}
@@ -136,6 +139,17 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 			launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
 			return;
 		}
+
+        if (this.parameters.getCipherConfig() != null) {
+            try {
+                serverCipher = ServerCipherFactory.newServerCipher(this.parameters.getCipherConfig());
+            } catch (final Exception e) {
+                Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID.toString() + e, e); //$NON-NLS-1$
+                showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+                launchError(ErrorManager.ERROR_BAD_PARAMETERS, true, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
+                return;
+            }
+        }
 
 		if (this.parameters.getSticky() && !this.parameters.getResetSticky() && KeyEntryCache.getStickyKeyEntry() != null) {
 			certificateSelected(new MobileKeyStoreManager.SelectCertificateEvent(KeyEntryCache.getStickyKeyEntry(), false, false));
@@ -362,8 +376,7 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
         // al dialogo de seleccion de certificados para la firma
         byte[] decipheredData;
         try {
-			byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(this.parameters.getCipherConfig());
-            decipheredData = CipherDataManager.decipherData(data, desKey);
+            decipheredData = serverCipher.decipherData(data);
         } catch (final IOException e) {
 			Logger.e(ES_GOB_AFIRMA, AppErrorCode.Request.REQUEST_PARAM_NOT_VALID + " - Los datos proporcionados no est&aacute;n correctamente codificados en base 64", e); //$NON-NLS-1$
 			showErrorMessage(AppErrorCode.Request.REQUEST_PARAM_NOT_VALID);
@@ -413,8 +426,7 @@ public final class WebSelectCertificateActivity extends LoadKeyStoreFragmentActi
 		final String data;
 		if (this.parameters.getCipherConfig() != null) {
 			try {
-				byte [] desKey = WebSignUtil.getDesKeyFromCipherConfig(this.parameters.getCipherConfig());
-				data = CipherDataManager.cipherData(certificate, desKey);
+				data = serverCipher.cipherData(certificate);
 			}
 			catch (final GeneralSecurityException e) {
 				Logger.e(ES_GOB_AFIRMA, AppKeyStoreErrorCode.Internal.CYPHERING_CERT.toString(), e);
