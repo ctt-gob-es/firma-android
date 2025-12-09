@@ -66,6 +66,13 @@ public class AndroidHttpManager implements UrlHttpManager {
             }
     };
 
+    /**
+     * Tiempo m&aacute;ximo de lectura de los datos. Un valor negativo establece
+     * el tiempo por defecto, 0 una espera indefinida y un valor positivo el n&uacute;mero
+     * de milisegundos que puede tardar la lectura como m&aacute;ximo.
+     */
+    private int readTimeout = -1;
+
     @Override
     public byte[] readUrl(String url, UrlHttpMethod method) throws IOException {
         return readUrl(url, DEFAULT_TIMEOUT, null, null, method);
@@ -167,13 +174,16 @@ public class AndroidHttpManager implements UrlHttpManager {
             conn.setRequestMethod(method.toString());
 
             if (requestProperties != null) {
-                for (final String key : requestProperties.keySet().toArray(new String[0])) {
+                for (final String key : requestProperties.stringPropertyNames().toArray(new String[0])) {
                     conn.addRequestProperty(key, requestProperties.getProperty(key)); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             }
 
             if (timeout != DEFAULT_TIMEOUT) {
                 conn.setConnectTimeout(timeout);
+            }
+
+            if (readTimeout >= 0) {
                 conn.setReadTimeout(timeout);
             }
 
@@ -213,6 +223,16 @@ public class AndroidHttpManager implements UrlHttpManager {
         }
 
         return data;
+    }
+
+    @Override
+    public void setReadTimeout(int readTimeout) {
+        this.readTimeout = readTimeout;
+    }
+
+    @Override
+    public int getReadTimeout() {
+        return this.readTimeout;
     }
 
     /** Habilita las comprobaciones de certificados en conexiones SSL dej&aacute;ndolas con su

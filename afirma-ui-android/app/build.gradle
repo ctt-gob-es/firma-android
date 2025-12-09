@@ -1,6 +1,6 @@
 
 plugins {
-    id "org.sonarqube" version "3.0"
+    id "org.sonarqube" version "7.0.1.6134"
 }
 
 apply plugin: 'com.android.application'
@@ -14,25 +14,25 @@ android {
         checkReleaseBuilds false
     }
     namespace 'es.gob.afirma'
-    compileSdk 36
+    compileSdk = 36
     defaultConfig {
         applicationId "es.gob.afirma"
         minSdkVersion 26
         targetSdkVersion 36
         multiDexEnabled true
-        versionCode 29
-        versionName "1.9.2"
+        versionCode 31
+        versionName "1.9.3"
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
     compileOptions {
-        targetCompatibility 17
-        sourceCompatibility 17
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     packagingOptions {
         resources {
@@ -54,7 +54,8 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':pdfium')
 
 	implementation 'com.google.android.material:material:1.13.0'
 
@@ -89,7 +90,7 @@ dependencies {
     implementation ('com.github.mhiew:android-pdf-viewer:3.2.0-beta.3') {
         exclude(group: 'com.github.mhiew', module: "pdfium-android")
     }
-    implementation files('libs/PdfiumAndroid-2.0.0-release.aar')
+    //implementation files('libs/PdfiumAndroid-2.0.0-release.aar')
 
     // Java language implementation
     implementation "androidx.fragment:fragment:1.8.9"
@@ -97,10 +98,10 @@ dependencies {
 
     // Restricciones para evitar clases duplicadas debido a dependencias
     constraints {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.2.0") {
             because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
         }
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.0") {
             because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
         }
     }
