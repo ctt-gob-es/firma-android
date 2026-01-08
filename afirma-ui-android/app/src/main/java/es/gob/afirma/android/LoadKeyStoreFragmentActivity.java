@@ -341,7 +341,6 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity implements Nf
     public void onResume() {
         super.onResume();
 
-        Log.i(ES_GOB_AFIRMA, "==== onResume: " + getTaskId());
         if (this.nfcAdapter != null) {
             Bundle options = new Bundle();
             this.nfcAdapter.enableReaderMode(this, this, TECH_FLAGS, options);
@@ -351,7 +350,6 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity implements Nf
     @Override
     public void onPause() {
         super.onPause();
-        Log.i(ES_GOB_AFIRMA, "==== onPause");
 
         if (this.nfcAdapter != null) {
             this.nfcAdapter.disableReaderMode(this);
@@ -383,7 +381,6 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity implements Nf
 
     private void prepareCardConnection(Tag tag) throws IOException {
 
-        Log.i(ES_GOB_AFIRMA, "==== prepareCardConnection");
         IsoDep mIsoDep = IsoDep.get(tag);
         mIsoDep.connect();
 

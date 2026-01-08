@@ -61,7 +61,7 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 	public static final String SIGN_TYPE_BATCH_APP = "BATCH_APP";
 
 	private UrlParametersForBatch batchParams;
-	private PrivateKeyEntry pke;
+	private PrivateKeyEntry keyEntry = null;
 
 	/**
 	 * Inicia el proceso de firma.
@@ -90,19 +90,19 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 	@Override
 	public synchronized void keySelected(final SelectCertificateEvent kse) {
 
-		X509Certificate cert;
-
+        PrivateKeyEntry pke = null;
 		try {
-			pke = kse.getPrivateKeyEntry();
-			cert = (X509Certificate) pke.getCertificate();
+            pke = kse.getPrivateKeyEntry();
+            X509Certificate cert = (X509Certificate) pke.getCertificate();
 			if (kse.isCertExpirationWarningNeed()) {
 				cert.checkValidity();
 				boolean expiredSoon = CertificateUtil.checkExpiredSoon(cert);
 				if (expiredSoon) {
 					Logger.e(ES_GOB_AFIRMA, "El certificado seleccionado esta a punto de caducar"); //$NON-NLS-1$
+                    final PrivateKeyEntry finalPke = pke;
 					SignBatchFragmentActivity.this.runOnUiThread(new Runnable() {
 						public void run() {
-							showCertExpiringSoonDialog(kse, pke);
+							showCertExpiringSoonDialog(kse, finalPke);
 						}
 					});
 					return;
@@ -111,9 +111,10 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 		}
 		catch (final CertificateExpiredException e) {
 			Logger.w(ES_GOB_AFIRMA, "El certificado seleccionado esta caducado: " + e); //$NON-NLS-1$
+            final PrivateKeyEntry finalPke = pke;
 			SignBatchFragmentActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
-					showExpiredCertDialog(kse, pke);
+					showExpiredCertDialog(kse, finalPke);
 				}
 			});
 			return;
@@ -156,16 +157,18 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 
 	}
 
-	private void startDoSign(final SelectCertificateEvent kse, final PrivateKeyEntry keyEntry) {
+	private void startDoSign(final SelectCertificateEvent kse, final PrivateKeyEntry pke) {
 
-		X509Certificate cert = (X509Certificate) keyEntry.getCertificate();
+        this.keyEntry = pke;
+
+		X509Certificate cert = (X509Certificate) this.keyEntry.getCertificate();
 
 		// Comprobamos si es un certificado de seudonimo si se ha solicitado
 		if (kse.isPseudonymWarningNeed()) {
 			if (AOUtil.isPseudonymCert(cert)) {
 				SignBatchFragmentActivity.this.runOnUiThread(new Runnable() {
 					public void run() {
-						showPseudonymCertDialog(kse, pke);
+						showPseudonymCertDialog(kse, SignBatchFragmentActivity.this.keyEntry);
 					}
 				});
 				return;
@@ -178,17 +181,17 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 		}
 
 		try {
-			doSign(keyEntry, providerName);
+			doSign(this.keyEntry, providerName);
 		}
 		catch (final Exception e) {
 			onSigningError(KeyStoreOperation.SIGN, e);
 		}
 	}
 
-	private void doSign(final PrivateKeyEntry keyEntry, String providerName) {
+	private void doSign(final PrivateKeyEntry pke, String providerName) {
 
 		if (this.batchParams.getSticky() && !isDNIeCert) {
-			KeyEntryCache.setStickyKeyEntry(keyEntry, this);
+			KeyEntryCache.setStickyKeyEntry(pke, this);
 		} else {
 			KeyEntryCache.setStickyKeyEntry(null, this);
 		}
@@ -196,15 +199,16 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 		Properties pkcs1ExtraParams = null;
 		if (providerName != null) {
 			pkcs1ExtraParams = new Properties();
-			pkcs1ExtraParams.setProperty("Provider." + keyEntry.getPrivateKey().getClass().getName(), providerName);
+			pkcs1ExtraParams.setProperty("Provider." + pke.getPrivateKey().getClass().getName(), providerName);
 		}
 
-		new SignBatchTask(
-			keyEntry,
-			this.batchParams,
-			pkcs1ExtraParams,
-			this
-		).execute();
+        new SignBatchTask(
+                pke,
+                this.batchParams,
+                pkcs1ExtraParams,
+                this,
+                this
+        ).execute();
 	}
 
 	@Override
@@ -328,8 +332,8 @@ public abstract class SignBatchFragmentActivity extends LoadKeyStoreFragmentActi
 		cd.show();
 	}
 
-	protected PrivateKeyEntry getPke() {
-		return this.pke;
+	protected PrivateKeyEntry getKeyEntry() {
+		return this.keyEntry;
 	}
 
 	protected UrlParametersForBatch getBatchParams() {

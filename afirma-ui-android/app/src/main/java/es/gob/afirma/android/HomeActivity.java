@@ -56,10 +56,6 @@ public class HomeActivity extends AppCompatActivity {
                 .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)
                 .replace(R.id.home_content, mainFragment)
                 .commit();
-
-        if (getIntent().getBooleanExtra("CLOSE_ACTIVITY", false)) {
-            finishAffinity();
-        }
     }
 
     @Override

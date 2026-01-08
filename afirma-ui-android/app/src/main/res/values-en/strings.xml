@@ -208,6 +208,7 @@
     <string name="loading_cert">Loading certificate</string>
     <string name="loading_certs">Loading certificates</string>
     <string name="signing">Signing</string>
+    <string name="batch_signing">Signing</string>
     <string name="local_sign_record">Local %1$s of file %2$s</string>
     <string name="web_sign_record">Web %1$s requested by %2$s</string>
     <string name="web_sign_record_file">%1$s web of file %2$s</string>

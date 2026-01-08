@@ -208,6 +208,7 @@
     <string name="loading_cert">Ziurtagiria kargatzen</string>
     <string name="loading_certs">Ziurtagiriak kargatzea</string>
     <string name="signing">Sinadura egiten</string>
+    <string name="batch_signing">Sinadurak egiten</string>
     <string name="local_sign_record">%1$s fitxategiko lokal %2$s</string>
     <string name="web_sign_record">%1$s web, %2$s(e)k eskatua</string>
     <string name="web_sign_record_file">%1$s web fitxategitik %2$s</string>

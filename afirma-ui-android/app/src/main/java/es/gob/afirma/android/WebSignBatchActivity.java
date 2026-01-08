@@ -293,6 +293,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	 * @param title T&iacute;tulo para el di&aacute;logo de error.
 	 * @param errorCode Error que se desea mostrar. */
 	private void showErrorMessage(final String title, final ErrorCode errorCode) {
+
 		dismissProgressDialog();
 
 		String dlgTitle;
@@ -325,6 +326,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 
 	@Override
 	protected void onSigningError(final KeyStoreOperation op,  final Throwable t) {
+
 		if (op == KeyStoreOperation.LOAD_KEYSTORE) {
 			ErrorCode errorCode = KeyStoreErrorCode.Internal.LOADING_KEYSTORE_INTERNAL_ERROR;
 			Log.e(ES_GOB_AFIRMA, errorCode.toString(), t);
@@ -418,7 +420,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 		byte[] signingCertEncoded = null;
 		if (getBatchParams().isCertNeeded()) {
 			try {
-				signingCertEncoded = getPke().getCertificate().getEncoded();
+				signingCertEncoded = getKeyEntry().getCertificate().getEncoded();
 			} catch (final CertificateEncodingException e) {
 				Logger.e(ES_GOB_AFIRMA, AppKeyStoreErrorCode.Internal.CYPHERING_CERT_TO_SEND.toString(), e); //$NON-NLS-1$
 				launchError(ErrorManager.ERROR_SIGNING, true, AppKeyStoreErrorCode.Internal.CYPHERING_CERT_TO_SEND);
@@ -614,7 +616,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	@Override
 	public void onSendingDataSuccess(byte[] result, boolean critical) {
 		Logger.i(ES_GOB_AFIRMA, "Resultado del deposito de la firma: " + (result == null ? null : new String(result))); //$NON-NLS-1$
-		closeActivity();
+        closeActivity();
 	}
 
 	@Override
@@ -626,10 +628,7 @@ public final class WebSignBatchActivity extends SignBatchFragmentActivity
 	}
 
 	void closeActivity() {
-		Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.putExtra("CLOSE_ACTIVITY", true);
-		startActivity(intent);
+		finishAffinity();
 	}
 
 	@Override

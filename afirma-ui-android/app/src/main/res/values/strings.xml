@@ -209,6 +209,7 @@
     <string name="loading_cert">Cargando certificado</string>
     <string name="loading_certs">Cargando certificados</string>
     <string name="signing">Realizando firma</string>
+    <string name="batch_signing">Realizando firmas</string>
     <string name="local_sign_record">%1$s local del fichero %2$s</string>
     <string name="web_sign_record">%1$s web solicitada por %2$s</string>
     <string name="web_sign_record_file">%1$s web del fichero %2$s</string>

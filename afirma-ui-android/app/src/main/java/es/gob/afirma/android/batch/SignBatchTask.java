@@ -10,6 +10,8 @@
 
 package es.gob.afirma.android.batch;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.os.AsyncTask;
 
@@ -17,6 +19,7 @@ import java.security.KeyStore.PrivateKeyEntry;
 import java.security.cert.CertificateEncodingException;
 import java.util.Properties;
 
+import es.gob.afirma.R;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.batch.client.BatchSigner;
 import es.gob.afirma.android.crypto.MSCBadPinException;
@@ -44,6 +47,9 @@ public class SignBatchTask extends AsyncTask<Void, Void, byte[]>{
 
 	private Throwable t;
 
+    final Activity activity;
+    private ProgressDialog progressDialog = null;
+
 	/** Construye la tarea encargada de realizar la operaci&oacute;n.
 	 * @param pke Clave privada para la firma.
 	 * @param batchParameters Par&aacute;metros para la configuraci&oacute;n de la firma.
@@ -52,17 +58,35 @@ public class SignBatchTask extends AsyncTask<Void, Void, byte[]>{
 	public SignBatchTask(final PrivateKeyEntry pke,
 						 final UrlParametersForBatch batchParameters,
 						 final Properties pkcs1ExtraParams,
-                         final SignBatchListener signBatchListener) {
+                         final SignBatchListener signBatchListener,
+                         final Activity activity) {
 
 		this.pke = pke;
 		this.batchParameters = batchParameters;
 		this.pkcs1ExtraParams = pkcs1ExtraParams;
 		this.signBatchListener = signBatchListener;
 		this.t = null;
+        this.activity = activity;
 	}
 
 	@Override
 	protected byte[] doInBackground(final Void... params) {
+
+        activity.runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    setProgressDialog(
+                            ProgressDialog.show(
+                                    activity,
+                                    "",
+                                    activity.getString(R.string.batch_signing),
+                                    true)); //$NON-NLS-1$
+                }
+                catch (Throwable e) {
+                    Logger.w(ES_GOB_AFIRMA, "No se pudo mostrar el dialogo de progreso de firma", e);
+                }
+            }
+        });
 
 		// Generacion de la firma
 		byte[] batchResult = null;
@@ -130,12 +154,25 @@ public class SignBatchTask extends AsyncTask<Void, Void, byte[]>{
 
 	@Override
 	protected void onPostExecute(final byte[] result) {
+        super.onPostExecute(result);
+        if (getProgressDialog().isShowing()) {
+            getProgressDialog().dismiss();
+        }
 		if (result == null) {
 			this.signBatchListener.onSignError(this.t);
 		} else {
 			this.signBatchListener.onSignSuccess(result);
 		}
 	}
+
+
+    ProgressDialog getProgressDialog() {
+        return this.progressDialog;
+    }
+
+    void setProgressDialog(final ProgressDialog pd) {
+        this.progressDialog = pd;
+    }
 
 	/** Interfaz que debe implementar el manejador del resultado de la operaci&oacute;n de firma por lotes.
 	 * @author Jose Montero. */

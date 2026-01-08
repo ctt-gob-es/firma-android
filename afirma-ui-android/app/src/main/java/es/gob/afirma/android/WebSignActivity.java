@@ -723,7 +723,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	public void onSendingDataSuccess(final byte[] result, final boolean critical) {
 		Logger.i(ES_GOB_AFIRMA, "Resultado del deposito de la firma: " + (result == null ? null : new String(result))); //$NON-NLS-1$
 		dismissProgressDialog();
-		closeActivity();
+        closeActivity();
 	}
 
 	@Override
@@ -1002,11 +1002,7 @@ public final class WebSignActivity extends SignFragmentActivity implements Downl
 	}
 
 	void closeActivity() {
-		Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.putExtra("CLOSE_ACTIVITY", true);
-		startActivity(intent);
-		finish();
+		finishAffinity();
 	}
 
 	@Override
