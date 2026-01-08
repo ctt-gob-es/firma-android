@@ -4,7 +4,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    namespace 'com.shockwave.pdfium'
+    namespace = 'com.shockwave.pdfium'
     compileSdk {
         version = release(36)
     }
