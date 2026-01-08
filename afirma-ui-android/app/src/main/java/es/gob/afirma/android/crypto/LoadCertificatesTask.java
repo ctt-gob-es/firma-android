@@ -32,7 +32,6 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
     private static final String ES_GOB_AFIRMA = "es.gob.afirma";
 
     private final KeyStore ks;
-    private final CachePasswordCallback ksPasswordCallback;
     private final Activity activity;
     private KeyStoreManagerListener ksmListener;
 
@@ -40,14 +39,6 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
 
     public LoadCertificatesTask(KeyStore ks, KeyStoreManagerListener ksmListener, Activity ac) {
         this.ks = ks;
-        this.ksPasswordCallback = null;
-        this.activity = ac;
-        this.ksmListener = ksmListener;
-    }
-
-    public LoadCertificatesTask(KeyStore ks, CachePasswordCallback pc, KeyStoreManagerListener ksmListener, Activity ac) {
-        this.ks = ks;
-        this.ksPasswordCallback = pc;
         this.activity = ac;
         this.ksmListener = ksmListener;
     }
@@ -98,7 +89,8 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
             AndroidDnieNFCCallbackHandler dnieCallbackHandler = dnieManager.getCallbackHandler();
             if (dnieCallbackHandler == null) {
                 CachePasswordCallback pin = dnieManager.getPinPasswordCallback();
-                dnieCallbackHandler = new AndroidDnieNFCCallbackHandler(LoadCertificatesTask.this.ksPasswordCallback, pin);
+                CachePasswordCallback can = dnieManager.getCanPasswordCallback();
+                dnieCallbackHandler = new AndroidDnieNFCCallbackHandler(can, pin);
                 dnieManager.setCallbackHandler(dnieCallbackHandler);
             }
 
@@ -134,9 +126,8 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
             // Estamos en una conexion NFC y encapsulamos
             // las excepciones para que se procesen adecuadamente
             Logger.e(ES_GOB_AFIRMA, "Error al cargar el almacen de claves del dispositivo. Es posible que CAN o PIN introducido fuese incorrecto: " + e); //$NON-NLS-1$
-            throw encapsuleException(e);
+            throw new LoadingCertificateException("Error cargando los certificados del almacen", e);
         }
-
 
         // Obtenemos los elementos para el dialogo de seleccion
         final Enumeration<String> aliases;
@@ -144,7 +135,7 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
             aliases = this.ks.aliases();
         } catch (final Exception e) {
             Logger.e(ES_GOB_AFIRMA, "Error extrayendo los alias de los certificados del almacen: " + e); //$NON-NLS-1$
-            throw encapsuleException(e);
+            throw new LoadingCertificateException("Error extrayendo los alias de los certificados del almacen", e);
         }
 
         final ArrayList<CertificateInfoForAliasSelect> arrayListCertificate = new ArrayList();
@@ -154,17 +145,14 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
             X509Certificate cert;
             try {
                 cert = (X509Certificate) this.ks.getCertificate(alias);
-            } catch (final KeyStoreException e) {
-                Logger.w(ES_GOB_AFIRMA, "No se ha podido extraer el certificado '" + alias + "': " + e);  //$NON-NLS-1$//$NON-NLS-2$
-                throw encapsuleException(e);
             } catch (final Exception e) {
+                Logger.e(ES_GOB_AFIRMA, "Error obteniendo el certificado con alias '" + alias + "': " + e, e); //$NON-NLS-1$ //$NON-NLS-2$
                 // Gestion a medida de un DNIe bloqueado (usando JMultiCard)
                 if ("es.gob.jmulticard.card.AuthenticationModeLockedException".equals(e.getClass().getName())) { //$NON-NLS-1$
                     manageLockedDnie(e, this.activity, this.ksmListener);
                     return;
                 }
-                Logger.e(ES_GOB_AFIRMA, "Error obteniendo el certificado con alias '" + alias + "': " + e, e); //$NON-NLS-1$ //$NON-NLS-2$
-                throw encapsuleException(e);
+                throw new LoadingCertificateException("Error accediendo al certificado", e);
             }
             arrayListCertificate.add(
                     new CertificateInfoForAliasSelect(
@@ -238,25 +226,9 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
             getProgressDialog().dismiss();
         }
         //Si se pierde la conexion reiniciamos el proceso
-        if(e != null) {
+        if (e != null) {
             this.ksmListener.onLoadingKeyStoreError(e);
         }
-    }
-
-    /**
-     * Encapsula una excepci&oacute;n para indicar el tipo de error general durante la carga.
-     * @param e Excepci&oacute;n a encapsular.
-     * @return Excepci&oacute;n general.
-     */
-    private Exception encapsuleException(final Exception e) {
-        Exception ex;
-        if (this.ksPasswordCallback != null) {
-            ex = new InitializingNfcCardException("Error cargando los certificados del almacen", e);
-        }
-        else {
-            ex = new LoadingCertificateException("Error cargando los certificados del almacen", e);
-        }
-        return ex;
     }
 
     ProgressDialog getProgressDialog() {

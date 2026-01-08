@@ -21,7 +21,8 @@
     <supports-screens android:xlargeScreens="true" />
     <supports-screens android:anyDensity="true" />
 
-    <uses-feature android:name="android.hardware.usb.accessory" />
+    <uses-feature android:name="android.hardware.usb.accessory" android:required="false" />
+    <uses-feature android:name="android.hardware.nfc" android:required="false" />
 
     <application
         android:name=".android.MainApplication"
@@ -137,18 +138,6 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".android.NFCDetectorActivity"
-            android:label="@string/nfc_approach"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.nfc.action.TECH_DISCOVERED" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.nfc.action.TECH_DISCOVERED"
-                android:resource="@xml/nfc_tech_list" />
-        </activity>
-        <activity
             android:name=".android.FileChooserActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_cert_chooser" />
@@ -162,7 +151,8 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_sign_data"
             android:theme="@style/Theme.Transparent"
-            android:exported="true">
+            android:exported="true"
+            android:taskAffinity="es.gob.afirma.sign">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="es.gob.afirma.android.SIGN_SERVICE" />
@@ -181,7 +171,8 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_sign_batch"
             android:theme="@style/Theme.Transparent"
-            android:exported="true">
+            android:exported="true"
+            android:taskAffinity="es.gob.afirma.signbatch">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="es.gob.afirma.android.SIGN_BATCH_SERVICE" />
@@ -198,7 +189,8 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_select_certificate"
             android:theme="@style/Theme.Transparent"
-            android:exported="true">
+            android:exported="true"
+            android:taskAffinity="es.gob.afirma.selectcert">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -217,7 +209,8 @@
             android:finishOnTaskLaunch="true"
             android:theme="@style/Theme.Transparent"
             android:label="@string/title_activity_save_data"
-            android:exported="true">
+            android:exported="true"
+            android:taskAffinity="es.gob.afirma.savedata">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

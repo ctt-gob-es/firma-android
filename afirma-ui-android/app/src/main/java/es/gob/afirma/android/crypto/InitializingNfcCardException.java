@@ -14,4 +14,12 @@ public class InitializingNfcCardException extends Exception {
     public InitializingNfcCardException(String msg, Throwable cause) {
         super(msg, cause);
     }
+
+    /**
+     * Crea la excepcion con un texto descriptivo del problema.
+     * @param msg Mensaje descriptivo.
+     */
+    public InitializingNfcCardException(String msg) {
+        super(msg);
+    }
 }

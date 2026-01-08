@@ -1,7 +1,5 @@
 package es.gob.afirma.android.gui;
 
-import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,8 +20,6 @@ import es.gob.afirma.android.StepsInsertDataDnieActivity;
 
 public class InsertDataDnieStep2Fragment extends Fragment {
 
-    public static final String INTENT_EXTRA_PIN_VALUE = "pinValue"; //$NON-NLS-1$
-
     private static final int MIN_PIN_LENGTH = 4;
 
     String canValue;
@@ -38,7 +34,7 @@ public class InsertDataDnieStep2Fragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            canValue = bundle.getString(INTENT_EXTRA_CAN_VALUE);
+            canValue = bundle.getString(getString(R.string.extra_can));
         }
 
         Button continueToStep3Btn = contentLayout.findViewById(R.id.continueToStep3Btn);
@@ -50,29 +46,8 @@ public class InsertDataDnieStep2Fragment extends Fragment {
                 TextInputEditText pinText = getActivity().findViewById(R.id.pinEtx);
 
                 if (isValidPin(pinText)) {
-                    TextView stepTv = getActivity().findViewById(R.id.stepTv);
-                    stepTv.setText(getString(R.string.actual_step, "3"));
-
-                    TextView titleTv = getActivity().findViewById(R.id.titleTv);
-                    titleTv.setText(getString(R.string.read_dnie_with_smartphone));
-
-                    ProgressBar progressBar = getActivity().findViewById(R.id.signDnieStepsPb);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        progressBar.setProgress(3,true);
-                    }
-
-                    InsertDataDnieStep3Fragment insertDataDnieStep3Fragment = new InsertDataDnieStep3Fragment();
-                    Bundle bundle = new Bundle();
-
-                    bundle.putString(INTENT_EXTRA_CAN_VALUE, canValue);
                     pinValue = pinText.getText().toString();
-                    bundle.putString(INTENT_EXTRA_PIN_VALUE, pinValue);
-                    insertDataDnieStep3Fragment.setArguments(bundle);
-
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.step_content, insertDataDnieStep3Fragment)
-                            .commit();
+                    loadStep3();
                 } else {
                     TextInputLayout pinInputLayout = getActivity().findViewById(R.id.pinEtxLayout);
                     pinInputLayout.setError(getString(R.string.enter_valid_pin));
@@ -88,10 +63,30 @@ public class InsertDataDnieStep2Fragment extends Fragment {
 
     private boolean isValidPin(TextInputEditText pinText) {
         Editable text = pinText.getText();
-        if (text != null && !text.toString().isEmpty() && text.length() >= MIN_PIN_LENGTH) {
-            return true;
-        }
-        return false;
+        return text != null && text.length() >= MIN_PIN_LENGTH;
     }
 
+    private void loadStep3() {
+        TextView stepTv = getActivity().findViewById(R.id.stepTv);
+        stepTv.setText(getString(R.string.actual_step, "3"));
+
+        TextView titleTv = getActivity().findViewById(R.id.titleTv);
+        titleTv.setText(getString(R.string.read_dnie_with_smartphone));
+
+        ProgressBar progressBar = getActivity().findViewById(R.id.signDnieStepsPb);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            progressBar.setProgress(3,true);
+        }
+
+        InsertDataDnieStep3Fragment insertDataDnieStep3Fragment = new InsertDataDnieStep3Fragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.extra_can), canValue);
+        bundle.putString(getString(R.string.extra_pin), pinValue);
+        insertDataDnieStep3Fragment.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.step_content, insertDataDnieStep3Fragment)
+                .commit();
+    }
 }

@@ -1,6 +1,7 @@
 package es.gob.afirma.android.crypto;
 
 import android.nfc.Tag;
+import android.nfc.tech.IsoDep;
 
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.errors.AppErrorCode;
@@ -27,14 +28,14 @@ public class DnieConnectionManager {
     private CachePasswordCallback pinPasswordCallback;
     private AndroidDnieNFCCallbackHandler callbackHandler;
     private ApduConnection nfcConnection;
-    private Tag discoveredTag;
+    private IsoDep isoDep;
 
     private DnieConnectionManager() {
         this.canPasswordCallback = null;
         this.pinPasswordCallback = null;
         this.callbackHandler = null;
         this.nfcConnection = null;
-        this.discoveredTag = null;
+        this.isoDep = null;
     }
 
     /**
@@ -90,19 +91,18 @@ public class DnieConnectionManager {
     }
 
     /**
-     * Recupera el Tag NFC del DNIe.
-     * @return  Tag NFC del DNIe.
+     * Devuelve la conexi&oacute;n ISO DEP con la tarjeta.
      */
-    public Tag getDiscoveredTag() {
-        return this.discoveredTag;
+    public IsoDep getIsoDepConnection() {
+        return this.isoDep;
     }
 
     /**
-     * Establece el Tag NFC del DNIe.
-     * @param discoveredTag Tag NFC del DNIe.
+     * Establece el la conexi&oacute;n ISO DEP ya establicida con la tarjeta.
+     * @param isoDep Conex&oacute;n ISO DEP.
      */
-    public void setDiscoveredTag(Tag discoveredTag) {
-        this.discoveredTag = discoveredTag;
+    public void setIsoDepConnection(IsoDep isoDep) {
+        this.isoDep = isoDep;
     }
 
     /**

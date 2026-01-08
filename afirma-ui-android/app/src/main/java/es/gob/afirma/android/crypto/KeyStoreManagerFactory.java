@@ -13,6 +13,7 @@ package es.gob.afirma.android.crypto;
 import android.content.Context;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -154,7 +155,7 @@ public final class KeyStoreManagerFactory {
 			);
 
 			Security.addProvider(provider);
-			Logger.i(ES_GOB_AFIRMA, "Anadido el proveedor AET: " + provider.getName());  //$NON-NLS-1$
+            Logger.i(ES_GOB_AFIRMA, "Anadido el proveedor AET: " + provider.getName());  //$NON-NLS-1$
 
 			// Obtenemos el almacen unicamente para ver si falla
 			KeyStore.getInstance(AET_PKCS11_STORE, provider);
@@ -183,36 +184,38 @@ public final class KeyStoreManagerFactory {
 
 	/** Obtiene el gestor de contrase&ntilde;as y claves m&aacute;s apropiado seg&uacute;n el entorno
 	 * operativo y el hardware encontrado.
-	 * @param ksml Clase a la que hay que notificar la finalizaci&oacute;n de la
-	 *             carga e inicializaci&oacute;n del gestor de claves y certificados
+     * @throws UnsupportedNfcCardException La tarjeta no esta soportada o no se puede identificar.
+     * @throws InitializingNfcCardException No se ha podido conectar con la tarjeta.
 	 */
-	public static KeyStore initNfcKeyStoreManager(
-								final KeyStoreManagerListener ksml)
-									throws UnsupportedNfcCardException,
-			InitializingNfcCardException {
+    public static KeyStore initNfcKeyStoreManager()
+            throws UnsupportedNfcCardException, InitializingNfcCardException {
 
-		KeyStore ks = null;
+        KeyStore ks = null;
 
+        // Comprobamos que se haya detectado una tarjeta por NFC
+        DnieConnectionManager dnieManager = DnieConnectionManager.getInstance();
+        try {
+            // Se ha establecido la conexion con la tarjeta
+            if (dnieManager.getIsoDepConnection() != null) {
 
-		// En caso de no existir un lector conectado por USB, comprobamos que se haya detectado una tarjeta por NFC
-		DnieConnectionManager dnieManager = DnieConnectionManager.getInstance();
-		if (dnieManager.getDiscoveredTag() != null) {
-			try {
-				final ApduConnection androidNfcConnectionObject =
-						new AndroidNfcConnection(dnieManager.getDiscoveredTag());
-				dnieManager.setNfcConnection(androidNfcConnectionObject);
-				final Provider p = new es.gob.jmulticard.jse.provider.DnieProvider(androidNfcConnectionObject);
+                ApduConnection androidNfcConnection =
+                        new AndroidNfcConnection(dnieManager.getIsoDepConnection());
 
-				Security.addProvider(p);
+                Log.i(ES_GOB_AFIRMA, "Conexion abierta antes de llamar al proveedor: " + androidNfcConnection.isOpen());
 
-				// Obtenemos el almacen unicamente para ver si falla
-				ks = KeyStore.getInstance("DNI", p); //$NON-NLS-1$
-			} catch (final KeyStoreException e) {
-				throw new UnsupportedNfcCardException(AppErrorCode.ThirdParty.UNKNOWN_OR_NOT_SUPPORTED_CARD.toString(), e);
-			} catch (final Exception e) {
-				throw new InitializingNfcCardException(AppErrorCode.ThirdParty.CANT_CONNECT_CARD.toString(), e);
-			}
-		}
+                dnieManager.setNfcConnection(androidNfcConnection);
+                final Provider p = new es.gob.jmulticard.jse.provider.DnieProvider(androidNfcConnection);
+                Security.addProvider(p);
+
+                // Obtenemos el almacen unicamente para ver si falla
+                ks = KeyStore.getInstance("DNI", p); //$NON-NLS-1$
+            }
+
+        } catch (final KeyStoreException e) {
+            throw new UnsupportedNfcCardException(AppErrorCode.ThirdParty.UNKNOWN_OR_NOT_SUPPORTED_CARD.toString(), e);
+        } catch (final Exception e) {
+            throw new InitializingNfcCardException(AppErrorCode.ThirdParty.CANT_CONNECT_CARD.toString(), e);
+        }
 
 		return ks;
 	}

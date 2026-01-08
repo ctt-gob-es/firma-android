@@ -59,11 +59,11 @@ dependencies {
 
 	implementation 'com.google.android.material:material:1.13.0'
 
-    implementation ('es.gob.afirma.jmulticard:jmulticard-android:2.0') {
+    implementation ('es.gob.afirma.jmulticard:jmulticard-android:2.1-SNAPSHOT') {
         exclude(module: 'support-v4')
         exclude(module: 'android')
     }
-    implementation 'es.gob.afirma.jmulticard:jmulticard-jse:2.0'
+    implementation 'es.gob.afirma.jmulticard:jmulticard-jse:2.1-SNAPSHOT'
 
     implementation('es.gob.afirma:afirma-crypto-pdf:1.10-SNAPSHOT') {
         exclude(module: 'afirma-lib-itext')
@@ -84,14 +84,13 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.13.2'
 
     // Agregamos la dependencia necesaria para la previsualizacion de PDFs,
-    // pero excluimos "pdfium-adnroid" de la cual depende por contener
+    // pero excluimos "pdfium-android" de la cual depende por contener
     // binarios que no admiten la paginacion de 16 Kb que exige Android 15
-    // y superiores. En su lugar, agregamos una instancia de PdfiumAndroid
-    // que contiene las bibliotecas actualizadas
+    // y superiores. En su lugar, incluimos estas bibliotecas dentro de la
+    // propia aplicacion, en el modulo pdfium
     implementation ('com.github.mhiew:android-pdf-viewer:3.2.0-beta.3') {
         exclude(group: 'com.github.mhiew', module: "pdfium-android")
     }
-    //implementation files('libs/PdfiumAndroid-2.0.0-release.aar')
 
     // Java language implementation
     implementation "androidx.fragment:fragment:1.8.9"

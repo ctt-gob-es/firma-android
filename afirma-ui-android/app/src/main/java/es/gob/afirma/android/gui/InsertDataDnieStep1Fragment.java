@@ -16,10 +16,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.NFCDetectorActivity;
 import es.gob.afirma.android.StepsInsertDataDnieActivity;
-
-import static es.gob.afirma.android.NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE;
 
 public class InsertDataDnieStep1Fragment extends Fragment {
 
@@ -35,7 +32,7 @@ public class InsertDataDnieStep1Fragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            String previousCan = bundle.getString(INTENT_EXTRA_CAN_VALUE);
+            String previousCan = bundle.getString(getString(R.string.extra_can));
             if (previousCan != null) {
                 TextInputEditText canText = contentLayout.findViewById(R.id.canEtx);
                 canText.setText(previousCan);
@@ -52,7 +49,7 @@ public class InsertDataDnieStep1Fragment extends Fragment {
 
                 if (isValidCan(canText)) {
                     canValue = canText.getText().toString();
-                    loadStep2(canText.getText().toString());
+                    loadStep2();
                 } else {
                     TextInputLayout canInputLayout = getActivity().findViewById(R.id.canEtxLayout);
                     canInputLayout.setError(getString(R.string.enter_valid_can));
@@ -66,7 +63,7 @@ public class InsertDataDnieStep1Fragment extends Fragment {
         return contentLayout;
     }
 
-    private void loadStep2(String canText) {
+    private void loadStep2() {
         TextView stepTv = getActivity().findViewById(R.id.stepTv);
         stepTv.setText(getString(R.string.actual_step, "2"));
 
@@ -81,7 +78,7 @@ public class InsertDataDnieStep1Fragment extends Fragment {
 
         InsertDataDnieStep2Fragment insertDataDnieStep2Fragment = new InsertDataDnieStep2Fragment();
         Bundle bundle = new Bundle();
-        bundle.putString(NFCDetectorActivity.INTENT_EXTRA_CAN_VALUE, canText);
+        bundle.putString(getString(R.string.extra_can), canValue);
         insertDataDnieStep2Fragment.setArguments(bundle);
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
@@ -91,10 +88,7 @@ public class InsertDataDnieStep1Fragment extends Fragment {
 
     private boolean isValidCan(TextInputEditText canText) {
         Editable text = canText.getText();
-        if (text != null && !text.toString().isEmpty() && text.length() == CAN_LENGTH) {
-            return true;
-        }
-        return false;
+        return text != null && text.length() == CAN_LENGTH;
     }
 
 }

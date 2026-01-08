@@ -12,8 +12,8 @@ public class ErrorMapper {
         return resId != 0 ? context.getString(resId) : context.getString(R.string.not_completed_request);
     }
 
-    public static String getErrorMsgFormatted(Context ctx, ErrorCode errorCode) {
-        return "AA" + errorCode.getCode() + " - " + getErrorMessageByCode(ctx, errorCode.getCode());
+    public static String getErrorMsgFormatted(Context context, ErrorCode errorCode) {
+        return "AA" + errorCode.getCode() + " - " + getErrorMessageByCode(context, errorCode.getCode());
     }
 
 }

@@ -35,7 +35,7 @@ public class AppErrorCode {
         public static final ErrorCode INCORRECT_PIN				        = new ErrorCode("300105", "PIN incorrecto"); //$NON-NLS-1$ //$NON-NLS-2$
         public static final ErrorCode BLOCKED_CARD				        = new ErrorCode("300106", "Tarjeta bloqueada"); //$NON-NLS-1$ //$NON-NLS-2$
         public static final ErrorCode CAN_VALIDATION				    = new ErrorCode("300108", "Error durante la validacion del CAN"); //$NON-NLS-1$ //$NON-NLS-2$
-
+        public static final ErrorCode ERROR_LOADING_CERTIFICATES		= new ErrorCode("300111", "Error cargando los certificados del almacen"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     public static class Communication {

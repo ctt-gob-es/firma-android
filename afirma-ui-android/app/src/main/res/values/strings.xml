@@ -40,6 +40,7 @@
     <string name="error">Error</string>
     <string name="error_ocurred">¡Algo sali\u00F3 mal!</string>
     <string name="error_reading_dnie">Error en la lectura de tu DNIe</string>
+    <string name="error_loading_certs">Error al cargar los certificados</string>
     <string name="title_activity_save_data">Guardar datos</string>
     <string name="saveData">Guardar</string>
     <string name="cancel">Cancelar</string>

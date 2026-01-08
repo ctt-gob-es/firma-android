@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.security.KeyStore.PrivateKeyEntry;
+import java.security.SignatureException;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -169,11 +170,20 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 			}
 		}
 		catch (final AOException e) {
+            Logger.e(ES_GOB_AFIRMA, "Error durante la operacion de firma: " + e); //$NON-NLS-1$
 			if (e instanceof PinException){
 				this.t = new MSCBadPinException(e.getMessage(), e); //$NON-NLS-1$
 			}
-			else {
-				Logger.e(ES_GOB_AFIRMA, "Error durante la operacion de firma: " + e); //$NON-NLS-1$
+            // En caso de que encontremos una AOException escondica
+			else if (e.getCause() instanceof SignatureException) {
+                if (e.getCause().getCause() instanceof AOException) {
+                    this.t = e.getCause().getCause();
+                    Logger.e(ES_GOB_AFIRMA, "Se ha encontrado una causa raiz controlada. Se usara esa excepcion: " + this.t); //$NON-NLS-1$
+                } else {
+                    this.t = e;
+                }
+            }
+            else {
 				this.t = e;
 			}
 		}

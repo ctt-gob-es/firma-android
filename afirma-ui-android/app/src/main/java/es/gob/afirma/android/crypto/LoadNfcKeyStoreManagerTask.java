@@ -12,6 +12,7 @@ package es.gob.afirma.android.crypto;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -27,7 +28,6 @@ public final class LoadNfcKeyStoreManagerTask extends AsyncTask {
 
 	private final KeyStoreManagerListener kmListener;
 	private final FragmentActivity activity;
-	private final CachePasswordCallback passwordCallback;
 	private ProgressDialog progressDialog = null;
 
 	/** Crea una tarea de carga e inicializaci&oacute;n de un almacen de claves por NFC.
@@ -36,36 +36,20 @@ public final class LoadNfcKeyStoreManagerTask extends AsyncTask {
 	 * @param act Actividad padre
 	 * @param passwordCallback Callback con la contrase&ntilde;a cacheada. */
 	public LoadNfcKeyStoreManagerTask(final KeyStoreManagerListener kml,
-									  final FragmentActivity act,
-									  final CachePasswordCallback passwordCallback) {
+									  final FragmentActivity act) {
 		this.kmListener = kml;
 		this.activity = act;
-		this.passwordCallback = passwordCallback;
-	}
-
-	/**
-	 * Muestra un di&acute;logo de carga mientras ejecuta la tarea en segundo plano.
-	 */
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		setProgressDialog(
-				ProgressDialog.show(
-						this.activity,
-						"",
-						this.activity.getString(R.string.dialog_msg_loading_keystore),
-						true)); //$NON-NLS-1$
 	}
 
 	@Override
 	protected Object doInBackground(Object[] params) {
 
-		Logger.i(ES_GOB_AFIRMA, "Inicializamos el almacen"); //$NON-NLS-1$
-		//Se obtiene el KeyStore
+		Logger.i(ES_GOB_AFIRMA, "Inicializamos el almacen NFC"); //$NON-NLS-1$
 
+        //Se obtiene el KeyStore
 		KeyStore ks;
 		try {
-			ks = KeyStoreManagerFactory.initNfcKeyStoreManager(this.kmListener);
+			ks = KeyStoreManagerFactory.initNfcKeyStoreManager();
 		}
 		catch (UnsupportedNfcCardException e) {
 			return e;
@@ -83,10 +67,6 @@ public final class LoadNfcKeyStoreManagerTask extends AsyncTask {
 	protected void onPostExecute(Object o) {
 		super.onPostExecute(o);
 
-		if (getProgressDialog().isShowing()) {
-			getProgressDialog().dismiss();
-		}
-
 		// Si es una excepcion, se notifica un problema en la carga del almacen
 		if (o instanceof Exception) {
 			Exception e = (Exception) o;
@@ -94,7 +74,7 @@ public final class LoadNfcKeyStoreManagerTask extends AsyncTask {
 		}
 		else {
 			//Se cargan los certificados del keystore
-			new LoadCertificatesTask((KeyStore) o, this.passwordCallback, this.kmListener, this.activity).execute();
+			new LoadCertificatesTask((KeyStore) o, this.kmListener, this.activity).execute();
 		}
   	}
 
