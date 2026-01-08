@@ -10,11 +10,6 @@
 
 package es.gob.afirma.android;
 
-import static es.gob.afirma.signers.pades.common.PdfExtraParams.HEADLESS;
-import static es.gob.afirma.signers.pades.common.PdfExtraParams.VISIBLE_SIGNATURE;
-import static es.gob.afirma.signers.pades.common.PdfExtraParams.VISIBLE_SIGNATURE_VALUE_OPTIONAL;
-import static es.gob.afirma.signers.pades.common.PdfExtraParams.VISIBLE_SIGNATURE_VALUE_WANT;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -77,6 +72,11 @@ import es.gob.afirma.core.misc.protocol.UrlParametersToSign;
 import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.keystores.KeyStoreErrorCode;
 import es.gob.afirma.signers.pades.common.PdfExtraParams;
+
+import static es.gob.afirma.signers.pades.common.PdfExtraParams.HEADLESS;
+import static es.gob.afirma.signers.pades.common.PdfExtraParams.VISIBLE_SIGNATURE;
+import static es.gob.afirma.signers.pades.common.PdfExtraParams.VISIBLE_SIGNATURE_VALUE_OPTIONAL;
+import static es.gob.afirma.signers.pades.common.PdfExtraParams.VISIBLE_SIGNATURE_VALUE_WANT;
 
 /** Actividad dedicada a la firma de los datos recibidos en la entrada mediante un certificado
  * del almac&eacute;n central seleccionado por el usuario. */

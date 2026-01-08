@@ -2,6 +2,7 @@
 <resources>
     <!-- Hardware Errors -->
     <string name="error_102000">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
+    <string name="error_102008">The connection to the card is lost. Try again.</string>
     <!-- Internal Software Errors -->
     <string name="error_200000">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
     <string name="error_200001">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
@@ -37,6 +38,7 @@
     <string name="error_300106">The DNIe has the PIN locked. You can go to a National Police Station at a DNIe Update Point (PAD) to unblock it. The card you provided doesn\'t appear to be a DNIe. Please try again</string>
     <string name="error_300108">Error starting connection to card. Please try again.</string>
     <string name="error_300110">The DNIe you approximated has no signature certificate or the certificate is expired. You can go to a National Police Station to a DNIe Update Point (PAD), to fix it.</string>
+    <string name="error_300111">Unable to load card certificates. Try again.</string>
     <string name="error_300400">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
     <string name="error_300404">We\'ve tried to process your request, but it hasn\'t been completed successfully. Please check the documentation.</string>
     <!-- Communication Errors -->

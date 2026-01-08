@@ -2,6 +2,7 @@
 <resources>
     <!-- Hardware Errors -->
     <string name="error_102000">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
+    <string name="error_102008">Txartelarekiko konexioa galdu egin da. Saiatu berriro.</string>
     <!-- Internal Software Errors -->
     <string name="error_200000">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
     <string name="error_200001">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
@@ -37,6 +38,7 @@
     <string name="error_300106">NANak blokeatuta du PINa. Polizia Nazionalaren komisaldegi batera joan zaitezke NANaren eguneratze-puntu batera (PAD) desblokeatzeko.</string>
     <string name="error_300108">Errorea gertatu da txartelarekin konektatzen hastean. Baliteke CANa okerra izatea. Saiatu berriro.</string>
     <string name="error_300110">Hurbildu duzun NANak ez du sinadura-ziurtagiririk edo ziurtagiria iraungita dago. Polizia Nazionalaren komisaldegi batera joan zaitezke NANaren eguneratze-puntu batera (PAD), arazoa konpontzeko.</string>
+    <string name="error_300111">Ezin izan dira kargatu txartelaren ziurtagiriak. Saiatu berriro.</string>
     <string name="error_300400">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
     <string name="error_300404">Zure eskaera prozesatzen saiatu gara, baina ezin izan da behar bezala bete. Mesedez, berrikusi dokumentazioa.</string>
     <!-- Communication Errors -->

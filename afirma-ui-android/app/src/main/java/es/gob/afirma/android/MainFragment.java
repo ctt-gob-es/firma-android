@@ -11,8 +11,6 @@
 package es.gob.afirma.android;
 
 
-import static android.app.Activity.RESULT_OK;
-
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,6 +45,8 @@ import es.gob.afirma.android.errors.ErrorMapper;
 import es.gob.afirma.android.gui.AppConfig;
 import es.gob.afirma.android.gui.ConfigNfcDialog;
 import es.gob.afirma.android.gui.CustomDialog;
+
+import static android.app.Activity.RESULT_OK;
 
 /** Actividad que se muestra cuando se arranca la aplicaci&oacute;n pulsando su icono.
  * @author Alberto Mart&iacute;nez */

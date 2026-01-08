@@ -15,9 +15,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import es.gob.afirma.R;
 import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.android.errors.ErrorMapper;
-import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.CompatibleDniDialog;
-import es.gob.afirma.android.util.Utils;
+import es.gob.afirma.android.gui.CustomDialog;
 
 public class IntroUseDnieActivity extends FragmentActivity {
 

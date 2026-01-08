@@ -1,8 +1,5 @@
 package es.gob.afirma.android.gui;
 
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,12 +10,14 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.LoadKeyStoreFragmentActivity;
 import es.gob.afirma.android.Logger;
 import es.gob.afirma.android.StepsInsertDataDnieActivity;
 import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.android.errors.ErrorMapper;
 import es.gob.afirma.core.ErrorCode;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 public class InsertDataDnieStep3Fragment extends Fragment{
 
@@ -52,24 +51,20 @@ public class InsertDataDnieStep3Fragment extends Fragment{
         // se muestra
         if (bundle != null && bundle.containsKey(getString(R.string.extra_smartcard_error)))  {
 
-            int errorMessage;
-            ErrorCode errorCode;
+            int majorErrorMessage;
             String errorCodeText = bundle.getString(getString(R.string.extra_smartcard_error));
             if (AppErrorCode.ThirdParty.ERROR_INITIALIZING_CARD.getCode().equals(errorCodeText)) {
-                errorCode = AppErrorCode.ThirdParty.ERROR_INITIALIZING_CARD;
-                errorMessage = R.string.error_reading_dnie;
+                majorErrorMessage = R.string.error_reading_dnie;
             } else if (AppErrorCode.ThirdParty.ERROR_LOADING_CERTIFICATES.getCode().equals(errorCodeText)) {
-                errorCode = AppErrorCode.ThirdParty.ERROR_LOADING_CERTIFICATES;
-                errorMessage = R.string.error_loading_certs;
+                majorErrorMessage = R.string.error_loading_certs;
             } else {
-                errorCode = AppErrorCode.ThirdParty.ERROR_INITIALIZING_CARD;
-                errorMessage = R.string.error_reading_dnie;
+                majorErrorMessage = R.string.error_reading_dnie;
             }
 
             if (errorCodeText != null) {
                 Logger.i("es.gob.afirma", "Mostramos el dialogo de error para el codigo " + errorCodeText);
-                CustomDialog cd = new CustomDialog(getActivity(), R.drawable.warn_icon, getString(errorMessage),
-                        ErrorMapper.getErrorMsgFormatted(this.getContext(), errorCode),
+                CustomDialog cd = new CustomDialog(getActivity(), R.drawable.warn_icon, getString(majorErrorMessage),
+                        ErrorMapper.getErrorMsgFormatted(this.getContext(), errorCodeText),
                         getString(R.string.try_again), true, getString(R.string.cancel_underline));
                 CustomDialog finalCd = cd;
                 cd.setAcceptButtonClickListener(new View.OnClickListener() {

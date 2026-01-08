@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.AppConfig;
-import es.gob.afirma.android.util.Utils;
 
 public class IntroScreenActivity extends AppCompatActivity {
 

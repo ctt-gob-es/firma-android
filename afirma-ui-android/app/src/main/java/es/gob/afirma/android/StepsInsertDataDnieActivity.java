@@ -16,7 +16,6 @@ import es.gob.afirma.R;
 import es.gob.afirma.android.gui.InsertDataDnieStep1Fragment;
 import es.gob.afirma.android.gui.InsertDataDnieStep2Fragment;
 import es.gob.afirma.android.gui.InsertDataDnieStep3Fragment;
-import es.gob.afirma.core.ErrorCode;
 
 public class StepsInsertDataDnieActivity extends AppCompatActivity {
 

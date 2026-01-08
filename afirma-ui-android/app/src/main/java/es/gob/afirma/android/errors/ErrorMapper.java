@@ -16,4 +16,8 @@ public class ErrorMapper {
         return "AA" + errorCode.getCode() + " - " + getErrorMessageByCode(context, errorCode.getCode());
     }
 
+    public static String getErrorMsgFormatted(Context context, String errorCodeText) {
+        return "AA" + errorCodeText + " - " + getErrorMessageByCode(context, errorCodeText);
+    }
+
 }

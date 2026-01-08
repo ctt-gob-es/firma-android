@@ -12,13 +12,11 @@ package es.gob.afirma.android.crypto;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
 
 import java.security.KeyStore;
 
-import es.gob.afirma.R;
 import es.gob.afirma.android.Logger;
 
 /** Tarea de carga e inicializaci&oacute;n de los almacenes de claves por conexion NFC. */

@@ -1,6 +1,5 @@
 package es.gob.afirma.android.crypto;
 
-import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 
 import es.gob.afirma.android.Logger;
@@ -26,32 +25,14 @@ public class DnieConnectionManager {
 
     private CachePasswordCallback canPasswordCallback;
     private CachePasswordCallback pinPasswordCallback;
-    private AndroidDnieNFCCallbackHandler callbackHandler;
     private ApduConnection nfcConnection;
     private IsoDep isoDep;
 
     private DnieConnectionManager() {
         this.canPasswordCallback = null;
         this.pinPasswordCallback = null;
-        this.callbackHandler = null;
         this.nfcConnection = null;
         this.isoDep = null;
-    }
-
-    /**
-     * Recupera el CallbackHandler la gesti&oacute;n de las solicitudes de CAN y PIN.
-     * @return CallbackHandler configurado.
-     */
-    public AndroidDnieNFCCallbackHandler getCallbackHandler() {
-        return callbackHandler;
-    }
-
-    /**
-     * Establece el CallbackHandler para la gesti&oacute;n de las solicitudes de CAN y PIN.
-     * @param  callbackHandler que se debe utilizar.
-     */
-    public void setCallbackHandler(AndroidDnieNFCCallbackHandler callbackHandler) {
-        this.callbackHandler = callbackHandler;
     }
 
     /**
@@ -111,7 +92,6 @@ public class DnieConnectionManager {
      * usando el mismo DNIe.
      */
     public void reset() {
-        this.callbackHandler = null;
         if (this.nfcConnection != null) {
             try {
                 this.nfcConnection.close();

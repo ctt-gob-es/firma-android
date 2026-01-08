@@ -2,6 +2,7 @@
 <resources>
     <!-- Hardware Errors -->
     <string name="error_102000">Hem intentat processar la teua sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Per favor revisa la documentaci\u00F3.</string>
+    <string name="error_102008">S\'ha perdut la connexi\u00F3 amb la targeta. Intente-ho de nou.</string>
     <!-- Internal Software Errors -->
     <string name="error_200000">Hem intentat processar la teua sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Per favor revisa la documentaci\u00F3.</string>
     <string name="error_200001">Hem intentat processar la teua sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Per favor revisa la documentaci\u00F3.</string>
@@ -37,6 +38,7 @@
     <string name="error_300106">El DNIe t\u00E9 el PIN bloquejat. Pots acudir a una comissaria de Policia Nacional a un Punt d\'Actualitzaci\u00F3 del DNIe (PAD) per a desbloquejar-lo.</string>
     <string name="error_300108">Error en iniciar la connexi\u00f3 amb la targeta. \u00c9s possible que el CA siga incorrecte. Intente-ho de nou.</string>
     <string name="error_300110">El DNIe que has aproximat no t\u00E9 certificat de signatura o el certificat est\u00E0 caducat. Pots acudir a una comissaria de Policia Nacional a un Punt d\'Actualitzaci\u00F3 del DNIe (PAD), per a solucionar-lo.</string>
+    <string name="error_300111">No s\'han pogut carregar els certificats de la targeta. Intente-ho de nou.</string>
     <string name="error_300400">Hem intentat processar la teua sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Per favor revisa la documentaci\u00F3.</string>
     <string name="error_300404">Hem intentat processar la teua sol·licitud, per\u00F2 no ha pogut ser completada amb \u00E8xit. Per favor revisa la documentaci\u00F3.</string>
     <!-- Communication Errors -->

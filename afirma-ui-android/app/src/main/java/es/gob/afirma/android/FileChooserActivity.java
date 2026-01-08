@@ -31,7 +31,6 @@ import java.util.Locale;
 import es.gob.afirma.R;
 import es.gob.afirma.android.gui.FileArrayAdapter;
 import es.gob.afirma.android.gui.FileOption;
-import es.gob.afirma.android.util.Utils;
 
 /** Actividad Android para la elecci&oacute;n de un fichero en el almacenamiento del dispositivo. */
 public final class 	FileChooserActivity extends ListActivity {

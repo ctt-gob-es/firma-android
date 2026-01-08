@@ -47,6 +47,7 @@ import es.gob.afirma.android.crypto.LoadKeyStoreManagerTask;
 import es.gob.afirma.android.crypto.LoadNfcKeyStoreManagerTask;
 import es.gob.afirma.android.crypto.LoadingCertificateException;
 import es.gob.afirma.android.crypto.MSCBadPinException;
+import es.gob.afirma.android.crypto.SmartCardConnectionException;
 import es.gob.afirma.android.crypto.UnsupportedNfcCardException;
 import es.gob.afirma.android.errors.AppErrorCode;
 import es.gob.afirma.android.gui.ChooseCertTypeDialog;
@@ -526,6 +527,15 @@ public class LoadKeyStoreFragmentActivity extends FragmentActivity implements Nf
         else if (t instanceof InitializingNfcCardException) {
             final Intent stepsSignDNIe = new Intent(this, StepsInsertDataDnieActivity.class);
             stepsSignDNIe.putExtra(getString(R.string.extra_smartcard_error), AppErrorCode.ThirdParty.ERROR_INITIALIZING_CARD.getCode());
+            stepsSignDNIe.putExtra(getString(R.string.extra_can), DnieConnectionManager.getInstance().getCanPasswordCallback().getPassword());
+            stepsSignDNIe.putExtra(getString(R.string.extra_pin), DnieConnectionManager.getInstance().getPinPasswordCallback().getPassword());
+            startActivityForResult(stepsSignDNIe, REQUEST_DNIE_PARAMS);
+        }
+
+        // Si fallo la conexion con la tarjeta, lo reintentamos
+        else if (t instanceof SmartCardConnectionException) {
+            final Intent stepsSignDNIe = new Intent(this, StepsInsertDataDnieActivity.class);
+            stepsSignDNIe.putExtra(getString(R.string.extra_smartcard_error), AppErrorCode.Hardware.SMARTCARD_CONNECTION_LOST.getCode());
             stepsSignDNIe.putExtra(getString(R.string.extra_can), DnieConnectionManager.getInstance().getCanPasswordCallback().getPassword());
             stepsSignDNIe.putExtra(getString(R.string.extra_pin), DnieConnectionManager.getInstance().getPinPasswordCallback().getPassword());
             startActivityForResult(stepsSignDNIe, REQUEST_DNIE_PARAMS);

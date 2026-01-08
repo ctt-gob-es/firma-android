@@ -1,7 +1,5 @@
 package es.gob.afirma.android;
 
-import static es.gob.afirma.android.LocalSignActivity.ERROR_REQUEST_VISIBLE_SIGN;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -39,6 +37,8 @@ import es.gob.afirma.android.gui.CustomDialog;
 import es.gob.afirma.android.gui.PDFPasswordVisibleSignDialog;
 import es.gob.afirma.android.util.FileUtil;
 import es.gob.afirma.signers.pades.common.PdfExtraParams;
+
+import static es.gob.afirma.android.LocalSignActivity.ERROR_REQUEST_VISIBLE_SIGN;
 
 public class PdfSelectPreviewActivity extends AppCompatActivity {
 

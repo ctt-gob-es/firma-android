@@ -299,16 +299,13 @@ public final class LocalSignActivity extends SignFragmentActivity {
 		else {
 
 			// Comprobamos que tenemos permisos de lectura sobre el directorio en el que se encuentra el fichero origen
-			boolean originalDirectory;
 			final File outDirectory;
 			if (new File(this.fileName).getParentFile().canWrite()) {
 				Logger.d(ES_GOB_AFIRMA, "La firma se guardara en el directorio del fichero de entrada"); //$NON-NLS-1$
 				outDirectory = new File(this.fileName).getParentFile();
-				originalDirectory = true;
 			} else if (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).exists() && Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).canWrite()) {
 				Logger.d(ES_GOB_AFIRMA, "La firma se guardara en el directorio de descargas"); //$NON-NLS-1$
 				outDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-				originalDirectory = false;
 			} else {
 				Logger.w(ES_GOB_AFIRMA, AppErrorCode.Internal.NO_DEVICE_STORE.toString()); //$NON-NLS-1$
 				showErrorMessage(getString(R.string.error_ocurred), AppErrorCode.Internal.NO_DEVICE_STORE);

@@ -10,8 +10,6 @@
 
 package es.gob.afirma.android.gui;
 
-import static es.gob.afirma.android.LocalSignActivity.ERROR_REQUEST_VISIBLE_SIGN;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -31,6 +29,8 @@ import java.io.IOException;
 
 import es.gob.afirma.R;
 import es.gob.afirma.android.PdfSelectPreviewActivity;
+
+import static es.gob.afirma.android.LocalSignActivity.ERROR_REQUEST_VISIBLE_SIGN;
 
 /** Di&acute;logo para introducir la contrasena de un PDF protegido.
  * @author Jose Montero */

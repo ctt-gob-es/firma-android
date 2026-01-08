@@ -2,6 +2,7 @@
 <resources>
     <!-- Hardware Errors -->
     <string name="error_102000">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
+    <string name="error_102008">Se ha perdido la conexi\u00F3n con la tarjeta. Int\u00E9ntelo de nuevo.</string>
     <!-- Internal Software Errors -->
     <string name="error_200000">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
     <string name="error_200001">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
@@ -38,7 +39,6 @@
     <string name="error_300108">Error al iniciar la conexi\u00F3n con la tarjeta. Es posible que el CAN sea incorrecto. Int\u00E9ntelo de nuevo.</string>
     <string name="error_300110">El DNIe que has aproximado no tiene certificado de firma o el certificado est\u00E1 caducado. Puedes acudir a una comisar\u00EDa de Polic\u00EDa Nacional a un Punto de Actualizaci\u00F3n del DNIe (PAD), para solucionarlo.</string>
     <string name="error_300111">No se han podido cargar los certificados de la tarjeta. Int\u00E9ntelo de nuevo.</string>
-
     <string name="error_300400">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
     <string name="error_300404">Hemos intentado procesar tu solicitud, pero no ha podido ser completada con \u00e9xito. Por favor revisa la documentaci\u00f3n.</string>
     <!-- Communication Errors -->

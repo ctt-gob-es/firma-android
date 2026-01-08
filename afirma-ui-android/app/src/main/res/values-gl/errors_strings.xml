@@ -2,6 +2,7 @@
 <resources>
     <!-- Hardware Errors -->
     <string name="error_102000">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
+    <string name="error_102008">Perdeuse a conexi\u00F3n co cart\u00F3n. Tentar de novo.</string>
     <!-- Internal Software Errors -->
     <string name="error_200000">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
     <string name="error_200001">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
@@ -37,6 +38,7 @@
     <string name="error_300106">O DNIe ten o PIN bloqueado. Podes acudir a unha comisar\u00EDa de Polic\u00EDa Nacional a un Punto de Actualizaci\u00F3n do DNIe (PAD) para desbloquealo.</string>
     <string name="error_300108">Erro ao iniciar a conexi\u00F3n co cart\u00F3n. \u00C9 posible que o CAN sexa incorrecto. T\u00E9nteo de novo.</string>
     <string name="error_300110">O DNIe que aproximaches non ten certificado de firma ou o certificado est\u00E1 caducado. Podes acudir a unha comisar\u00EDa de Polic\u00EDa Nacional a un Punto de Actualizaci\u00F3n do DNIe (PAD), para solucionalo.</string>
+    <string name="error_300111">Non se puideron cargar os certificados do cart\u00F3n. Tentar de novo.</string>
     <string name="error_300400">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
     <string name="error_300404">Tentamos procesar a t\u00FAa solicitude, pero non puido ser completada con \u00E9xito. Por favor revisa a documentaci\u00F3n.</string>
     <!-- Communication Errors -->

@@ -14,7 +14,6 @@ import com.google.android.material.appbar.MaterialToolbar;
 import java.util.ArrayList;
 
 import es.gob.afirma.R;
-import es.gob.afirma.android.util.Utils;
 
 public class LanguageActivity extends AppCompatActivity {
 

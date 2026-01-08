@@ -1,14 +1,5 @@
 package es.gob.afirma.android;
 
-import static es.gob.afirma.android.SignFragmentActivity.SIGN_TYPE_APP;
-import static es.gob.afirma.android.SignFragmentActivity.SIGN_TYPE_LOCAL;
-import static es.gob.afirma.android.SignFragmentActivity.SIGN_TYPE_WEB;
-import static es.gob.afirma.android.batch.SignBatchFragmentActivity.SIGN_TYPE_BATCH;
-import static es.gob.afirma.android.batch.SignBatchFragmentActivity.SIGN_TYPE_BATCH_APP;
-import static es.gob.afirma.android.crypto.SignTask.OP_COSIGN;
-import static es.gob.afirma.android.crypto.SignTask.OP_COUNTERSIGN;
-import static es.gob.afirma.android.crypto.SignTask.OP_SIGN;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +10,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import es.gob.afirma.R;
+
+import static es.gob.afirma.android.SignFragmentActivity.SIGN_TYPE_APP;
+import static es.gob.afirma.android.SignFragmentActivity.SIGN_TYPE_LOCAL;
+import static es.gob.afirma.android.SignFragmentActivity.SIGN_TYPE_WEB;
+import static es.gob.afirma.android.batch.SignBatchFragmentActivity.SIGN_TYPE_BATCH;
+import static es.gob.afirma.android.batch.SignBatchFragmentActivity.SIGN_TYPE_BATCH_APP;
+import static es.gob.afirma.android.crypto.SignTask.OP_COSIGN;
+import static es.gob.afirma.android.crypto.SignTask.OP_COUNTERSIGN;
+import static es.gob.afirma.android.crypto.SignTask.OP_SIGN;
 
 public class SignsRecordAdapter extends BaseAdapter {
 

@@ -30,6 +30,7 @@ import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.core.signers.AOSigner;
 import es.gob.afirma.core.signers.AOSignerFactory;
 import es.gob.afirma.core.signers.CounterSignTarget;
+import es.gob.jmulticard.card.CardException;
 
 /**
  * Tarea que ejecuta una firma electr&oacute;nica a trav&eacute;s de un AOSigner.
@@ -170,15 +171,18 @@ public class SignTask extends AsyncTask<Void, Void, SignResult>{
 			}
 		}
 		catch (final AOException e) {
-            Logger.e(ES_GOB_AFIRMA, "Error durante la operacion de firma: " + e); //$NON-NLS-1$
+            Logger.e(ES_GOB_AFIRMA, "Error durante la operacion de firma", e); //$NON-NLS-1$
 			if (e instanceof PinException){
 				this.t = new MSCBadPinException(e.getMessage(), e); //$NON-NLS-1$
 			}
-            // En caso de que encontremos una AOException escondica
+            // En caso de que encontremos una AOException escondida
 			else if (e.getCause() instanceof SignatureException) {
                 if (e.getCause().getCause() instanceof AOException) {
                     this.t = e.getCause().getCause();
                     Logger.e(ES_GOB_AFIRMA, "Se ha encontrado una causa raiz controlada. Se usara esa excepcion: " + this.t); //$NON-NLS-1$
+                } else if (e.getCause().getCause() instanceof CardException) {
+                    this.t = e.getCause().getCause();
+                    Logger.e(ES_GOB_AFIRMA, "El error se origino en una tarjeta inteligente. Se usara esa excepcion: " + this.t); //$NON-NLS-1$
                 } else {
                     this.t = e;
                 }

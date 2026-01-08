@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 
 import java.security.KeyStore;
-import java.security.KeyStoreException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -23,6 +22,7 @@ import es.gob.afirma.android.gui.CertificateInfoForAliasSelect;
 import es.gob.afirma.android.gui.SelectAliasDialog;
 import es.gob.afirma.core.misc.AOUtil;
 import es.gob.jmulticard.card.dnie.InvalidAccessCodeException;
+import es.gob.jmulticard.connection.ApduConnectionException;
 
 /**
  * Created by a621914 on 09/06/2016.
@@ -86,16 +86,10 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
         try {
             // Si no se ha inicializado el gestor para las solicitudes de claves del DNIe,
             // lo inicializamos ahora
-            AndroidDnieNFCCallbackHandler dnieCallbackHandler = dnieManager.getCallbackHandler();
-            if (dnieCallbackHandler == null) {
-                CachePasswordCallback pin = dnieManager.getPinPasswordCallback();
-                CachePasswordCallback can = dnieManager.getCanPasswordCallback();
-                dnieCallbackHandler = new AndroidDnieNFCCallbackHandler(can, pin);
-                dnieManager.setCallbackHandler(dnieCallbackHandler);
-            }
+            final CachePasswordCallback pin = dnieManager.getPinPasswordCallback();
+            final CachePasswordCallback can = dnieManager.getCanPasswordCallback();
 
-            final CallbackHandler callbackHandler = dnieCallbackHandler;
-
+            final CallbackHandler callbackHandler = new AndroidDnieNFCCallbackHandler(can, pin);
             this.ks.load(
                     new KeyStore.LoadStoreParameter() {
                         @Override
@@ -112,20 +106,22 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
             Logger.e(ES_GOB_AFIRMA, "El CAN es incorrecto: " + e); //$NON-NLS-1$
             dnieManager.clearCan();
             dnieManager.clearPin();
-            dnieManager.setCallbackHandler(null);
             throw e;
         }
         catch (final NullPointerException e) {
             // Se dara esta excepcion cuando no haya un KeyStore definido, lo que ocurrira cuando
             // se deba cargar el almacen del sistema
             Logger.e(ES_GOB_AFIRMA, "Error al cargar el almacen de claves"); //$NON-NLS-1$
-            dnieManager.setCallbackHandler(null);
             throw e;
+        }
+        catch (final ApduConnectionException e) {
+            Logger.e(ES_GOB_AFIRMA, "Error de conexion con la tarjeta"); //$NON-NLS-1$
+            throw new SmartCardConnectionException("Error de conexion con la tarjeta", e);
         }
         catch (final Exception e) {
             // Estamos en una conexion NFC y encapsulamos
             // las excepciones para que se procesen adecuadamente
-            Logger.e(ES_GOB_AFIRMA, "Error al cargar el almacen de claves del dispositivo. Es posible que CAN o PIN introducido fuese incorrecto: " + e); //$NON-NLS-1$
+            Logger.e(ES_GOB_AFIRMA, "Error al cargar el almacen de claves del dispositivo. Es posible que CAN o PIN introducido fuese incorrecto"); //$NON-NLS-1$
             throw new LoadingCertificateException("Error cargando los certificados del almacen", e);
         }
 
@@ -134,7 +130,7 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
         try {
             aliases = this.ks.aliases();
         } catch (final Exception e) {
-            Logger.e(ES_GOB_AFIRMA, "Error extrayendo los alias de los certificados del almacen: " + e); //$NON-NLS-1$
+            Logger.e(ES_GOB_AFIRMA, "Error extrayendo los alias de los certificados del almacen"); //$NON-NLS-1$
             throw new LoadingCertificateException("Error extrayendo los alias de los certificados del almacen", e);
         }
 
@@ -146,7 +142,7 @@ public class LoadCertificatesTask extends AsyncTask<Void, Void, Exception> {
             try {
                 cert = (X509Certificate) this.ks.getCertificate(alias);
             } catch (final Exception e) {
-                Logger.e(ES_GOB_AFIRMA, "Error obteniendo el certificado con alias '" + alias + "': " + e, e); //$NON-NLS-1$ //$NON-NLS-2$
+                Logger.e(ES_GOB_AFIRMA, "Error obteniendo el certificado con alias: " + alias, e); //$NON-NLS-1$
                 // Gestion a medida de un DNIe bloqueado (usando JMultiCard)
                 if ("es.gob.jmulticard.card.AuthenticationModeLockedException".equals(e.getClass().getName())) { //$NON-NLS-1$
                     manageLockedDnie(e, this.activity, this.ksmListener);

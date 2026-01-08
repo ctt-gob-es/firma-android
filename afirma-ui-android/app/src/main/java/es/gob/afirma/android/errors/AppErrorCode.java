@@ -6,7 +6,7 @@ public class AppErrorCode {
 
     public static class Hardware {
         public static final ErrorCode RESET_NFC								    = new ErrorCode("102000", "Error al resetear la tarjeta NFC"); //$NON-NLS-1$ //$NON-NLS-2$
-
+        public static final ErrorCode SMARTCARD_CONNECTION_LOST           		= new ErrorCode("102008", "Se ha perdido la conexion con la tarjeta"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     public static class Internal {
