@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.aowagie.text.Rectangle;
-import com.aowagie.text.pdf.PdfReader;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfReader;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
