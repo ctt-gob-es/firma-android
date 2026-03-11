@@ -20,8 +20,8 @@ android {
         minSdkVersion 26
         targetSdkVersion 36
         multiDexEnabled = true
-        versionCode 32
-        versionName "1.9.4"
+        versionCode 33
+        versionName "1.10.1"
     }
     buildTypes {
         release {
@@ -64,25 +64,25 @@ dependencies {
         exclude(module: 'support-v4')
         exclude(module: 'android')
     }
-    implementation 'es.gob.afirma.jmulticard:jmulticard-jse:2.1-SNAPSHOT'
+    implementation 'es.gob.afirma.jmulticard:jmulticard-jse:2.1'
 
-    implementation('es.gob.afirma:afirma-crypto-pdf:1.10-SNAPSHOT') {
+    implementation('es.gob.afirma:afirma-crypto-pdf:1.10') {
         exclude(module: 'afirma-lib-itext')
     }
     implementation 'es.gob.afirma.lib:openpdf:1.3.43.1'
     implementation 'com.github.andob:android-awt:1.0.0'
-    implementation 'es.gob.afirma:afirma-core:1.10-SNAPSHOT'
-    implementation ('es.gob.afirma:afirma-core-keystores:1.10-SNAPSHOT') {
+    implementation 'es.gob.afirma:afirma-core:1.10'
+    implementation ('es.gob.afirma:afirma-core-keystores:1.10') {
         exclude(group: 'es.gob.afirma.jmulticard')
     }
-    implementation 'es.gob.afirma:afirma-crypto-cades:1.10-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-cadestri-client:1.10-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-xadestri-client:1.10-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-padestri-client:1.10-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.10-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.10-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.10-SNAPSHOT'
-    implementation 'es.gob.afirma:afirma-crypto-cipher2:1.10-SNAPSHOT'
+    implementation 'es.gob.afirma:afirma-crypto-cades:1.10'
+    implementation 'es.gob.afirma:afirma-crypto-cadestri-client:1.10'
+    implementation 'es.gob.afirma:afirma-crypto-xadestri-client:1.10'
+    implementation 'es.gob.afirma:afirma-crypto-padestri-client:1.10'
+    implementation 'es.gob.afirma:afirma-crypto-cades-multi:1.10'
+    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7:1.10'
+    implementation 'es.gob.afirma:afirma-crypto-core-pkcs7-tsp:1.10'
+    implementation 'es.gob.afirma:afirma-crypto-cipher2:1.10'
     implementation 'com.google.code.gson:gson:2.13.2'
 
     // Agregamos la dependencia necesaria para la previsualizacion de PDFs,
